@@ -42,7 +42,7 @@ export class RoutesScreenComponent {
 
 
 
-  displayedColumns: string[] = ['routeID', 'departure', 'destination', 'mileage', 'durationH', 'durationM'];
+  displayedColumns: string[] = ['routeID', 'departure', 'destination', 'mileage', 'durationH', 'durationM', 'action'];
   dataSource = ROUTES_DATA;
 
 

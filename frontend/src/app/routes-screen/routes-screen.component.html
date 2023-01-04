@@ -1,27 +1,7 @@
-<!--<table>-->
-<!--  <tr>-->
-<!--    <th>RouteID</th>-->
-<!--    <th>Departure</th>-->
-<!--    <th>Destination</th>-->
-<!--    <th>Mileage</th>-->
-<!--    <th>Duration</th>-->
-<!--  </tr>-->
-<!--  <tr *ngFor="let route of routes">-->
-<!--    <td >-->
-<!--      {{route.routeID}} {{route.departure}} {{route.destination}} {{route.mileage}} {{route.durationH}} {{route.durationM}}-->
-<!--    </td>-->
-<!--  </tr>-->
-<!--</table>-->
-
-
-
-
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
 
   <!-- Position Column -->
   <ng-container matColumnDef="routeID">
@@ -57,6 +37,14 @@
     <td mat-cell *matCellDef="let element"> {{element.durationM}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="action">
+    <th *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-mini-fab color="primary" ><mat-icon>edit</mat-icon></button> |
+      <button mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row
       (click)="changedClickedRow(row)"
@@ -64,9 +52,9 @@
       *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<ul>
-  <li>{{selectedItem}}</li>
-</ul>
+<!--<ul>-->
+<!--  <li>{{selectedItem}}</li>-->
+<!--</ul>-->
 
 <!--<ul>-->
 <!--  <li *ngFor="let clickedRow of clickedRows">-->
