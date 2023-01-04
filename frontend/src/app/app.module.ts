@@ -8,6 +8,11 @@ import { FaresScreenComponent } from './fares-screen/fares-screen.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatTableModule} from "@angular/material/table";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 
 @NgModule({
   declarations: [
@@ -19,7 +24,11 @@ import { MatTableModule} from "@angular/material/table";
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
-    MatTableModule
+    MatTableModule,
+    MatAutocompleteModule,
+    FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -25,51 +25,11 @@ const ROUTES_DATA: Route[] = [
 })
 export class RoutesScreenComponent {
 
+  clickedRows = new Set<Route>();
 
   displayedColumns: string[] = ['routeID', 'departure', 'destination', 'mileage', 'durationH', 'durationM'];
   dataSource = ROUTES_DATA;
 
-  // routes = [
-  //   {
-  //     routeID: 1,
-  //     departure: "Sri Lanka",
-  //     destination: "Dubai",
-  //     mileage: 1223.45,
-  //     durationH: 12,
-  //     durationM: 30
-  //   },
-  //   {
-  //     routeID: 1,
-  //     departure: "Sri Lanka",
-  //     destination: "Dubai",
-  //     mileage: 1223.45,
-  //     durationH: 12,
-  //     durationM: 30
-  //   },
-  //   {
-  //     routeID: 1,
-  //     departure: "Sri Lanka",
-  //     destination: "Dubai",
-  //     mileage: 1223.45,
-  //     durationH: 12,
-  //     durationM: 30
-  //   },
-  //   {
-  //     routeID: 1,
-  //     departure: "Sri Lanka",
-  //     destination: "Dubai",
-  //     mileage: 1223.45,
-  //     durationH: 12,
-  //     durationM: 30
-  //   },
-  //   {
-  //     routeID: 1,
-  //     departure: "Sri Lanka",
-  //     destination: "Dubai",
-  //     mileage: 1223.45,
-  //     durationH: 12,
-  //     durationM: 30
-  //   }
-  // ]
+
 
 }
