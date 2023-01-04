@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-
+import { ALL_ROUTES } from "../shared/routes";
 
 export interface Route {
   routeID: number;
@@ -14,12 +14,7 @@ export interface Route {
 
 
 
-const ROUTES_DATA: Route[] = [
-  {routeID: 1, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-  {routeID: 2, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-  {routeID: 3, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-  {routeID: 4, departure: "Sri Lanka", destination: "New York", mileage: 1223.45, durationH: 12, durationM: 20}
-];
+const ROUTES_DATA: Route[] = ALL_ROUTES;
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
