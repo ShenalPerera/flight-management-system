@@ -1,5 +1,6 @@
-<h1>Routes screen</h1>
 
-<!--<ul>-->
-<!--  <li *ngFor="let item of items; index as i; trackBy: trackByFn">...</li>-->
-<!--</ul>-->
+<ul>
+  <li *ngFor="let route of routes">
+    {{route.routeID}} {{route.departure}} {{route.destination}} {{route.mileage}} {{route.durationH}} {{route.durationM}}
+  </li>
+</ul>
