@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 
 
 export interface Route {
@@ -9,6 +9,8 @@ export interface Route {
   durationH: number;
   durationM: number;
 }
+
+
 
 
 
@@ -28,6 +30,17 @@ const ROUTES_DATA: Route[] = [
 export class RoutesScreenComponent {
 
   clickedRows = new Set<Route>();
+
+  selectedRoute: string = ''
+
+  selectedItem: any;
+
+  changedClickedRow(row: Route) {
+    console.log(row.destination + '   ' + row.departure);
+    this.selectedItem = String(row.destination) + '   ' + String(row.departure);
+  }
+
+
 
   displayedColumns: string[] = ['routeID', 'departure', 'destination', 'mileage', 'durationH', 'durationM'];
   dataSource = ROUTES_DATA;
