@@ -10,6 +10,8 @@ export interface Route {
   durationM: number;
 }
 
+
+
 const ROUTES_DATA: Route[] = [
   {routeID: 1, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
   {routeID: 2, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
