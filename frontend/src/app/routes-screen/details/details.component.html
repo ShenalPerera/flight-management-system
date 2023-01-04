@@ -1,56 +1,67 @@
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<!--<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
 
 
 
-  <!-- Position Column -->
-  <ng-container matColumnDef="routeID">
-    <th mat-header-cell *matHeaderCellDef> No. </th>
-    <td mat-cell *matCellDef="let element"> {{element.routeID}} </td>
-  </ng-container>
+<!--  &lt;!&ndash; Position Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="routeID">-->
+<!--    <th mat-header-cell *matHeaderCellDef> No. </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.routeID}} </td>-->
+<!--  </ng-container>-->
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="departure">
-    <th mat-header-cell *matHeaderCellDef> Departure </th>
-    <td mat-cell *matCellDef="let element"> {{element.departure}} </td>
-  </ng-container>
+<!--  &lt;!&ndash; Name Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="departure">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Departure </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.departure}} </td>-->
+<!--  </ng-container>-->
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="destination">
-    <th mat-header-cell *matHeaderCellDef> Destination </th>
-    <td mat-cell *matCellDef="let element"> {{element.destination}} </td>
-  </ng-container>
+<!--  &lt;!&ndash; Weight Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="destination">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Destination </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.destination}} </td>-->
+<!--  </ng-container>-->
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="mileage">
-    <th mat-header-cell *matHeaderCellDef> Mileage </th>
-    <td mat-cell *matCellDef="let element"> {{element.mileage}} </td>
-  </ng-container>
+<!--  &lt;!&ndash; Symbol Column &ndash;&gt;-->
+<!--  <ng-container matColumnDef="mileage">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Mileage </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.mileage}} </td>-->
+<!--  </ng-container>-->
 
-  <ng-container matColumnDef="durationH">
-    <th mat-header-cell *matHeaderCellDef> Duration(H) </th>
-    <td mat-cell *matCellDef="let element"> {{element.durationH}} </td>
-  </ng-container>
+<!--  <ng-container matColumnDef="durationH">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Duration(H) </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.durationH}} </td>-->
+<!--  </ng-container>-->
 
-  <ng-container matColumnDef="durationM">
-    <th mat-header-cell *matHeaderCellDef> Duration(M) </th>
-    <td mat-cell *matCellDef="let element"> {{element.durationM}} </td>
-  </ng-container>
+<!--  <ng-container matColumnDef="durationM">-->
+<!--    <th mat-header-cell *matHeaderCellDef> Duration(M) </th>-->
+<!--    <td mat-cell *matCellDef="let element"> {{element.durationM}} </td>-->
+<!--  </ng-container>-->
 
-  <ng-container matColumnDef="action">
-    <th *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-mini-fab color="primary" ><mat-icon>edit</mat-icon></button> |
-      <button mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>
-    </td>
-  </ng-container>
+<!--  <ng-container matColumnDef="action">-->
+<!--    <th *matHeaderCellDef></th>-->
+<!--    <td mat-cell *matCellDef="let element">-->
+<!--      <button mat-mini-fab color="primary" ><mat-icon>edit</mat-icon></button> |-->
+<!--      <button mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>-->
+<!--    </td>-->
+<!--  </ng-container>-->
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row
-      (click)="changedClickedRow(row)"
-      [class.demo-row-is-clicked]="clickedRows.has(row)"
-      *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--  <tr mat-row-->
+<!--      (click)="changedClickedRow(row)"-->
+<!--      [class.demo-row-is-clicked]="clickedRows.has(row)"-->
+<!--      *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<!--</table>-->
 
-<button mat-raised-button>Pick one</button>
+<!--<button mat-raised-button>Pick one</button>-->
 
+<p *ngFor="let route of dataSource">
+  <app-entry
+    [routeID]="route.routeID"
+    [departure]="route.departure"
+    [destination]="route.destination"
+    [mileage]="route.mileage"
+    [durationH]="route.durationH"
+    [durationM]="route.durationM"
+  >
+  </app-entry>
+</p>

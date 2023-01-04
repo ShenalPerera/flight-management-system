@@ -9,5 +9,6 @@ import {NgForm} from "@angular/forms";
 export class FormComponent {
   onSubmit(f: NgForm) {
     console.log(f.value);  // { first: '', last: '' }
+    console.log(f.value['departure']);  // { first: '', last: '' }
   }
 }

@@ -19,6 +19,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { EntryComponent } from './routes-screen/entry/entry.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     RoutesScreenComponent,
     FaresScreenComponent,
     DetailsComponent,
-    FormComponent
+    FormComponent,
+    EntryComponent
   ],
   imports: [
     BrowserModule,

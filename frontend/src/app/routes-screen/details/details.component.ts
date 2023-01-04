@@ -21,6 +21,10 @@ const ROUTES_DATA: Route[] = ALL_ROUTES;
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent {
+
+  constructor() {
+
+  }
   clickedRows = new Set<Route>();
 
   selectedRoute: string = ''
