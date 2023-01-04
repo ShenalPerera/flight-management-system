@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RoutesScreenComponent } from './routes-screen/routes-screen.component';
 import { FaresScreenComponent } from './fares-screen/fares-screen.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -14,7 +17,9 @@ import { FaresScreenComponent } from './fares-screen/fares-screen.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NoopAnimationsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
