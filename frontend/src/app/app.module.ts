@@ -11,6 +11,7 @@ import { MatTableModule} from "@angular/material/table";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { SearchBarComponent } from './fares-screen/search-bar/search-bar.component';
 
 
 
@@ -18,7 +19,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   declarations: [
     AppComponent,
     RoutesScreenComponent,
-    FaresScreenComponent
+    FaresScreenComponent,
+    SearchBarComponent
   ],
   imports: [
     BrowserModule,
