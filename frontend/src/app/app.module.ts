@@ -32,7 +32,8 @@ import {MatSelectModule} from "@angular/material/select";
     MatAutocompleteModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
