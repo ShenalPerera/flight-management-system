@@ -43,7 +43,7 @@ import { EntryComponent } from './routes-screen/entry/entry.component';
     MatIconModule,
     MatSelectModule,
     MatInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

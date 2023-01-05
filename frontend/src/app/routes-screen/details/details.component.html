@@ -54,14 +54,17 @@
 
 <!--<button mat-raised-button>Pick one</button>-->
 
-<p *ngFor="let route of dataSource">
-  <app-entry
-    [routeID]="route.routeID"
-    [departure]="route.departure"
-    [destination]="route.destination"
-    [mileage]="route.mileage"
-    [durationH]="route.durationH"
-    [durationM]="route.durationM"
-  >
-  </app-entry>
-</p>
+<div *ngFor="let route of dataSource">
+    <app-entry
+      [routeID]="route.routeID"
+      [departure]="route.departure"
+      [destination]="route.destination"
+      [mileage]="route.mileage"
+      [durationH]="route.durationH"
+      [durationM]="route.durationM"
+    >
+    </app-entry>
+</div>
+
+
+

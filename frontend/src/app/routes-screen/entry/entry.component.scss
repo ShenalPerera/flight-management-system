@@ -1,0 +1,14 @@
+.record {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.record:hover {
+  background-color: yellow;
+}
+
+.box {
+  width: 100%;
+  border: 1px solid grey;
+  text-align: center;
+}
