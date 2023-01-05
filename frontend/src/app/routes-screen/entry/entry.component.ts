@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ALL_ROUTES} from "../shared/routes";
 
 @Component({
   selector: 'app-entry',
@@ -16,6 +17,10 @@ export class EntryComponent {
 
   displayEntry() {
     console.log("You clicked "+this.routeID+' '+this.departure);
+  }
+
+  deleteItem() {
+    console.log("Do deletion");
   }
 
   @Output() sendItemsEvent = new EventEmitter<[number, string, string, number, number, number]>();
