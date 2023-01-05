@@ -1,7 +1,9 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NgForm} from "@angular/forms";
 
-import {ALL_ROUTES} from "../shared/routes";
+import { Route } from '../models/route';
+
+// import {ALL_ROUTES} from "../shared/routes";
 
 @Component({
   selector: 'app-form',
@@ -12,6 +14,7 @@ export class FormComponent implements OnChanges{
 
   // @Input() formData: [number, string, string, number, number, number] = [0, '', '', 0, 0, 0];
   @Input() formData: [number, string, string, number, number, number] = [NaN, '', '', NaN, NaN, NaN];
+  @Input() allRoutes !: Route[];
 
   routeID!: number;
   departure!: string;
@@ -23,7 +26,7 @@ export class FormComponent implements OnChanges{
   onSubmit(f: NgForm) {
     console.log(f.value);  // { first: '', last: '' }
     console.log(f.value['departure']);  // { first: '', last: '' }
-    const found = ALL_ROUTES.find((obj)=>{
+    const found = this.allRoutes.find((obj)=>{
       if (this.routeID == obj.routeID) {
         // console.log("has to be changed from "+obj.departure+" to "+f.value['departure']);
         obj.departure = f.value['departure'];

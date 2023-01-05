@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ALL_ROUTES} from "../shared/routes";
+// import {ALL_ROUTES} from "../shared/routes";
 
 @Component({
   selector: 'app-entry',
