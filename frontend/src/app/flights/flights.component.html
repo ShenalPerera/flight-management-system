@@ -1,0 +1,26 @@
+<div style="align-content: space-around">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h2>Flight list</h2>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Flight Number</th>
+          <th>Arrival</th>
+          <th>Departure</th>
+          <th>Arrival Date</th>
+          <th>Arrival Time</th>
+          <th>Departure Date</th>
+          <th>Departure Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr app-flight-item *ngFor="let flightEl of flights" [flight]="flightEl">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
