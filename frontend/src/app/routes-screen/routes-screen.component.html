@@ -1,8 +1,25 @@
-<div style="width: 90%; padding-left: 5%">
-
-  <app-details (sendFormDataEvent)="getFormData($event)"></app-details>
-  <app-form [formData]=formDataInRouteScreen></app-form>
-
+<div class="split-left left">
+  <div class="centered">
+    <app-form [formData]=formDataInRouteScreen></app-form>
+  </div>
 </div>
+
+
+<div class="split-right right">
+  <div class="centered">
+    <app-details (sendFormDataEvent)="getFormData($event)"></app-details>
+  </div>
+</div>
+
+
+
+
+
+<!--<div style="width: 90%; padding-left: 5%">-->
+
+<!--  <app-details (sendFormDataEvent)="getFormData($event)"></app-details>-->
+<!--  <app-form [formData]=formDataInRouteScreen></app-form>-->
+
+<!--</div>-->
 
 
