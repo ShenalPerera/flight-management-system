@@ -1,32 +1,32 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)">
   <mat-form-field appearance="fill">
     <mat-label>Departure</mat-label>
-    <input matInput name="departure" ngModel>
+    <input matInput name="departure" [(ngModel)]="departure">
 <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
 <!--    <mat-hint>Departure</mat-hint>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Destination</mat-label>
-    <input matInput name="destination" ngModel >
+    <input matInput name="destination" [(ngModel)]="destination" >
 <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Mileage(miles)</mat-label>
-    <input matInput name="mileage" ngModel>
+    <input matInput name="mileage" [(ngModel)]="mileage">
 <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Duration(H)</mat-label>
-    <input matInput name="durationH" ngModel>
+    <input matInput name="durationH" [(ngModel)]="durationH">
 <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Duration(M)</mat-label>
-    <input matInput name="durationM" ngModel>
+    <input matInput name="durationM" [(ngModel)]="durationM">
 <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <button type="submit">Submit</button>
