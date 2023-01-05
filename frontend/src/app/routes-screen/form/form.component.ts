@@ -27,12 +27,24 @@ export class FormComponent implements OnChanges{
       if (this.routeID == obj.routeID) {
         // console.log("has to be changed from "+obj.departure+" to "+f.value['departure']);
         obj.departure = f.value['departure'];
+        obj.destination = f.value['destination'];
+        obj.mileage = f.value['mileage'];
+        obj.durationH = f.value['durationH'];
+        obj.durationM = f.value['durationM'];
       }
     })
   }
 
   constructor() {
     this.formData = [NaN, '', '', NaN, NaN, NaN];
+  }
+
+  clearInputs() {
+    this.departure = '';
+    this.destination = '';
+    this.mileage = NaN;
+    this.durationH = NaN;
+    this.durationM = NaN;
   }
 
 
@@ -46,6 +58,12 @@ export class FormComponent implements OnChanges{
       this.mileage = this.formData[3];
       this.durationH = this.formData[4];
       this.durationM = this.formData[5];
+    } else {
+      this.departure = '';
+      this.destination = '';
+      this.mileage = NaN;
+      this.durationH = NaN;
+      this.durationM = NaN;
     }
 
   }
