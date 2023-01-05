@@ -14,5 +14,8 @@ export class EntryComponent {
   @Input() durationH !: number;
   @Input() durationM !: number;
 
+  displayEntry() {
+    console.log("You clicked "+this.routeID+' '+this.departure);
+  }
 
 }
