@@ -1,7 +1,7 @@
 <!--{{routeID}}  {{departure}}  {{destination}}  {{mileage}}  {{durationH}}  {{durationM}}-->
 <!--<br>-->
 
-<div class="record" (click)="displayEntry()">
+<div class="record" (click)="displayEntry();">
   <div class="box">{{routeID}}</div>
   <div class="box">{{departure}}</div>
   <div class="box">{{destination}}</div>
@@ -9,7 +9,7 @@
   <div class="box">{{durationH}}</div>
   <div class="box">{{durationM}}</div>
 
-  <button>Edit</button>
+  <button (click)="sendItemsToParent();">Edit</button>
   <button>Delete</button>
 </div>
 

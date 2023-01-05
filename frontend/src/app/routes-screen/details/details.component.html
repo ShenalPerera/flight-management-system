@@ -54,8 +54,8 @@
 
 <!--<button mat-raised-button>Pick one</button>-->
 
-<div *ngFor="let route of dataSource">
-    <app-entry
+  <div *ngFor="let route of dataSource">
+    <app-entry (sendItemsEvent)="gotData()"
       [routeID]="route.routeID"
       [departure]="route.departure"
       [destination]="route.destination"
@@ -64,7 +64,8 @@
       [durationM]="route.durationM"
     >
     </app-entry>
-</div>
+  </div>
+
 
 
 

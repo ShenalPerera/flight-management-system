@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-entry',
@@ -16,6 +16,13 @@ export class EntryComponent {
 
   displayEntry() {
     console.log("You clicked "+this.routeID+' '+this.departure);
+  }
+
+  @Output() sendItemsEvent = new EventEmitter<[number, string, string, number, number, number]>();
+
+  sendItemsToParent() {
+    this.sendItemsEvent.emit([this.routeID, this.departure, this.destination, this.mileage, this.durationH, this.durationM]);
+    console.log("items sent to parent");
   }
 
 }
