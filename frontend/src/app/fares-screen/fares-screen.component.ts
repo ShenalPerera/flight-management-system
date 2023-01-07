@@ -42,4 +42,9 @@ export class FaresScreenComponent {
     this.searchCriteria.arrival = "";
     this.filterData();
   }
+  entryDeleted(entryId: number) {
+    this.data.forEach((value, index) => {
+      if (value.id == entryId) this.data.splice(index, 1);
+    })
+  }
 }

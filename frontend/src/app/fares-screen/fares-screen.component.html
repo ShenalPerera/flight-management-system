@@ -28,5 +28,6 @@
     [id]="datum.id"
     [departure]="datum.departure"
     [arrival]="datum.arrival"
-    [fare]="datum.fare"></app-entry>
+    [fare]="datum.fare"
+    (entryDeleted)="entryDeleted($event)"></app-entry>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-entry',
@@ -10,6 +10,9 @@ export class EntryComponent {
   @Input() departure!: string;
   @Input() arrival!: string;
   @Input() fare!: number;
+  @Output() entryDeleted = new EventEmitter<number>();
   editEntry() {}
-  deleteEntry() {}
+  deleteEntry() {
+    this.entryDeleted.emit(this.id);
+  }
 }
