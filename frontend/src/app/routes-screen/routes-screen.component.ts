@@ -1,6 +1,8 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Route} from './models/route';
-import {NgForm} from "@angular/forms";
+import {FormControl, NgForm} from "@angular/forms";
+import {Observable} from "rxjs";
+import {map, startWith} from "rxjs/operators";
 
 
 @Component({
@@ -8,7 +10,7 @@ import {NgForm} from "@angular/forms";
   templateUrl: './routes-screen.component.html',
   styleUrls: ['./routes-screen.component.scss']
 })
-export class RoutesScreenComponent {
+export class RoutesScreenComponent implements OnInit{
   ALL_ROUTES: Route[] = [
     {routeID: 1, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
     {routeID: 2, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
@@ -18,6 +20,8 @@ export class RoutesScreenComponent {
 
   searchFormDeparture: string = '';
   searchFormDestination: string = '';
+  departuresList: string[] = [];
+  destinationsList: string[] = [];
 
   onSubmit(f: NgForm) {
     console.log(f.value['departure']);
@@ -50,5 +54,28 @@ export class RoutesScreenComponent {
       return route.routeID !== data;
     });
     console.log('deleted with the id: '+data);
+  }
+
+
+
+  // **************************
+  myControl = new FormControl('');
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions !: Observable<string[]>;
+
+  ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+    this.ALL_ROUTES.forEach((route)=>{
+      this.options.push(route.departure);
+    })
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 }
