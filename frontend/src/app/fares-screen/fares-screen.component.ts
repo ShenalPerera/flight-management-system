@@ -4,6 +4,7 @@ interface Entry {
   id: number;
   departure: string;
   arrival: string;
+  fare: number;
 }
 interface Locations {
   value: number;
@@ -26,9 +27,9 @@ export class FaresScreenComponent {
     { value: 3, name: 'Sydney' },
   ];
   data: Entry[] = [
-    {id:1, departure:"Colombo", arrival:"Dubai"},
-    {id:2, departure:"Colombo", arrival:"Sydney"},
-    {id:3, departure:"Dubai", arrival:"Colombo"},
+    {id:1, departure:"Colombo", arrival:"Dubai", fare:50},
+    {id:2, departure:"Colombo", arrival:"Sydney", fare:75},
+    {id:3, departure:"Dubai", arrival:"Colombo", fare:50},
   ];
   searchedData: Entry[] = this.data;
   filterData(){

@@ -23,5 +23,10 @@
   </form>
 </div>
 <div>
-  <p *ngFor="let datum of searchedData">{{datum.id}}</p>
+  <app-entry
+    *ngFor="let datum of searchedData"
+    [id]="datum.id"
+    [departure]="datum.departure"
+    [arrival]="datum.arrival"
+    [fare]="datum.fare"></app-entry>
 </div>
