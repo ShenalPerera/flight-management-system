@@ -12,10 +12,10 @@ import {map, startWith} from "rxjs/operators";
 })
 export class RoutesScreenComponent implements OnInit{
   ALL_ROUTES: Route[] = [
-    {routeID: 1, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-    {routeID: 2, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-    {routeID: 3, departure: "Sri Lanka", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-    {routeID: 4, departure: "Sri Lanka", destination: "New York", mileage: 1223.45, durationH: 12, durationM: 20}
+    {routeID: 1, departure: "SL", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
+    {routeID: 2, departure: "NY", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
+    {routeID: 3, departure: "LA", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
+    {routeID: 4, departure: "CA", destination: "New York", mileage: 1223.45, durationH: 12, durationM: 20}
   ];
 
   searchFormDeparture: string = '';
@@ -59,23 +59,37 @@ export class RoutesScreenComponent implements OnInit{
 
 
   // **************************
-  myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions !: Observable<string[]>;
+  myDepartureControl = new FormControl('');
+  myDestinationControl = new FormControl();
+
+  filteredDepartures !: Observable<string[]>;
+  filteredDestinations !: Observable<string[]>;
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredDepartures = this.myDepartureControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || '')),
+      map(value => this._filterDeparture(value || '')),
     );
+
+    this.filteredDestinations = this.myDestinationControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterDestination(value || '')),
+    );
+
     this.ALL_ROUTES.forEach((route)=>{
-      this.options.push(route.departure);
-    })
+      this.departuresList.push(route.departure);
+      this.destinationsList.push(route.destination);
+    });
+    console.log('destination list: '+this.destinationsList);
   }
 
-  private _filter(value: string): string[] {
+  private _filterDeparture(value: string): string[] {
     const filterValue = value.toLowerCase();
+    return this.departuresList.filter(departure => departure.toLowerCase().includes(filterValue));
+  }
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  private _filterDestination(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.destinationsList.filter(destination => destination.toLowerCase().includes(filterValue));
   }
 }

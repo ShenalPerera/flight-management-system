@@ -24,21 +24,41 @@
 <div class="search-container">
   <form class="example-form">
     <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Number</mat-label>
+      <mat-label>Departure</mat-label>
       <input type="text"
              placeholder="Pick one"
-             aria-label="Number"
+             aria-label="Departure"
              matInput
-             [formControl]="myControl"
-             [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option}}
+             [formControl]="myDepartureControl"
+             [matAutocomplete]="autoDeparture">
+      <mat-autocomplete #autoDeparture="matAutocomplete">
+        <mat-option *ngFor="let departure of filteredDepartures | async" [value]="departure">
+          {{departure}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
   </form>
 </div>
+
+<div class="search-container">
+  <form class="example-form">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Destination</mat-label>
+      <input type="text"
+             placeholder="Pick one"
+             aria-label="Destination"
+             matInput
+             [formControl]="myDestinationControl"
+             [matAutocomplete]="autoDestination">
+      <mat-autocomplete #autoDestination="matAutocomplete">
+        <mat-option *ngFor="let destination of filteredDestinations | async" [value]="destination">
+          {{destination}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+</div>
+
 
 
 
