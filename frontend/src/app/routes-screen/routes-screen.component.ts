@@ -29,4 +29,11 @@ export class RoutesScreenComponent {
     console.log(data);
     this.formDataInRouteScreen = data;
   }
+
+  deleteRecord(data: number) {
+    this.ALL_ROUTES = this.ALL_ROUTES.filter((route)=>{
+      return route.routeID !== data;
+    });
+    console.log('deleted with the id: '+data);
+  }
 }

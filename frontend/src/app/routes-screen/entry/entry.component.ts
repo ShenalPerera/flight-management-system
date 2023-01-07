@@ -19,8 +19,12 @@ export class EntryComponent {
     console.log("You clicked "+this.routeID+' '+this.departure);
   }
 
+  @Output() sendToBeDeletedRecordEvent = new EventEmitter<number>();
+
   deleteItem() {
     console.log("Do deletion");
+    this.sendToBeDeletedRecordEvent.emit(this.routeID);
+
   }
 
   @Output() sendItemsEvent = new EventEmitter<[number, string, string, number, number, number]>();
