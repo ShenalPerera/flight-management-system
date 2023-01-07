@@ -3,4 +3,13 @@ th {
   padding: 8px;
 }
 
+table{
+  width: 100%;
+  border: 15px solid #004f80;
+
+}
+
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
 

@@ -1,4 +1,4 @@
-<div style="align-content: space-around">
+<div style="width: 100%">
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h2>Flight list</h2>
@@ -17,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr app-flight-item *ngFor="let flightEl of flights" [flight]="flightEl">
+        <tr app-flight-item   *ngFor="let flightEl of flights " [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" >
         </tbody>
       </table>
     </div>

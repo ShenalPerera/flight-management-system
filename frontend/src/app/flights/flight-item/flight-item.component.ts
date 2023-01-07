@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Flight} from "../flight.model";
 
 @Component({
@@ -8,8 +8,16 @@ import {Flight} from "../flight.model";
 })
 export class FlightItemComponent implements OnInit{
   @Input() flight !: Flight;
+
+  // event emitters
+  @Output() flightDeleted = new EventEmitter<Flight>();
+
   constructor() {
   }
 
   ngOnInit() {}
+
+  onClickDelete(){
+    this.flightDeleted.emit(this.flight);
+  }
 }
