@@ -38,6 +38,7 @@ export class FormComponent implements OnChanges{
     })
   }
 
+
   constructor() {
     this.formData = [NaN, '', '', NaN, NaN, NaN];
   }
