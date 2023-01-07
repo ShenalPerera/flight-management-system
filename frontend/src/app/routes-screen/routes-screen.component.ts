@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Route} from './models/route';
-import {FormControl, NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm} from "@angular/forms";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 
@@ -33,6 +33,7 @@ export class RoutesScreenComponent implements OnInit{
   clearInputs() {
     this.searchFormDeparture = '';
     this.searchFormDestination = '';
+    this.searchedData = this.ALL_ROUTES;
   }
 
 
@@ -56,11 +57,22 @@ export class RoutesScreenComponent implements OnInit{
     console.log('deleted with the id: '+data);
   }
 
+  filterByForm(f: NgForm) {
+    console.log(f.value);
+  }
+
+  searchedData: Route[] = this.ALL_ROUTES;
+  filterData(){
+    this.searchedData = this.ALL_ROUTES.filter(
+      x => (this.searchFormDeparture === "" || this.searchFormDeparture === x.departure)
+        && (this.searchFormDestination === "" || this.searchFormDestination === x.destination))
+  }
 
 
   // **************************
+
   myDepartureControl = new FormControl('');
-  myDestinationControl = new FormControl();
+  myDestinationControl = new FormControl('');
 
   filteredDepartures !: Observable<string[]>;
   filteredDestinations !: Observable<string[]>;
