@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {Route} from './models/route';
+import {NgForm} from "@angular/forms";
 
 
 @Component({
@@ -15,6 +16,20 @@ export class RoutesScreenComponent {
     {routeID: 4, departure: "Sri Lanka", destination: "New York", mileage: 1223.45, durationH: 12, durationM: 20}
   ];
 
+  searchFormDeparture: string = '';
+  searchFormDestination: string = '';
+
+  onSubmit(f: NgForm) {
+    console.log(f.value['departure']);
+    console.log(f.value['destination']);
+
+    // after doing the operation call the clearInput function
+  }
+
+  clearInputs() {
+    this.searchFormDeparture = '';
+    this.searchFormDestination = '';
+  }
 
 
 
