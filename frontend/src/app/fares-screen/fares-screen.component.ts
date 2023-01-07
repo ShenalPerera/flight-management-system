@@ -1,61 +1,45 @@
-// import { Component, OnInit } from '@angular/core';
-// import {FormControl} from '@angular/forms';
-// import {Observable} from 'rxjs';
-// import {map, startWith} from 'rxjs/operators';
-//
-// @Component({
-//   selector: 'app-fares-screen',
-//   templateUrl: './fares-screen.component.html',
-//   styleUrls: ['./fares-screen.component.scss']
-// })
-// export class FaresScreenComponent implements OnInit {
-//   myControl = new FormControl('');
-//   options: string[] = ['One', 'Two', 'Three'];
-//   filteredOptions: Observable<string[]> | undefined;
-//
-//   ngOnInit() {
-//     this.filteredOptions = this.myControl.valueChanges.pipe(
-//       startWith(''),
-//       map(value => this._filter(value || '')),
-//     );
-//   }
-//
-//   private _filter(value: string): string[] {
-//     const filterValue = value.toLowerCase();
-//
-//     return this.options.filter(option => option.toLowerCase().includes(filterValue));
-//   }
-// }
+import {Component} from '@angular/core';
 
+interface Entry {
+  id: number;
+  departure: string;
+  arrival: string;
+  fare: number;
+}
+interface Locations {
+  value: number;
+  name: string;
+}
 
-import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-
-/**
- * @title Filter autocomplete
- */
 @Component({
   selector: 'app-fares-screen',
   templateUrl: './fares-screen.component.html',
   styleUrls: ['./fares-screen.component.scss']
 })
-export class FaresScreenComponent implements OnInit {
-  myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]> | undefined;
 
-  ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
+export class FaresScreenComponent {
+
+  searchCriteria = {departure: "", arrival: ""};
+
+  locations: Locations[] = [
+    { value: 1, name: 'Colombo' },
+    { value: 2, name: 'Dubai' },
+    { value: 3, name: 'Sydney' },
+  ];
+  data: Entry[] = [
+    {id:1, departure:"Colombo", arrival:"Dubai", fare:50},
+    {id:2, departure:"Colombo", arrival:"Sydney", fare:75},
+    {id:3, departure:"Dubai", arrival:"Colombo", fare:50},
+  ];
+  searchedData: Entry[] = this.data;
+  filterData(){
+    this.searchedData = this.data.filter(
+      x => (this.searchCriteria.departure === "" || this.searchCriteria.departure === x.departure)
+        && (this.searchCriteria.arrival === "" || this.searchCriteria.arrival === x.arrival))
   }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  handleClear() {
+    this.searchCriteria.departure = "";
+    this.searchCriteria.arrival = "";
+    this.filterData();
   }
 }
