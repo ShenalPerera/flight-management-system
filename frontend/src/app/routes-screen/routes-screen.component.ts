@@ -15,7 +15,8 @@ export class RoutesScreenComponent implements OnInit{
     {routeID: 1, departure: "SL", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
     {routeID: 2, departure: "NY", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
     {routeID: 3, departure: "LA", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-    {routeID: 4, departure: "CA", destination: "New York", mileage: 1223.45, durationH: 12, durationM: 20}
+    {routeID: 4, departure: "CA", destination: "New York", mileage: 1223.45, durationH: 12, durationM: 20},
+    {routeID: 5, departure: "JP", destination: "Sydney", mileage: 1223.45, durationH: 12, durationM: 20}
   ];
 
   searchFormDeparture: string = '';
@@ -89,8 +90,14 @@ export class RoutesScreenComponent implements OnInit{
     );
 
     this.ALL_ROUTES.forEach((route)=>{
-      this.departuresList.push(route.departure);
-      this.destinationsList.push(route.destination);
+      if (!(this.departuresList.includes(route.departure))) {
+        this.departuresList.push(route.departure);
+      }
+      if (!(this.destinationsList.includes(route.destination))) {
+        this.destinationsList.push(route.destination);
+      }
+
+
     });
     console.log('destination list: '+this.destinationsList);
   }
