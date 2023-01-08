@@ -51,6 +51,7 @@ export class RoutesScreenComponent implements OnInit{
     this.searchedData = this.searchedData.filter((route)=>{
       return route.routeID !== data;
     });
+    this.setDeparturesAndDestinations();
     console.log('deleted with the id: '+data);
   }
 
@@ -92,7 +93,24 @@ export class RoutesScreenComponent implements OnInit{
       map(value => this._filterDestination(value || '')),
     );
 
-    this.ALL_ROUTES.forEach((route)=>{
+    this.setDeparturesAndDestinations();
+    // this.searchedData.forEach((route)=>{
+    //   if (!(this.departuresList.includes(route.departure))) {
+    //     this.departuresList.push(route.departure);
+    //   }
+    //   if (!(this.destinationsList.includes(route.destination))) {
+    //     this.destinationsList.push(route.destination);
+    //   }
+    //
+    //
+    // });
+    console.log('destination list: '+this.destinationsList);
+  }
+
+  setDeparturesAndDestinations() {
+    this.departuresList = [];
+    this.destinationsList = [];
+    this.searchedData.forEach((route)=>{
       if (!(this.departuresList.includes(route.departure))) {
         this.departuresList.push(route.departure);
       }
@@ -102,7 +120,6 @@ export class RoutesScreenComponent implements OnInit{
 
 
     });
-    console.log('destination list: '+this.destinationsList);
   }
 
   private _filterDeparture(value: string): string[] {
