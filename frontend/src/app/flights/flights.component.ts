@@ -55,12 +55,12 @@ export class FlightsComponent implements OnInit{
     if (prop === 'departure'){
       this.searchOptions.departure = item;
     }
-    if (prop === 'arrival_date'){
-      this.searchOptions.arrivalDate = item
-    }
-    if (prop === 'departure_date'){
-      this.searchOptions.departureDate = item;
-    }
+    // if (prop === 'arrival_date'){
+    //   this.searchOptions.arrivalDate = item
+    // }
+    // if (prop === 'departure_date'){
+    //   this.searchOptions.departureDate = item;
+    // }
   }
 
 }

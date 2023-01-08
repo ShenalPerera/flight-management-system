@@ -30,21 +30,21 @@
       </select>
     </mat-form-field>
 
-   <mat-form-field appearance="fill">
-     <mat-label>Arrival date</mat-label>
-     <input matInput [matDatepicker]="picker" [(ngModel)]="searchOptions.arrivalDate" name="arrivalDate" #arrivalDate (dateChange)="onChange(arrivalDate.value,'arrival_date')">
+<!--   <mat-form-field appearance="fill">-->
+<!--     <mat-label>Arrival date</mat-label>-->
+<!--     <input matInput [matDatepicker]="picker_arrival" [(ngModel)]="searchOptions.arrivalDate" name="arrivalDate" #arrivalDate (dateChange)="onChange(arrivalDate.value,'arrival_date')">-->
 
-     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-     <mat-datepicker #picker></mat-datepicker>
-   </mat-form-field>
+<!--     <mat-datepicker-toggle matIconSuffix [for]="picker_arrival"></mat-datepicker-toggle>-->
+<!--     <mat-datepicker #picker_arrival></mat-datepicker>-->
+<!--   </mat-form-field>-->
 
-    <mat-form-field appearance="fill">
-      <mat-label>Departure date</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="searchOptions.arrivalDate" name="departureDate" #departureDate (dateChange)="onChange(arrivalDate.value,'departure_date')">
+<!--    <mat-form-field appearance="fill">-->
+<!--      <mat-label>Departure date</mat-label>-->
+<!--      <input matInput [matDatepicker]="picker_departure" [(ngModel)]="searchOptions.departureDate"  name="departureDate" #departureDate (dateChange)="onChange(departureDate.value,'departure_date')">-->
 
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+<!--      <mat-datepicker-toggle matIconSuffix [for]="picker_departure"></mat-datepicker-toggle>-->
+<!--      <mat-datepicker #picker_departure></mat-datepicker>-->
+<!--    </mat-form-field>-->
 
   </form>
 </div>
