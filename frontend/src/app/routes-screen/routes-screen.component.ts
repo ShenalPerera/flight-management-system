@@ -48,7 +48,8 @@ export class RoutesScreenComponent implements OnInit{
   }
 
   deleteRecord(data: number) {
-    this.searchedData = this.routeService.deleteRecord(data, this.searchedData);
+    this.ALL_ROUTES = this.routeService.deleteRecord(data, this.searchedData);
+    this.searchedData = this.ALL_ROUTES;
     this.setDeparturesAndDestinations();
     console.log('deleted with the id: '+data);
   }

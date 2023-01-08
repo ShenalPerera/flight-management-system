@@ -24,7 +24,7 @@ export class FormComponent implements OnChanges{
   durationH!: number;
   durationM!: number;
 
-  onSubmit(f: NgForm) {
+  onSubmitUpdate(f: NgForm) {
     this.routeService.updateRoute(this.routeID, f);
     // console.log(f.value);  // { first: '', last: '' }
     // console.log(f.value['departure']);  // { first: '', last: '' }
