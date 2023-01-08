@@ -24,8 +24,18 @@ export class FormComponent implements OnChanges{
   durationH!: number;
   durationM!: number;
 
+  @Input() operationType !: string;
+
   onSubmitUpdate(f: NgForm) {
-    this.routeService.updateRoute(this.routeID, f);
+    if (this.operationType == 'Apply') {
+      this.routeService.updateRoute(this.routeID, f);
+    }else if(this.operationType == 'Create') {
+      this.routeService.createRoute(f);
+    }
+    // this.routeService.updateRoute(this.routeID, f);
+
+
+
     // console.log(f.value);  // { first: '', last: '' }
     // console.log(f.value['departure']);  // { first: '', last: '' }
     // const found = this.allRoutes.find((obj)=>{

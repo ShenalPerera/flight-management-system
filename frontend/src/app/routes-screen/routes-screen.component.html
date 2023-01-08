@@ -21,6 +21,8 @@
     </mat-form-field>
 
 
+
+
     <button (click)="clearInputs()">Clear</button>
   </form>
 </div>
@@ -122,8 +124,9 @@
   </app-entry>
 </div>
 
-<div class="centered">
-  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES"></app-form>
+<div class="centered" style="display: flex">
+  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Apply'"></app-form>
+  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Create'"></app-form>
 </div>
 
 
