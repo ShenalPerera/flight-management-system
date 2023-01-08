@@ -51,6 +51,9 @@ export class FormComponent implements OnChanges{
     // })
   }
 
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
   constructor(private routeService: RouteService,
               public dialogRef: MatDialogRef<FormComponent>,
