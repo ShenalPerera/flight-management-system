@@ -33,7 +33,11 @@ export class RoutesScreenComponent implements OnInit{
     this.searchedData = this.ALL_ROUTES;
   }
 
-
+  updateDropdown() {
+    let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
+    this.departuresList = listValues.dpList;
+    this.destinationsList = listValues.dsList;
+  }
 
   formDataInRouteScreen !: [number, string, string, number, number, number];
 
