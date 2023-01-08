@@ -30,6 +30,7 @@ export class FormComponent implements OnChanges{
   onSubmitUpdate() {
     // if (this.operationType == 'Apply') {
       this.routeService.updateRoute(this.data);
+      this.onNoClick();
     // }else if(this.operationType == 'Create') {
       // this.routeService.createRoute(f);
     // }

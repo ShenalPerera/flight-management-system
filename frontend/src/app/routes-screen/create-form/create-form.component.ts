@@ -27,6 +27,7 @@ export class CreateFormComponent implements OnChanges {
   onSubmitCreate() {
     // if (this.operationType == 'Apply') {
     this.routeService.createRoute(this.data);
+    this.onNoClick();
     // }else if(this.operationType == 'Create') {
     // this.routeService.createRoute(f);
     // }
