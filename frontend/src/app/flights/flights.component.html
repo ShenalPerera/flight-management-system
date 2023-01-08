@@ -1,8 +1,8 @@
 <div>
-  <form>
+  <form #searchFilterForm="ngForm">
     <mat-form-field appearance="fill">
       <mat-label>Flight number</mat-label>
-      <select  matNativeControl [(ngModel)]="searchOptions.flight_number" name="fNUmber" #selectedFlightNUmber (change)="onChange(selectedFlightNUmber.value,'flight_number')">
+      <select  matNativeControl [(ngModel)]="searchOptions.flight_number" name="fNumber" #selectedFlightNUmber (change)="onChange(selectedFlightNUmber.value,'flight_number')">
         <option value=""></option>
         <option *ngFor="let flight of flights" [value]="flight.flight_number">
           {{flight.flight_number}}
@@ -40,25 +40,28 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Arrival date</mat-label>
-      <input matInput type="date" [(ngModel)]="searchOptions.arrivalDate" name="arrivalDate"  #arrivalDate (change)="onChange(arrivalDate.value,'arrival_date')">
+      <input matInput type="date" [(ngModel)]="searchOptions.arrivalDate" name="fArrivalDate"  #arrivalDate (change)="onChange(arrivalDate.value,'arrival_date')">
 
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Departure date</mat-label>
-      <input matInput type="date" [(ngModel)]="searchOptions.departureDate" name="departureDate"  #departureDate (change)="onChange(departureDate.value,'departure_date')">
+      <input matInput type="date" [(ngModel)]="searchOptions.departureDate" name="fDepartureDate"  #departureDate (change)="onChange(departureDate.value,'departure_date')">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Arrival time</mat-label>
-      <input matInput  type="time" [(ngModel)]="searchOptions.arrivalTime" name="arrivalTime"  #arrivalTime (change)="onChange(arrivalTime.value,'arrival_time')">
+      <input matInput  type="time" [(ngModel)]="searchOptions.arrivalTime" name="fArrivalTime"  #arrivalTime (change)="onChange(arrivalTime.value,'arrival_time')">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Departure time</mat-label>
-      <input matInput  type="time" [(ngModel)]="searchOptions.departureTime" name="DepartureTime"  #departureTime (change)="onChange(departureTime.value,'departure_time')">
+      <input matInput  type="time" [(ngModel)]="searchOptions.departureTime" name="fDepartureTime"  #departureTime (change)="onChange(departureTime.value,'departure_time')">
     </mat-form-field>
 
+    <div>
+      <button (click)="onClearSearch(searchFilterForm)">Clear</button>
+    </div>
 
   </form>
 </div>

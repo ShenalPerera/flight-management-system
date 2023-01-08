@@ -1,7 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Flight} from "./flight.model";
 import {DataService} from "../../assets/data-service";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-flights',
@@ -76,6 +76,19 @@ export class FlightsComponent implements OnInit{
       this.searchOptions.departureTime = item;
 
     }
+  }
+
+  onClearSearch(f:NgForm){
+    f.reset({
+      fNumber:"",
+      fDeparture:"",
+      fArrival:"",
+      fDepartureDate:"",
+      fArrivalDate:"",
+      fArrivalTime:"",
+      fDepartureTime:""
+    });
+
   }
 
 }
