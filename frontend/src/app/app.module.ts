@@ -21,6 +21,8 @@ import { MatInputModule } from "@angular/material/input";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EntryComponent } from './routes-screen/entry/entry.component';
 
+import {RouteService} from "./routes-screen/services/route.service";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +47,9 @@ import { EntryComponent } from './routes-screen/entry/entry.component';
     MatInputModule,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    RouteService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

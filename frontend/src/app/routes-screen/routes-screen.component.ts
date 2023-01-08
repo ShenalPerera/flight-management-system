@@ -4,6 +4,8 @@ import {FormControl, FormGroup, NgForm} from "@angular/forms";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 
+import {RouteService} from "./services/route.service";
+
 
 @Component({
   selector: 'app-routes-screen',
@@ -11,13 +13,7 @@ import {map, startWith} from "rxjs/operators";
   styleUrls: ['./routes-screen.component.scss']
 })
 export class RoutesScreenComponent implements OnInit{
-  ALL_ROUTES: Route[] = [
-    {routeID: 1, departure: "SL", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-    {routeID: 2, departure: "NY", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-    {routeID: 3, departure: "LA", destination: "Dubai", mileage: 1223.45, durationH: 12, durationM: 30},
-    {routeID: 4, departure: "CA", destination: "New York", mileage: 1223.45, durationH: 12, durationM: 20},
-    {routeID: 5, departure: "JP", destination: "Sydney", mileage: 1223.45, durationH: 12, durationM: 20}
-  ];
+  ALL_ROUTES !: Route[];
 
   searchFormDeparture: string = '';
   searchFormDestination: string = '';
@@ -52,7 +48,7 @@ export class RoutesScreenComponent implements OnInit{
   }
 
   deleteRecord(data: number) {
-    this.ALL_ROUTES = this.ALL_ROUTES.filter((route)=>{
+    this.searchedData = this.searchedData.filter((route)=>{
       return route.routeID !== data;
     });
     console.log('deleted with the id: '+data);
@@ -78,7 +74,14 @@ export class RoutesScreenComponent implements OnInit{
   filteredDepartures !: Observable<string[]>;
   filteredDestinations !: Observable<string[]>;
 
+  constructor(private routeService: RouteService) {
+  }
+
   ngOnInit() {
+    this.ALL_ROUTES = this.routeService.getRoutes();
+    this.searchedData = this.ALL_ROUTES;
+    // console.log('all routes after using service '+this.routeService.getRoutes()[0].routeID);
+
     this.filteredDepartures = this.myDepartureControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filterDeparture(value || '')),
