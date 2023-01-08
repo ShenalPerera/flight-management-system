@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntryComponent } from './entry.component';
+import { FareItemComponent } from './fare-item.component';
 
 describe('EntryComponent', () => {
-  let component: EntryComponent;
-  let fixture: ComponentFixture<EntryComponent>;
+  let component: FareItemComponent;
+  let fixture: ComponentFixture<FareItemComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EntryComponent ]
+      declarations: [ FareItemComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EntryComponent);
+    fixture = TestBed.createComponent(FareItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

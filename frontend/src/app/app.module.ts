@@ -13,7 +13,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
-import { EntryComponent } from './fares-screen/entry/entry.component';
+import { FareItemComponent } from './fares-screen/fare-item/fare-item.component';
 
 
 
@@ -22,7 +22,7 @@ import { EntryComponent } from './fares-screen/entry/entry.component';
     AppComponent,
     RoutesScreenComponent,
     FaresScreenComponent,
-    EntryComponent
+    FareItemComponent
   ],
   imports: [
     BrowserModule,

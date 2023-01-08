@@ -23,14 +23,14 @@
   </form>
 </div>
 <div>
-  <app-entry
+  <app-fare-item
     *ngFor="let datum of searchedData"
     [id]="datum.id"
     [departure]="datum.departure"
     [arrival]="datum.arrival"
     [fare]="datum.fare"
     (deleteButtonClicked)="handleDelete($event)"
-    (editButtonClicked)="handleEdit($event)"></app-entry>
+    (editButtonClicked)="handleEdit($event)"></app-fare-item>
 </div>
 <div>
   <form>
