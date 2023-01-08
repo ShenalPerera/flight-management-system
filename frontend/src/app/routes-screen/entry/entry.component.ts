@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {FormComponent} from "../form/form.component";
 // import {ALL_ROUTES} from "../shared/routes";
 
 @Component({
@@ -25,6 +27,21 @@ export class EntryComponent {
     console.log("Do deletion");
     this.sendToBeDeletedRecordEvent.emit(this.routeID);
 
+  }
+
+  constructor(public dialog: MatDialog) {
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(FormComponent, {
+      width: '500px',
+      data: {routeID: this.routeID, departure: this.departure, destination: this.destination, mileage: this.mileage, durationH: this.durationH, durationM: this.durationM}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
   }
 
   @Output() sendItemsEvent = new EventEmitter<[number, string, string, number, number, number]>();

@@ -16,14 +16,23 @@ export class RouteService {
     return this.referringRoutes;
   }
 
-  updateRoute(routeID: number, f: NgForm) {
+  updateRoute(data: Route) {
+    console.log("Came to update the route: "+data.routeID);
     this.referringRoutes.forEach((route)=>{
-      if (route.routeID == routeID) {
-        route.departure = f.value['departure'];
-        route.destination = f.value['destination'];
-        route.mileage = f.value['mileage'];
-        route.durationH = f.value['durationH'];
-        route.durationM = f.value['durationM'];
+      if (route.routeID == data.routeID) {
+        console.log('A record found');
+
+        // route.departure = f.value['departure'];
+        // route.destination = f.value['destination'];
+        // route.mileage = f.value['mileage'];
+        // route.durationH = f.value['durationH'];
+        // route.durationM = f.value['durationM'];
+
+        route.departure = data.departure;
+        route.destination = data.destination;
+        route.mileage = data.mileage;
+        route.durationH = data.durationH;
+        route.durationM = data.durationM;
 
         console.log("record updated");
       }

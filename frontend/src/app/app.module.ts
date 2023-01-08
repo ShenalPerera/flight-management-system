@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EntryComponent } from './routes-screen/entry/entry.component';
 
 import {RouteService} from "./routes-screen/services/route.service";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -46,9 +47,18 @@ import {RouteService} from "./routes-screen/services/route.service";
     MatSelectModule,
     MatInputModule,
     BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [
-    RouteService
+    RouteService,
+    {
+      provide: MatDialogRef,
+      useValue: []
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: []
+    }
   ],
   bootstrap: [AppComponent]
 })

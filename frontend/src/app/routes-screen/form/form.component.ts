@@ -1,8 +1,9 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Inject, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NgForm} from "@angular/forms";
 
 import { Route } from '../models/route';
 import {RouteService} from "../services/route.service";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 // import {ALL_ROUTES} from "../shared/routes";
 
@@ -26,12 +27,12 @@ export class FormComponent implements OnChanges{
 
   @Input() operationType !: string;
 
-  onSubmitUpdate(f: NgForm) {
-    if (this.operationType == 'Apply') {
-      this.routeService.updateRoute(this.routeID, f);
-    }else if(this.operationType == 'Create') {
-      this.routeService.createRoute(f);
-    }
+  onSubmitUpdate() {
+    // if (this.operationType == 'Apply') {
+      this.routeService.updateRoute(this.data);
+    // }else if(this.operationType == 'Create') {
+      // this.routeService.createRoute(f);
+    // }
     // this.routeService.updateRoute(this.routeID, f);
 
 
@@ -51,7 +52,9 @@ export class FormComponent implements OnChanges{
   }
 
 
-  constructor(private routeService: RouteService) {
+  constructor(private routeService: RouteService,
+              public dialogRef: MatDialogRef<FormComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: Route) {
     this.formData = [NaN, '', '', NaN, NaN, NaN];
   }
 

@@ -1,37 +1,72 @@
-<form #f="ngForm" (ngSubmit)="onSubmitUpdate(f)">
+<!--<form #f="ngForm" (ngSubmit)="onSubmitUpdate(f)">-->
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Departure</mat-label>-->
+<!--    <input matInput name="departure" [(ngModel)]="departure">-->
+<!--&lt;!&ndash;    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;    <mat-hint>Departure</mat-hint>&ndash;&gt;-->
+<!--  </mat-form-field>-->
+<!--  <br>-->
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Destination</mat-label>-->
+<!--    <input matInput name="destination" [(ngModel)]="destination" >-->
+<!--&lt;!&ndash;    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>&ndash;&gt;-->
+<!--  </mat-form-field>-->
+<!--  <br>-->
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Mileage(miles)</mat-label>-->
+<!--    <input matInput name="mileage" [(ngModel)]="mileage">-->
+<!--&lt;!&ndash;    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>&ndash;&gt;-->
+<!--  </mat-form-field>-->
+<!--  <br>-->
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Duration(H)</mat-label>-->
+<!--    <input matInput name="durationH" [(ngModel)]="durationH">-->
+<!--&lt;!&ndash;    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>&ndash;&gt;-->
+<!--  </mat-form-field>-->
+<!--  <br>-->
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Duration(M)</mat-label>-->
+<!--    <input matInput name="durationM" [(ngModel)]="durationM">-->
+<!--&lt;!&ndash;    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>&ndash;&gt;-->
+<!--  </mat-form-field>-->
+<!--  <br>-->
+<!--  <button type="submit">{{operationType}}</button>-->
+<!--  <button type="button" (click)="clearInputs()">Discard</button>-->
+<!--</form>-->
+
+<form #f="ngForm">
   <mat-form-field appearance="fill">
     <mat-label>Departure</mat-label>
-    <input matInput name="departure" [(ngModel)]="departure">
-<!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
-<!--    <mat-hint>Departure</mat-hint>-->
+    <input matInput name="departure" [(ngModel)]="data.departure">
+    <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+    <!--    <mat-hint>Departure</mat-hint>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Destination</mat-label>
-    <input matInput name="destination" [(ngModel)]="destination" >
-<!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+    <input matInput name="destination" [(ngModel)]="data.destination" >
+    <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Mileage(miles)</mat-label>
-    <input matInput name="mileage" [(ngModel)]="mileage">
-<!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+    <input matInput name="mileage" [(ngModel)]="data.mileage">
+    <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Duration(H)</mat-label>
-    <input matInput name="durationH" [(ngModel)]="durationH">
-<!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+    <input matInput name="durationH" [(ngModel)]="data.durationH">
+    <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Duration(M)</mat-label>
-    <input matInput name="durationM" [(ngModel)]="durationM">
-<!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+    <input matInput name="durationM" [(ngModel)]="data.durationM">
+    <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
-  <button type="submit">{{operationType}}</button>
+  <button type="button" (click)="onSubmitUpdate()">Apply</button>
   <button type="button" (click)="clearInputs()">Discard</button>
 </form>
-
 

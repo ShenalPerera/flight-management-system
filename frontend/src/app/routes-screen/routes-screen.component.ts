@@ -5,6 +5,8 @@ import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 
 import {RouteService} from "./services/route.service";
+import {MatDialog} from "@angular/material/dialog";
+import {FormComponent} from "./form/form.component";
 
 
 @Component({
@@ -37,6 +39,18 @@ export class RoutesScreenComponent implements OnInit{
     let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
     this.departuresList = listValues.dpList;
     this.destinationsList = listValues.dsList;
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(FormComponent, {
+      width: '400px',
+      data: {name: "Thisara"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
   }
 
   formDataInRouteScreen !: [number, string, string, number, number, number];
@@ -80,7 +94,7 @@ export class RoutesScreenComponent implements OnInit{
   filteredDepartures !: Observable<string[]>;
   filteredDestinations !: Observable<string[]>;
 
-  constructor(private routeService: RouteService) {
+  constructor(private routeService: RouteService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
