@@ -33,6 +33,9 @@
     (editButtonClicked)="handleEdit($event)"></app-fare-item>
 </div>
 <div>
+  <button (click)="handleCreate()">Create New</button>
+</div>
+<div>
   <form>
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
@@ -56,7 +59,7 @@
       <mat-label>Fare</mat-label>
       <input matInput [(ngModel)]="editedEntry.fare" name="fare" [disabled]="formDisabled">
     </mat-form-field>
-    <button (click)="editSubmitted()" [disabled]="formDisabled">Submit</button>
+    <button (click)="submitted()" [disabled]="formDisabled">Submit</button>
     <button (click)="handleEditClear()" [disabled]="formDisabled">Clear</button>
   </form>
 </div>

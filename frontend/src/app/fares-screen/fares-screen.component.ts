@@ -45,6 +45,7 @@ export class FaresScreenComponent {
         if (value.id == entry.id) this.data.splice(index, 1);
       })
     }
+    this.filterData();
   }
   handleEdit(entry: Entry) {
     this.formDisabled = false;
@@ -52,6 +53,21 @@ export class FaresScreenComponent {
     this.editedEntry.departure = entry.departure;
     this.editedEntry.arrival = entry.arrival;
     this.editedEntry.fare = entry.fare;
+  }
+  createEvent: boolean = false;
+  handleCreate() {
+    this.formDisabled = false;
+    this.createEvent = true;
+  }
+  submitted() {
+    if (this.createEvent) {
+      this.createSubmitted();
+      this.filterData();
+      this.createEvent = false;
+    } else {
+      this.editSubmitted();
+    }
+    this.handleEditClear()
   }
   editSubmitted() {
     if (confirm("Do you want to edit the fare of the route, from "+
@@ -64,7 +80,12 @@ export class FaresScreenComponent {
         }
       })
     }
-    this.handleEditClear();
-    this.formDisabled = true;
+  }
+  currentId: number = 3;
+  createSubmitted() {
+    if (confirm("Do you want to create the fare of the route, from "+
+      this.editedEntry.departure+" to "+this.editedEntry.arrival+" as "+this.editedEntry.fare+"?")) {
+      this.data.push({id: ++this.currentId, departure: this.editedEntry.departure, arrival: this.editedEntry.arrival, fare: this.editedEntry.fare});
+    }
   }
 }
