@@ -40,7 +40,6 @@
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
       <select matNativeControl [(ngModel)]="editedEntry.departure" name="departure" (change)="filterData()" [disabled]="formDisabled">
-        <option value="" selected></option>
         <option *ngFor="let location of locations" [value]="location">
           {{location}}
         </option>
@@ -49,7 +48,6 @@
     <mat-form-field appearance="fill">
       <mat-label>Arrival</mat-label>
       <select matNativeControl [(ngModel)]="editedEntry.arrival" name="arrival" (change)="filterData()" [disabled]="formDisabled">
-        <option value="" selected></option>
         <option *ngFor="let location of locations" [value]="location">
           {{location}}
         </option>

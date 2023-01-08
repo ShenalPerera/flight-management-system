@@ -16,7 +16,7 @@ export interface Entry {
 export class FaresScreenComponent {
 
   searchCriteria: Entry = {id: 0, departure: "", arrival: "", fare: 0};
-  editedEntry: Entry = {id: 0, departure: "", arrival: "", fare: 0};
+  editedEntry: Entry = {id: 0, departure: "Colombo", arrival: "Dubai", fare: 0};
 
   locations: string[] = ['Colombo', 'Dubai', 'Sydney'];
   data: Entry[] = [
@@ -38,6 +38,7 @@ export class FaresScreenComponent {
   handleEditClear() {
     this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0};
     this.formDisabled = true;
+    this.createEvent = false;
   }
   handleDelete(entry: Entry) {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
@@ -59,15 +60,26 @@ export class FaresScreenComponent {
     this.formDisabled = false;
     this.createEvent = true;
   }
+  isDuplicate: boolean = false;
+  handleDuplicate() {
+    this.data.forEach((value) => {
+      if ((value.departure === this.editedEntry.departure) && (value.arrival === this.editedEntry.arrival))
+        this.isDuplicate = true;
+    })
+  }
   submitted() {
-    if (this.createEvent) {
-      this.createSubmitted();
-      this.filterData();
-      this.createEvent = false;
+    if (this.editedEntry.departure === this.editedEntry.arrival) {
+      alert("Departure and Arrival should be distinct!");
     } else {
-      this.editSubmitted();
+      if (this.createEvent) {
+        this.createSubmitted();
+        this.filterData();
+        this.createEvent = false;
+      } else {
+        this.editSubmitted();
+      }
+      this.handleEditClear();
     }
-    this.handleEditClear()
   }
   editSubmitted() {
     if (confirm("Do you want to edit the fare of the route, from "+
@@ -85,7 +97,14 @@ export class FaresScreenComponent {
   createSubmitted() {
     if (confirm("Do you want to create the fare of the route, from "+
       this.editedEntry.departure+" to "+this.editedEntry.arrival+" as "+this.editedEntry.fare+"?")) {
-      this.data.push({id: ++this.currentId, departure: this.editedEntry.departure, arrival: this.editedEntry.arrival, fare: this.editedEntry.fare});
+      this.handleDuplicate();
+      if (this.isDuplicate) {
+        alert("The entry is already in the database!");
+        this.isDuplicate = false;
+      }
+      else {
+        this.data.push({id: ++this.currentId, departure: this.editedEntry.departure, arrival: this.editedEntry.arrival, fare: this.editedEntry.fare});
+      }
     }
   }
 }
