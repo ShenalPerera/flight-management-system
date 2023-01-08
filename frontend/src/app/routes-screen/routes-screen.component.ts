@@ -48,9 +48,7 @@ export class RoutesScreenComponent implements OnInit{
   }
 
   deleteRecord(data: number) {
-    this.searchedData = this.searchedData.filter((route)=>{
-      return route.routeID !== data;
-    });
+    this.searchedData = this.routeService.deleteRecord(data, this.searchedData);
     this.setDeparturesAndDestinations();
     console.log('deleted with the id: '+data);
   }

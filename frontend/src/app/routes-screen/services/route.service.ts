@@ -27,4 +27,14 @@ export class RouteService {
       }
     });
   }
+
+  deleteRecord(routeID: number, currentRoutes: Route[]) {
+    return currentRoutes.filter((route)=>{
+      return route.routeID !== routeID;
+    });
+  }
+
+
+
+
 }
