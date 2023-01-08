@@ -8,14 +8,16 @@ import {NgForm} from "@angular/forms";
 })
 export class RouteService {
 
+  referringRoutes !: Route[];
   constructor() { }
 
   getRoutes(): Route[] {
-    return INITIAL_ROUTES;
+    this.referringRoutes = INITIAL_ROUTES;
+    return this.referringRoutes;
   }
 
   updateRoute(routeID: number, f: NgForm) {
-    INITIAL_ROUTES.forEach((route)=>{
+    this.referringRoutes.forEach((route)=>{
       if (route.routeID == routeID) {
         route.departure = f.value['departure'];
         route.destination = f.value['destination'];
@@ -28,11 +30,32 @@ export class RouteService {
     });
   }
 
+  setDeparturesAndDestinations(departuresList: string[], destinationsList: string[]) {
+    departuresList = [];
+    destinationsList = [];
+    this.referringRoutes.forEach((route)=>{
+      if (!(departuresList.includes(route.departure))) {
+        departuresList.push(route.departure);
+      }
+      if (!(destinationsList.includes(route.destination))) {
+        destinationsList.push(route.destination);
+      }
+    });
+
+    console.log("Now inital is: "+this.referringRoutes);
+    return {
+      dpList: departuresList,
+      dsList: destinationsList
+    }
+    // console.log('departure list '+departuresList);
+  }
+
   deleteRecord(routeID: number, currentRoutes: Route[]) {
-    return INITIAL_ROUTES.filter((route)=>{
+    this.referringRoutes = this.referringRoutes.filter((route)=>{
       return route.routeID !== routeID;
     });
 
+    return this.referringRoutes;
     // return currentRoutes.filter((route)=>{
     //   return route.routeID !== routeID;
     // });

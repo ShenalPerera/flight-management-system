@@ -50,8 +50,10 @@ export class RoutesScreenComponent implements OnInit{
   deleteRecord(data: number) {
     this.ALL_ROUTES = this.routeService.deleteRecord(data, this.searchedData);
     this.searchedData = this.ALL_ROUTES;
-    this.setDeparturesAndDestinations();
-    console.log('deleted with the id: '+data);
+
+    let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
+    this.departuresList = listValues.dpList;
+    this.destinationsList = listValues.dsList;
   }
 
   filterByForm(f: NgForm) {
@@ -92,7 +94,12 @@ export class RoutesScreenComponent implements OnInit{
       map(value => this._filterDestination(value || '')),
     );
 
-    this.setDeparturesAndDestinations();
+    // this.setDeparturesAndDestinations();
+    let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
+    this.departuresList = listValues.dpList;
+    this.destinationsList = listValues.dsList;
+
+
     // this.searchedData.forEach((route)=>{
     //   if (!(this.departuresList.includes(route.departure))) {
     //     this.departuresList.push(route.departure);
@@ -106,20 +113,20 @@ export class RoutesScreenComponent implements OnInit{
     console.log('destination list: '+this.destinationsList);
   }
 
-  setDeparturesAndDestinations() {
-    this.departuresList = [];
-    this.destinationsList = [];
-    this.searchedData.forEach((route)=>{
-      if (!(this.departuresList.includes(route.departure))) {
-        this.departuresList.push(route.departure);
-      }
-      if (!(this.destinationsList.includes(route.destination))) {
-        this.destinationsList.push(route.destination);
-      }
-
-
-    });
-  }
+  // setDeparturesAndDestinations() {
+  //   this.departuresList = [];
+  //   this.destinationsList = [];
+  //   this.searchedData.forEach((route)=>{
+  //     if (!(this.departuresList.includes(route.departure))) {
+  //       this.departuresList.push(route.departure);
+  //     }
+  //     if (!(this.destinationsList.includes(route.destination))) {
+  //       this.destinationsList.push(route.destination);
+  //     }
+  //
+  //
+  //   });
+  // }
 
   private _filterDeparture(value: string): string[] {
     const filterValue = value.toLowerCase();
