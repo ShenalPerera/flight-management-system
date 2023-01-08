@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Entry } from '../fares-screen.component'
 
 @Component({
   selector: 'app-entry',
@@ -10,9 +11,12 @@ export class EntryComponent {
   @Input() departure!: string;
   @Input() arrival!: string;
   @Input() fare!: number;
-  @Output() entryDeleted = new EventEmitter<number>();
-  editEntry() {}
+  @Output() editButtonClicked = new EventEmitter<Entry>();
+  editEntry() {
+    this.editButtonClicked.emit(this);
+  }
+  @Output() deleteButtonClicked = new EventEmitter<Entry>();
   deleteEntry() {
-    this.entryDeleted.emit(this.id);
+    this.deleteButtonClicked.emit(this);
   }
 }

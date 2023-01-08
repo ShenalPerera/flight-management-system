@@ -5,8 +5,8 @@
       <mat-label>Departure</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.departure" name="departure" (change)="filterData()" #selectDropdown>
         <option value="" selected></option>
-        <option *ngFor="let location of locations" [value]="location.name">
-          {{location.name}}
+        <option *ngFor="let location of locations" [value]="location">
+          {{location}}
         </option>
       </select>
     </mat-form-field>
@@ -14,12 +14,12 @@
       <mat-label>Arrival</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.arrival" name="arrival" (change)="filterData()">
         <option value="" selected></option>
-        <option *ngFor="let location of locations" [value]="location.name">
-          {{location.name}}
+        <option *ngFor="let location of locations" [value]="location">
+          {{location}}
         </option>
       </select>
     </mat-form-field>
-    <button (click)="handleClear()">Clear</button>
+    <button (click)="handleSearchClear()">Clear</button>
   </form>
 </div>
 <div>
@@ -29,5 +29,34 @@
     [departure]="datum.departure"
     [arrival]="datum.arrival"
     [fare]="datum.fare"
-    (entryDeleted)="entryDeleted($event)"></app-entry>
+    (deleteButtonClicked)="handleDelete($event)"
+    (editButtonClicked)="handleEdit($event)"></app-entry>
+</div>
+<div>
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Departure</mat-label>
+      <select matNativeControl [(ngModel)]="editedEntry.departure" name="departure" (change)="filterData()" [disabled]="formDisabled">
+        <option value="" selected></option>
+        <option *ngFor="let location of locations" [value]="location">
+          {{location}}
+        </option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival</mat-label>
+      <select matNativeControl [(ngModel)]="editedEntry.arrival" name="arrival" (change)="filterData()" [disabled]="formDisabled">
+        <option value="" selected></option>
+        <option *ngFor="let location of locations" [value]="location">
+          {{location}}
+        </option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Fare</mat-label>
+      <input matInput [(ngModel)]="editedEntry.fare" name="fare" [disabled]="formDisabled">
+    </mat-form-field>
+    <button (click)="editSubmitted()" [disabled]="formDisabled">Submit</button>
+    <button (click)="handleEditClear()" [disabled]="formDisabled">Clear</button>
+  </form>
 </div>
