@@ -1,3 +1,53 @@
+<div>
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Flight number</mat-label>
+      <select  matNativeControl [(ngModel)]="searchOptions.flight_number" name="fNUmber" #selectedFlightNUmber (change)="onChange(selectedFlightNUmber.value,'flight_number')">
+        <option value=" "></option>
+        <option *ngFor="let flight of flights" [value]="flight.flight_number">
+          {{flight.flight_number}}
+        </option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival</mat-label>
+      <select  matNativeControl [(ngModel)]="searchOptions.arrival" name="fArrival" #selectedArrival (change)="onChange(selectedArrival.value,'arrival')">
+        <option value=" "></option>
+        <option *ngFor="let flight of flights" [value]="flight.arrival">
+          {{flight.arrival}}
+        </option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure</mat-label>
+      <select  matNativeControl [(ngModel)]="searchOptions.departure" name="fDeparture" #selectedDeparture (change)="onChange(selectedDeparture.value,'departure')">
+        <option value=" "></option>
+        <option *ngFor="let flight of flights" [value]="flight.departure">
+          {{flight.departure}}
+        </option>
+      </select>
+    </mat-form-field>
+
+   <mat-form-field appearance="fill">
+     <mat-label>Arrival date</mat-label>
+     <input matInput [matDatepicker]="picker" [(ngModel)]="searchOptions.arrivalDate" name="arrivalDate" #arrivalDate (dateChange)="onChange(arrivalDate.value,'arrival_date')">
+
+     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+     <mat-datepicker #picker></mat-datepicker>
+   </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="searchOptions.arrivalDate" name="departureDate" #departureDate (dateChange)="onChange(arrivalDate.value,'departure_date')">
+
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+  </form>
+</div>
 <div style="width: 100%">
   <div class="panel panel-primary">
     <div class="panel-heading">
@@ -17,10 +67,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr app-flight-item   *ngFor="let flightEl of flights " [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" >
+        <tr app-flight-item
+            *ngFor="let flightEl of flights |
+            dataFilter:searchOptions.flight_number:'flight_number' |
+            dataFilter:searchOptions.arrival:'arrival' |
+            dataFilter:searchOptions.departure:'departure' |
+            dataFilter:searchOptions.arrivalDate:'arrival_date'"  [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" >
         </tbody>
       </table>
     </div>
   </div>
-
+{{searchOptions.arrivalDate}}
 </div>

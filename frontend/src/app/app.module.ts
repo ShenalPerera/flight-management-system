@@ -14,6 +14,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FlightsComponent } from './flights/flights.component';
 import {HeaderComponent} from "./header/header.component";
 import { FlightItemComponent } from './flights/flight-item/flight-item.component';
+import { DataFilterPipe } from './data-filter.pipe';
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 
@@ -26,7 +30,9 @@ import { FlightItemComponent } from './flights/flight-item/flight-item.component
         FlightsComponent,
         HeaderComponent,
         HeaderComponent,
-        FlightItemComponent
+        FlightItemComponent,
+        DataFilterPipe,
+
     ],
   imports: [
     BrowserModule,
@@ -36,7 +42,10 @@ import { FlightItemComponent } from './flights/flight-item/flight-item.component
     MatAutocompleteModule,
     FormsModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
