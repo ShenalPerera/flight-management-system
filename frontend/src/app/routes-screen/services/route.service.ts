@@ -39,15 +39,15 @@ export class RouteService {
     });
   }
 
-  createRoute(f: NgForm) {
+  createRoute(data: Route) {
     this.referringRoutes.push(
       {
         routeID: this.referringRoutes.length+1,
-        departure: f.value['departure'],
-        destination: f.value['destination'],
-        mileage: f.value['mileage'],
-        durationH: f.value['durationH'],
-        durationM: f.value['durationM']
+        departure: data.departure,
+        destination: data.destination,
+        mileage: data.mileage,
+        durationH: data.durationH,
+        durationM: data.durationM
       }
     )
   }

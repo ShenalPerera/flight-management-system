@@ -23,6 +23,7 @@ import { EntryComponent } from './routes-screen/entry/entry.component';
 
 import {RouteService} from "./routes-screen/services/route.service";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import { CreateFormComponent } from './routes-screen/create-form/create-form.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/
     FaresScreenComponent,
     // DetailsComponent,
     FormComponent,
-    EntryComponent
+    EntryComponent,
+    CreateFormComponent
   ],
   imports: [
     BrowserModule,

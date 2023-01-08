@@ -7,6 +7,7 @@ import {map, startWith} from "rxjs/operators";
 import {RouteService} from "./services/route.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "./form/form.component";
+import {CreateFormComponent} from "./create-form/create-form.component";
 
 
 @Component({
@@ -41,10 +42,10 @@ export class RoutesScreenComponent implements OnInit{
     this.destinationsList = listValues.dsList;
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(FormComponent, {
-      width: '400px',
-      data: {name: "Thisara"}
+  openDialogToCreate(): void {
+    const dialogRef = this.dialog.open(CreateFormComponent, {
+      width: '500px',
+      data: {routeID: NaN, departure: '', destination: '', mileage: NaN, durationH: NaN, durationM: NaN}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -52,6 +53,9 @@ export class RoutesScreenComponent implements OnInit{
       // this.animal = result;
     });
   }
+
+
+
 
   formDataInRouteScreen !: [number, string, string, number, number, number];
 

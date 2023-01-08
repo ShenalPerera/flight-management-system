@@ -124,16 +124,14 @@
   </app-entry>
 </div>
 
-<div class="centered" style="display: flex">
-  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Apply'"></app-form>
-  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Create'"></app-form>
-</div>
+<!--<div class="centered" style="display: flex">-->
+<!--  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Apply'"></app-form>-->
+<!--  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Create'"></app-form>-->
+<!--</div>-->
 
 
-<ol>
-  <li>
-    <button mat-raised-button (click)="openDialog()">Pick one</button>
-  </li>
-</ol>
+
+<button mat-raised-button (click)="openDialogToCreate()">Create</button>
+
 
 
