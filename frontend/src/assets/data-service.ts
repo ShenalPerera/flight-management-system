@@ -7,11 +7,11 @@ import {Injectable} from "@angular/core";
 
 export class DataService{
   flights : Flight[] = [
-    new Flight(1,"colombo","India","1/2/2023","12/2/2023", "",""),
+    new Flight(1,"colombo","India","2023-01-04","2023-01-05", "13:04","11:00"),
 
-    new Flight(2,"Singapore","Sri Lanka","11/12/2023","12/12/2023","",""),
-    new Flight(3,"Dubai","India","14/2/2023","15/2/2023","",""),
-    new Flight(3,"Dubaiwe","sfIndia","24/2/2023","15/2/2023","",""),
+    new Flight(2,"Singapore","Sri Lanka","2023-01-01","2023-01-08","09:11","10:23"),
+    new Flight(3,"Dubai","India","2023-02-03","2023-01-01","12:14","12:30"),
+    new Flight(3,"Dubaiwe","sfIndia","2023-01-01","2023-01-01","08:00","08:30"),
 
 
   ];

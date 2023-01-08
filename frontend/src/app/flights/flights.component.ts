@@ -16,11 +16,13 @@ export class FlightsComponent implements OnInit{
   public  flights !: Flight[];
 
   public searchOptions = {
-      flight_number : ' ',
-      arrival : ' ',
-      departure: ' ',
-      arrivalDate: ' ',
-      departureDate: ' '
+      flight_number : '',
+      arrival : '',
+      departure: '',
+      arrivalDate: '',
+      departureDate: '',
+      arrivalTime: '',
+      departureTime: ''
   };
 
 
@@ -37,11 +39,13 @@ export class FlightsComponent implements OnInit{
   deleteFlight(flight : Flight){
     this.dataService.removeFlight(flight);
     this.searchOptions = {
-      flight_number: ' ',
-      arrival:  ' ',
-      departure: ' ',
-      arrivalDate: ' ',
-      departureDate: ' '
+      flight_number: '',
+      arrival:  '',
+      departure: '',
+      arrivalDate: '',
+      departureDate: '',
+      arrivalTime: '',
+      departureTime: ''
     }
   }
 
@@ -51,16 +55,27 @@ export class FlightsComponent implements OnInit{
     }
     if (prop === 'arrival'){
       this.searchOptions.arrival = item;
+
     }
     if (prop === 'departure'){
       this.searchOptions.departure = item;
     }
-    // if (prop === 'arrival_date'){
-    //   this.searchOptions.arrivalDate = item
-    // }
-    // if (prop === 'departure_date'){
-    //   this.searchOptions.departureDate = item;
-    // }
+    if (prop === 'arrival_date'){
+      this.searchOptions.arrivalDate = item
+
+    }
+    if (prop === 'departure_date'){
+      this.searchOptions.departureDate = item;
+    }
+    if (prop === 'arrival_time'){
+      this.searchOptions.arrivalTime = item;
+
+    }
+
+    if (prop === 'departure_time'){
+      this.searchOptions.departureTime = item;
+
+    }
   }
 
 }

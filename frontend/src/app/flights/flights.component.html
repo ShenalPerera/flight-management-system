@@ -3,7 +3,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Flight number</mat-label>
       <select  matNativeControl [(ngModel)]="searchOptions.flight_number" name="fNUmber" #selectedFlightNUmber (change)="onChange(selectedFlightNUmber.value,'flight_number')">
-        <option value=" "></option>
+        <option value=""></option>
         <option *ngFor="let flight of flights" [value]="flight.flight_number">
           {{flight.flight_number}}
         </option>
@@ -13,7 +13,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Arrival</mat-label>
       <select  matNativeControl [(ngModel)]="searchOptions.arrival" name="fArrival" #selectedArrival (change)="onChange(selectedArrival.value,'arrival')">
-        <option value=" "></option>
+        <option value=""></option>
         <option *ngFor="let flight of flights" [value]="flight.arrival">
           {{flight.arrival}}
         </option>
@@ -23,7 +23,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
       <select  matNativeControl [(ngModel)]="searchOptions.departure" name="fDeparture" #selectedDeparture (change)="onChange(selectedDeparture.value,'departure')">
-        <option value=" "></option>
+        <option value=""></option>
         <option *ngFor="let flight of flights" [value]="flight.departure">
           {{flight.departure}}
         </option>
@@ -32,19 +32,33 @@
 
 <!--   <mat-form-field appearance="fill">-->
 <!--     <mat-label>Arrival date</mat-label>-->
-<!--     <input matInput [matDatepicker]="picker_arrival" [(ngModel)]="searchOptions.arrivalDate" name="arrivalDate" #arrivalDate (dateChange)="onChange(arrivalDate.value,'arrival_date')">-->
+<!--     <input matInput [matDatepicker]="picker_arrival" [(ngModel)]="searchOptions.arrivalDate" name="arrivalDate"  #arrivalDate (dateChange)="onChange(arrivalDate.value,'arrival_date')">-->
 
 <!--     <mat-datepicker-toggle matIconSuffix [for]="picker_arrival"></mat-datepicker-toggle>-->
 <!--     <mat-datepicker #picker_arrival></mat-datepicker>-->
 <!--   </mat-form-field>-->
 
-<!--    <mat-form-field appearance="fill">-->
-<!--      <mat-label>Departure date</mat-label>-->
-<!--      <input matInput [matDatepicker]="picker_departure" [(ngModel)]="searchOptions.departureDate"  name="departureDate" #departureDate (dateChange)="onChange(departureDate.value,'departure_date')">-->
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival date</mat-label>
+      <input matInput type="date" [(ngModel)]="searchOptions.arrivalDate" name="arrivalDate"  #arrivalDate (change)="onChange(arrivalDate.value,'arrival_date')">
 
-<!--      <mat-datepicker-toggle matIconSuffix [for]="picker_departure"></mat-datepicker-toggle>-->
-<!--      <mat-datepicker #picker_departure></mat-datepicker>-->
-<!--    </mat-form-field>-->
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure date</mat-label>
+      <input matInput type="date" [(ngModel)]="searchOptions.departureDate" name="departureDate"  #departureDate (change)="onChange(departureDate.value,'departure_date')">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival time</mat-label>
+      <input matInput  type="time" [(ngModel)]="searchOptions.arrivalTime" name="arrivalTime"  #arrivalTime (change)="onChange(arrivalTime.value,'arrival_time')">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure time</mat-label>
+      <input matInput  type="time" [(ngModel)]="searchOptions.departureTime" name="DepartureTime"  #departureTime (change)="onChange(departureTime.value,'departure_time')">
+    </mat-form-field>
+
 
   </form>
 </div>
@@ -72,7 +86,11 @@
             dataFilter:searchOptions.flight_number:'flight_number' |
             dataFilter:searchOptions.arrival:'arrival' |
             dataFilter:searchOptions.departure:'departure' |
-            dataFilter:searchOptions.arrivalDate:'arrival_date'"  [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" >
+            dataFilter:searchOptions.arrivalDate:'arrival_date' |
+            dataFilter:searchOptions.departureDate:'departure_date' |
+            dataFilter:searchOptions.arrivalTime:'arrival_time' |
+            dataFilter:searchOptions.departureTime:'departure_time'"
+            [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" >
         </tbody>
       </table>
     </div>
