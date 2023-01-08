@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NgForm} from "@angular/forms";
 
 import { Route } from '../models/route';
+import {RouteService} from "../services/route.service";
 
 // import {ALL_ROUTES} from "../shared/routes";
 
@@ -24,22 +25,23 @@ export class FormComponent implements OnChanges{
   durationM!: number;
 
   onSubmit(f: NgForm) {
-    console.log(f.value);  // { first: '', last: '' }
-    console.log(f.value['departure']);  // { first: '', last: '' }
-    const found = this.allRoutes.find((obj)=>{
-      if (this.routeID == obj.routeID) {
-        // console.log("has to be changed from "+obj.departure+" to "+f.value['departure']);
-        obj.departure = f.value['departure'];
-        obj.destination = f.value['destination'];
-        obj.mileage = f.value['mileage'];
-        obj.durationH = f.value['durationH'];
-        obj.durationM = f.value['durationM'];
-      }
-    })
+    this.routeService.updateRoute(this.routeID, f);
+    // console.log(f.value);  // { first: '', last: '' }
+    // console.log(f.value['departure']);  // { first: '', last: '' }
+    // const found = this.allRoutes.find((obj)=>{
+    //   if (this.routeID == obj.routeID) {
+    //     // console.log("has to be changed from "+obj.departure+" to "+f.value['departure']);
+    //     obj.departure = f.value['departure'];
+    //     obj.destination = f.value['destination'];
+    //     obj.mileage = f.value['mileage'];
+    //     obj.durationH = f.value['durationH'];
+    //     obj.durationM = f.value['durationM'];
+    //   }
+    // })
   }
 
 
-  constructor() {
+  constructor(private routeService: RouteService) {
     this.formData = [NaN, '', '', NaN, NaN, NaN];
   }
 
