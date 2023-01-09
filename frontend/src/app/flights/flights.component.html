@@ -1,0 +1,184 @@
+
+
+<div>
+  <form #searchFilterForm="ngForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Flight number</mat-label>
+      <select  matNativeControl [(ngModel)]="searchOptions.flight_number" name="fNumber" #selectedFlightNUmber (change)="onChange(selectedFlightNUmber.value,'flight_number')">
+        <option value=""></option>
+        <option *ngFor="let flight of flights" [value]="flight.flight_number">
+          {{flight.flight_number}}
+        </option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival</mat-label>
+      <select  matNativeControl [(ngModel)]="searchOptions.arrival" name="fArrival" #selectedArrival (change)="onChange(selectedArrival.value,'arrival')">
+        <option value=""></option>
+        <option *ngFor="let flight of flights" [value]="flight.arrival">
+          {{flight.arrival}}
+        </option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure</mat-label>
+      <select  matNativeControl [(ngModel)]="searchOptions.departure" name="fDeparture" #selectedDeparture (change)="onChange(selectedDeparture.value,'departure')">
+        <option value=""></option>
+        <option *ngFor="let flight of flights" [value]="flight.departure">
+          {{flight.departure}}
+        </option>
+      </select>
+    </mat-form-field>
+
+<!--   <mat-form-field appearance="fill">-->
+<!--     <mat-label>Arrival date</mat-label>-->
+<!--     <input matInput [matDatepicker]="picker_arrival" [(ngModel)]="searchOptions.arrivalDate" name="arrivalDate"  #arrivalDate (dateChange)="onChange(arrivalDate.value,'arrival_date')">-->
+
+<!--     <mat-datepicker-toggle matIconSuffix [for]="picker_arrival"></mat-datepicker-toggle>-->
+<!--     <mat-datepicker #picker_arrival></mat-datepicker>-->
+<!--   </mat-form-field>-->
+
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival date</mat-label>
+      <input matInput type="date" [(ngModel)]="searchOptions.arrivalDate" name="fArrivalDate"  #arrivalDate (change)="onChange(arrivalDate.value,'arrival_date')">
+
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure date</mat-label>
+      <input matInput type="date" [(ngModel)]="searchOptions.departureDate" name="fDepartureDate"  #departureDate (change)="onChange(departureDate.value,'departure_date')">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival time</mat-label>
+      <input matInput  type="time" [(ngModel)]="searchOptions.arrivalTime" name="fArrivalTime"  #arrivalTime (change)="onChange(arrivalTime.value,'arrival_time')">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure time</mat-label>
+      <input matInput  type="time" [(ngModel)]="searchOptions.departureTime" name="fDepartureTime"  #departureTime (change)="onChange(departureTime.value,'departure_time')">
+    </mat-form-field>
+
+    <div>
+      <button (click)="onClearSearch(searchFilterForm)">Clear</button>
+    </div>
+
+  </form>
+</div>
+<div style="width: 100%">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h2>Flight list</h2>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Flight Number</th>
+          <th>Arrival</th>
+          <th>Departure</th>
+          <th>Arrival Date</th>
+          <th>Arrival Time</th>
+          <th>Departure Date</th>
+          <th>Departure Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr app-flight-item
+            *ngFor="let flightEl of flights |
+            dataFilter:searchOptions.flight_number:'flight_number' |
+            dataFilter:searchOptions.arrival:'arrival' |
+            dataFilter:searchOptions.departure:'departure' |
+            dataFilter:searchOptions.arrivalDate:'arrival_date' |
+            dataFilter:searchOptions.departureDate:'departure_date' |
+            dataFilter:searchOptions.arrivalTime:'arrival_time' |
+            dataFilter:searchOptions.departureTime:'departure_time'"
+            [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" >
+        </tbody>
+      </table>
+    </div>
+  </div>
+{{searchOptions.arrivalDate}}
+</div>
+
+<div *ngIf="toggle">
+  <div class="backdrop" (click)="onClickBackdrop()"></div>
+
+
+  <div class="overlay-form">
+    <div class="mat-mdc-dialog-container">
+      <form class="overlay-edit-add-form" (ngSubmit)="onAddFlight(overlayForm)" #overlayForm="ngForm">
+        <mat-form-field class="form-field-full-width">
+          <input matInput
+                 placeholder="Flight Number"
+                 value=""
+                 ngModel
+                 name="oFlightNumber">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <input  matInput
+                  placeholder="Arrival"
+                  value=""
+                 ngModel
+                  name="oArrival">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <input  matInput
+                  placeholder="Departure"
+                  value=""
+                  ngModel
+                  name="oDeparture">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Arrival Date</mat-label>
+          <input  matInput
+                  type="date"
+                  placeholder="Arrival Date"
+                  value=""
+                  ngModel
+                  name="oArrivalDate">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Arrival Time</mat-label>
+          <input  matInput
+                  type="time"
+                  placeholder="Arrival Time"
+                  value=""
+                  ngModel
+                  name="oArrivalTime">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Departure Date</mat-label>
+          <input  matInput
+                  type="date"
+                  placeholder="Departure Date"
+                  value=""
+                  ngModel
+                  name="oDepartureDate">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Departure Time</mat-label>
+          <input  matInput
+                  type="time"
+                  placeholder="Departure Time"
+                  value=""
+                  ngModel
+                  name="oDepartureTime">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary">Add Flight</button>
+
+      </form>
+    </div>
+  </div>
+
+
+</div>
