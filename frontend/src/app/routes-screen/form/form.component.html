@@ -1,5 +1,4 @@
 
-<div>
 <form #f="ngForm">
   <mat-form-field appearance="fill">
     <mat-label>Departure</mat-label>
@@ -32,8 +31,8 @@
     <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
-  <button type="button" (click)="onSubmitUpdate()">Apply</button>
-  <button type="button" (click)="onNoClick()">Discard</button>
+  <button mat-raised-button type="button" (click)="onSubmitUpdate()">Apply</button>
+  <button mat-raised-button color="warn" type="button" (click)="onNoClick()">Discard</button>
 </form>
-</div>
+
 

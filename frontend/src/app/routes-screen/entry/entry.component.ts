@@ -43,7 +43,8 @@ export class EntryComponent {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FormComponent, {
-      width: '700px',
+      width: '315px',
+      height: 'auto',
       data: {routeID: this.routeID, departure: this.departure, destination: this.destination, mileage: this.mileage, durationH: this.durationH, durationM: this.durationM}
     });
 
