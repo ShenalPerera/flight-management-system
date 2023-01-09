@@ -1,37 +1,63 @@
-
 <h1>Fares screen</h1>
-
-<!--<form class="example-form">-->
-<!--  <mat-form-field class="example-full-width" appearance="fill">-->
-<!--    <mat-label>Number</mat-label>-->
-<!--    <input type="text"-->
-<!--           placeholder="Pick one"-->
-<!--           aria-label="Number"-->
-<!--           matInput-->
-<!--           [formControl]="myControl"-->
-<!--           [matAutocomplete]="auto">-->
-<!--    <mat-autocomplete #auto="matAutocomplete">-->
-<!--      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">-->
-<!--        {{option}}-->
-<!--      </mat-option>-->
-<!--    </mat-autocomplete>-->
-<!--  </mat-form-field>-->
-<!--</form>-->
-
-
-<!--<form class="example-form">-->
-<!--  <mat-form-field class="example-full-width" appearance="fill">-->
-<!--    <mat-label>Number</mat-label>-->
-<!--    <input type="text"-->
-<!--           placeholder="Pick one"-->
-<!--           aria-label="Number"-->
-<!--           matInput-->
-<!--           [formControl]="myControl"-->
-<!--           [matAutocomplete]="auto">-->
-<!--    <mat-autocomplete #auto="matAutocomplete">-->
-<!--      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">-->
-<!--        {{option}}-->
-<!--      </mat-option>-->
-<!--    </mat-autocomplete>-->
-<!--  </mat-form-field>-->
-<!--</form>-->
+<div>
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Departure</mat-label>
+      <select matNativeControl [(ngModel)]="searchCriteria.departure" name="departure" (change)="filterData()" #selectDropdown>
+        <option value="" selected></option>
+        <option *ngFor="let location of locations" [value]="location">
+          {{location}}
+        </option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival</mat-label>
+      <select matNativeControl [(ngModel)]="searchCriteria.arrival" name="arrival" (change)="filterData()">
+        <option value="" selected></option>
+        <option *ngFor="let location of locations" [value]="location">
+          {{location}}
+        </option>
+      </select>
+    </mat-form-field>
+    <button (click)="handleSearchClear()">Clear</button>
+  </form>
+</div>
+<div>
+  <app-fare-item
+    *ngFor="let datum of searchedData"
+    [id]="datum.id"
+    [departure]="datum.departure"
+    [arrival]="datum.arrival"
+    [fare]="datum.fare"
+    (deleteButtonClicked)="handleDelete($event)"
+    (editButtonClicked)="handleEdit($event)"></app-fare-item>
+</div>
+<div>
+  <button (click)="handleCreate()">Create New</button>
+</div>
+<div>
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Departure</mat-label>
+      <select matNativeControl [(ngModel)]="editedEntry.departure" name="departure" (change)="filterData()" [disabled]="formDisabled">
+        <option *ngFor="let location of locations" [value]="location">
+          {{location}}
+        </option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival</mat-label>
+      <select matNativeControl [(ngModel)]="editedEntry.arrival" name="arrival" (change)="filterData()" [disabled]="formDisabled">
+        <option *ngFor="let location of locations" [value]="location">
+          {{location}}
+        </option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Fare</mat-label>
+      <input matInput [(ngModel)]="editedEntry.fare" name="fare" [disabled]="formDisabled">
+    </mat-form-field>
+    <button (click)="submitted()" [disabled]="formDisabled">Submit</button>
+    <button (click)="handleEditClear()" [disabled]="formDisabled">Clear</button>
+  </form>
+</div>

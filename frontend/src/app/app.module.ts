@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RoutesScreenComponent } from './routes-screen/routes-screen.component';
 import { FaresScreenComponent } from './fares-screen/fares-screen.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatTableModule} from "@angular/material/table";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -20,9 +20,15 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { FormComponent } from './routes-screen/form/form.component';
+import { MatSelectModule } from "@angular/material/select";
+import { FareItemComponent } from './fares-screen/fare-item/fare-item.component';
 
-
-
+import {RouteService} from "./routes-screen/services/route.service";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import { CreateFormComponent } from './routes-screen/create-form/create-form.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
     declarations: [
@@ -34,12 +40,15 @@ import {MatButtonModule} from "@angular/material/button";
         HeaderComponent,
         FlightItemComponent,
         DataFilterPipe,
+        FormComponent,
+        EntryComponent,
+        CreateFormComponent,
+        FareItemComponent
 
     ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NoopAnimationsModule,
     MatTableModule,
     MatAutocompleteModule,
     FormsModule,
@@ -49,9 +58,25 @@ import {MatButtonModule} from "@angular/material/button";
     MatDatepickerModule,
     MatNativeDateModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatSelectModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatExpansionModule
+
   ],
-  providers: [],
+  providers: [
+    RouteService,
+    {
+      provide: MatDialogRef,
+      useValue: []
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: []
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

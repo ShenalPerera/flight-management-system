@@ -1,61 +1,110 @@
-// import { Component, OnInit } from '@angular/core';
-// import {FormControl} from '@angular/forms';
-// import {Observable} from 'rxjs';
-// import {map, startWith} from 'rxjs/operators';
-//
-// @Component({
-//   selector: 'app-fares-screen',
-//   templateUrl: './fares-screen.component.html',
-//   styleUrls: ['./fares-screen.component.scss']
-// })
-// export class FaresScreenComponent implements OnInit {
-//   myControl = new FormControl('');
-//   options: string[] = ['One', 'Two', 'Three'];
-//   filteredOptions: Observable<string[]> | undefined;
-//
-//   ngOnInit() {
-//     this.filteredOptions = this.myControl.valueChanges.pipe(
-//       startWith(''),
-//       map(value => this._filter(value || '')),
-//     );
-//   }
-//
-//   private _filter(value: string): string[] {
-//     const filterValue = value.toLowerCase();
-//
-//     return this.options.filter(option => option.toLowerCase().includes(filterValue));
-//   }
-// }
+import {Component} from '@angular/core';
 
+export interface Entry {
+  id: number;
+  departure: string;
+  arrival: string;
+  fare: number;
+}
 
-import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-
-/**
- * @title Filter autocomplete
- */
 @Component({
   selector: 'app-fares-screen',
   templateUrl: './fares-screen.component.html',
   styleUrls: ['./fares-screen.component.scss']
 })
-export class FaresScreenComponent implements OnInit {
-  myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]> | undefined;
 
-  ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
+export class FaresScreenComponent {
+
+  searchCriteria: Entry = {id: 0, departure: "", arrival: "", fare: 0};
+  editedEntry: Entry = {id: 0, departure: "Colombo", arrival: "Dubai", fare: 0};
+
+  locations: string[] = ['Colombo', 'Dubai', 'Sydney'];
+  data: Entry[] = [
+    {id:1, departure:"Colombo", arrival:"Dubai", fare:50},
+    {id:2, departure:"Colombo", arrival:"Sydney", fare:75},
+    {id:3, departure:"Dubai", arrival:"Colombo", fare:50},
+  ];
+  searchedData: Entry[] = this.data;
+  formDisabled: boolean = true;
+  filterData(){
+    this.searchedData = this.data.filter(
+      x => (this.searchCriteria.departure === "" || this.searchCriteria.departure === x.departure)
+        && (this.searchCriteria.arrival === "" || this.searchCriteria.arrival === x.arrival))
   }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  handleSearchClear() {
+    this.searchCriteria = {id: 0, departure: "", arrival: "", fare: 0};
+    this.filterData();
+  }
+  handleEditClear() {
+    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0};
+    this.formDisabled = true;
+    this.createEvent = false;
+  }
+  handleDelete(entry: Entry) {
+    if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
+      this.data.forEach((value, index) => {
+        if (value.id == entry.id) this.data.splice(index, 1);
+      })
+    }
+    this.filterData();
+  }
+  handleEdit(entry: Entry) {
+    this.formDisabled = false;
+    this.editedEntry.id = entry.id;
+    this.editedEntry.departure = entry.departure;
+    this.editedEntry.arrival = entry.arrival;
+    this.editedEntry.fare = entry.fare;
+  }
+  createEvent: boolean = false;
+  handleCreate() {
+    this.formDisabled = false;
+    this.createEvent = true;
+  }
+  isDuplicate: boolean = false;
+  handleDuplicate() {
+    this.data.forEach((value) => {
+      if ((value.departure === this.editedEntry.departure) && (value.arrival === this.editedEntry.arrival))
+        this.isDuplicate = true;
+    })
+  }
+  submitted() {
+    if (this.editedEntry.departure === this.editedEntry.arrival) {
+      alert("Departure and Arrival should be distinct!");
+    } else {
+      if (this.createEvent) {
+        this.createSubmitted();
+        this.filterData();
+        this.createEvent = false;
+      } else {
+        this.editSubmitted();
+      }
+      this.handleEditClear();
+    }
+  }
+  editSubmitted() {
+    if (confirm("Do you want to edit the fare of the route, from "+
+      this.editedEntry.departure+" to "+this.editedEntry.arrival+" as "+this.editedEntry.fare+"?")) {
+      this.data.forEach((value, index) => {
+        if (value.id == this.editedEntry.id) {
+          value.departure = this.editedEntry.departure;
+          value.arrival = this.editedEntry.arrival;
+          value.fare = this.editedEntry.fare;
+        }
+      })
+    }
+  }
+  currentId: number = 3;
+  createSubmitted() {
+    if (confirm("Do you want to create the fare of the route, from "+
+      this.editedEntry.departure+" to "+this.editedEntry.arrival+" as "+this.editedEntry.fare+"?")) {
+      this.handleDuplicate();
+      if (this.isDuplicate) {
+        alert("The entry is already in the database!");
+        this.isDuplicate = false;
+      }
+      else {
+        this.data.push({id: ++this.currentId, departure: this.editedEntry.departure, arrival: this.editedEntry.arrival, fare: this.editedEntry.fare});
+      }
+    }
   }
 }
