@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "../form/form.component";
+import {MatExpansionPanel} from "@angular/material/expansion";
 // import {ALL_ROUTES} from "../shared/routes";
 
 @Component({
   selector: 'app-entry',
   templateUrl: './entry.component.html',
-  styleUrls: ['./entry.component.scss']
+  styleUrls: ['./entry.component.scss'],
+  viewProviders: [MatExpansionPanel]
 })
 export class EntryComponent {
 

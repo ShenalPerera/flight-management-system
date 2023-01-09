@@ -8,12 +8,14 @@ import {RouteService} from "./services/route.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "./form/form.component";
 import {CreateFormComponent} from "./create-form/create-form.component";
+import {MatExpansionPanel} from "@angular/material/expansion";
 
 
 @Component({
   selector: 'app-routes-screen',
   templateUrl: './routes-screen.component.html',
-  styleUrls: ['./routes-screen.component.scss']
+  styleUrls: ['./routes-screen.component.scss'],
+  viewProviders: [MatExpansionPanel]
 })
 export class RoutesScreenComponent implements OnInit{
   ALL_ROUTES !: Route[];

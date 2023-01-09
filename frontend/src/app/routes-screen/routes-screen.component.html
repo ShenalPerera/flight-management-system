@@ -23,7 +23,7 @@
 
 
 
-    <button (click)="clearInputs()">Clear</button>
+    <button mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
   </form>
 </div>
 <!--<div class="search-container">-->
@@ -113,7 +113,32 @@
 
 
 <div class="centered">
-  <app-entry *ngFor="let route of searchedData" (sendItemsEvent)="gotData($event)" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
+  <div style="width: 80%; padding-left: 10%; align-content: space-evenly; text-align: center;">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        RouteID
+      </mat-panel-title>
+      <mat-panel-title>
+        Departure
+      </mat-panel-title>
+      <mat-panel-title>
+        Destination
+      </mat-panel-title>
+      <mat-panel-title>
+        Mileage
+      </mat-panel-title>
+      <mat-panel-title>
+        Duration(Hours)
+      </mat-panel-title>
+      <mat-panel-title>
+        Duration(mins)
+      </mat-panel-title>
+      <mat-panel-title>
+        Operations
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  </div>
+  <app-entry *ngFor="let route of searchedData; first as isFirst" (sendItemsEvent)="gotData($event)" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
              [routeID]="route.routeID"
              [departure]="route.departure"
              [destination]="route.destination"
@@ -131,7 +156,7 @@
 
 
 
-<button mat-raised-button (click)="openDialogToCreate()">Create</button>
+<button mat-stroked-button color="primary" (click)="openDialogToCreate()">Create a new route</button>
 
 
 
