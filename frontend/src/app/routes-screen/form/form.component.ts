@@ -1,5 +1,5 @@
-import {Component, Inject, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {NgForm} from "@angular/forms";
+import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 
 import { Route } from '../models/route';
 import {RouteService} from "../services/route.service";
@@ -12,7 +12,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnChanges{
+export class FormComponent implements OnInit{
 
   // @Input() formData: [number, string, string, number, number, number] = [0, '', '', 0, 0, 0];
   @Input() formData: [number, string, string, number, number, number] = [NaN, '', '', NaN, NaN, NaN];
@@ -27,9 +27,31 @@ export class FormComponent implements OnChanges{
 
   @Input() operationType !: string;
 
-  onSubmitUpdate() {
+  sampleForm !: FormGroup;
+  ngOnInit() {
+    this.sampleForm = new FormGroup({
+      'departure': new FormControl(this.data.departure, [Validators.required]),
+      'destination': new FormControl(this.data.destination, [Validators.required]),
+      'mileage': new FormControl(this.data.mileage, [Validators.required]),
+      'durationH': new FormControl(this.data.durationH, [Validators.required]),
+      'durationM': new FormControl(this.data.durationM, [Validators.required]),
+    });
+  }
+
+  updatedRoute !: Route;
+
+    onSubmitUpdate() {
+      this.updatedRoute = {
+        routeID: this.data.routeID,
+        departure: this.sampleForm.value['departure'],
+        destination: this.sampleForm.value['destination'],
+        mileage: this.sampleForm.value['mileage'],
+        durationH: this.sampleForm.value['durationH'],
+        durationM: this.sampleForm.value['durationM']
+      };
+      // console.log(this.sampleForm.value['departure']);
     // if (this.operationType == 'Apply') {
-      this.routeService.updateRoute(this.data);
+      this.routeService.updateRoute(this.updatedRoute);
       this.onNoClick();
     // }else if(this.operationType == 'Create') {
       // this.routeService.createRoute(f);
@@ -72,23 +94,23 @@ export class FormComponent implements OnChanges{
 
 
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-    if (this.formData != undefined) {
-      this.routeID = this.formData[0];
-      this.departure = this.formData[1];
-      this.destination = this.formData[2];
-      this.mileage = this.formData[3];
-      this.durationH = this.formData[4];
-      this.durationM = this.formData[5];
-    } else {
-      this.departure = '';
-      this.destination = '';
-      this.mileage = NaN;
-      this.durationH = NaN;
-      this.durationM = NaN;
-    }
-
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   console.log(changes);
+  //   if (this.formData != undefined) {
+  //     this.routeID = this.formData[0];
+  //     this.departure = this.formData[1];
+  //     this.destination = this.formData[2];
+  //     this.mileage = this.formData[3];
+  //     this.durationH = this.formData[4];
+  //     this.durationM = this.formData[5];
+  //   } else {
+  //     this.departure = '';
+  //     this.destination = '';
+  //     this.mileage = NaN;
+  //     this.durationH = NaN;
+  //     this.durationM = NaN;
+  //   }
+  //
+  // }
 
 }
