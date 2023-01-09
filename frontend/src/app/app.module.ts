@@ -11,16 +11,19 @@ import { MatTableModule} from "@angular/material/table";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule} from "@angular/material/button";
+import { FlightsComponent } from './flights/flights.component';
+import {HeaderComponent} from "./header/header.component";
+import { FlightItemComponent } from './flights/flight-item/flight-item.component';
+import { DataFilterPipe } from './data-filter.pipe';
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { FormComponent } from './routes-screen/form/form.component';
 import { MatSelectModule } from "@angular/material/select";
-import { MatInputModule } from "@angular/material/input";
-import { SearchBarComponent } from './fares-screen/search-bar/search-bar.component';
-import { EntryComponent } from './fares-screen/entry/entry.component';
-
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { EntryComponent } from './routes-screen/entry/entry.component';
+import { FareItemComponent } from './fares-screen/fare-item/fare-item.component';
 
 import {RouteService} from "./routes-screen/services/route.service";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
@@ -28,15 +31,21 @@ import { CreateFormComponent } from './routes-screen/create-form/create-form.com
 import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    RoutesScreenComponent,
-    FaresScreenComponent,
-    FormComponent,
-    EntryComponent,
-    CreateFormComponent,
-    SearchBarComponent,
-  ],
+    declarations: [
+        AppComponent,
+        RoutesScreenComponent,
+        FaresScreenComponent,
+        FlightsComponent,
+        HeaderComponent,
+        HeaderComponent,
+        FlightItemComponent,
+        DataFilterPipe,
+        FormComponent,
+        EntryComponent,
+        CreateFormComponent,
+        FareItemComponent
+
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,10 +54,13 @@ import {MatExpansionModule} from "@angular/material/expansion";
     FormsModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCardModule,
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
-    MatInputModule,
     BrowserAnimationsModule,
     MatDialogModule,
     MatExpansionModule
