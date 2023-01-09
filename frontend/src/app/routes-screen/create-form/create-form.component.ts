@@ -1,14 +1,15 @@
-import {Component, Inject, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Route} from "../models/route";
 import {RouteService} from "../services/route.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-create-form',
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.scss']
 })
-export class CreateFormComponent implements OnChanges {
+export class CreateFormComponent implements OnInit {
 
 
   // @Input() formData: [number, string, string, number, number, number] = [0, '', '', 0, 0, 0];
@@ -24,9 +25,31 @@ export class CreateFormComponent implements OnChanges {
 
   @Input() operationType !: string;
 
+  sampleForm !: FormGroup;
+  ngOnInit() {
+    this.sampleForm = new FormGroup({
+      'departure': new FormControl(this.data.departure, [Validators.required]),
+      'destination': new FormControl(this.data.destination, [Validators.required]),
+      'mileage': new FormControl(this.data.mileage, [Validators.required]),
+      'durationH': new FormControl(this.data.durationH, [Validators.required]),
+      'durationM': new FormControl(this.data.durationM, [Validators.required]),
+    });
+  }
+
+
+
+  createdRoute !: Route;
   onSubmitCreate() {
     // if (this.operationType == 'Apply') {
-    this.routeService.createRoute(this.data);
+    this.createdRoute = {
+      routeID: this.data.routeID,
+      departure: this.sampleForm.value['departure'],
+      destination: this.sampleForm.value['destination'],
+      mileage: this.sampleForm.value['mileage'],
+      durationH: this.sampleForm.value['durationH'],
+      durationM: this.sampleForm.value['durationM']
+    };
+    this.routeService.createRoute(this.createdRoute);
     this.onNoClick();
     // }else if(this.operationType == 'Create') {
     // this.routeService.createRoute(f);
@@ -69,23 +92,6 @@ export class CreateFormComponent implements OnChanges {
 
 
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-    if (this.formData != undefined) {
-      this.routeID = this.formData[0];
-      this.departure = this.formData[1];
-      this.destination = this.formData[2];
-      this.mileage = this.formData[3];
-      this.durationH = this.formData[4];
-      this.durationM = this.formData[5];
-    } else {
-      this.departure = '';
-      this.destination = '';
-      this.mileage = NaN;
-      this.durationH = NaN;
-      this.durationM = NaN;
-    }
 
-  }
 
 }
