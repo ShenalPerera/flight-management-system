@@ -1,4 +1,6 @@
-<div (click)="updateDropdown()">
+<div style="padding-left: 10%; padding-top: 50px;">
+
+<div style="padding-left: 10%;" (click)="updateDropdown()">
   <form>
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
@@ -10,7 +12,7 @@
       </select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field style="padding-left: 10px" appearance="fill">
       <mat-label>Destination</mat-label>
       <select matNativeControl [(ngModel)]="searchFormDestination" name="destination" (change)="filterData()" #selectDropdown>
         <option value="" selected></option>
@@ -22,92 +24,11 @@
 
 
 
-
-    <button mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
+    <div>
+    <button  mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
+    </div>
   </form>
 </div>
-<!--<div class="search-container">-->
-<!--  Search thing-->
-<!--</div>-->
-
-<!--<div class="search-container">-->
-<!--  <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)">-->
-<!--    <mat-form-field appearance="fill">-->
-<!--      <mat-label>Departure</mat-label>-->
-<!--      <input matInput name="departure" [(ngModel)]="searchFormDeparture">-->
-<!--      &lt;!&ndash;    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>&ndash;&gt;-->
-<!--      &lt;!&ndash;    <mat-hint>Departure</mat-hint>&ndash;&gt;-->
-<!--    </mat-form-field>-->
-<!--    <mat-form-field appearance="fill">-->
-<!--      <mat-label>Destination</mat-label>-->
-<!--      <input matInput name="destination" [(ngModel)]="searchFormDestination" >-->
-<!--      &lt;!&ndash;    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>&ndash;&gt;-->
-<!--    </mat-form-field>-->
-<!--    <button type="submit">Apply</button>-->
-<!--    <button type="button" (click)="clearInputs()">Clear</button>-->
-<!--  </form>-->
-<!--</div>-->
-
-<!--<div class="search-container">-->
-<!--  <form #f="ngForm" class="example-form">-->
-<!--    <mat-form-field class="example-full-width" appearance="fill">-->
-<!--      <mat-label>Departure</mat-label>-->
-<!--      <input type="text"-->
-<!--             placeholder="Pick one"-->
-<!--             aria-label="Departure"-->
-<!--             matInput-->
-<!--             [formControl]="myDepartureControl"-->
-<!--             [matAutocomplete]="autoDeparture"-->
-<!--             name = "searchFormDeparture"-->
-<!--             [(ngModel)]="searchFormDeparture"-->
-<!--      >-->
-<!--      <mat-autocomplete #autoDeparture="matAutocomplete">-->
-<!--        <mat-option *ngFor="let departure of filteredDepartures | async" [value]="departure">-->
-<!--          {{departure}}-->
-<!--        </mat-option>-->
-<!--      </mat-autocomplete>-->
-<!--    </mat-form-field>-->
-<!--    <br>-->
-<!--    <mat-form-field class="example-full-width" appearance="fill">-->
-<!--      <mat-label>Destination</mat-label>-->
-<!--      <input type="text"-->
-<!--             placeholder="Pick one"-->
-<!--             aria-label="Destination"-->
-<!--             matInput-->
-<!--             [formControl]="myDestinationControl"-->
-<!--             [matAutocomplete]="autoDestination"-->
-<!--             name = "searchFormDestination"-->
-<!--             [(ngModel)]="searchFormDestination"-->
-<!--      >-->
-<!--      <mat-autocomplete #autoDestination="matAutocomplete">-->
-<!--        <mat-option *ngFor="let destination of filteredDestinations | async" [value]="destination">-->
-<!--          {{destination}}-->
-<!--        </mat-option>-->
-<!--      </mat-autocomplete>-->
-<!--    </mat-form-field>-->
-<!--  </form>-->
-<!--</div>-->
-
-<!--<div class="search-container">-->
-<!--  <form class="example-form">-->
-<!--    <mat-form-field class="example-full-width" appearance="fill">-->
-<!--      <mat-label>Destination</mat-label>-->
-<!--      <input type="text"-->
-<!--             placeholder="Pick one"-->
-<!--             aria-label="Destination"-->
-<!--             matInput-->
-<!--             [formControl]="myDestinationControl"-->
-<!--             [matAutocomplete]="autoDestination"-->
-
-<!--      >-->
-<!--      <mat-autocomplete #autoDestination="matAutocomplete">-->
-<!--        <mat-option *ngFor="let destination of filteredDestinations | async" [value]="destination">-->
-<!--          {{destination}}-->
-<!--        </mat-option>-->
-<!--      </mat-autocomplete>-->
-<!--    </mat-form-field>-->
-<!--  </form>-->
-<!--</div>-->
 
 
 
@@ -138,6 +59,8 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
   </div>
+
+  <div style="max-height: 700px; overflow: auto; white-space: nowrap; overflow-x: scroll;">
   <app-entry *ngFor="let route of searchedData; first as isFirst" (sendItemsEvent)="gotData($event)" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
              [routeID]="route.routeID"
              [departure]="route.departure"
@@ -147,6 +70,7 @@
              [durationM]="route.durationM"
   >
   </app-entry>
+  </div>
 </div>
 
 <!--<div class="centered" style="display: flex">-->
@@ -154,9 +78,11 @@
 <!--  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Create'"></app-form>-->
 <!--</div>-->
 
+<br><br>
+<div style="padding-right: 10%">
+  <button style="float: right; text-align: left;" mat-stroked-button color="primary" (click)="openDialogToCreate()">Create a new route</button>
+</div>
 
-
-<button mat-stroked-button color="primary" (click)="openDialogToCreate()">Create a new route</button>
-
+</div>
 
 
