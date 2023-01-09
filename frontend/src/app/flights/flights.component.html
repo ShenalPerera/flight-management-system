@@ -1,3 +1,5 @@
+
+
 <div>
   <form #searchFilterForm="ngForm">
     <mat-form-field appearance="fill">
@@ -99,4 +101,84 @@
     </div>
   </div>
 {{searchOptions.arrivalDate}}
+</div>
+
+<div *ngIf="toggle">
+  <div class="backdrop" (click)="onClickBackdrop()"></div>
+
+
+  <div class="overlay-form">
+    <div class="mat-mdc-dialog-container">
+      <form class="overlay-edit-add-form" (ngSubmit)="onAddFlight(overlayForm)" #overlayForm="ngForm">
+        <mat-form-field class="form-field-full-width">
+          <input matInput
+                 placeholder="Flight Number"
+                 value=""
+                 ngModel
+                 name="oFlightNumber">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <input  matInput
+                  placeholder="Arrival"
+                  value=""
+                 ngModel
+                  name="oArrival">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <input  matInput
+                  placeholder="Departure"
+                  value=""
+                  ngModel
+                  name="oDeparture">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Arrival Date</mat-label>
+          <input  matInput
+                  type="date"
+                  placeholder="Arrival Date"
+                  value=""
+                  ngModel
+                  name="oArrivalDate">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Arrival Time</mat-label>
+          <input  matInput
+                  type="time"
+                  placeholder="Arrival Time"
+                  value=""
+                  ngModel
+                  name="oArrivalTime">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Departure Date</mat-label>
+          <input  matInput
+                  type="date"
+                  placeholder="Departure Date"
+                  value=""
+                  ngModel
+                  name="oDepartureDate">
+        </mat-form-field>
+
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Departure Time</mat-label>
+          <input  matInput
+                  type="time"
+                  placeholder="Departure Time"
+                  value=""
+                  ngModel
+                  name="oDepartureTime">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary">Add Flight</button>
+
+      </form>
+    </div>
+  </div>
+
+
 </div>

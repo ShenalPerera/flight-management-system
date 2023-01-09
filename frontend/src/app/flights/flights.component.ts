@@ -12,7 +12,7 @@ import {NgForm} from "@angular/forms";
 
 
 export class FlightsComponent implements OnInit{
-
+  toggle:boolean = true;
   public  flights !: Flight[];
 
   public searchOptions = {
@@ -89,6 +89,21 @@ export class FlightsComponent implements OnInit{
       fDepartureTime:""
     });
 
+  }
+
+  onClickBackdrop(){
+    this.toggle = !this.toggle;
+  }
+
+  onAddFlight(form:NgForm){
+    const value = form.value;
+    this.dataService.addFlight(new Flight(
+      value.oFlightNumber,
+      value.oArrival,value.oDeparture,
+      value.oArrivalDate,
+      value.oDepartureDate,
+      value.oArrivalTime,
+      value.oDepartureTime))
   }
 
 }
