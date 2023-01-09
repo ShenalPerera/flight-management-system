@@ -1,0 +1,51 @@
+<!--{{routeID}}  {{departure}}  {{destination}}  {{mileage}}  {{durationH}}  {{durationM}}-->
+<!--<br>-->
+
+<div style="width: 80%; padding-left: 10%; align-content: space-evenly; text-align: center;" (click)="displayEntry();">
+<!--  <div class="box"><p>{{routeID}}</p></div>-->
+<!--  <div class="box">{{departure}}</div>-->
+<!--  <div class="box">{{destination}}</div>-->
+<!--  <div class="box">{{mileage}}</div>-->
+<!--  <div class="box">{{durationH}}</div>-->
+<!--  <div class="box">{{durationM}}</div>-->
+  <mat-expansion-panel-header>
+    <mat-panel-description>
+      {{routeID}}
+    </mat-panel-description>
+    <mat-panel-description>
+      {{departure}}
+    </mat-panel-description>
+    <mat-panel-description>
+      {{destination}}
+    </mat-panel-description>
+    <mat-panel-description>
+      {{mileage}}
+    </mat-panel-description>
+    <mat-panel-description>
+      {{durationH}}
+    </mat-panel-description>
+    <mat-panel-description>
+      {{durationM}}
+    </mat-panel-description>
+    <mat-panel-description>
+      <button mat-raised-button (click)="sendItemsToParent(); openDialog();">Edit</button>
+      <button mat-raised-button color="warn" (click)="deleteItem();">Delete</button>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+<!--  <button mat-raised-button (click)="sendItemsToParent(); openDialog();">Edit</button>-->
+<!--  <button mat-raised-button color="warn" (click)="deleteItem();">Delete</button>-->
+</div>
+
+
+<!--<tr>-->
+<!--  <td>{{routeID}}</td>-->
+<!--  <td>{{departure}}</td>-->
+<!--  <td>{{destination}}</td>-->
+<!--  <td>{{mileage}}</td>-->
+<!--  <td>{{durationH}}</td>-->
+<!--  <td>{{durationM}}</td>-->
+<!--</tr>-->
+
+
+

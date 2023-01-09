@@ -1,0 +1,49 @@
+
+.search-container {
+  background-color: aquamarine;
+  padding: 10px;
+  height: 100px;
+}
+
+.split-left {
+  height: 100%;
+  width: 20%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.split-right {
+  height: 100%;
+  width: 80%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  padding: 50px;
+  left: 0;
+  background-color: white;
+}
+
+/* Control the right side */
+.right {
+  padding: 50px;
+  right: 0;
+  background-color: white;
+}
+
+///* If you want the content centered horizontally and vertically */
+//.centered {
+//  position: absolute;
+//  top: 50%;
+//  left: 50%;
+//  transform: translate(-50%, -50%);
+//  text-align: center;
+//}
