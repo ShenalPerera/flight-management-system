@@ -24,9 +24,16 @@ export class EntryComponent {
   @Output() sendToBeDeletedRecordEvent = new EventEmitter<number>();
 
   deleteItem() {
-    console.log("Do deletion");
-    this.sendToBeDeletedRecordEvent.emit(this.routeID);
-
+    if (confirm(`Do you want to delete this route ?\n
+    RouteID        : ${this.routeID}\n
+    Departure      : ${this.departure}\n
+    Destination    : ${this.destination}\n
+    Mileage        : ${this.mileage}\n
+    Duration(hours): ${this.durationH}\n
+    Duration(mins) : ${this.durationM}`)) {
+      console.log("Do deletion");
+      this.sendToBeDeletedRecordEvent.emit(this.routeID);
+    }
   }
 
   constructor(public dialog: MatDialog) {
