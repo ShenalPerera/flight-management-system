@@ -109,29 +109,29 @@
 
   <div class="overlay-form">
     <div class="mat-mdc-dialog-container">
-      <form class="overlay-edit-add-form" (ngSubmit)="onAddFlight(overlayForm)" #overlayForm="ngForm">
+      <form class="overlay-edit-add-form" [formGroup]="overlayForm" (ngSubmit)="onAddFlight()">
         <mat-form-field class="form-field-full-width">
           <input matInput
                  placeholder="Flight Number"
                  value=""
-                 ngModel
-                 name="oFlightNumber">
+                 formControlName = "oFlightNumber"
+                  >
         </mat-form-field>
 
         <mat-form-field class="form-field-full-width">
           <input  matInput
                   placeholder="Arrival"
                   value=""
-                 ngModel
-                  name="oArrival">
+                  formControlName = "oArrival"
+                  >
         </mat-form-field>
 
         <mat-form-field class="form-field-full-width">
           <input  matInput
                   placeholder="Departure"
                   value=""
-                  ngModel
-                  name="oDeparture">
+                  formControlName ="oDeparture"
+                  >
         </mat-form-field>
 
         <mat-form-field class="form-field-full-width">
@@ -140,8 +140,8 @@
                   type="date"
                   placeholder="Arrival Date"
                   value=""
-                  ngModel
-                  name="oArrivalDate">
+                  formControlName = "oArrivalDate"
+                  >
         </mat-form-field>
 
         <mat-form-field class="form-field-full-width">
@@ -150,8 +150,8 @@
                   type="time"
                   placeholder="Arrival Time"
                   value=""
-                  ngModel
-                  name="oArrivalTime">
+                  formControlName = "oArrivalTime"
+                  >
         </mat-form-field>
 
         <mat-form-field class="form-field-full-width">
@@ -160,8 +160,8 @@
                   type="date"
                   placeholder="Departure Date"
                   value=""
-                  ngModel
-                  name="oDepartureDate">
+                  formControlName = "oDepartureDate"
+                  >
         </mat-form-field>
 
         <mat-form-field class="form-field-full-width">
@@ -170,8 +170,8 @@
                   type="time"
                   placeholder="Departure Time"
                   value=""
-                  ngModel
-                  name="oDepartureTime">
+                  formControlName = "oDepartureTime"
+                  >
         </mat-form-field>
 
         <button type="submit" mat-raised-button color="primary">Add Flight</button>

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Flight} from "./flight.model";
 import {DataService} from "../../assets/data-service";
-import {NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-flights',
@@ -14,6 +14,7 @@ import {NgForm} from "@angular/forms";
 export class FlightsComponent implements OnInit{
   toggle:boolean = true;
   public  flights !: Flight[];
+  overlayForm!:FormGroup;
 
   public searchOptions = {
       flight_number : '',
@@ -33,7 +34,15 @@ export class FlightsComponent implements OnInit{
   ngOnInit() {
     this.flights = this.dataService.getFlights();
 
-
+    this.overlayForm = new FormGroup({
+      'oFlightNumber':new FormControl(null),
+      'oArrival': new FormControl(null),
+      'oDeparture': new FormControl(null),
+      'oArrivalDate': new FormControl(null),
+      'oArrivalTime': new FormControl(null),
+      'oDepartureDate': new FormControl(null),
+      'oDepartureTime': new FormControl(null)
+    });
   }
 
   deleteFlight(flight : Flight){
@@ -95,8 +104,8 @@ export class FlightsComponent implements OnInit{
     this.toggle = !this.toggle;
   }
 
-  onAddFlight(form:NgForm){
-    const value = form.value;
+  onAddFlight(){
+    const value = this.overlayForm.value;
     this.dataService.addFlight(new Flight(
       value.oFlightNumber,
       value.oArrival,value.oDeparture,
