@@ -34,15 +34,19 @@ export class DataService{
     }
   }
 
-  updateFlight(flight:Flight){
+  updateFlight(flight_id:number,value:{oFlightNumber:number, oArrival:string,oDeparture:string,oArrivalDate:string,oArrivalTime:string,oDepartureDate:string,oDepartureTime:string}){
     const flightIndex = this.flights.findIndex((flightElement :Flight) => {
-      return flightElement.flight_number === flight.flight_number &&
-        flightElement.departure === flight.departure &&
-        flightElement.arrival === flight.arrival &&
-        flightElement.arrival_date === flight.arrival_date &&
-        flightElement.departure_date === flight.departure_date
+      return flightElement.id == flight_id;
     });
 
+    this.flights[flightIndex] = new Flight(flight_id,
+      value.oFlightNumber,
+      value.oArrival,
+      value.oDeparture,
+      value.oArrivalDate,
+      value.oArrivalTime,
+      value.oDepartureDate,
+      value.oDepartureTime);
 
   }
 

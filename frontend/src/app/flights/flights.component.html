@@ -95,21 +95,21 @@
             dataFilter:searchOptions.departureDate:'departure_date' |
             dataFilter:searchOptions.arrivalTime:'arrival_time' |
             dataFilter:searchOptions.departureTime:'departure_time'"
-            [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" >
+            [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" (flightEdited) = "editFlight($event)" >
         </tbody>
       </table>
     </div>
   </div>
-{{searchOptions.arrivalDate}}
 </div>
 
-<div *ngIf="toggle">
+<div *ngIf="isOverlayShow">
   <div class="backdrop" (click)="onClickBackdrop()"></div>
 
 
   <div class="overlay-form">
     <div class="mat-mdc-dialog-container">
       <form class="overlay-edit-add-form" [formGroup]="overlayForm" (ngSubmit)="onAddFlight()">
+        <input value="" formControlName ="oId" hidden="hidden">
         <mat-form-field class="form-field-full-width">
           <input matInput
                  placeholder="Flight Number"

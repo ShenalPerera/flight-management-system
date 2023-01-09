@@ -12,7 +12,8 @@ import {FormControl, FormGroup, NgForm} from "@angular/forms";
 
 
 export class FlightsComponent implements OnInit{
-  toggle:boolean = true;
+  isOverlayShow:boolean = false;
+  isEditMode!:boolean;
   public  flights !: Flight[];
   overlayForm!:FormGroup;
 
@@ -35,6 +36,7 @@ export class FlightsComponent implements OnInit{
     this.flights = this.dataService.getFlights();
 
     this.overlayForm = new FormGroup({
+      'oId':new FormControl(null),
       'oFlightNumber':new FormControl(null),
       'oArrival': new FormControl(null),
       'oDeparture': new FormControl(null),
@@ -45,8 +47,8 @@ export class FlightsComponent implements OnInit{
     });
   }
 
-  deleteFlight(flight : Flight){
-    this.dataService.removeFlight(flight);
+  deleteFlight(flight_id : number ){
+    this.dataService.removeFlight(flight_id);
     this.searchOptions = {
       flight_number: '',
       arrival:  '',
@@ -56,6 +58,25 @@ export class FlightsComponent implements OnInit{
       arrivalTime: '',
       departureTime: ''
     }
+
+  }
+
+
+  editFlight(flight : Flight){
+    this.isEditMode = true;
+    this.overlayForm.setValue({
+      'oId': flight.id,
+      'oFlightNumber': flight.flight_number,
+      'oArrival': flight.arrival,
+      'oDeparture': flight.departure,
+      'oArrivalDate':flight.arrival_date,
+      'oArrivalTime': flight.arrival_time,
+      'oDepartureDate':flight.departure_date,
+      'oDepartureTime': flight.departure_time
+
+    })
+
+    this.isOverlayShow = !this.isOverlayShow;
   }
 
   onChange(item : any, prop: string){
@@ -101,18 +122,28 @@ export class FlightsComponent implements OnInit{
   }
 
   onClickBackdrop(){
-    this.toggle = !this.toggle;
+    this.isOverlayShow = !this.isOverlayShow;
+
   }
 
   onAddFlight(){
     const value = this.overlayForm.value;
-    this.dataService.addFlight(new Flight(
-      value.oFlightNumber,
-      value.oArrival,value.oDeparture,
-      value.oArrivalDate,
-      value.oDepartureDate,
-      value.oArrivalTime,
-      value.oDepartureTime))
+    if (this.isEditMode){
+      this.dataService.updateFlight(value.oId,value);
+    }
+
+    // this.dataService.addFlight(new Flight(
+    //   value.oFlightNumber,
+    //   value.oArrival,value.oDeparture,
+    //   value.oArrivalDate,
+    //   value.oDepartureDate,
+    //   value.oArrivalTime,
+    //   value.oDepartureTime));
+
+
+
+    this.isOverlayShow = !this.isOverlayShow;
+    this.isEditMode =false;
   }
 
 }

@@ -10,7 +10,8 @@ export class FlightItemComponent implements OnInit{
   @Input() flight !: Flight;
 
   // event emitters
-  @Output() flightDeleted = new EventEmitter<Flight>();
+  @Output() flightDeleted = new EventEmitter<number>();
+  @Output() flightEdited = new EventEmitter<Flight>();
 
   constructor() {
   }
@@ -18,6 +19,10 @@ export class FlightItemComponent implements OnInit{
   ngOnInit() {}
 
   onClickDelete(){
-    this.flightDeleted.emit(this.flight);
+    this.flightDeleted.emit(this.flight.id);
+  }
+
+  onClickEdit(){
+    this.flightEdited.emit(this.flight);
   }
 }
