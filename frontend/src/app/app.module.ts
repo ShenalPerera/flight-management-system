@@ -16,11 +16,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { FormComponent } from './routes-screen/form/form.component';
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
-import { SearchBarComponent } from './fares-screen/search-bar/search-bar.component';
-import { EntryComponent } from './fares-screen/entry/entry.component';
 import { FareItemComponent } from './fares-screen/fare-item/fare-item.component';
-
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EntryComponent } from './routes-screen/entry/entry.component';
 
 import {RouteService} from "./routes-screen/services/route.service";
@@ -36,7 +32,6 @@ import {MatExpansionModule} from "@angular/material/expansion";
     FormComponent,
     EntryComponent,
     CreateFormComponent,
-    SearchBarComponent,
     FareItemComponent
   ],
   imports: [
