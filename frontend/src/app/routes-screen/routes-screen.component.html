@@ -33,45 +33,79 @@
 
 
 
-<div class="centered">
-  <div style="width: 80%; padding-left: 10%; align-content: space-evenly; text-align: center;">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        RouteID
-      </mat-panel-title>
-      <mat-panel-title>
-        Departure
-      </mat-panel-title>
-      <mat-panel-title>
-        Destination
-      </mat-panel-title>
-      <mat-panel-title>
-        Mileage
-      </mat-panel-title>
-      <mat-panel-title>
-        Duration(Hours)
-      </mat-panel-title>
-      <mat-panel-title>
-        Duration(mins)
-      </mat-panel-title>
-      <mat-panel-title>
-        Operations
-      </mat-panel-title>
-    </mat-expansion-panel-header>
+<!--<div class="centered">-->
+<!--  <div style="width: 80%; padding-left: 10%; align-content: space-evenly; text-align: center;">-->
+<!--    <mat-expansion-panel-header>-->
+<!--      <mat-panel-title>-->
+<!--        RouteID-->
+<!--      </mat-panel-title>-->
+<!--      <mat-panel-title>-->
+<!--        Departure-->
+<!--      </mat-panel-title>-->
+<!--      <mat-panel-title>-->
+<!--        Destination-->
+<!--      </mat-panel-title>-->
+<!--      <mat-panel-title>-->
+<!--        Mileage-->
+<!--      </mat-panel-title>-->
+<!--      <mat-panel-title>-->
+<!--        Duration(Hours)-->
+<!--      </mat-panel-title>-->
+<!--      <mat-panel-title>-->
+<!--        Duration(mins)-->
+<!--      </mat-panel-title>-->
+<!--      <mat-panel-title>-->
+<!--        Operations-->
+<!--      </mat-panel-title>-->
+<!--    </mat-expansion-panel-header>-->
+<!--  </div>-->
+
+<!--  <div style="max-height: 300px; overflow: auto; white-space: nowrap; overflow-x: scroll;">-->
+<!--  <app-entry *ngFor="let route of searchedData; first as isFirst" (sendItemsEvent)="gotData($event)" (sendToBeDeletedRecordEvent)="deleteRecord($event)"-->
+<!--             [routeID]="route.routeID"-->
+<!--             [departure]="route.departure"-->
+<!--             [destination]="route.destination"-->
+<!--             [mileage]="route.mileage"-->
+<!--             [durationH]="route.durationH"-->
+<!--             [durationM]="route.durationM"-->
+<!--  >-->
+<!--  </app-entry>-->
+<!--  </div>-->
+<!--</div>-->
+
+  <div style="width: 100%">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h2>Routes list</h2>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Route ID</th>
+            <th>Departure</th>
+            <th>Destination</th>
+            <th>Mileage(miles)</th>
+            <th>Duration(hours)</th>
+            <th>Duration(mins)</th>
+            <th>Operation</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr app-entry *ngFor="let route of searchedData;" (sendItemsEvent)="gotData($event)" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
+              [routeID]="route.routeID"
+              [departure]="route.departure"
+              [destination]="route.destination"
+              [mileage]="route.mileage"
+              [durationH]="route.durationH"
+              [durationM]="route.durationM"
+          >
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
-  <div style="max-height: 300px; overflow: auto; white-space: nowrap; overflow-x: scroll;">
-  <app-entry *ngFor="let route of searchedData; first as isFirst" (sendItemsEvent)="gotData($event)" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
-             [routeID]="route.routeID"
-             [departure]="route.departure"
-             [destination]="route.destination"
-             [mileage]="route.mileage"
-             [durationH]="route.durationH"
-             [durationM]="route.durationM"
-  >
-  </app-entry>
-  </div>
-</div>
 
 <!--<div class="centered" style="display: flex">-->
 <!--  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Apply'"></app-form>-->

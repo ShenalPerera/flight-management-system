@@ -5,7 +5,7 @@ import {MatExpansionPanel} from "@angular/material/expansion";
 // import {ALL_ROUTES} from "../shared/routes";
 
 @Component({
-  selector: 'app-entry',
+  selector: 'tr [app-entry]',
   templateUrl: './entry.component.html',
   styleUrls: ['./entry.component.scss'],
   viewProviders: [MatExpansionPanel]
@@ -33,7 +33,7 @@ export class EntryComponent {
     Mileage        : ${this.mileage}\n
     Duration(hours): ${this.durationH}\n
     Duration(mins) : ${this.durationM}`)) {
-      console.log("Do deletion");
+      console.log("Do deletion with ID: "+this.routeID);
       this.sendToBeDeletedRecordEvent.emit(this.routeID);
     }
   }
