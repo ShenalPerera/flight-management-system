@@ -30,10 +30,10 @@
     [arrival]="datum.arrival"
     [fare]="datum.fare"
     (deleteButtonClicked)="handleDelete($event)"
-    (editButtonClicked)="handleEdit($event)"></app-fare-item>
+    (editButtonClicked)="openForm($event)"></app-fare-item>
 </div>
 <div>
-  <button (click)="handleCreate()">Create New</button>
+  <button (click)="openForm()">Create New</button>
 </div>
 <div>
   <form>

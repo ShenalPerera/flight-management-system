@@ -24,6 +24,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { FormComponent } from './routes-screen/form/form.component';
 import { MatSelectModule } from "@angular/material/select";
 import { FareItemComponent } from './fares-screen/fare-item/fare-item.component';
+import { FareFormComponent } from './fares-screen/fare-form/fare-form.component';
 
 import {RouteService} from "./routes-screen/services/route.service";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
@@ -44,7 +45,8 @@ import {EntryComponent} from "./routes-screen/entry/entry.component";
         FormComponent,
         EntryComponent,
         CreateFormComponent,
-        FareItemComponent
+        FareItemComponent,
+        FareFormComponent
 
     ],
   imports: [

@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>{{ this.data.type }}</h1>
+
+<div mat-dialog-content>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Departure</mat-label>
+      <select matNativeControl [(ngModel)]="this.data.entry.departure" name="departure">
+        <option *ngFor="let location of this.data.locations" [value]="location">
+          {{location}}
+        </option>
+      </select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival</mat-label>
+      <select matNativeControl [(ngModel)]="data.entry.arrival" name="arrival">
+        <option *ngFor="let location of data.locations" [value]="location">
+          {{location}}
+        </option>
+      </select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Fare</mat-label>
+      <input matInput name="fare" [(ngModel)]="data.entry.fare">
+    </mat-form-field>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Clear</button>
+  <button mat-button [mat-dialog-close]="data.entry">Submit</button>
+</div>

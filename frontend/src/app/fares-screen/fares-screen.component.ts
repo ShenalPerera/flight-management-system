@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
+import { FareFormComponent } from "./fare-form/fare-form.component";
 
 export interface Entry {
   id: number;
@@ -15,6 +17,7 @@ export interface Entry {
 
 export class FaresScreenComponent {
 
+  constructor(public dialog: MatDialog) {}
   searchCriteria: Entry = {id: 0, departure: "", arrival: "", fare: 0};
   editedEntry: Entry = {id: 0, departure: "Colombo", arrival: "Dubai", fare: 0};
 
@@ -36,9 +39,9 @@ export class FaresScreenComponent {
     this.filterData();
   }
   handleEditClear() {
-    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0};
+    this.editedEntry = {id: 0, departure: "Colombo", arrival: "Dubai", fare: 0};
     this.formDisabled = true;
-    this.createEvent = false;
+    this.createEvent = true;
   }
   handleDelete(entry: Entry) {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
@@ -55,7 +58,7 @@ export class FaresScreenComponent {
     this.editedEntry.arrival = entry.arrival;
     this.editedEntry.fare = entry.fare;
   }
-  createEvent: boolean = false;
+  createEvent: boolean = true;
   handleCreate() {
     this.formDisabled = false;
     this.createEvent = true;
@@ -74,9 +77,9 @@ export class FaresScreenComponent {
       if (this.createEvent) {
         this.createSubmitted();
         this.filterData();
-        this.createEvent = false;
       } else {
         this.editSubmitted();
+        this.createEvent = true;
       }
       this.handleEditClear();
     }
@@ -106,5 +109,30 @@ export class FaresScreenComponent {
         this.data.push({id: ++this.currentId, departure: this.editedEntry.departure, arrival: this.editedEntry.arrival, fare: this.editedEntry.fare});
       }
     }
+  }
+  openForm(entry?: Entry) {
+    if (entry) {
+      console.log("has an entry")
+      this.createEvent = false;
+      this.editedEntry = entry;
+    }
+    const dialogRef = this.dialog.open(FareFormComponent, {
+      data: {
+        type: entry? "Edit" : "Create",
+        entry: {
+          id: this.editedEntry.id,
+          departure: this.editedEntry.departure,
+          arrival: this.editedEntry.arrival,
+          fare: this.editedEntry.fare
+        },
+        locations: this.locations
+      }}
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.editedEntry = result;
+        this.submitted();
+      }
+    });
   }
 }
