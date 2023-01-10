@@ -22,12 +22,19 @@ export class FareFormComponent implements OnInit {
     this.dialogRef.close(this.updatedFare);
   }
   sampleForm !: FormGroup;
+  originalEntry !: Entry;
   ngOnInit() {
     this.sampleForm = new FormGroup({
       'departure': new FormControl(this.data.entry.departure, [Validators.required]),
       'arrival': new FormControl(this.data.entry.arrival, [Validators.required]),
       'fare': new FormControl(this.data.entry.fare, [Validators.required])
     });
+    this.originalEntry = {
+      id: this.data.entry.id,
+      departure: this.data.entry.departure,
+      arrival: this.data.entry.arrival,
+      fare: this.data.entry.fare,
+    }
   }
   updatedFare !: Entry;
   onSubmitUpdate() {
@@ -38,5 +45,12 @@ export class FareFormComponent implements OnInit {
       fare: this.sampleForm.value['fare'],
     }
     this.closeDialog();
+  }
+  resetForm() {
+    this.sampleForm = new FormGroup({
+      'departure': new FormControl(this.originalEntry.departure, [Validators.required]),
+      'arrival': new FormControl(this.originalEntry.arrival, [Validators.required]),
+      'fare': new FormControl(this.originalEntry.fare, [Validators.required])
+    });
   }
 }
