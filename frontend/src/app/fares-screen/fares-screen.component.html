@@ -1,4 +1,3 @@
-<h1>Fares screen</h1>
 <div>
   <form (click)="generateLocations()">
     <mat-form-field appearance="fill">
@@ -19,7 +18,7 @@
         </option>
       </select>
     </mat-form-field>
-    <button (click)="handleSearchClear()">Clear</button>
+    <button mat-raised-button color="primary" (click)="handleSearchClear()">Clear</button>
   </form>
 </div>
 <div>
@@ -44,31 +43,5 @@
   </table>
 </div>
 <div>
-  <button (click)="openForm()">Create New</button>
+  <button mat-raised-button color="primary" (click)="openForm()">Create New</button>
 </div>
-<!--<div>
-  <form>
-    <mat-form-field appearance="fill">
-      <mat-label>Departure</mat-label>
-      <select matNativeControl [(ngModel)]="editedEntry.departure" name="departure" (change)="filterData()" [disabled]="formDisabled">
-        <option *ngFor="let location of locations" [value]="location">
-          {{location}}
-        </option>
-      </select>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Arrival</mat-label>
-      <select matNativeControl [(ngModel)]="editedEntry.arrival" name="arrival" (change)="filterData()" [disabled]="formDisabled">
-        <option *ngFor="let location of locations" [value]="location">
-          {{location}}
-        </option>
-      </select>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Fare</mat-label>
-      <input matInput [(ngModel)]="editedEntry.fare" name="fare" [disabled]="formDisabled">
-    </mat-form-field>
-    <button (click)="submitted()" [disabled]="formDisabled">Submit</button>
-    <button (click)="handleEditClear()" [disabled]="formDisabled">Clear</button>
-  </form>
-</div>-->

@@ -19,7 +19,7 @@ export class FaresScreenComponent {
 
   constructor(public dialog: MatDialog) {}
   searchCriteria: Entry = {id: 0, departure: "", arrival: "", fare: 0};
-  editedEntry: Entry = {id: 0, departure: "Colombo", arrival: "Dubai", fare: 0};
+  editedEntry: Entry = {id: 0, departure: "", arrival: "", fare: 0};
 
   departingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
   arrivingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
@@ -45,7 +45,7 @@ export class FaresScreenComponent {
     this.filterData();
   }
   handleEditClear() {
-    this.editedEntry = {id: 0, departure: "Colombo", arrival: "Dubai", fare: 0};
+    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0};
     this.formDisabled = true;
     this.createEvent = true;
   }
@@ -57,18 +57,7 @@ export class FaresScreenComponent {
     }
     this.filterData();
   }
-  handleEdit(entry: Entry) {
-    this.formDisabled = false;
-    this.editedEntry.id = entry.id;
-    this.editedEntry.departure = entry.departure;
-    this.editedEntry.arrival = entry.arrival;
-    this.editedEntry.fare = entry.fare;
-  }
   createEvent: boolean = true;
-  handleCreate() {
-    this.formDisabled = false;
-    this.createEvent = true;
-  }
   isDuplicate: boolean = false;
   handleDuplicate() {
     this.data.forEach((value) => {
@@ -90,18 +79,19 @@ export class FaresScreenComponent {
         this.createEvent = true;
       }
       this.handleEditClear();
+      console.log(this.editedEntry)
     }
   }
   editSubmitted() {
     if (confirm("Do you want to edit the fare of the route, from "+
       this.editedEntry.departure+" to "+this.editedEntry.arrival+" as "+this.editedEntry.fare+"?")) {
-      this.data.forEach((value, index) => {
-        if (value.id == this.editedEntry.id) {
-          value.departure = this.editedEntry.departure;
-          value.arrival = this.editedEntry.arrival;
-          value.fare = this.editedEntry.fare;
-        }
-      })
+        this.data.forEach((value) => {
+          if (value.id == this.editedEntry.id) {
+            value.departure = this.editedEntry.departure;
+            value.arrival = this.editedEntry.arrival;
+            value.fare = this.editedEntry.fare;
+          }
+        })
     }
   }
   currentId: number = 3;
@@ -120,7 +110,6 @@ export class FaresScreenComponent {
   }
   openForm(entry?: Entry) {
     if (entry) {
-      console.log("has an entry")
       this.createEvent = false;
       this.editedEntry = entry;
     }
@@ -142,6 +131,7 @@ export class FaresScreenComponent {
         this.editedEntry = result;
         this.submitted();
       }
+      this.handleEditClear();
     });
   }
 }
