@@ -71,7 +71,9 @@ export class FaresScreenComponent {
     })
   }
   submitted() {
-    if (this.editedEntry.departure === this.editedEntry.arrival) {
+    if (this.editedEntry.fare === null ) {
+      alert("Fare should be a number!");
+    } else if (this.editedEntry.departure === this.editedEntry.arrival) {
       alert("Departure and Arrival should be distinct!");
     } else {
       if (this.createEvent) {

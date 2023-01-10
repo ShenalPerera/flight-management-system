@@ -23,19 +23,30 @@
   </form>
 </div>
 <div>
-  <app-fare-item
-    *ngFor="let datum of searchedData"
-    [id]="datum.id"
-    [departure]="datum.departure"
-    [arrival]="datum.arrival"
-    [fare]="datum.fare"
-    (deleteButtonClicked)="handleDelete($event)"
-    (editButtonClicked)="openForm($event)"></app-fare-item>
+  <table>
+    <thead>
+    <tr>
+      <th>Departure</th>
+      <th>Arrival</th>
+      <th>Fare</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr app-fare-item
+        *ngFor="let datum of searchedData"
+        [id]="datum.id"
+        [departure]="datum.departure"
+        [arrival]="datum.arrival"
+        [fare]="datum.fare"
+        (deleteButtonClicked)="handleDelete($event)"
+        (editButtonClicked)="openForm($event)">
+    </tbody>
+  </table>
 </div>
 <div>
   <button (click)="openForm()">Create New</button>
 </div>
-<div>
+<!--<div>
   <form>
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
@@ -60,4 +71,4 @@
     <button (click)="submitted()" [disabled]="formDisabled">Submit</button>
     <button (click)="handleEditClear()" [disabled]="formDisabled">Clear</button>
   </form>
-</div>
+</div>-->

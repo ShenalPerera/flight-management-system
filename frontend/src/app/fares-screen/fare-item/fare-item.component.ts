@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Entry } from '../fares-screen.component'
 
 @Component({
-  selector: 'app-fare-item',
+  selector: 'tr [app-fare-item]',
   templateUrl: './fare-item.component.html',
   styleUrls: ['./fare-item.component.scss']
 })
