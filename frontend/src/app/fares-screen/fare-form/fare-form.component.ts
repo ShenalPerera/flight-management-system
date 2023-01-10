@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { Entry } from "../fares-screen.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Entry } from "../Entry";
 
 @Component({
   selector: 'app-fare-form',
@@ -9,6 +9,9 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
   styleUrls: ['./fare-form.component.scss']
 })
 export class FareFormComponent implements OnInit {
+  sampleForm!: FormGroup;
+  originalEntry!: Entry;
+  updatedFare!: Entry;
   constructor(
     public dialogRef: MatDialogRef<FareFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
@@ -18,12 +21,6 @@ export class FareFormComponent implements OnInit {
       arrivingLocation: string[]
     }
   ) {}
-  closeDialog() {
-    if (confirm("Entered data will be lost! Do you want to proceed?"))
-      this.dialogRef.close(this.updatedFare);
-  }
-  sampleForm !: FormGroup;
-  originalEntry !: Entry;
   ngOnInit() {
     this.sampleForm = new FormGroup({
       'departure': new FormControl(this.data.entry.departure, [Validators.required]),
@@ -37,7 +34,10 @@ export class FareFormComponent implements OnInit {
       fare: this.data.entry.fare,
     }
   }
-  updatedFare !: Entry;
+  closeDialog() {
+    if (confirm("Entered data will be lost! Do you want to proceed?"))
+      this.dialogRef.close(this.updatedFare);
+  }
   onSubmitUpdate() {
     this.updatedFare = {
       id: this.data.entry.id,

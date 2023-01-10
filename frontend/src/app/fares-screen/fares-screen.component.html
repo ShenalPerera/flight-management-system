@@ -1,10 +1,10 @@
-
-
 <!--Search Form-->
 <div class="top-bar" id="search-bar">
   <h1>Airline Fares</h1>
   <h2>Search Bar</h2>
+
   <form (click)="generateLocations()">
+
     <mat-form-field class="search-field" appearance="fill">
       <mat-label>Departure</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.departure" name="departure" (change)="filterData()">
@@ -14,6 +14,7 @@
         </option>
       </select>
     </mat-form-field>
+
     <mat-form-field class="search-field" appearance="fill">
       <mat-label>Arrival</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.arrival" name="arrival" (change)="filterData()">
@@ -23,7 +24,9 @@
         </option>
       </select>
     </mat-form-field>
+
     <button class="search-field" mat-raised-button (click)="handleSearchClear()">Clear</button>
+
   </form>
 </div>
 
@@ -34,8 +37,9 @@
 
 <!--Entry List-->
 <div>
-  <h2>Avilable Fares</h2>
+  <h2>Available Fares</h2>
   <table>
+
     <thead>
     <tr>
       <th>Departure</th>
@@ -43,15 +47,14 @@
       <th>Fare</th>
     </tr>
     </thead>
+
     <tbody>
       <tr app-fare-item
         *ngFor="let datum of searchedData"
-        [id]="datum.id"
-        [departure]="datum.departure"
-        [arrival]="datum.arrival"
-        [fare]="datum.fare"
+        [entry]="datum"
         (deleteButtonClicked)="handleDelete($event)"
         (editButtonClicked)="openForm($event)">
     </tbody>
+
   </table>
 </div>

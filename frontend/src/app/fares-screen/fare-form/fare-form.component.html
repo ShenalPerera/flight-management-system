@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{ this.data.type }}</h1>
-
 <form #f="ngForm" [formGroup]="sampleForm">
+
   <div mat-dialog-content>
     <div>
       <mat-form-field appearance="fill">
@@ -27,4 +27,5 @@
     <button mat-button (click)="resetForm()">Reset</button>
     <button mat-button color="primary" (click)="onSubmitUpdate()" [disabled]="sampleForm.invalid">Submit</button>
   </div>
+
 </form>
