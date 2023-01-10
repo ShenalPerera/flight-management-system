@@ -49,7 +49,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr app-entry *ngFor="let route of searchedData;" (sendItemsEvent)="gotData($event)" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
+          <tr app-entry *ngFor="let route of searchedData;" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
               [routeID]="route.routeID"
               [departure]="route.departure"
               [destination]="route.destination"

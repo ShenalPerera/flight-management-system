@@ -25,12 +25,6 @@ export class RoutesScreenComponent implements OnInit{
   departuresList: string[] = [];
   destinationsList: string[] = [];
 
-  onSubmit(f: NgForm) {
-    console.log(f.value['departure']);
-    console.log(f.value['destination']);
-
-    // after doing the operation call the clearInput function
-  }
 
   clearInputs() {
     this.searchFormDeparture = '';
@@ -56,17 +50,6 @@ export class RoutesScreenComponent implements OnInit{
   }
 
 
-
-
-  formDataInRouteScreen !: [number, string, string, number, number];
-
-
-
-  gotData(data: [number, string, string, number, number]) {
-    console.log(data);
-    this.formDataInRouteScreen = data;
-  }
-
   deleteRecord(data: number) {
     this.ALL_ROUTES = this.routeService.deleteRecord(data, this.searchedData);
     this.searchedData = this.ALL_ROUTES;
@@ -74,10 +57,6 @@ export class RoutesScreenComponent implements OnInit{
     let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
     this.departuresList = listValues.dpList;
     this.destinationsList = listValues.dsList;
-  }
-
-  filterByForm(f: NgForm) {
-    console.log(f.value);
   }
 
   searchedData: Route[] = this.ALL_ROUTES;
@@ -88,48 +67,18 @@ export class RoutesScreenComponent implements OnInit{
   }
 
 
-  myDepartureControl = new FormControl('');
-  myDestinationControl = new FormControl('');
-
-  filteredDepartures !: Observable<string[]>;
-  filteredDestinations !: Observable<string[]>;
-
   constructor(private routeService: RouteService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.ALL_ROUTES = this.routeService.getRoutes();
     this.searchedData = this.ALL_ROUTES;
-    // console.log('all routes after using service '+this.routeService.getRoutes()[0].routeID);
 
-    this.filteredDepartures = this.myDepartureControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterDeparture(value || '')),
-    );
-
-    this.filteredDestinations = this.myDestinationControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterDestination(value || '')),
-    );
-
-    // this.setDeparturesAndDestinations();
     let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
     this.departuresList = listValues.dpList;
     this.destinationsList = listValues.dsList;
 
 
-
-    console.log('destination list: '+this.destinationsList);
   }
 
-
-  private _filterDeparture(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.departuresList.filter(departure => departure.toLowerCase().includes(filterValue));
-  }
-
-  private _filterDestination(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.destinationsList.filter(destination => destination.toLowerCase().includes(filterValue));
-  }
 }

@@ -29,7 +29,6 @@ export class EntryComponent {
     Destination    : ${this.destination}\n
     Mileage        : ${this.mileage}\n
     Duration(hours): ${this.durationH}`)) {
-      console.log("Do deletion with ID: "+this.routeID);
       this.sendToBeDeletedRecordEvent.emit(this.routeID);
     }
   }
@@ -45,19 +44,6 @@ export class EntryComponent {
       disableClose: true
     });
 
-
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-    });
-  }
-
-  @Output() sendItemsEvent = new EventEmitter<[number, string, string, number, number]>();
-
-  sendItemsToParent() {
-    this.sendItemsEvent.emit([this.routeID, this.departure, this.destination, this.mileage, this.durationH]);
-    console.log("items sent to parent");
   }
 
 }
