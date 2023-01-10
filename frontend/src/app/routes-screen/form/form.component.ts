@@ -16,7 +16,7 @@ import {numberCheckValidator} from "../shared/validations";
 export class FormComponent implements OnInit{
 
   // @Input() formData: [number, string, string, number, number, number] = [0, '', '', 0, 0, 0];
-  @Input() formData: [number, string, string, number, number, number] = [NaN, '', '', NaN, NaN, NaN];
+  @Input() formData: [number, string, string, number, number] = [NaN, '', '', NaN, NaN];
   @Input() allRoutes !: Route[];
 
   routeID!: number;
@@ -24,7 +24,7 @@ export class FormComponent implements OnInit{
   destination!: string;
   mileage!: number;
   durationH!: number;
-  durationM!: number;
+
 
   @Input() operationType !: string;
 
@@ -35,7 +35,6 @@ export class FormComponent implements OnInit{
       'destination': new FormControl(this.data.destination, [Validators.required]),
       'mileage': new FormControl(this.data.mileage, [Validators.required, numberCheckValidator()]),
       'durationH': new FormControl(this.data.durationH, [Validators.required, numberCheckValidator()]),
-      'durationM': new FormControl(this.data.durationM, [Validators.required, numberCheckValidator()]),
     });
   }
 
@@ -48,7 +47,6 @@ export class FormComponent implements OnInit{
         destination: this.sampleForm.value['destination'],
         mileage: this.sampleForm.value['mileage'],
         durationH: this.sampleForm.value['durationH'],
-        durationM: this.sampleForm.value['durationM']
       };
       // console.log(this.sampleForm.value['departure']);
     // if (this.operationType == 'Apply') {
@@ -82,7 +80,7 @@ export class FormComponent implements OnInit{
   constructor(private routeService: RouteService,
               public dialogRef: MatDialogRef<FormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Route) {
-    this.formData = [NaN, '', '', NaN, NaN, NaN];
+    this.formData = [NaN, '', '', NaN, NaN];
   }
 
   clearInputs() {
@@ -90,7 +88,6 @@ export class FormComponent implements OnInit{
     this.destination = '';
     this.mileage = NaN;
     this.durationH = NaN;
-    this.durationM = NaN;
   }
 
 

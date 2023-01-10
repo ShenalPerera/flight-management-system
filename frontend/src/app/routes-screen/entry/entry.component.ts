@@ -17,7 +17,6 @@ export class EntryComponent {
   @Input() destination !: string;
   @Input() mileage !: number;
   @Input() durationH !: number;
-  @Input() durationM !: number;
 
   displayEntry() {
     console.log("You clicked "+this.routeID+' '+this.departure);
@@ -31,8 +30,7 @@ export class EntryComponent {
     Departure      : ${this.departure}\n
     Destination    : ${this.destination}\n
     Mileage        : ${this.mileage}\n
-    Duration(hours): ${this.durationH}\n
-    Duration(mins) : ${this.durationM}`)) {
+    Duration(hours): ${this.durationH}`)) {
       console.log("Do deletion with ID: "+this.routeID);
       this.sendToBeDeletedRecordEvent.emit(this.routeID);
     }
@@ -45,7 +43,7 @@ export class EntryComponent {
     const dialogRef = this.dialog.open(FormComponent, {
       width: '315px',
       height: 'auto',
-      data: {routeID: this.routeID, departure: this.departure, destination: this.destination, mileage: this.mileage, durationH: this.durationH, durationM: this.durationM}
+      data: {routeID: this.routeID, departure: this.departure, destination: this.destination, mileage: this.mileage, durationH: this.durationH}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -54,10 +52,10 @@ export class EntryComponent {
     });
   }
 
-  @Output() sendItemsEvent = new EventEmitter<[number, string, string, number, number, number]>();
+  @Output() sendItemsEvent = new EventEmitter<[number, string, string, number, number]>();
 
   sendItemsToParent() {
-    this.sendItemsEvent.emit([this.routeID, this.departure, this.destination, this.mileage, this.durationH, this.durationM]);
+    this.sendItemsEvent.emit([this.routeID, this.departure, this.destination, this.mileage, this.durationH]);
     console.log("items sent to parent");
   }
 

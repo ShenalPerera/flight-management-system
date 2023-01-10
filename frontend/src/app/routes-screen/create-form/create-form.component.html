@@ -32,14 +32,6 @@
     <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
-  <mat-form-field appearance="fill">
-    <mat-label>Duration(M)</mat-label>
-    <input formControlName="durationM" matInput name="durationM">
-    <span class="text-danger" *ngIf="sampleForm.get('durationM')!.errors?.['forbiddenNumber']">
-       Invalid: Cannot contain letters
-    </span>
-    <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
-  </mat-form-field>
   <br>
   <button mat-raised-button type="button" (click)="onSubmitCreate()" [disabled]="sampleForm.invalid">Create</button>
   <button mat-raised-button color="warn" type="button" (click)="onNoClick()">Discard</button>

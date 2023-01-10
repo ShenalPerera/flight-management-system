@@ -14,7 +14,7 @@ export class CreateFormComponent implements OnInit {
 
 
   // @Input() formData: [number, string, string, number, number, number] = [0, '', '', 0, 0, 0];
-  @Input() formData: [number, string, string, number, number, number] = [NaN, '', '', NaN, NaN, NaN];
+  @Input() formData: [number, string, string, number, number] = [NaN, '', '', NaN, NaN];
   @Input() allRoutes !: Route[];
 
   routeID!: number;
@@ -33,7 +33,6 @@ export class CreateFormComponent implements OnInit {
       'destination': new FormControl(this.data.destination, [Validators.required]),
       'mileage': new FormControl(this.data.mileage, [Validators.required, numberCheckValidator()]),
       'durationH': new FormControl(this.data.durationH, [Validators.required, numberCheckValidator()]),
-      'durationM': new FormControl(this.data.durationM, [Validators.required, numberCheckValidator()]),
     });
   }
 
@@ -48,7 +47,6 @@ export class CreateFormComponent implements OnInit {
       destination: this.sampleForm.value['destination'],
       mileage: this.sampleForm.value['mileage'],
       durationH: this.sampleForm.value['durationH'],
-      durationM: this.sampleForm.value['durationM']
     };
     this.routeService.createRoute(this.createdRoute);
     this.onNoClick();
@@ -80,7 +78,7 @@ export class CreateFormComponent implements OnInit {
   constructor(private routeService: RouteService,
               public dialogRef: MatDialogRef<CreateFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Route) {
-    this.formData = [NaN, '', '', NaN, NaN, NaN];
+    this.formData = [NaN, '', '', NaN, NaN];
   }
 
   clearInputs() {
@@ -88,7 +86,6 @@ export class CreateFormComponent implements OnInit {
     this.destination = '';
     this.mileage = NaN;
     this.durationH = NaN;
-    this.durationM = NaN;
   }
 
 

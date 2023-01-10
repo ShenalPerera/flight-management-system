@@ -32,7 +32,6 @@ export class RouteService {
         route.destination = data.destination;
         route.mileage = data.mileage;
         route.durationH = data.durationH;
-        route.durationM = data.durationM;
 
         console.log("record updated");
       }
@@ -47,7 +46,6 @@ export class RouteService {
         destination: data.destination,
         mileage: data.mileage,
         durationH: data.durationH,
-        durationM: data.durationM
       }
     )
   }

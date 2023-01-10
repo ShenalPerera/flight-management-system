@@ -4,5 +4,5 @@ export class Route {
   destination!: string;
   mileage!: number;
   durationH!: number;
-  durationM!: number;
+
 }

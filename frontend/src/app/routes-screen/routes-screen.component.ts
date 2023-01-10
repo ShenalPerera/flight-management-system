@@ -48,7 +48,7 @@ export class RoutesScreenComponent implements OnInit{
     const dialogRef = this.dialog.open(CreateFormComponent, {
       width: '315px',
       height: 'auto',
-      data: {routeID: NaN, departure: '', destination: '', mileage: 0, durationH: 0, durationM: 0}
+      data: {routeID: NaN, departure: '', destination: '', mileage: 0, durationH: 0}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -60,14 +60,14 @@ export class RoutesScreenComponent implements OnInit{
 
 
 
-  formDataInRouteScreen !: [number, string, string, number, number, number];
+  formDataInRouteScreen !: [number, string, string, number, number];
 
   // getFormData(data: [number, string, string, number, number, number]) {
   //   console.log('screen received: ' + data);
   //   this.formDataInRouteScreen = data;
   // }
 
-  gotData(data: [number, string, string, number, number, number]) {
+  gotData(data: [number, string, string, number, number]) {
     console.log(data);
     this.formDataInRouteScreen = data;
   }
