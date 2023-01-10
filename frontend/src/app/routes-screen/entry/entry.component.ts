@@ -18,9 +18,7 @@ export class EntryComponent {
   @Input() mileage !: number;
   @Input() durationH !: number;
 
-  displayEntry() {
-    console.log("You clicked "+this.routeID+' '+this.departure);
-  }
+
 
   @Output() sendToBeDeletedRecordEvent = new EventEmitter<number>();
 
@@ -47,11 +45,6 @@ export class EntryComponent {
       disableClose: true
     });
 
-    // dialogRef.beforeClosed().subscribe(res=>{
-    //   if (confirm('Changes will be discarded.')) {
-    //
-    //   }
-    // })
 
 
     dialogRef.afterClosed().subscribe(result => {

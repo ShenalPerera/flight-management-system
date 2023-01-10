@@ -12,8 +12,6 @@ import {numberCheckValidator} from "../shared/validations";
 })
 export class CreateFormComponent implements OnInit {
 
-
-  // @Input() formData: [number, string, string, number, number, number] = [0, '', '', 0, 0, 0];
   @Input() formData: [number, string, string, number, number] = [NaN, '', '', NaN, NaN];
   @Input() allRoutes !: Route[];
 
@@ -40,7 +38,6 @@ export class CreateFormComponent implements OnInit {
 
   createdRoute !: Route;
   onSubmitCreate() {
-    // if (this.operationType == 'Apply') {
     this.createdRoute = {
       routeID: this.data.routeID,
       departure: this.sampleForm.value['departure'],
@@ -50,25 +47,7 @@ export class CreateFormComponent implements OnInit {
     };
     this.routeService.createRoute(this.createdRoute);
     this.onNoClickWithoutConfirmation();
-    // }else if(this.operationType == 'Create') {
-    // this.routeService.createRoute(f);
-    // }
-    // this.routeService.updateRoute(this.routeID, f);
 
-
-
-    // console.log(f.value);  // { first: '', last: '' }
-    // console.log(f.value['departure']);  // { first: '', last: '' }
-    // const found = this.allRoutes.find((obj)=>{
-    //   if (this.routeID == obj.routeID) {
-    //     // console.log("has to be changed from "+obj.departure+" to "+f.value['departure']);
-    //     obj.departure = f.value['departure'];
-    //     obj.destination = f.value['destination'];
-    //     obj.mileage = f.value['mileage'];
-    //     obj.durationH = f.value['durationH'];
-    //     obj.durationM = f.value['durationM'];
-    //   }
-    // })
   }
 
   areSameValues(): boolean {

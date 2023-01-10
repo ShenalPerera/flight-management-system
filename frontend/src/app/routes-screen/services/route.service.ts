@@ -17,23 +17,13 @@ export class RouteService {
   }
 
   updateRoute(data: Route) {
-    console.log("Came to update the route: "+data.routeID);
     this.referringRoutes.forEach((route)=>{
       if (route.routeID == data.routeID) {
-        console.log('A record found');
-
-        // route.departure = f.value['departure'];
-        // route.destination = f.value['destination'];
-        // route.mileage = f.value['mileage'];
-        // route.durationH = f.value['durationH'];
-        // route.durationM = f.value['durationM'];
-
         route.departure = data.departure;
         route.destination = data.destination;
         route.mileage = data.mileage;
         route.durationH = data.durationH;
 
-        console.log("record updated");
       }
     });
   }
@@ -62,12 +52,10 @@ export class RouteService {
       }
     });
 
-    console.log("Now inital is: "+this.referringRoutes);
     return {
       dpList: departuresList,
       dsList: destinationsList
     }
-    // console.log('departure list '+departuresList);
   }
 
   deleteRecord(routeID: number, currentRoutes: Route[]) {
@@ -76,12 +64,7 @@ export class RouteService {
     });
 
     return this.referringRoutes;
-    // return currentRoutes.filter((route)=>{
-    //   return route.routeID !== routeID;
-    // });
   }
-
-
 
 
 }

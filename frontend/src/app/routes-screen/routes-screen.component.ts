@@ -52,10 +52,7 @@ export class RoutesScreenComponent implements OnInit{
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-    });
+
   }
 
 
@@ -63,10 +60,7 @@ export class RoutesScreenComponent implements OnInit{
 
   formDataInRouteScreen !: [number, string, string, number, number];
 
-  // getFormData(data: [number, string, string, number, number, number]) {
-  //   console.log('screen received: ' + data);
-  //   this.formDataInRouteScreen = data;
-  // }
+
 
   gotData(data: [number, string, string, number, number]) {
     console.log(data);
@@ -93,8 +87,6 @@ export class RoutesScreenComponent implements OnInit{
         && (this.searchFormDestination === "" || this.searchFormDestination === x.destination))
   }
 
-
-  // **************************
 
   myDepartureControl = new FormControl('');
   myDestinationControl = new FormControl('');
@@ -126,33 +118,10 @@ export class RoutesScreenComponent implements OnInit{
     this.destinationsList = listValues.dsList;
 
 
-    // this.searchedData.forEach((route)=>{
-    //   if (!(this.departuresList.includes(route.departure))) {
-    //     this.departuresList.push(route.departure);
-    //   }
-    //   if (!(this.destinationsList.includes(route.destination))) {
-    //     this.destinationsList.push(route.destination);
-    //   }
-    //
-    //
-    // });
+
     console.log('destination list: '+this.destinationsList);
   }
 
-  // setDeparturesAndDestinations() {
-  //   this.departuresList = [];
-  //   this.destinationsList = [];
-  //   this.searchedData.forEach((route)=>{
-  //     if (!(this.departuresList.includes(route.departure))) {
-  //       this.departuresList.push(route.departure);
-  //     }
-  //     if (!(this.destinationsList.includes(route.destination))) {
-  //       this.destinationsList.push(route.destination);
-  //     }
-  //
-  //
-  //   });
-  // }
 
   private _filterDeparture(value: string): string[] {
     const filterValue = value.toLowerCase();
