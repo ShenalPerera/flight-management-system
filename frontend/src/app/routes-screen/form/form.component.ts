@@ -74,12 +74,28 @@ export class FormComponent implements OnInit{
   }
 
 
-
+  areSameValues(): boolean {
+      if (
+        this.sampleForm.value['departure'] == this.data.departure &&
+        this.sampleForm.value['destination'] == this.data.destination &&
+        this.sampleForm.value['mileage'] == this.data.mileage &&
+        this.sampleForm.value['durationH'] == this.data.durationH
+      ) {
+        return true;
+      }else {
+        return false;
+      }
+  }
 
   onNoClick(): void {
-      if(confirm('Are you sure ?')) {
+      if (this.areSameValues()) {
         this.dialogRef.close();
+      }else {
+        if(confirm('Are you sure ?')) {
+          this.dialogRef.close();
+        }
       }
+
 
   }
 
