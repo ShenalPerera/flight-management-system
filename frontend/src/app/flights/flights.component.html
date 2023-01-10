@@ -100,6 +100,7 @@
       </table>
     </div>
   </div>
+  <button   mat-raised-button color="primary" (click)="onClickAddFlight()">Add Flight</button>
 </div>
 
 <div *ngIf="isOverlayShow">
@@ -110,30 +111,48 @@
     <div class="mat-mdc-dialog-container">
       <form class="overlay-edit-add-form" [formGroup]="overlayForm" (ngSubmit)="onAddFlight()">
         <input value="" formControlName ="oId" hidden="hidden">
+        <span *ngIf="!overlayForm.get('oFlightNumber')?.valid && overlayForm.get('oFlightNumber')?.touched" class="form-error-message">
+            Flight Number is required.
+          </span>
         <mat-form-field class="form-field-full-width">
+
           <input matInput
                  placeholder="Flight Number"
                  value=""
                  formControlName = "oFlightNumber"
                   >
+
         </mat-form-field>
 
+        <span *ngIf="!overlayForm.get('oArrival')?.valid && overlayForm.get('oArrival')?.touched" class="form-error-message">
+            Arrival is required.
+        </span>
+
         <mat-form-field class="form-field-full-width">
+
           <input  matInput
                   placeholder="Arrival"
                   value=""
                   formControlName = "oArrival"
                   >
+
         </mat-form-field>
 
+        <span *ngIf="!overlayForm.get('oDeparture')?.valid && overlayForm.get('oDeparture')?.touched" class="form-error-message">
+            Departure is required.
+        </span>
         <mat-form-field class="form-field-full-width">
           <input  matInput
                   placeholder="Departure"
                   value=""
                   formControlName ="oDeparture"
                   >
+
         </mat-form-field>
 
+        <span *ngIf="!overlayForm.get('oArrivalDate')?.valid && overlayForm.get('oArrivalDate')?.touched" class="form-error-message">
+            Arrival Date is required.
+        </span>
         <mat-form-field class="form-field-full-width">
           <mat-label>Arrival Date</mat-label>
           <input  matInput
@@ -144,6 +163,9 @@
                   >
         </mat-form-field>
 
+        <span *ngIf="!overlayForm.get('oArrivalTime')?.valid && overlayForm.get('oArrivalTime')?.touched" class="form-error-message">
+            Arrival Time is required.
+        </span>
         <mat-form-field class="form-field-full-width">
           <mat-label>Arrival Time</mat-label>
           <input  matInput
@@ -154,6 +176,9 @@
                   >
         </mat-form-field>
 
+        <span *ngIf="!overlayForm.get('oDepartureDate')?.valid && overlayForm.get('oDepartureDate')?.touched" class="form-error-message">
+            Departure Date is required.
+        </span>
         <mat-form-field class="form-field-full-width">
           <mat-label>Departure Date</mat-label>
           <input  matInput
@@ -164,6 +189,9 @@
                   >
         </mat-form-field>
 
+        <span *ngIf="!overlayForm.get('oDepartureTime')?.valid && overlayForm.get('oDepartureTime')?.touched" class="form-error-message">
+            Departure Time is required.
+        </span>
         <mat-form-field class="form-field-full-width">
           <mat-label>Departure Time</mat-label>
           <input  matInput
@@ -174,7 +202,8 @@
                   >
         </mat-form-field>
 
-        <button type="submit" mat-raised-button color="primary">Add Flight</button>
+        <button *ngIf="!isEditMode" type="submit" [disabled]="!overlayForm.valid" mat-raised-button color="primary">Add Flight</button>
+        <button *ngIf="isEditMode" type="submit" [disabled]="!overlayForm.valid"  mat-raised-button color="primary">Save</button>
 
       </form>
     </div>

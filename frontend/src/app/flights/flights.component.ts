@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Flight} from "./flight.model";
 import {DataService} from "../../assets/data-service";
-import {FormControl, FormGroup, NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-flights',
@@ -37,13 +37,13 @@ export class FlightsComponent implements OnInit{
 
     this.overlayForm = new FormGroup({
       'oId':new FormControl(null),
-      'oFlightNumber':new FormControl(null),
-      'oArrival': new FormControl(null),
-      'oDeparture': new FormControl(null),
-      'oArrivalDate': new FormControl(null),
-      'oArrivalTime': new FormControl(null),
-      'oDepartureDate': new FormControl(null),
-      'oDepartureTime': new FormControl(null)
+      'oFlightNumber':new FormControl(null,Validators.required),
+      'oArrival': new FormControl(null,Validators.required),
+      'oDeparture': new FormControl(null,Validators.required),
+      'oArrivalDate': new FormControl(null,Validators.required),
+      'oArrivalTime': new FormControl(null, Validators.required),
+      'oDepartureDate': new FormControl(null, Validators.required),
+      'oDepartureTime': new FormControl(null, Validators.required)
     });
   }
 
@@ -77,6 +77,12 @@ export class FlightsComponent implements OnInit{
     })
 
     this.isOverlayShow = !this.isOverlayShow;
+  }
+
+  onClickAddFlight(){
+    this.isEditMode = false;
+    this.isOverlayShow = !this.isOverlayShow;
+    this.overlayForm.reset();
   }
 
   onChange(item : any, prop: string){
@@ -123,6 +129,7 @@ export class FlightsComponent implements OnInit{
 
   onClickBackdrop(){
     this.isOverlayShow = !this.isOverlayShow;
+    this.overlayForm.reset();
 
   }
 
@@ -138,7 +145,7 @@ export class FlightsComponent implements OnInit{
 
     this.isOverlayShow = !this.isOverlayShow;
     this.isEditMode =false;
-
+    this.overlayForm.reset();
   }
 
 }
