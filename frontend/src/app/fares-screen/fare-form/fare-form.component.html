@@ -23,8 +23,8 @@
   </div>
 
   <div mat-dialog-actions>
-    <button mat-button (click)="closeDialog()">Discard</button>
+    <button mat-button color="warn" (click)="closeDialog()">Discard</button>
     <button mat-button (click)="resetForm()">Reset</button>
-    <button mat-button (click)="onSubmitUpdate()" [disabled]="sampleForm.invalid">Submit</button>
+    <button mat-button color="primary" (click)="onSubmitUpdate()" [disabled]="sampleForm.invalid">Submit</button>
   </div>
 </form>
