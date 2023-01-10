@@ -21,7 +21,13 @@ export class FaresScreenComponent {
   searchCriteria: Entry = {id: 0, departure: "", arrival: "", fare: 0};
   editedEntry: Entry = {id: 0, departure: "Colombo", arrival: "Dubai", fare: 0};
 
-  locations: string[] = ['Colombo', 'Dubai', 'Sydney'];
+  departingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
+  arrivingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
+  generateLocations() {
+    this.departingLocations = [...new Set(this.data.map(item => item.departure))];
+    this.arrivingLocations = [...new Set(this.data.map(item => item.arrival))];
+    console.log({d: this.departingLocations, a: this.arrivingLocations})
+  }
   data: Entry[] = [
     {id:1, departure:"Colombo", arrival:"Dubai", fare:50},
     {id:2, departure:"Colombo", arrival:"Sydney", fare:75},
@@ -127,7 +133,8 @@ export class FaresScreenComponent {
           arrival: this.editedEntry.arrival,
           fare: this.editedEntry.fare
         },
-        locations: this.locations
+        departingLocations: this.departingLocations,
+        arrivingLocations: this.arrivingLocations
       }}
     );
     dialogRef.afterClosed().subscribe(result => {

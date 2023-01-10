@@ -14,7 +14,8 @@ export class FareFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       type: string,
       entry: Entry,
-      locations: string[]
+      departingLocation: string[]
+      arrivingLocation: string[]
     }
   ) {}
   closeDialog() {

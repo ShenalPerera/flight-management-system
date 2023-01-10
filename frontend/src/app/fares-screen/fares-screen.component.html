@@ -1,11 +1,11 @@
 <h1>Fares screen</h1>
 <div>
-  <form>
+  <form (click)="generateLocations()">
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.departure" name="departure" (change)="filterData()" #selectDropdown>
         <option value="" selected></option>
-        <option *ngFor="let location of locations" [value]="location">
+        <option *ngFor="let location of departingLocations" [value]="location">
           {{location}}
         </option>
       </select>
@@ -14,7 +14,7 @@
       <mat-label>Arrival</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.arrival" name="arrival" (change)="filterData()">
         <option value="" selected></option>
-        <option *ngFor="let location of locations" [value]="location">
+        <option *ngFor="let location of arrivingLocations" [value]="location">
           {{location}}
         </option>
       </select>
