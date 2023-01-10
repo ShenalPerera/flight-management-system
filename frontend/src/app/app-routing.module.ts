@@ -5,9 +5,9 @@ import { RoutesScreenComponent } from "./routes-screen/routes-screen.component";
 import { FlightsComponent } from "./flights/flights.component";
 
 const routes: Routes = [
-  { path: "", component: FaresScreenComponent },
+  { path: "fares", component: FaresScreenComponent },
   { path: "routes", component: RoutesScreenComponent },
-  { path: "flights", component: FlightsComponent}
+  { path: "", component: FlightsComponent}
 ];
 
 @NgModule({
