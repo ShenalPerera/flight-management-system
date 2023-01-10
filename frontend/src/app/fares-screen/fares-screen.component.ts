@@ -32,7 +32,6 @@ export class FaresScreenComponent {
   generateLocations() {
     this.departingLocations = [...new Set(this.data.map(item => item.departure))];
     this.arrivingLocations = [...new Set(this.data.map(item => item.arrival))];
-    console.log({d: this.departingLocations, a: this.arrivingLocations})
   }
 
   // Search Bar
@@ -83,7 +82,6 @@ export class FaresScreenComponent {
         this.createEvent = true;
       }
       this.handleEditClear();
-      console.log(this.editedEntry)
     }
   }
   editSubmitted() {

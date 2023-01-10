@@ -45,7 +45,7 @@ export class FareFormComponent implements OnInit {
       arrival: this.sampleForm.value['arrival'],
       fare: this.sampleForm.value['fare'],
     }
-    this.closeDialog();
+    this.dialogRef.close(this.updatedFare);
   }
   resetForm() {
     this.sampleForm = new FormGroup({
