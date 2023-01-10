@@ -1,15 +1,20 @@
-<div>
+
+
+<!--Search Form-->
+<div class="top-bar" id="search-bar">
+  <h1>Airline Fares</h1>
+  <h2>Search Bar</h2>
   <form (click)="generateLocations()">
-    <mat-form-field appearance="fill">
+    <mat-form-field class="search-field" appearance="fill">
       <mat-label>Departure</mat-label>
-      <select matNativeControl [(ngModel)]="searchCriteria.departure" name="departure" (change)="filterData()" #selectDropdown>
+      <select matNativeControl [(ngModel)]="searchCriteria.departure" name="departure" (change)="filterData()">
         <option value="" selected></option>
         <option *ngFor="let location of departingLocations" [value]="location">
           {{location}}
         </option>
       </select>
     </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field class="search-field" appearance="fill">
       <mat-label>Arrival</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.arrival" name="arrival" (change)="filterData()">
         <option value="" selected></option>
@@ -18,13 +23,18 @@
         </option>
       </select>
     </mat-form-field>
-    <button mat-raised-button (click)="handleSearchClear()">Clear</button>
+    <button class="search-field" mat-raised-button (click)="handleSearchClear()">Clear</button>
   </form>
 </div>
-<div>
+
+<!--Create New-->
+<div class="top-bar" id="create-new">
   <button mat-raised-button color="primary" (click)="openForm()">Create New</button>
 </div>
+
+<!--Entry List-->
 <div>
+  <h2>Avilable Fares</h2>
   <table>
     <thead>
     <tr>

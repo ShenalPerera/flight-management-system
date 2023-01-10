@@ -1,17 +1,24 @@
-.demo-table {
-  width: 100%;
+.top-bar {
+  display: inline-block;
 }
 
-.mat-mdc-row .mat-mdc-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
-  cursor: pointer;
+#search-bar {
+  margin-top: 20px;
 }
 
-.mat-mdc-row:hover .mat-mdc-cell {
-  border-color: currentColor;
+#create-new {
+  margin-left: 50px;
 }
 
-.demo-row-is-clicked {
-  font-weight: bold;
+.search-field {
+  margin-left: 20px;
+
+}
+
+h1 {
+  margin-left: 20px;
+}
+
+h2 {
+  margin-left: 20px;
 }
