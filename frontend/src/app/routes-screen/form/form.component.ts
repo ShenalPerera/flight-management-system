@@ -4,6 +4,7 @@ import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import { Route } from '../models/route';
 import {RouteService} from "../services/route.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {numberCheckValidator} from "../shared/validations";
 
 // import {ALL_ROUTES} from "../shared/routes";
 
@@ -32,9 +33,9 @@ export class FormComponent implements OnInit{
     this.sampleForm = new FormGroup({
       'departure': new FormControl(this.data.departure, [Validators.required]),
       'destination': new FormControl(this.data.destination, [Validators.required]),
-      'mileage': new FormControl(this.data.mileage, [Validators.required]),
-      'durationH': new FormControl(this.data.durationH, [Validators.required]),
-      'durationM': new FormControl(this.data.durationM, [Validators.required]),
+      'mileage': new FormControl(this.data.mileage, [Validators.required, numberCheckValidator()]),
+      'durationH': new FormControl(this.data.durationH, [Validators.required, numberCheckValidator()]),
+      'durationM': new FormControl(this.data.durationM, [Validators.required, numberCheckValidator()]),
     });
   }
 

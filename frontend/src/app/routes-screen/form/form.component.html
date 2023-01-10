@@ -1,11 +1,14 @@
 
 <form #f="ngForm" [formGroup]="sampleForm">
+  <div>
   <mat-form-field appearance="fill">
     <mat-label>Departure</mat-label>
-    <input formControlName="departure" matInput name="departure">
-    <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
-    <!--    <mat-hint>Departure</mat-hint>-->
+      <input formControlName="departure" matInput name="departure">
   </mat-form-field>
+<!--    <span class="text-danger" *ngIf="sampleForm.get('departure')?.invalid && sampleForm.get('departure')?.dirty">-->
+<!--     Departure cannot contain numbers-->
+<!--    </span>-->
+  </div>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Destination</mat-label>
@@ -16,18 +19,27 @@
   <mat-form-field appearance="fill">
     <mat-label>Mileage(miles)</mat-label>
     <input formControlName="mileage" matInput name="mileage">
+    <span class="text-danger" *ngIf="sampleForm.get('mileage')!.errors?.['forbiddenNumber']">
+       Invalid: Cannot contain letters
+    </span>
     <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Duration(H)</mat-label>
     <input formControlName="durationH" matInput name="durationH">
+    <span class="text-danger" *ngIf="sampleForm.get('durationH')!.errors?.['forbiddenNumber']">
+       Invalid: Cannot contain letters
+    </span>
     <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Duration(M)</mat-label>
     <input formControlName="durationM" matInput name="durationM">
+    <span class="text-danger" *ngIf="sampleForm.get('durationM')!.errors?.['forbiddenNumber']">
+       Invalid: Cannot contain letters
+    </span>
     <!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
   </mat-form-field>
   <br>
