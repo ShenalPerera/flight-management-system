@@ -51,7 +51,7 @@ export class FormComponent implements OnInit{
       // console.log(this.sampleForm.value['departure']);
     // if (this.operationType == 'Apply') {
       this.routeService.updateRoute(this.updatedRoute);
-      this.onNoClick();
+      this.onNoClickWithoutConfirmation();
     // }else if(this.operationType == 'Create') {
       // this.routeService.createRoute(f);
     // }
@@ -75,8 +75,30 @@ export class FormComponent implements OnInit{
 
 
 
+
   onNoClick(): void {
+      if(confirm('Are you sure ?')) {
+        this.dialogRef.close();
+      }
+
+  }
+
+  onNoClickWithoutConfirmation(): void {
     this.dialogRef.close();
+  }
+
+  resetValues(): void {
+    console.log(this.data.departure);
+    this.sampleForm.patchValue({
+      'departure': this.data.departure,
+      'destination': this.data.destination,
+      'mileage': this.data.mileage,
+      'durationH': this.data.durationH,
+    });
+        // this.sampleForm.value['departure'] = this.data.departure;
+        // this.sampleForm.value['destination'] = this.data.destination;
+        // this.sampleForm.value['mileage'] = this.data.mileage;
+        // this.sampleForm.value['durationH'] = this.data.durationH;
   }
 
   constructor(private routeService: RouteService,

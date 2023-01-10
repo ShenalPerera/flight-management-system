@@ -49,7 +49,7 @@ export class CreateFormComponent implements OnInit {
       durationH: this.sampleForm.value['durationH'],
     };
     this.routeService.createRoute(this.createdRoute);
-    this.onNoClick();
+    this.onNoClickWithoutConfirmation();
     // }else if(this.operationType == 'Create') {
     // this.routeService.createRoute(f);
     // }
@@ -72,6 +72,12 @@ export class CreateFormComponent implements OnInit {
   }
 
   onNoClick(): void {
+    if(confirm('Are you sure ?')) {
+      this.dialogRef.close();
+    }
+  }
+
+  onNoClickWithoutConfirmation(): void {
     this.dialogRef.close();
   }
 
