@@ -18,9 +18,15 @@ export interface Entry {
 export class FaresScreenComponent {
 
   constructor(public dialog: MatDialog) {}
-  searchCriteria: Entry = {id: 0, departure: "", arrival: "", fare: 0};
-  editedEntry: Entry = {id: 0, departure: "", arrival: "", fare: 0};
 
+  // Dummy data
+  data: Entry[] = [
+    {id:1, departure:"Colombo", arrival:"Dubai", fare:50},
+    {id:2, departure:"Colombo", arrival:"Sydney", fare:75},
+    {id:3, departure:"Dubai", arrival:"Colombo", fare:50},
+  ];
+
+  // Dropdown list
   departingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
   arrivingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
   generateLocations() {
@@ -28,13 +34,10 @@ export class FaresScreenComponent {
     this.arrivingLocations = [...new Set(this.data.map(item => item.arrival))];
     console.log({d: this.departingLocations, a: this.arrivingLocations})
   }
-  data: Entry[] = [
-    {id:1, departure:"Colombo", arrival:"Dubai", fare:50},
-    {id:2, departure:"Colombo", arrival:"Sydney", fare:75},
-    {id:3, departure:"Dubai", arrival:"Colombo", fare:50},
-  ];
+
+  // Search Bar
   searchedData: Entry[] = this.data;
-  formDisabled: boolean = true;
+  searchCriteria: Entry = {id: 0, departure: "", arrival: "", fare: 0};
   filterData(){
     this.searchedData = this.data.filter(
       x => (this.searchCriteria.departure === "" || this.searchCriteria.departure === x.departure)
@@ -44,9 +47,10 @@ export class FaresScreenComponent {
     this.searchCriteria = {id: 0, departure: "", arrival: "", fare: 0};
     this.filterData();
   }
+
+  editedEntry: Entry = {id: 0, departure: "", arrival: "", fare: 0};
   handleEditClear() {
     this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0};
-    this.formDisabled = true;
     this.createEvent = true;
   }
   handleDelete(entry: Entry) {
