@@ -2,3 +2,22 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.form-error-message{
+  color: red;
+}
+
+th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table{
+  width: 100%;
+  border: 15px solid #004f80;
+
+}
+
+tr:nth-child(even) {
+  background-color: #eed6d6;
+}
