@@ -21,18 +21,19 @@ export class DataService{
     return this.flights;
   }
 
-  addFlight(value:{oId:string,oFlightNumber:number, oArrival:string,oDeparture:string,oArrivalDate:string,
-    oArrivalTime:string,oDepartureDate:string,oDepartureTime:string}){
+  addFlight(value:{oId:string,oFlightNumber:number, oArrival:string,oDeparture:string,oArrivalDateNTime:string,oDepartureDateNTime:string}){
 
     let id:string = genUniqueId();
+    let arrivalDateNTime = this.getDateNTime(value.oArrivalDateNTime);
+    let departureDateNTime = this.getDateNTime(value.oDepartureDateNTime);
     this.flights.push(new Flight(id,
       value.oFlightNumber,
       value.oArrival,
       value.oDeparture,
-      value.oArrivalDate,
-      value.oArrivalTime,
-      value.oDepartureDate,
-      value.oDepartureTime
+      arrivalDateNTime.date,
+      arrivalDateNTime.time,
+      departureDateNTime.date,
+      departureDateNTime.time
     ));
   }
 
@@ -46,23 +47,30 @@ export class DataService{
     }
   }
 
-  updateFlight(value:{oId:string,oFlightNumber:number, oArrival:string,oDeparture:string,oArrivalDate:string,
-    oArrivalTime:string,oDepartureDate:string,oDepartureTime:string}){
+  updateFlight(value:{oId:string,oFlightNumber:number, oArrival:string,oDeparture:string,oArrivalDateNTime:string,
+    oDepartureDateNTime:string}){
 
     const flightIndex = this.flights.findIndex((flightElement :Flight) => {
       return flightElement.id === value.oId;
     });
 
+    let arrivalDateNTime = this.getDateNTime(value.oArrivalDateNTime);
+    let departureDateNTime = this.getDateNTime(value.oDepartureDateNTime);
 
     this.flights[flightIndex] = new Flight(value.oId,
       value.oFlightNumber,
       value.oArrival,
       value.oDeparture,
-      value.oArrivalDate,
-      value.oArrivalTime,
-      value.oDepartureDate,
-      value.oDepartureTime);
+      arrivalDateNTime.date,
+      arrivalDateNTime.time,
+      departureDateNTime.date,
+      departureDateNTime.time);
 
+  }
+
+  getDateNTime(s:string):{date:string,time:string}{
+    let result = s.split("T");
+    return {date:result[0],time:result[1]};
   }
 
 }

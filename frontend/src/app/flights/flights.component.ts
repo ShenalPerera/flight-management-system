@@ -40,14 +40,13 @@ export class FlightsComponent implements OnInit{
       'oFlightNumber':new FormControl(null,Validators.required),
       'oArrival': new FormControl(null,Validators.required),
       'oDeparture': new FormControl(null,Validators.required),
-      'oArrivalDate': new FormControl(null,Validators.required),
-      'oArrivalTime': new FormControl(null, Validators.required),
-      'oDepartureDate': new FormControl(null, Validators.required),
-      'oDepartureTime': new FormControl(null, Validators.required)
+      'oArrivalDateNTime': new FormControl(null,Validators.required),
+      'oDepartureDateNTime': new FormControl(null, Validators.required)
+
     });
   }
 
-  deleteFlight(flight_id : string ){
+  onDeleteFlight(flight_id : string ){
     this.dataService.removeFlight(flight_id);
     this.searchOptions = {
       flight_number: '',
@@ -62,20 +61,18 @@ export class FlightsComponent implements OnInit{
   }
 
 
-  editFlight(flight : Flight){
+  onEditFlight(flight : Flight){
     this.isEditMode = true;
     this.overlayForm.setValue({
       'oId': flight.id,
       'oFlightNumber': flight.flight_number,
       'oArrival': flight.arrival,
       'oDeparture': flight.departure,
-      'oArrivalDate':flight.arrival_date,
-      'oArrivalTime': flight.arrival_time,
-      'oDepartureDate':flight.departure_date,
-      'oDepartureTime': flight.departure_time
+      'oArrivalDateNTime':flight.arrival_date +"T" + flight.arrival_time,
+      'oDepartureDateNTime':flight.departure_date + "T" + flight.departure_time,
+
 
     })
-
     this.isOverlayShow = !this.isOverlayShow;
   }
 
@@ -105,12 +102,10 @@ export class FlightsComponent implements OnInit{
     }
     if (prop === 'arrival_time'){
       this.searchOptions.arrivalTime = item;
-
     }
 
     if (prop === 'departure_time'){
       this.searchOptions.departureTime = item;
-
     }
   }
 
@@ -128,20 +123,25 @@ export class FlightsComponent implements OnInit{
   }
 
   onClickBackdrop(){
-    this.isOverlayShow = !this.isOverlayShow;
-    this.overlayForm.reset();
+    if (confirm("Are you want to exit from editing?")){
+      this.isOverlayShow = !this.isOverlayShow;
+
+      this.overlayForm.reset();
+    }
+
 
   }
 
-  onAddFlight(){
+  onSubmitForm(){
     const value = this.overlayForm.value;
     if (this.isEditMode){
       this.dataService.updateFlight(value);
-
     }
+
     else {
       this.dataService.addFlight(value);
     }
+
 
     this.isOverlayShow = !this.isOverlayShow;
     this.isEditMode =false;

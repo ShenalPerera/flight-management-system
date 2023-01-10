@@ -95,7 +95,7 @@
             dataFilter:searchOptions.departureDate:'departure_date' |
             dataFilter:searchOptions.arrivalTime:'arrival_time' |
             dataFilter:searchOptions.departureTime:'departure_time'"
-            [flight]="flightEl" (flightDeleted) = "deleteFlight($event)" (flightEdited) = "editFlight($event)" >
+            [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event)" (flightEdited) = "onEditFlight($event)" >
         </tbody>
       </table>
     </div>
@@ -109,11 +109,11 @@
 
   <div class="overlay-form">
     <div class="mat-mdc-dialog-container">
-      <form class="overlay-edit-add-form" [formGroup]="overlayForm" (ngSubmit)="onAddFlight()">
+      <form class="overlay-edit-add-form" [formGroup]="overlayForm" (ngSubmit)="onSubmitForm()">
         <input value="" formControlName ="oId" hidden="hidden">
         <span *ngIf="!overlayForm.get('oFlightNumber')?.valid && overlayForm.get('oFlightNumber')?.touched" class="form-error-message">
             Flight Number is required.
-          </span>
+        </span>
         <mat-form-field class="form-field-full-width">
 
           <input matInput
@@ -121,6 +121,18 @@
                  value=""
                  formControlName = "oFlightNumber"
                   >
+
+        </mat-form-field>
+
+        <span *ngIf="!overlayForm.get('oDeparture')?.valid && overlayForm.get('oDeparture')?.touched" class="form-error-message">
+            Departure is required.
+        </span>
+        <mat-form-field class="form-field-full-width">
+          <input  matInput
+                  placeholder="Departure"
+                  value=""
+                  formControlName ="oDeparture"
+          >
 
         </mat-form-field>
 
@@ -138,67 +150,33 @@
 
         </mat-form-field>
 
-        <span *ngIf="!overlayForm.get('oDeparture')?.valid && overlayForm.get('oDeparture')?.touched" class="form-error-message">
-            Departure is required.
-        </span>
-        <mat-form-field class="form-field-full-width">
-          <input  matInput
-                  placeholder="Departure"
-                  value=""
-                  formControlName ="oDeparture"
-                  >
 
-        </mat-form-field>
 
         <span *ngIf="!overlayForm.get('oArrivalDate')?.valid && overlayForm.get('oArrivalDate')?.touched" class="form-error-message">
             Arrival Date is required.
         </span>
         <mat-form-field class="form-field-full-width">
-          <mat-label>Arrival Date</mat-label>
+          <mat-label>Arrival Date & Time</mat-label>
           <input  matInput
-                  type="date"
+                  type="datetime-local"
                   placeholder="Arrival Date"
                   value=""
-                  formControlName = "oArrivalDate"
+                  formControlName = "oArrivalDateNTime"
                   >
         </mat-form-field>
 
-        <span *ngIf="!overlayForm.get('oArrivalTime')?.valid && overlayForm.get('oArrivalTime')?.touched" class="form-error-message">
-            Arrival Time is required.
-        </span>
-        <mat-form-field class="form-field-full-width">
-          <mat-label>Arrival Time</mat-label>
-          <input  matInput
-                  type="time"
-                  placeholder="Arrival Time"
-                  value=""
-                  formControlName = "oArrivalTime"
-                  >
-        </mat-form-field>
+
 
         <span *ngIf="!overlayForm.get('oDepartureDate')?.valid && overlayForm.get('oDepartureDate')?.touched" class="form-error-message">
             Departure Date is required.
         </span>
         <mat-form-field class="form-field-full-width">
-          <mat-label>Departure Date</mat-label>
+          <mat-label>Departure Date & Time</mat-label>
           <input  matInput
-                  type="date"
+                  type="datetime-local"
                   placeholder="Departure Date"
                   value=""
-                  formControlName = "oDepartureDate"
-                  >
-        </mat-form-field>
-
-        <span *ngIf="!overlayForm.get('oDepartureTime')?.valid && overlayForm.get('oDepartureTime')?.touched" class="form-error-message">
-            Departure Time is required.
-        </span>
-        <mat-form-field class="form-field-full-width">
-          <mat-label>Departure Time</mat-label>
-          <input  matInput
-                  type="time"
-                  placeholder="Departure Time"
-                  value=""
-                  formControlName = "oDepartureTime"
+                  formControlName = "oDepartureDateNTime"
                   >
         </mat-form-field>
 
