@@ -43,8 +43,15 @@ export class EntryComponent {
     const dialogRef = this.dialog.open(FormComponent, {
       width: '315px',
       height: 'auto',
-      data: {routeID: this.routeID, departure: this.departure, destination: this.destination, mileage: this.mileage, durationH: this.durationH}
+      data: {routeID: this.routeID, departure: this.departure, destination: this.destination, mileage: this.mileage, durationH: this.durationH},
+      disableClose: true
     });
+
+    // dialogRef.beforeClosed().subscribe(res=>{
+    //   if (confirm('Changes will be discarded.')) {
+    //
+    //   }
+    // })
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

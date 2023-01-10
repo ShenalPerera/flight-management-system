@@ -1,4 +1,4 @@
-<div style="padding-left: 5%; padding-top: 50px;">
+<div style="padding-top: 50px;">
 
 <div style="padding-left: 10%;" (click)="updateDropdown()">
   <form>
@@ -76,18 +76,18 @@
   <div style="width: 100%">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h2>Routes list</h2>
+        <h2>Available Routes</h2>
       </div>
       <div class="panel-body">
         <table class="table table-striped">
           <thead>
           <tr>
-            <th>Route ID</th>
+            <th>No.</th>
             <th>Departure</th>
-            <th>Destination</th>
+            <th>Arrival</th>
             <th>Mileage(miles)</th>
             <th>Duration(hours)</th>
-            <th>Operation</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -110,7 +110,6 @@
 <!--  <app-form [formData]=formDataInRouteScreen [allRoutes]="ALL_ROUTES" [operationType]="'Create'"></app-form>-->
 <!--</div>-->
 
-<br><br>
 <div style="padding-right: 10%">
   <button style="float: right; text-align: left;" mat-stroked-button color="primary" (click)="openDialogToCreate()">Create a new route</button>
 </div>

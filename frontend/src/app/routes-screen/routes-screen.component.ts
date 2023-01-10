@@ -48,7 +48,8 @@ export class RoutesScreenComponent implements OnInit{
     const dialogRef = this.dialog.open(CreateFormComponent, {
       width: '315px',
       height: 'auto',
-      data: {routeID: NaN, departure: '', destination: '', mileage: 0, durationH: 0}
+      data: {routeID: NaN, departure: '', destination: '', mileage: 0, durationH: 0},
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
