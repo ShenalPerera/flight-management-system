@@ -12,17 +12,6 @@ import {numberCheckValidator} from "../shared/validations";
 })
 export class CreateFormComponent implements OnInit {
 
-  @Input() formData: [number, string, string, number, number] = [NaN, '', '', NaN, NaN];
-  @Input() allRoutes !: Route[];
-
-  routeID!: number;
-  departure!: string;
-  destination!: string;
-  mileage!: number;
-  durationH!: number;
-  durationM!: number;
-
-  @Input() operationType !: string;
 
   sampleForm !: FormGroup;
   ngOnInit() {
@@ -82,16 +71,7 @@ export class CreateFormComponent implements OnInit {
   constructor(private routeService: RouteService,
               public dialogRef: MatDialogRef<CreateFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Route) {
-    this.formData = [NaN, '', '', NaN, NaN];
   }
-
-  clearInputs() {
-    this.departure = '';
-    this.destination = '';
-    this.mileage = NaN;
-    this.durationH = NaN;
-  }
-
 
 
 
