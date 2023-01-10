@@ -14,12 +14,13 @@ export class FareFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       type: string,
       entry: Entry,
-      departingLocation: string[]
+      departingLocation: string[],
       arrivingLocation: string[]
     }
   ) {}
   closeDialog() {
-    this.dialogRef.close(this.updatedFare);
+    if (confirm("Entered data will be lost! Do you want to proceed?"))
+      this.dialogRef.close(this.updatedFare);
   }
   sampleForm !: FormGroup;
   originalEntry !: Entry;

@@ -124,7 +124,9 @@ export class FaresScreenComponent {
         },
         departingLocations: this.departingLocations,
         arrivingLocations: this.arrivingLocations
-      }}
+      },
+      disableClose: true
+    }
     );
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
