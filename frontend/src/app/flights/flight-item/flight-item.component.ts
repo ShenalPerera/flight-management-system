@@ -10,7 +10,7 @@ export class FlightItemComponent implements OnInit{
   @Input() flight !: Flight;
 
   // event emitters
-  @Output() flightDeleted = new EventEmitter<number>();
+  @Output() flightDeleted = new EventEmitter<string>();
   @Output() flightEdited = new EventEmitter<Flight>();
 
   constructor() {

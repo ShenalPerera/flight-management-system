@@ -47,7 +47,7 @@ export class FlightsComponent implements OnInit{
     });
   }
 
-  deleteFlight(flight_id : number ){
+  deleteFlight(flight_id : string ){
     this.dataService.removeFlight(flight_id);
     this.searchOptions = {
       flight_number: '',
@@ -129,21 +129,16 @@ export class FlightsComponent implements OnInit{
   onAddFlight(){
     const value = this.overlayForm.value;
     if (this.isEditMode){
-      this.dataService.updateFlight(value.oId,value);
+      this.dataService.updateFlight(value);
+
     }
-
-    // this.dataService.addFlight(new Flight(
-    //   value.oFlightNumber,
-    //   value.oArrival,value.oDeparture,
-    //   value.oArrivalDate,
-    //   value.oDepartureDate,
-    //   value.oArrivalTime,
-    //   value.oDepartureTime));
-
-
+    else {
+      this.dataService.addFlight(value);
+    }
 
     this.isOverlayShow = !this.isOverlayShow;
     this.isEditMode =false;
+
   }
 
 }
