@@ -179,7 +179,9 @@
                   formControlName = "oDepartureDateNTime"
                   >
         </mat-form-field>
-
+        <div *ngIf="overlayForm.errors?.['isDateValid'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
+          Departure date and time cannot be less than arrival date
+        </div>
         <button *ngIf="!isEditMode" type="submit" [disabled]="!overlayForm.valid" mat-raised-button color="primary">Add Flight</button>
         <button *ngIf="isEditMode" type="submit" [disabled]="!overlayForm.valid"  mat-raised-button color="primary">Save</button>
 
