@@ -3,6 +3,7 @@ import {Route} from "../models/route";
 import {RouteService} from "../services/route.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {numberCheckValidator} from "../shared/validations";
 
 @Component({
   selector: 'app-create-form',
@@ -30,9 +31,9 @@ export class CreateFormComponent implements OnInit {
     this.sampleForm = new FormGroup({
       'departure': new FormControl(this.data.departure, [Validators.required]),
       'destination': new FormControl(this.data.destination, [Validators.required]),
-      'mileage': new FormControl(this.data.mileage, [Validators.required]),
-      'durationH': new FormControl(this.data.durationH, [Validators.required]),
-      'durationM': new FormControl(this.data.durationM, [Validators.required]),
+      'mileage': new FormControl(this.data.mileage, [Validators.required, numberCheckValidator()]),
+      'durationH': new FormControl(this.data.durationH, [Validators.required, numberCheckValidator()]),
+      'durationM': new FormControl(this.data.durationM, [Validators.required, numberCheckValidator()]),
     });
   }
 
