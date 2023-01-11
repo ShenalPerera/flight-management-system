@@ -57,16 +57,9 @@ export class FormComponent implements OnInit{
 
   onSubmitCreate() {
 
-    // check whether it is a duplicate
-    let hasDuplicate: boolean = false;
-    for (let route of this.routeService.getRoutes()) {
-      if (route.departure === this.sampleForm.value['departure'] && route.destination === this.sampleForm.value['destination']) {
-        hasDuplicate = true;
-        break;
-      }
-    }
+    let hasDuplicates = this.routeService.handleDuplicates(this.sampleForm.value['departure'], this.sampleForm.value['destination']);
 
-    if(!hasDuplicate) {
+    if(!hasDuplicates) {
         this.createdRoute = {
           routeID: NaN,
           departure: this.sampleForm.value['departure'],

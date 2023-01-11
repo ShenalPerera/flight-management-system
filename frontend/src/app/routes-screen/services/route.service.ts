@@ -17,6 +17,17 @@ export class RouteService {
     return this.referringRoutes;
   }
 
+  handleDuplicates(departure: string, destination: string): boolean {
+    let hasDuplicate: boolean = false;
+    for (let route of this.referringRoutes) {
+      if (route.departure === departure && route.destination === destination) {
+        hasDuplicate = true;
+        break;
+      }
+    }
+    return hasDuplicate;
+  }
+
   updateRoute(data: Route) {
     this.referringRoutes.forEach((route)=>{
       if (route.routeID == data.routeID) {
