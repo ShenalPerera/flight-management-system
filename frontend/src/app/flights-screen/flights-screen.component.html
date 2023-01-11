@@ -98,7 +98,7 @@
 </div>
 
 <div *ngIf="isOverlayShow">
-  <div class="backdrop" (click)="onClickBackdrop()"></div>
+  <div class="backdrop" (click)="onCancelEdit()"></div>
 
 
   <div class="overlay-form">
@@ -174,7 +174,9 @@
           Departure date and time cannot be less than arrival date
         </div>
         <button *ngIf="!isEditMode" type="submit" [disabled]="!overlayForm.valid" mat-raised-button color="primary">Add Flight</button>
-        <button *ngIf="isEditMode" type="submit" [disabled]="!overlayForm.valid"  mat-raised-button color="primary">Save</button>
+        <button *ngIf="isEditMode"  type="submit" [disabled]="!overlayForm.valid"  mat-raised-button color="primary">Save</button>
+        <button *ngIf="isEditMode" type="button" [disabled]="!overlayForm.dirty" (click)="onClickReset()" mat-raised-button color="warn">Reset</button>
+        <button *ngIf="isEditMode" (click)="onCancelEdit()" mat-raised-button color="warn">Discard</button>
 
       </form>
     </div>

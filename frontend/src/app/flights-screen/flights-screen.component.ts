@@ -27,6 +27,8 @@ export class FlightsScreenComponent implements OnInit{
       departureTime: ''
   };
 
+  public formTempData!:{};
+
   constructor(private dataService : DataService) {
 
   }
@@ -54,14 +56,15 @@ export class FlightsScreenComponent implements OnInit{
 
   onEditFlight(flight : Flight){
     this.isEditMode = true;
-    this.overlayForm.setValue({
+    this.formTempData = {
       'oId': flight.id,
       'oFlightNumber': flight.flight_number,
       'oArrival': flight.arrival,
       'oDeparture': flight.departure,
       'oArrivalDateNTime':flight.arrival_date +"T" + flight.arrival_time,
       'oDepartureDateNTime':flight.departure_date + "T" + flight.departure_time,
-    })
+    }
+    this.overlayForm.setValue(this.formTempData);
 
     this.isOverlayShow = !this.isOverlayShow;
   }
@@ -77,13 +80,17 @@ export class FlightsScreenComponent implements OnInit{
     f.reset();
   }
 
-  onClickBackdrop(){
+  onCancelEdit(){
     if (confirm("Are you want to exit from editing?")){
       this.isOverlayShow = !this.isOverlayShow;
       this.overlayForm.reset();
     }
   }
 
+  onClickReset(){
+    this.overlayForm.setValue(this.formTempData);
+    this.overlayForm.markAsPristine();
+  }
 
   onSubmitForm(){
     const value = this.overlayForm.value;
