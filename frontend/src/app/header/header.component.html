@@ -1,6 +1,6 @@
 <ul>
   <li><p>Flight Management System</p></li>
-  <li><a routerLink="/">Flights</a></li>
-  <li><a routerLink="/routes">Routes</a></li>
-  <li><a routerLink="/fares">Fares</a></li>
+  <li><a routerLink="/" id="flights" [ngClass]="flightsActive? 'active': 'inactive'" (click)="activateFlights()">Flights</a></li>
+  <li><a routerLink="/routes" id="routes" [ngClass]="routesActive? 'active': 'inactive'" (click)="activateRoutes()">Routes</a></li>
+  <li><a routerLink="/fares" id="fares" [ngClass]="faresActive? 'active': 'inactive'" (click)="activateFares()">Fares</a></li>
 </ul>
