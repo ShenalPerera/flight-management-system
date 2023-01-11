@@ -42,22 +42,34 @@ export class FormComponent implements OnInit{
   }
 
   onSubmitUpdate() {
-    this.updatedRoute = {
-      routeID: this.data.route.routeID,
-      departure: this.sampleForm.value['departure'],
-      destination: this.sampleForm.value['destination'],
-      mileage: this.sampleForm.value['mileage'],
-      durationH: this.sampleForm.value['durationH'],
-    };
 
-    this.routeService.updateRoute(this.updatedRoute);
-    this.onNoClickWithoutConfirmation();
+    let hasDuplicates = this.routeService.handleDuplicatesWhenUpdating
+    (
+      this.sampleForm.value['departure'],
+      this.sampleForm.value['destination'],
+      this.data.route.routeID
+    );
+
+    if(!hasDuplicates) {
+      this.updatedRoute = {
+        routeID: this.data.route.routeID,
+        departure: this.sampleForm.value['departure'],
+        destination: this.sampleForm.value['destination'],
+        mileage: this.sampleForm.value['mileage'],
+        durationH: this.sampleForm.value['durationH'],
+      };
+
+      this.routeService.updateRoute(this.updatedRoute);
+      this.onNoClickWithoutConfirmation();
+    }else{
+      confirm('Sorry! That route is already there.')
+    }
 
   }
 
   onSubmitCreate() {
 
-    let hasDuplicates = this.routeService.handleDuplicates(this.sampleForm.value['departure'], this.sampleForm.value['destination']);
+    let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(this.sampleForm.value['departure'], this.sampleForm.value['destination']);
 
     if(!hasDuplicates) {
         this.createdRoute = {

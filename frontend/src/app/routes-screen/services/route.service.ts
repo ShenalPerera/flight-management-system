@@ -17,10 +17,21 @@ export class RouteService {
     return this.referringRoutes;
   }
 
-  handleDuplicates(departure: string, destination: string): boolean {
+  handleDuplicatesWhenCreating(departure: string, destination: string): boolean {
     let hasDuplicate: boolean = false;
     for (let route of this.referringRoutes) {
       if (route.departure === departure && route.destination === destination) {
+        hasDuplicate = true;
+        break;
+      }
+    }
+    return hasDuplicate;
+  }
+
+  handleDuplicatesWhenUpdating(departure: string, destination: string, routeID: number): boolean {
+    let hasDuplicate: boolean = false;
+    for (let route of this.referringRoutes) {
+      if ((route.departure === departure && route.destination === destination) && (route.routeID != routeID)) {
         hasDuplicate = true;
         break;
       }
