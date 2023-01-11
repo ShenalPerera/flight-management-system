@@ -1,5 +1,5 @@
-<td style="text-align: center">{{entry.departure}}</td>
-<td style="text-align: center">{{entry.arrival}}</td>
+<td style="text-align: center">{{entry.departure | titlecase }}</td>
+<td style="text-align: center">{{entry.arrival | titlecase }}</td>
 <td style="text-align: center">{{entry.fare}}</td>
 <td>
   <button mat-raised-button color="primary" (click)="editEntry();">Edit</button>

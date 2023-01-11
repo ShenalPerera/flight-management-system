@@ -36,8 +36,8 @@ export class FareFormComponent implements OnInit {
     }
   }
   closeDialog() {
-    if ((this.sampleForm.value['departure'] == this.originalEntry.departure) &&
-      (this.sampleForm.value['arrival'] == this.originalEntry.arrival) &&
+    if ((this.sampleForm.value['departure'].toLowerCase() == this.originalEntry.departure) &&
+      (this.sampleForm.value['arrival'].toLowerCase() == this.originalEntry.arrival) &&
       (this.sampleForm.value['fare'] == this.originalEntry.fare)) {
       this.dialogRef.close(this.updatedFare);
     } else if (confirm("Entered data will be lost! Do you want to proceed?")) {
@@ -47,8 +47,8 @@ export class FareFormComponent implements OnInit {
   onSubmitUpdate() {
     this.updatedFare = {
       id: this.data.entry.id,
-      departure: this.sampleForm.value['departure'],
-      arrival: this.sampleForm.value['arrival'],
+      departure: this.sampleForm.value['departure'].toLowerCase(),
+      arrival: this.sampleForm.value['arrival'].toLowerCase(),
       fare: this.sampleForm.value['fare'],
     }
     this.dialogRef.close(this.updatedFare);

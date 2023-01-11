@@ -10,16 +10,16 @@ import { Entry } from "./shared/entry.model";
 })
 export class FaresScreenComponent {
   data: Entry[] = [
-    {id:1, departure:"Colombo", arrival:"Dubai", fare:50},
-    {id:2, departure:"Colombo", arrival:"Sydney", fare:75},
-    {id:3, departure:"Dubai", arrival:"Colombo", fare:50},
-    {id:4, departure:"Colombo", arrival:"New York", fare:150},
-    {id:5, departure:"New York", arrival:"Sydney", fare:225},
-    {id:6, departure:"New York", arrival:"Colombo", fare:150},
-    {id:7, departure:"London", arrival:"Colombo", fare:125},
-    {id:8, departure:"Dubai", arrival:"London", fare:80},
-    {id:9, departure:"Paris", arrival:"Sydney", fare:185},
-    {id:10, departure:"New York", arrival:"Paris", fare:135},
+    {id:1, departure:"colombo", arrival:"dubai", fare:50},
+    {id:2, departure:"colombo", arrival:"sydney", fare:75},
+    {id:3, departure:"dubai", arrival:"colombo", fare:50},
+    {id:4, departure:"colombo", arrival:"new york", fare:150},
+    {id:5, departure:"new york", arrival:"sydney", fare:225},
+    {id:6, departure:"new york", arrival:"colombo", fare:150},
+    {id:7, departure:"london", arrival:"colombo", fare:125},
+    {id:8, departure:"dubai", arrival:"london", fare:80},
+    {id:9, departure:"paris", arrival:"sydney", fare:185},
+    {id:10, departure:"new york", arrival:"paris", fare:135},
   ];
   departingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
   arrivingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];

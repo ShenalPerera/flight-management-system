@@ -7,8 +7,8 @@
       <mat-label>Departure</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.departure" name="departure" (change)="filterData()">
         <option value="" selected></option>
-        <option *ngFor="let location of departingLocations" [value]="location">
-          {{location}}
+        <option *ngFor="let location of departingLocations" [value]="location.toLowerCase()">
+          {{location | titlecase }}
         </option>
       </select>
     </mat-form-field>
@@ -17,8 +17,8 @@
       <mat-label>Arrival</mat-label>
       <select matNativeControl [(ngModel)]="searchCriteria.arrival" name="arrival" (change)="filterData()">
         <option value="" selected></option>
-        <option *ngFor="let location of arrivingLocations" [value]="location">
-          {{location}}
+        <option *ngFor="let location of arrivingLocations" [value]="location.toLowerCase()">
+          {{location | titlecase }}
         </option>
       </select>
     </mat-form-field>
