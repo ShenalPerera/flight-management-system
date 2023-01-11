@@ -6,6 +6,8 @@ export function numberCheckValidator(): ValidatorFn {
 
     if (isNaN(control.value)) {
       return {forbiddenNumber: {value: control.value}};
+    }else if (control.value<0) {
+      return {negativeNumber: {value: control.value}};
     }else {
       return null;
     }

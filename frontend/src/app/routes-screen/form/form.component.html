@@ -24,6 +24,9 @@
     <span class="text-danger" *ngIf="sampleForm.get('mileage')!.errors?.['forbiddenNumber']">
        Invalid: Cannot contain letters
     </span>
+    <span class="text-danger" *ngIf="sampleForm.get('mileage')!.errors?.['negativeNumber']">
+       Invalid: Cannot be a negative number
+    </span>
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
@@ -31,6 +34,9 @@
     <input formControlName="durationH" matInput name="durationH">
     <span class="text-danger" *ngIf="sampleForm.get('durationH')!.errors?.['forbiddenNumber']">
        Invalid: Cannot contain letters
+    </span>
+    <span class="text-danger" *ngIf="sampleForm.get('durationH')!.errors?.['negativeNumber']">
+       Invalid: Cannot be a negative number
     </span>
   </mat-form-field>
   <br>
