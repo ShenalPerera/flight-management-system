@@ -1,8 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Route} from './models/route';
-import {FormControl, FormGroup, NgForm} from "@angular/forms";
-import {Observable} from "rxjs";
-import {map, startWith} from "rxjs/operators";
 
 import {RouteService} from "./services/route.service";
 import {MatDialog} from "@angular/material/dialog";

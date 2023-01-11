@@ -56,16 +56,29 @@ export class FormComponent implements OnInit{
   }
 
   onSubmitCreate() {
-    this.createdRoute = {
-      routeID: NaN,
-      departure: this.sampleForm.value['departure'],
-      destination: this.sampleForm.value['destination'],
-      mileage: this.sampleForm.value['mileage'],
-      durationH: this.sampleForm.value['durationH'],
-    };
-    this.routeService.createRoute(this.createdRoute);
-    this.onNoClickWithoutConfirmation();
 
+    // check whether it is a duplicate
+    let hasDuplicate: boolean = false;
+    for (let route of this.routeService.getRoutes()) {
+      if (route.departure === this.sampleForm.value['departure'] && route.destination === this.sampleForm.value['destination']) {
+        hasDuplicate = true;
+        break;
+      }
+    }
+
+    if(!hasDuplicate) {
+        this.createdRoute = {
+          routeID: NaN,
+          departure: this.sampleForm.value['departure'],
+          destination: this.sampleForm.value['destination'],
+          mileage: this.sampleForm.value['mileage'],
+          durationH: this.sampleForm.value['durationH'],
+        };
+        this.routeService.createRoute(this.createdRoute);
+        this.onNoClickWithoutConfirmation();
+      }else{
+      confirm('Sorry! That route is already there.')
+    }
   }
 
   areSameValues(): boolean {
