@@ -8,6 +8,8 @@ export function numberCheckValidator(): ValidatorFn {
       return {forbiddenNumber: {value: control.value}};
     }else if (control.value<0) {
       return {negativeNumber: {value: control.value}};
+    }else if(control.value == 0) {
+      return {zeroNumber: {value: control.value}};
     }else {
       return null;
     }

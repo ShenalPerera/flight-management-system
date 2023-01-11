@@ -28,6 +28,9 @@
     <span class="text-danger" *ngIf="sampleForm.get('mileage')!.errors?.['negativeNumber']">
        Invalid: Cannot be a negative number
     </span>
+    <span class="text-danger" *ngIf="sampleForm.get('mileage')!.errors?.['zeroNumber']">
+       Invalid: Mileage should be a positive value
+    </span>
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
@@ -38,6 +41,9 @@
     </span>
     <span class="text-danger" *ngIf="sampleForm.get('durationH')!.errors?.['negativeNumber']">
        Invalid: Cannot be a negative number
+    </span>
+    <span class="text-danger" *ngIf="sampleForm.get('durationH')!.errors?.['zeroNumber']">
+       Invalid: Mileage should be a positive value
     </span>
   </mat-form-field>
   <br>
