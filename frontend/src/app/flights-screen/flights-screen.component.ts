@@ -83,33 +83,6 @@ export class FlightsScreenComponent implements OnInit{
     this.overlayForm.reset();
   }
 
-  onChange(item : any, prop: string){
-    if (prop === 'flight_number'){
-      this.searchOptions.flight_number = item;
-    }
-    if (prop === 'arrival'){
-      this.searchOptions.arrival = item;
-
-    }
-    if (prop === 'departure'){
-      this.searchOptions.departure = item;
-    }
-    if (prop === 'arrival_date'){
-      this.searchOptions.arrivalDate = item
-
-    }
-    if (prop === 'departure_date'){
-      this.searchOptions.departureDate = item;
-    }
-    if (prop === 'arrival_time'){
-      this.searchOptions.arrivalTime = item;
-    }
-
-    if (prop === 'departure_time'){
-      this.searchOptions.departureTime = item;
-    }
-  }
-
   onClearSearch(f:NgForm){
     f.reset({
       fNumber:"",
