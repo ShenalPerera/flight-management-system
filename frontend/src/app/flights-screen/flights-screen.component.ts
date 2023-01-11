@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Flight} from "./flight.model";
 import {DataService} from "../../assets/data-service";
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
-import {arrivalDatesValidator} from "../../utills/validator-functions";
+import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/validator-functions";
 
 @Component({
   selector: 'app-flights-screen',
@@ -44,7 +44,7 @@ export class FlightsScreenComponent implements OnInit{
       'oArrivalDateNTime': new FormControl(null,Validators.required),
       'oDepartureDateNTime': new FormControl(null, Validators.required)
 
-    },{validators:arrivalDatesValidator});
+    },{validators:[arrivalDatesValidator,arrivalDepartureValidator]});
   }
 
 

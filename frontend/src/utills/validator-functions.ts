@@ -17,3 +17,17 @@ export const arrivalDatesValidator: ValidatorFn = (control: AbstractControl) => 
   return null;
 
 }
+
+export const arrivalDepartureValidator: ValidatorFn = (control: AbstractControl) =>{
+  const arrival = control.get('oDeparture')?.value;
+  const departure = control.get('oArrival')?.value;
+
+  if (!arrival || !departure){
+    return null;
+  }
+
+  if (arrival === departure){
+    return {arrivalDepartureError:true};
+  }
+  return  null;
+}

@@ -121,6 +121,9 @@
         <span *ngIf="!overlayForm.get('oDeparture')?.valid && overlayForm.get('oDeparture')?.touched" class="form-error-message">
             Departure is required.
         </span>
+        <div *ngIf="overlayForm.errors?.['arrivalDepartureError'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
+          Departure and Arrival Can not be Same*
+        </div>
         <mat-form-field class="form-field-full-width">
           <input  matInput
                   placeholder="Departure"
@@ -133,6 +136,7 @@
         <span *ngIf="!overlayForm.get('oArrival')?.valid && overlayForm.get('oArrival')?.touched" class="form-error-message">
             Arrival is required.
         </span>
+
         <mat-form-field class="form-field-full-width">
           <input  matInput
                   placeholder="Arrival"
@@ -142,9 +146,12 @@
         </mat-form-field>
 
 
-        <span *ngIf="!overlayForm.get('oArrivalDate')?.valid && overlayForm.get('oArrivalDate')?.touched" class="form-error-message">
+        <span *ngIf="!overlayForm.get('oArrivalDateNTime')?.valid && overlayForm.get('oArrivalDateNTime')?.touched" class="form-error-message">
             Arrival Date is required.
         </span>
+        <div *ngIf="overlayForm.errors?.['isDateValid'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
+          Departure date and time cannot be less than arrival date*
+        </div>
         <mat-form-field class="form-field-full-width">
           <mat-label>Arrival Date & Time</mat-label>
           <input  matInput
@@ -157,9 +164,10 @@
 
 
 
-        <span *ngIf="!overlayForm.get('oDepartureDate')?.valid && overlayForm.get('oDepartureDate')?.touched" class="form-error-message">
+        <span *ngIf="!overlayForm.get('oDepartureDateNTime')?.valid && overlayForm.get('oDepartureDateNTime')?.touched" class="form-error-message">
             Departure Date is required.
         </span>
+
         <mat-form-field class="form-field-full-width">
           <mat-label>Departure Date & Time</mat-label>
           <input  matInput
@@ -170,9 +178,8 @@
                   >
         </mat-form-field>
 
-        <div *ngIf="overlayForm.errors?.['isDateValid'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
-          Departure date and time cannot be less than arrival date
-        </div>
+
+
         <button *ngIf="!isEditMode" type="submit" [disabled]="!overlayForm.valid" mat-raised-button color="primary">Add Flight</button>
         <button *ngIf="isEditMode"  type="submit" [disabled]="!overlayForm.valid"  mat-raised-button color="primary">Save</button>
         <button *ngIf="isEditMode" type="button" [disabled]="!overlayForm.dirty" (click)="onClickReset()" mat-raised-button color="warn">Reset</button>
