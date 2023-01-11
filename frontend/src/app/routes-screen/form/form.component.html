@@ -4,12 +4,18 @@
   <mat-form-field appearance="fill">
     <mat-label>Departure</mat-label>
       <input formControlName="departure" matInput name="departure">
+      <span class="text-danger" *ngIf="sampleForm!.errors?.['forbiddenLocations']">
+         Invalid: Locations cannot be same.
+      </span>
   </mat-form-field>
   </div>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Arrival</mat-label>
     <input formControlName="destination" matInput name="destination">
+    <span class="text-danger" *ngIf="sampleForm!.errors?.['forbiddenLocations']">
+         Invalid: Locations cannot be same.
+    </span>
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">

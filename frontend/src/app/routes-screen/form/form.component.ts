@@ -4,7 +4,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { Route } from '../models/route';
 import {RouteService} from "../services/route.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {numberCheckValidator} from "../shared/validations";
+import {locationsValidator, numberCheckValidator} from "../shared/validations";
 
 
 
@@ -38,7 +38,7 @@ export class FormComponent implements OnInit{
       'destination': new FormControl(this.data.route.destination, [Validators.required]),
       'mileage': new FormControl(this.data.route.mileage, [Validators.required, numberCheckValidator()]),
       'durationH': new FormControl(this.data.route.durationH, [Validators.required, numberCheckValidator()]),
-    });
+    }, {validators: locationsValidator});
   }
 
   onSubmitUpdate() {

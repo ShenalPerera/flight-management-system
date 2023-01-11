@@ -1,4 +1,4 @@
-import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 
 export function numberCheckValidator(): ValidatorFn {
 
@@ -11,4 +11,14 @@ export function numberCheckValidator(): ValidatorFn {
     }
   }
 }
+
+export const locationsValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const departure = control.get('departure');
+  const destination = control.get('destination');
+  if (departure?.value == destination?.value) {
+    return {forbiddenLocations: true};
+  }else {
+    return null;
+  }
+};
 
