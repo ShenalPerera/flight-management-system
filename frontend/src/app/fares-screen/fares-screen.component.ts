@@ -90,17 +90,13 @@ export class FaresScreenComponent {
     });
   }
   submitted() {
-    if (this.editedEntry.departure === this.editedEntry.arrival) {
-      alert("Departure and Arrival should be distinct!");
+    if (this.createEvent) {
+      this.createSubmitted();
+      this.filterData();
     } else {
-      if (this.createEvent) {
-        this.createSubmitted();
-        this.filterData();
-      } else {
-        this.editSubmitted();
-      }
-      this.handleEditClear();
+      this.editSubmitted();
     }
+    this.handleEditClear();
   }
   editSubmitted() {
     this.data.forEach((value) => {

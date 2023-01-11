@@ -6,12 +6,18 @@
       <mat-form-field appearance="fill">
         <mat-label>Departure</mat-label>
         <input matInput formControlName="departure" matInput name="departure">
+        <span class="text-danger" *ngIf="sampleForm!.errors?.['sameLocation']">
+          Locations need to be distinct!
+        </span>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Arrival</mat-label>
         <input matInput formControlName="arrival" name="arrival">
+        <span class="text-danger" *ngIf="sampleForm!.errors?.['sameLocation']">
+          Locations need to be distinct!
+        </span>
       </mat-form-field>
     </div>
     <div>

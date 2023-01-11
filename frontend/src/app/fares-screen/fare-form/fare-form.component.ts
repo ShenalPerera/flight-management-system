@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Entry } from "../shared/entry.model";
+import { locationValidator } from "../shared/validators";
 
 @Component({
   selector: 'app-fare-form',
@@ -26,7 +27,7 @@ export class FareFormComponent implements OnInit {
       'departure': new FormControl(this.data.entry.departure, [Validators.required]),
       'arrival': new FormControl(this.data.entry.arrival, [Validators.required]),
       'fare': new FormControl(this.data.entry.fare, [Validators.required])
-    });
+    }, { validators: locationValidator });
     this.originalEntry = {
       id: this.data.entry.id,
       departure: this.data.entry.departure,
@@ -52,6 +53,6 @@ export class FareFormComponent implements OnInit {
       'departure': new FormControl(this.originalEntry.departure, [Validators.required]),
       'arrival': new FormControl(this.originalEntry.arrival, [Validators.required]),
       'fare': new FormControl(this.originalEntry.fare, [Validators.required])
-    });
+    }, { validators: locationValidator });
   }
 }
