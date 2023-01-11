@@ -1,7 +1,7 @@
-<div style="padding-top: 50px;">
 
-<div style="padding-left: 10%;" (click)="updateDropdown()">
-  <form>
+
+<div class="search-filter" (click)="updateDropdown()">
+  <form class="search-form">
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
       <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterData()" #selectDropdown>
@@ -22,11 +22,7 @@
       </select>
     </mat-form-field>
 
-
-
-    <div>
     <button  mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
-    </div>
   </form>
 </div>
 
@@ -34,7 +30,7 @@
   <div style="width: 100%">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h2>Available Routes</h2>
+        <h2 style="padding-left: 2%;">Available Routes</h2>
       </div>
       <div class="panel-body">
         <table class="table table-striped">
@@ -57,12 +53,9 @@
       </div>
     </div>
   </div>
+  <button class="add-flight-button" (click)="openDialogToCreate()"><strong>Add Route</strong></button>
 
 
-<div style="padding-right: 10%">
-  <button style="float: right; text-align: left;" mat-stroked-button color="primary" (click)="openDialogToCreate()">Create a new route</button>
-</div>
 
-</div>
 
 

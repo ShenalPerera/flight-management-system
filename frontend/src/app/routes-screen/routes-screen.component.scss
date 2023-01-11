@@ -1,59 +1,121 @@
-.centered {
+//.centered {
+//
+//}
+//.search-container {
+//  background-color: aquamarine;
+//  padding: 10px;
+//  height: 100px;
+//}
+//
+//.split-left {
+//  height: 100%;
+//  width: 20%;
+//  position: fixed;
+//  z-index: 1;
+//  top: 0;
+//  overflow-x: hidden;
+//  padding-top: 20px;
+//}
+//
+//.split-right {
+//  height: 100%;
+//  width: 80%;
+//  position: fixed;
+//  z-index: 1;
+//  top: 0;
+//  overflow-x: hidden;
+//  padding-top: 20px;
+//}
+//
+///* Control the left side */
+//.left {
+//  padding: 50px;
+//  left: 0;
+//  background-color: white;
+//}
+//
+///* Control the right side */
+//.right {
+//  padding: 50px;
+//  right: 0;
+//  background-color: white;
+//}
+//
+//
+//
+//th {
+//  border: 1px solid #ddd;
+//  padding: 8px;
+//}
+//
+//table{
+//  width: 100%;
+//  border: 15px solid #004f80;
+//
+//}
+//
+//tr:nth-child(even) {
+//  background-color: #eed6d6;
+//}
 
-}
-.search-container {
-  background-color: aquamarine;
-  padding: 10px;
-  height: 100px;
-}
-
-.split-left {
-  height: 100%;
-  width: 20%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-.split-right {
-  height: 100%;
-  width: 80%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-/* Control the left side */
-.left {
-  padding: 50px;
-  left: 0;
-  background-color: white;
-}
-
-/* Control the right side */
-.right {
-  padding: 50px;
-  right: 0;
-  background-color: white;
-}
-
-
-
-th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-table{
+.search-filter{
   width: 100%;
-  border: 15px solid #004f80;
+  padding-top: 1%;
+}
+
+
+.add-flight-button{
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 100;
+  height: 75px;
+  width: 75px;
+  border-radius: 100%;
+  background-color: #22ce0f;
+  color: #ffff;
+}
+
+
+.search-form{
+  padding-left: 2%;
+}
+.backdrop{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.75);
+  z-index: 50;
+}
+
+.overlay-form{
+  position: fixed;
+  top: 20vh;
+  left: 20vw;
+  width: 60vw;
+  padding: 16px;
+  z-index: 100;
+  background: white;
+  box-shadow: 0 2px 8px  rgba(0,0,0,0.26);
+  align-content: center;
+}
+
+.overlay-edit-add-form {
+  top: 30vh;
+  left: 20vw;
+
+  width: 100%;
+  z-index: 100;
+  background: white;
+  box-shadow: 0 2px 8px  rgba(0,0,0,0.26);
+  align-content: center;
 
 }
 
-tr:nth-child(even) {
-  background-color: #eed6d6;
+.form-field-full-width {
+  width: 100%;
 }
+
+
