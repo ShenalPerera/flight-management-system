@@ -36,8 +36,13 @@ export class FareFormComponent implements OnInit {
     }
   }
   closeDialog() {
-    if (confirm("Entered data will be lost! Do you want to proceed?"))
+    if ((this.sampleForm.value['departure'] == this.originalEntry.departure) &&
+      (this.sampleForm.value['arrival'] == this.originalEntry.arrival) &&
+      (this.sampleForm.value['fare'] == this.originalEntry.fare)) {
       this.dialogRef.close(this.updatedFare);
+    } else if (confirm("Entered data will be lost! Do you want to proceed?")) {
+        this.dialogRef.close(this.updatedFare);
+    }
   }
   onSubmitUpdate() {
     this.updatedFare = {
