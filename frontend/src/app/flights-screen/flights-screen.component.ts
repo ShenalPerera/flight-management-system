@@ -5,14 +5,14 @@ import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {arrivalDatesValidator} from "../../utills/validator-functions";
 
 @Component({
-  selector: 'app-flights',
-  templateUrl: './flights.component.html',
-  styleUrls: ['./flights.component.scss'],
+  selector: 'app-flights-screen',
+  templateUrl: './flights-screen.component.html',
+  styleUrls: ['./flights-screen.component.scss'],
   providers:[DataService]
 })
 
 
-export class FlightsComponent implements OnInit{
+export class FlightsScreenComponent implements OnInit{
   isOverlayShow:boolean = false;
   isEditMode!:boolean;
   public  flights !: Flight[];

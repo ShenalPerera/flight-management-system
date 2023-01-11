@@ -19,9 +19,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RoutesScreenComponent } from './routes-screen/routes-screen.component';
 import { FaresScreenComponent } from './fares-screen/fares-screen.component';
-import { FlightsComponent } from './flights/flights.component';
+import { FlightsScreenComponent } from './flights-screen/flights-screen.component';
 import { HeaderComponent } from "./header/header.component";
-import { FlightItemComponent } from './flights/flight-item/flight-item.component';
+import { FlightItemComponent } from './flights-screen/flight-item/flight-item.component';
 import { DataFilterPipe } from './data-filter.pipe';
 import { FormComponent } from './routes-screen/form/form.component';
 import { FareItemComponent } from './fares-screen/fare-item/fare-item.component';
@@ -34,7 +34,7 @@ import { EntryComponent } from "./routes-screen/entry/entry.component";
     AppComponent,
     RoutesScreenComponent,
     FaresScreenComponent,
-    FlightsComponent,
+    FlightsScreenComponent,
     HeaderComponent,
     HeaderComponent,
     FlightItemComponent,

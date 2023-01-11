@@ -1,4 +1,4 @@
-import {Flight} from "../app/flights/flight.model";
+import {Flight} from "../app/flights-screen/flight.model";
 import {Injectable} from "@angular/core";
 import genUniqueId from "../utills/unique-id-generator";
 
