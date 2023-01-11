@@ -27,7 +27,6 @@ import { FormComponent } from './routes-screen/form/form.component';
 import { FareItemComponent } from './fares-screen/fare-item/fare-item.component';
 import { FareFormComponent } from './fares-screen/fare-form/fare-form.component';
 import { RouteService } from "./routes-screen/services/route.service";
-import { CreateFormComponent } from './routes-screen/create-form/create-form.component';
 import { EntryComponent } from "./routes-screen/entry/entry.component";
 
 @NgModule({
@@ -42,7 +41,6 @@ import { EntryComponent } from "./routes-screen/entry/entry.component";
     DataFilterPipe,
     FormComponent,
     EntryComponent,
-    CreateFormComponent,
     FareItemComponent,
     FareFormComponent
   ],

@@ -7,7 +7,6 @@ import {map, startWith} from "rxjs/operators";
 import {RouteService} from "./services/route.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "./form/form.component";
-import {CreateFormComponent} from "./create-form/create-form.component";
 import {MatExpansionPanel} from "@angular/material/expansion";
 
 
@@ -24,7 +23,22 @@ export class RoutesScreenComponent implements OnInit{
   searchFormDestination: string = '';
   departuresList: string[] = [];
   destinationsList: string[] = [];
+  searchedData: Route[] = this.ALL_ROUTES;
 
+
+  constructor(private routeService: RouteService, public dialog: MatDialog) {
+  }
+
+  ngOnInit() {
+    this.ALL_ROUTES = this.routeService.getRoutes();
+    this.searchedData = this.ALL_ROUTES;
+
+    let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
+    this.departuresList = listValues.dpList;
+    this.destinationsList = listValues.dsList;
+
+
+  }
 
   clearInputs() {
     this.searchFormDeparture = '';
@@ -62,7 +76,7 @@ export class RoutesScreenComponent implements OnInit{
     this.destinationsList = listValues.dsList;
   }
 
-  searchedData: Route[] = this.ALL_ROUTES;
+
   filterData(){
     this.searchedData = this.ALL_ROUTES.filter(
       x => (this.searchFormDeparture === "" || this.searchFormDeparture === x.departure)
@@ -70,18 +84,6 @@ export class RoutesScreenComponent implements OnInit{
   }
 
 
-  constructor(private routeService: RouteService, public dialog: MatDialog) {
-  }
 
-  ngOnInit() {
-    this.ALL_ROUTES = this.routeService.getRoutes();
-    this.searchedData = this.ALL_ROUTES;
-
-    let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
-    this.departuresList = listValues.dpList;
-    this.destinationsList = listValues.dsList;
-
-
-  }
 
 }

@@ -25,9 +25,15 @@ export class FormComponent implements OnInit{
   durationH!: number;
 
 
-  // @Input() operationType !: string;
-
   sampleForm !: FormGroup;
+
+  constructor(private routeService: RouteService,
+              public dialogRef: MatDialogRef<FormComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: {
+                route: Route,
+                type: string
+              }) {
+  }
   ngOnInit() {
     this.sampleForm = new FormGroup({
       'departure': new FormControl(this.data.route.departure, [Validators.required]),
@@ -98,7 +104,6 @@ export class FormComponent implements OnInit{
   }
 
   resetValues(): void {
-    console.log(this.data.route.departure);
     this.sampleForm.patchValue({
       'departure': this.data.route.departure,
       'destination': this.data.route.destination,
@@ -107,14 +112,7 @@ export class FormComponent implements OnInit{
     });
   }
 
-  constructor(private routeService: RouteService,
-              public dialogRef: MatDialogRef<FormComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {
-                route: Route,
-                type: string
-              }) {
-    // this.formData = [NaN, '', '', NaN, NaN];
-  }
+
 
 
 

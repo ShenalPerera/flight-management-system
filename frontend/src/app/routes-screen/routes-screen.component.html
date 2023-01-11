@@ -50,11 +50,7 @@
           </thead>
           <tbody>
           <tr app-entry *ngFor="let route of searchedData;" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
-              [routeID]="route.routeID"
-              [departure]="route.departure"
-              [destination]="route.destination"
-              [mileage]="route.mileage"
-              [durationH]="route.durationH"
+              [route]="route"
           >
           </tbody>
         </table>

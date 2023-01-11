@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "../form/form.component";
 import {MatExpansionPanel} from "@angular/material/expansion";
+import {Route} from "../models/route";
 // import {ALL_ROUTES} from "../shared/routes";
 
 @Component({
@@ -12,36 +13,34 @@ import {MatExpansionPanel} from "@angular/material/expansion";
 })
 export class EntryComponent {
 
-  @Input() routeID !: number;
-  @Input() departure !: string;
-  @Input() destination !: string;
-  @Input() mileage !: number;
-  @Input() durationH !: number;
+  @Input() route !: Route;
 
 
 
   @Output() sendToBeDeletedRecordEvent = new EventEmitter<number>();
 
+  constructor(public dialog: MatDialog) {
+  }
+
   deleteItem() {
     if (confirm(`Do you want to delete this route ?\n
-    RouteID        : ${this.routeID}\n
-    Departure      : ${this.departure}\n
-    Destination    : ${this.destination}\n
-    Mileage        : ${this.mileage}\n
-    Duration(hours): ${this.durationH}`)) {
-      this.sendToBeDeletedRecordEvent.emit(this.routeID);
+    RouteID        : ${this.route.routeID}\n
+    Departure      : ${this.route.departure}\n
+    Destination    : ${this.route.destination}\n
+    Mileage        : ${this.route.mileage}\n
+    Duration(hours): ${this.route.durationH}`)) {
+      this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
     }
   }
 
-  constructor(public dialog: MatDialog) {
-  }
+
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FormComponent, {
       width: '315px',
       height: 'auto',
       data: {
-        route: {routeID: this.routeID, departure: this.departure, destination: this.destination, mileage: this.mileage, durationH: this.durationH},
+        route: {routeID: this.route.routeID, departure: this.route.departure, destination: this.route.destination, mileage: this.route.mileage, durationH: this.route.durationH},
         type: 'edit'
       },
       disableClose: true
