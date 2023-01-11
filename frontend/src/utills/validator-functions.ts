@@ -26,7 +26,7 @@ export const arrivalDepartureValidator: ValidatorFn = (control: AbstractControl)
     return null;
   }
 
-  if (arrival === departure){
+  if (arrival.toLowerCase() === departure.toLowerCase()){
     return {arrivalDepartureError:true};
   }
   return  null;

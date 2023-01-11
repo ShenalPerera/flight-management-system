@@ -29,6 +29,7 @@ import { FareFormComponent } from './fares-screen/fare-form/fare-form.component'
 import { RouteService } from "./routes-screen/services/route.service";
 import { EntryComponent } from "./routes-screen/entry/entry.component";
 
+
 @NgModule({
   declarations: [
     AppComponent,
