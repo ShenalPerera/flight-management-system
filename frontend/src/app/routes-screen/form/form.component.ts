@@ -34,8 +34,8 @@ export class FormComponent implements OnInit{
   }
   ngOnInit() {
     this.sampleForm = new FormGroup({
-      'departure': new FormControl(this.data.route.departure, [Validators.required]),
-      'destination': new FormControl(this.data.route.destination, [Validators.required]),
+      'departure': new FormControl(this.data.route.departure.toUpperCase(), [Validators.required]),
+      'destination': new FormControl(this.data.route.destination.toUpperCase(), [Validators.required]),
       'mileage': new FormControl(this.data.route.mileage, [Validators.required, numberCheckValidator()]),
       'durationH': new FormControl(this.data.route.durationH, [Validators.required, numberCheckValidator()]),
     }, {validators: locationsValidator});
@@ -88,10 +88,10 @@ export class FormComponent implements OnInit{
 
   areSameValues(): boolean {
       if (
-        this.sampleForm.value['departure'] == this.data.route.departure &&
-        this.sampleForm.value['destination'] == this.data.route.destination &&
+        this.sampleForm.value['departure'].toLowerCase() == this.data.route.departure &&
+        this.sampleForm.value['destination'].toLowerCase() == this.data.route.destination &&
         this.sampleForm.value['mileage'] == this.data.route.mileage &&
-        this.sampleForm.value['durationH'] == this.data.route.durationH
+        this.sampleForm.value['durationH']== this.data.route.durationH
       ) {
         return true;
       }else {
@@ -116,8 +116,8 @@ export class FormComponent implements OnInit{
 
   resetValues(): void {
     this.sampleForm.patchValue({
-      'departure': this.data.route.departure,
-      'destination': this.data.route.destination,
+      'departure': this.data.route.departure.toUpperCase(),
+      'destination': this.data.route.destination.toUpperCase(),
       'mileage': this.data.route.mileage,
       'durationH': this.data.route.durationH,
     });
