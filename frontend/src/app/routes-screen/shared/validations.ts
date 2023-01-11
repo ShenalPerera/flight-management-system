@@ -19,7 +19,7 @@ export function numberCheckValidator(): ValidatorFn {
 export const locationsValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const departure = control.get('departure');
   const destination = control.get('destination');
-  if ((departure?.value == destination?.value) && (departure?.value != '') && (destination?.value != '')) {
+  if ((String(departure?.value).toLowerCase() == String(destination?.value).toLowerCase()) && (departure?.value != '') && (destination?.value != '')) {
     return {forbiddenLocations: true};
   }else {
     return null;
