@@ -89,7 +89,7 @@
             dataFilter:searchOptions.departureDate:'departure_date' |
             dataFilter:searchOptions.arrivalTime:'arrival_time' |
             dataFilter:searchOptions.departureTime:'departure_time'"
-            [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event)" (flightEdited) = "onEditFlight($event)" >
+            [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event,searchFilterForm)" (flightEdited) = "onEditFlight($event)" >
         </tbody>
       </table>
     </div>

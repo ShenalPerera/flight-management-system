@@ -17,7 +17,6 @@ export class FlightsScreenComponent implements OnInit{
   isEditMode!:boolean;
   public  flights !: Flight[];
   overlayForm!:FormGroup;
-
   public searchOptions = {
       flight_number : '',
       arrival : '',
@@ -27,7 +26,6 @@ export class FlightsScreenComponent implements OnInit{
       arrivalTime: '',
       departureTime: ''
   };
-
 
   constructor(private dataService : DataService) {
 
@@ -47,18 +45,10 @@ export class FlightsScreenComponent implements OnInit{
     },{validators:arrivalDatesValidator});
   }
 
-  onDeleteFlight(flight_id : string ){
-    this.dataService.removeFlight(flight_id);
-    this.searchOptions = {
-      flight_number: '',
-      arrival:  '',
-      departure: '',
-      arrivalDate: '',
-      departureDate: '',
-      arrivalTime: '',
-      departureTime: ''
-    }
 
+  onDeleteFlight(flight_id : string , searchForm:NgForm){
+    this.dataService.removeFlight(flight_id);
+    searchForm.reset();
   }
 
 
@@ -71,11 +61,11 @@ export class FlightsScreenComponent implements OnInit{
       'oDeparture': flight.departure,
       'oArrivalDateNTime':flight.arrival_date +"T" + flight.arrival_time,
       'oDepartureDateNTime':flight.departure_date + "T" + flight.departure_time,
-
-
     })
+
     this.isOverlayShow = !this.isOverlayShow;
   }
+
 
   onClickAddFlight(){
     this.isEditMode = false;
@@ -84,45 +74,28 @@ export class FlightsScreenComponent implements OnInit{
   }
 
   onClearSearch(f:NgForm){
-    f.reset({
-      fNumber:"",
-      fDeparture:"",
-      fArrival:"",
-      fDepartureDate:"",
-      fArrivalDate:"",
-      fArrivalTime:"",
-      fDepartureTime:""
-    });
-
+    f.reset();
   }
 
   onClickBackdrop(){
     if (confirm("Are you want to exit from editing?")){
       this.isOverlayShow = !this.isOverlayShow;
-
       this.overlayForm.reset();
     }
-
-
   }
+
 
   onSubmitForm(){
     const value = this.overlayForm.value;
     if (this.isEditMode){
       this.dataService.updateFlight(value);
     }
-
     else {
       this.dataService.addFlight(value);
     }
-
-
     this.isOverlayShow = !this.isOverlayShow;
     this.isEditMode =false;
     this.overlayForm.reset();
   }
-
-
-
 
 }

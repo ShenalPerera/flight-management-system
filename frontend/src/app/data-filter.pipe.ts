@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DataFilterPipe implements PipeTransform {
 
   transform(value: any, data_field: any, property_name: any): any {
-    if(value.length === 0 || data_field === ''){
+    if(value.length === 0 || data_field === '' || data_field === null){
       return value;
     }
 
