@@ -45,8 +45,8 @@ export class FlightsScreenComponent implements OnInit{
       'oDepartureDateNTime': new FormControl(null, Validators.required)
 
     },{validators:[arrivalDatesValidator,arrivalDepartureValidator]});
-  }
 
+  }
 
   onDeleteFlight(flight_id : string , searchForm:NgForm){
     this.dataService.removeFlight(flight_id);
