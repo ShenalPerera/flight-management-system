@@ -68,24 +68,25 @@
         <thead>
         <tr>
           <th>Flight Number</th>
-          <th>Arrival</th>
           <th>Departure</th>
-          <th>Arrival Date</th>
-          <th>Arrival Time</th>
+          <th>Arrival</th>
           <th>Departure Date</th>
           <th>Departure Time</th>
+          <th>Arrival Date</th>
+          <th>Arrival Time</th>
         </tr>
         </thead>
         <tbody>
         <tr app-flight-item
             *ngFor="let flightEl of flights |
             dataFilter:searchOptions.flight_number:'flight_number' |
-            dataFilter:searchOptions.arrival:'arrival' |
             dataFilter:searchOptions.departure:'departure' |
+            dataFilter:searchOptions.arrival:'arrival' |
+            dataFilter:searchOptions.departureDate:'departure_date'|
+            dataFilter:searchOptions.departureTime:'departure_time' |
             dataFilter:searchOptions.arrivalDate:'arrival_date' |
-            dataFilter:searchOptions.departureDate:'departure_date' |
-            dataFilter:searchOptions.arrivalTime:'arrival_time' |
-            dataFilter:searchOptions.departureTime:'departure_time'"
+            dataFilter:searchOptions.arrivalTime:'arrival_time'
+            "
             [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event,searchFilterForm)" (flightEdited) = "onEditFlight($event)" >
         </tbody>
       </table>
@@ -175,7 +176,6 @@
                   formControlName = "oArrivalDateNTime"
                   >
         </mat-form-field>
-
 
         <button *ngIf="!isEditMode" type="submit" [disabled]="!overlayForm.valid" mat-raised-button color="primary">Add Flight</button>
         <button *ngIf="isEditMode"  type="submit" [disabled]="!overlayForm.valid"  mat-raised-button color="primary">Save</button>
