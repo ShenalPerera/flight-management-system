@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { FareFormComponent } from "./fare-form/fare-form.component";
-import { Entry } from "./Entry";
+import { Entry } from "./shared/entry.model";
 
 @Component({
   selector: 'app-fares-screen',

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Entry } from '../Entry'
+import { Entry } from '../shared/entry.model'
 
 @Component({
   selector: 'tr [app-fare-item]',

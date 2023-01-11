@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Entry } from "../Entry";
+import { Entry } from "../shared/entry.model";
 
 @Component({
   selector: 'app-fare-form',
