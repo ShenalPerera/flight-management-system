@@ -106,13 +106,19 @@ export class FaresScreenComponent {
     this.handleEditClear();
   }
   editSubmitted() {
-    this.data.forEach((value) => {
-      if (value.id == this.editedEntry.id) {
-        value.departure = this.editedEntry.departure;
-        value.arrival = this.editedEntry.arrival;
-        value.fare = this.editedEntry.fare;
-      }
-    })
+    this.handleDuplicate();
+    if (this.isDuplicate) {
+      alert("The entry is already in the database!");
+      this.isDuplicate = false;
+    } else {
+      this.data.forEach((value) => {
+        if (value.id == this.editedEntry.id) {
+          value.departure = this.editedEntry.departure;
+          value.arrival = this.editedEntry.arrival;
+          value.fare = this.editedEntry.fare;
+        }
+      })
+    }
   }
   createSubmitted() {
     if (confirm("Do you want to create the fare of the route, from "+
