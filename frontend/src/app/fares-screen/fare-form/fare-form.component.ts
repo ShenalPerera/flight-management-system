@@ -52,7 +52,7 @@ export class FareFormComponent implements OnInit {
     this.sampleForm = new FormGroup({
       'departure': new FormControl(this.originalEntry.departure, [Validators.required]),
       'arrival': new FormControl(this.originalEntry.arrival, [Validators.required]),
-      'fare': new FormControl(this.originalEntry.fare, [Validators.required])
+      'fare': new FormControl(this.originalEntry.fare, [Validators.required, numberValidator])
     }, { validators: locationValidator });
   }
 }
