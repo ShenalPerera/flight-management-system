@@ -1,4 +1,4 @@
-import {Injectable, InjectionToken} from '@angular/core';
+import {Inject, Injectable, InjectionToken} from '@angular/core';
 import {Route} from "../models/route";
 import {INITIAL_ROUTES} from "../shared/routes";
 import {NgForm} from "@angular/forms";
@@ -9,10 +9,12 @@ import {NgForm} from "@angular/forms";
 export class RouteService {
 
   referringRoutes !: Route[];
+  numberOfRoutes !: number
   constructor() { }
 
   getRoutes(): Route[] {
     this.referringRoutes = INITIAL_ROUTES;
+    this.numberOfRoutes = INITIAL_ROUTES.length;
     return this.referringRoutes;
   }
 
@@ -29,9 +31,10 @@ export class RouteService {
   }
 
   createRoute(data: Route) {
+    this.numberOfRoutes++;
     this.referringRoutes.push(
       {
-        routeID: this.referringRoutes.length+1,
+        routeID: this.numberOfRoutes,
         departure: data.departure,
         destination: data.destination,
         mileage: data.mileage,
