@@ -22,16 +22,20 @@ export class FaresScreenComponent {
   createEvent: boolean = true;
   isDuplicate: boolean = false;
   currentId: number = this.data.length;
+
   constructor(public dialog: MatDialog) {}
+
   generateLocations() {
     this.departingLocations = [...new Set(this.data.map(item => item.departure))];
     this.arrivingLocations = [...new Set(this.data.map(item => item.arrival))];
   }
   filterData(){
-    this.searchedData = this.data.filter(
-      x => (this.searchCriteria.departure === "" || this.searchCriteria.departure === x.departure)
-        && (this.searchCriteria.arrival === "" || this.searchCriteria.arrival === x.arrival))
+    this.searchedData = this.data.filter(x =>
+      (this.searchCriteria.departure === "" || this.searchCriteria.departure === x.departure) &&
+      (this.searchCriteria.arrival === "" || this.searchCriteria.arrival === x.arrival)
+    )
   }
+
   handleSearchClear() {
     this.searchCriteria = {departure: "", arrival: ""};
     this.filterData();
@@ -43,7 +47,8 @@ export class FaresScreenComponent {
   handleDelete(entry: Entry) {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
       this.data.forEach((value, index) => {
-        if (value.id == entry.id) this.data.splice(index, 1);
+        if (value.id == entry.id)
+          this.data.splice(index, 1);
       })
     }
     this.filterData();
@@ -53,6 +58,35 @@ export class FaresScreenComponent {
       if ((value.departure === this.editedEntry.departure) && (value.arrival === this.editedEntry.arrival))
         this.isDuplicate = true;
     })
+  }
+
+  openForm(entry?: Entry) {
+    if (entry) {
+      this.createEvent = false;
+      this.editedEntry = entry;
+    }
+    const dialogRef = this.dialog.open(FareFormComponent, {
+        data: {
+          type: entry? "Edit" : "Create",
+          entry: {
+            id: this.editedEntry.id,
+            departure: this.editedEntry.departure,
+            arrival: this.editedEntry.arrival,
+            fare: this.editedEntry.fare
+          },
+          departingLocations: this.departingLocations,
+          arrivingLocations: this.arrivingLocations
+        },
+        disableClose: true
+      }
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.editedEntry = result;
+        this.submitted();
+      }
+      this.handleEditClear();
+    });
   }
   submitted() {
     if (this.editedEntry.fare === null ) {
@@ -88,36 +122,13 @@ export class FaresScreenComponent {
         this.isDuplicate = false;
       }
       else {
-        this.data.push({id: ++this.currentId, departure: this.editedEntry.departure, arrival: this.editedEntry.arrival, fare: this.editedEntry.fare});
-      }
-    }
-  }
-  openForm(entry?: Entry) {
-    if (entry) {
-      this.createEvent = false;
-      this.editedEntry = entry;
-    }
-    const dialogRef = this.dialog.open(FareFormComponent, {
-      data: {
-        type: entry? "Edit" : "Create",
-        entry: {
-          id: this.editedEntry.id,
+        this.data.push({
+          id: ++this.currentId,
           departure: this.editedEntry.departure,
           arrival: this.editedEntry.arrival,
           fare: this.editedEntry.fare
-        },
-        departingLocations: this.departingLocations,
-        arrivingLocations: this.arrivingLocations
-      },
-      disableClose: true
-    }
-    );
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.editedEntry = result;
-        this.submitted();
+        });
       }
-      this.handleEditClear();
-    });
+    }
   }
 }
