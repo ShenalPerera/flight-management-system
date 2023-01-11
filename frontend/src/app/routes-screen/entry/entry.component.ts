@@ -3,7 +3,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "../form/form.component";
 import {MatExpansionPanel} from "@angular/material/expansion";
 import {Route} from "../models/route";
-// import {ALL_ROUTES} from "../shared/routes";
 
 @Component({
   selector: 'tr [app-entry]',
@@ -14,8 +13,6 @@ import {Route} from "../models/route";
 export class EntryComponent {
 
   @Input() route !: Route;
-
-
 
   @Output() sendToBeDeletedRecordEvent = new EventEmitter<number>();
 
@@ -32,8 +29,6 @@ export class EntryComponent {
       this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
     }
   }
-
-
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FormComponent, {

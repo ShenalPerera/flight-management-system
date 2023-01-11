@@ -1,5 +1,5 @@
-import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 import { Route } from '../models/route';
 import {RouteService} from "../services/route.service";
@@ -15,17 +15,15 @@ import {numberCheckValidator} from "../shared/validations";
 })
 export class FormComponent implements OnInit{
 
-  // @Input() formData: [number, string, string, number, number] = [NaN, '', '', NaN, NaN];
-  // @Input() allRoutes !: Route[];
-
-  routeID!: number;
   departure!: string;
   destination!: string;
   mileage!: number;
   durationH!: number;
 
-
   sampleForm !: FormGroup;
+
+  updatedRoute !: Route;
+  createdRoute !: Route;
 
   constructor(private routeService: RouteService,
               public dialogRef: MatDialogRef<FormComponent>,
@@ -43,23 +41,20 @@ export class FormComponent implements OnInit{
     });
   }
 
-  updatedRoute !: Route;
+  onSubmitUpdate() {
+    this.updatedRoute = {
+      routeID: this.data.route.routeID,
+      departure: this.sampleForm.value['departure'],
+      destination: this.sampleForm.value['destination'],
+      mileage: this.sampleForm.value['mileage'],
+      durationH: this.sampleForm.value['durationH'],
+    };
 
-    onSubmitUpdate() {
-      this.updatedRoute = {
-        routeID: this.data.route.routeID,
-        departure: this.sampleForm.value['departure'],
-        destination: this.sampleForm.value['destination'],
-        mileage: this.sampleForm.value['mileage'],
-        durationH: this.sampleForm.value['durationH'],
-      };
-
-      this.routeService.updateRoute(this.updatedRoute);
-      this.onNoClickWithoutConfirmation();
+    this.routeService.updateRoute(this.updatedRoute);
+    this.onNoClickWithoutConfirmation();
 
   }
 
-  createdRoute !: Route;
   onSubmitCreate() {
     this.createdRoute = {
       routeID: NaN,
@@ -72,7 +67,6 @@ export class FormComponent implements OnInit{
     this.onNoClickWithoutConfirmation();
 
   }
-
 
   areSameValues(): boolean {
       if (
@@ -96,7 +90,6 @@ export class FormComponent implements OnInit{
         }
       }
 
-
   }
 
   onNoClickWithoutConfirmation(): void {
@@ -111,13 +104,5 @@ export class FormComponent implements OnInit{
       'durationH': this.data.route.durationH,
     });
   }
-
-
-
-
-
-
-
-
 
 }

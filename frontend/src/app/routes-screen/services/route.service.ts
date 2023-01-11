@@ -1,7 +1,6 @@
-import {Inject, Injectable, InjectionToken} from '@angular/core';
+import { Injectable, InjectionToken} from '@angular/core';
 import {Route} from "../models/route";
 import {INITIAL_ROUTES} from "../shared/routes";
-import {NgForm} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
