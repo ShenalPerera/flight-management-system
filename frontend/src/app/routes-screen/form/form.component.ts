@@ -15,8 +15,8 @@ import {numberCheckValidator} from "../shared/validations";
 })
 export class FormComponent implements OnInit{
 
-  @Input() formData: [number, string, string, number, number] = [NaN, '', '', NaN, NaN];
-  @Input() allRoutes !: Route[];
+  // @Input() formData: [number, string, string, number, number] = [NaN, '', '', NaN, NaN];
+  // @Input() allRoutes !: Route[];
 
   routeID!: number;
   departure!: string;
@@ -25,15 +25,15 @@ export class FormComponent implements OnInit{
   durationH!: number;
 
 
-  @Input() operationType !: string;
+  // @Input() operationType !: string;
 
   sampleForm !: FormGroup;
   ngOnInit() {
     this.sampleForm = new FormGroup({
-      'departure': new FormControl(this.data.departure, [Validators.required]),
-      'destination': new FormControl(this.data.destination, [Validators.required]),
-      'mileage': new FormControl(this.data.mileage, [Validators.required, numberCheckValidator()]),
-      'durationH': new FormControl(this.data.durationH, [Validators.required, numberCheckValidator()]),
+      'departure': new FormControl(this.data.route.departure, [Validators.required]),
+      'destination': new FormControl(this.data.route.destination, [Validators.required]),
+      'mileage': new FormControl(this.data.route.mileage, [Validators.required, numberCheckValidator()]),
+      'durationH': new FormControl(this.data.route.durationH, [Validators.required, numberCheckValidator()]),
     });
   }
 
@@ -41,7 +41,7 @@ export class FormComponent implements OnInit{
 
     onSubmitUpdate() {
       this.updatedRoute = {
-        routeID: this.data.routeID,
+        routeID: this.data.route.routeID,
         departure: this.sampleForm.value['departure'],
         destination: this.sampleForm.value['destination'],
         mileage: this.sampleForm.value['mileage'],
@@ -53,13 +53,27 @@ export class FormComponent implements OnInit{
 
   }
 
+  createdRoute !: Route;
+  onSubmitCreate() {
+    this.createdRoute = {
+      routeID: NaN,
+      departure: this.sampleForm.value['departure'],
+      destination: this.sampleForm.value['destination'],
+      mileage: this.sampleForm.value['mileage'],
+      durationH: this.sampleForm.value['durationH'],
+    };
+    this.routeService.createRoute(this.createdRoute);
+    this.onNoClickWithoutConfirmation();
+
+  }
+
 
   areSameValues(): boolean {
       if (
-        this.sampleForm.value['departure'] == this.data.departure &&
-        this.sampleForm.value['destination'] == this.data.destination &&
-        this.sampleForm.value['mileage'] == this.data.mileage &&
-        this.sampleForm.value['durationH'] == this.data.durationH
+        this.sampleForm.value['departure'] == this.data.route.departure &&
+        this.sampleForm.value['destination'] == this.data.route.destination &&
+        this.sampleForm.value['mileage'] == this.data.route.mileage &&
+        this.sampleForm.value['durationH'] == this.data.route.durationH
       ) {
         return true;
       }else {
@@ -84,27 +98,25 @@ export class FormComponent implements OnInit{
   }
 
   resetValues(): void {
-    console.log(this.data.departure);
+    console.log(this.data.route.departure);
     this.sampleForm.patchValue({
-      'departure': this.data.departure,
-      'destination': this.data.destination,
-      'mileage': this.data.mileage,
-      'durationH': this.data.durationH,
+      'departure': this.data.route.departure,
+      'destination': this.data.route.destination,
+      'mileage': this.data.route.mileage,
+      'durationH': this.data.route.durationH,
     });
   }
 
   constructor(private routeService: RouteService,
               public dialogRef: MatDialogRef<FormComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: Route) {
-    this.formData = [NaN, '', '', NaN, NaN];
+              @Inject(MAT_DIALOG_DATA) public data: {
+                route: Route,
+                type: string
+              }) {
+    // this.formData = [NaN, '', '', NaN, NaN];
   }
 
-  clearInputs() {
-    this.departure = '';
-    this.destination = '';
-    this.mileage = NaN;
-    this.durationH = NaN;
-  }
+
 
 
 
