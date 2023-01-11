@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "../form/form.component";
 import {MatExpansionPanel} from "@angular/material/expansion";
@@ -10,13 +10,20 @@ import {Route} from "../models/route";
   styleUrls: ['./entry.component.scss'],
   viewProviders: [MatExpansionPanel]
 })
-export class EntryComponent {
+export class EntryComponent implements OnInit{
 
   @Input() route !: Route;
 
   @Output() sendToBeDeletedRecordEvent = new EventEmitter<number>();
 
+  numOfHours !: number;
+  numOfMinutes !: number;
   constructor(public dialog: MatDialog) {
+  }
+
+  ngOnInit() {
+    this.numOfHours = Math.floor(this.route.durationH);
+    this.numOfMinutes = Math.ceil((this.route.durationH - Math.floor(this.route.durationH))*60);
   }
 
   deleteItem() {
