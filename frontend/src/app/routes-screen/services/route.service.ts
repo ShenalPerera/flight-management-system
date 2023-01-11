@@ -42,8 +42,8 @@ export class RouteService {
   updateRoute(data: Route) {
     this.referringRoutes.forEach((route)=>{
       if (route.routeID == data.routeID) {
-        route.departure = data.departure;
-        route.destination = data.destination;
+        route.departure = data.departure.toLowerCase();
+        route.destination = data.destination.toLowerCase();
         route.mileage = data.mileage;
         route.durationH = data.durationH;
 
@@ -56,8 +56,8 @@ export class RouteService {
     this.referringRoutes.push(
       {
         routeID: this.numberOfRoutes,
-        departure: data.departure,
-        destination: data.destination,
+        departure: data.departure.toLowerCase(),
+        destination: data.destination.toLowerCase(),
         mileage: data.mileage,
         durationH: data.durationH,
       }

@@ -45,8 +45,8 @@ export class FormComponent implements OnInit{
 
     let hasDuplicates = this.routeService.handleDuplicatesWhenUpdating
     (
-      this.sampleForm.value['departure'],
-      this.sampleForm.value['destination'],
+      this.sampleForm.value['departure'].toLowerCase(),
+      this.sampleForm.value['destination'].toLowerCase(),
       this.data.route.routeID
     );
 
@@ -69,7 +69,7 @@ export class FormComponent implements OnInit{
 
   onSubmitCreate() {
 
-    let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(this.sampleForm.value['departure'], this.sampleForm.value['destination']);
+    let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(this.sampleForm.value['departure'].toLowerCase(), this.sampleForm.value['destination'].toLowerCase());
 
     if(!hasDuplicates) {
         this.createdRoute = {
