@@ -1,10 +1,10 @@
 <td>{{flight.flight_number}}</td>
-<td>{{flight.departure}}</td>
-<td>{{flight.arrival}}</td>
-<td>{{flight.departure_date}}</td>
-<td>{{flight.departure_time}}</td>
-<td>{{flight.arrival_date}}</td>
-<td>{{flight.arrival_time}}</td>
+<td>{{flight.departure | titlecase}}</td>
+<td>{{flight.arrival | titlecase}}</td>
+<td>{{flight.departure_date | titlecase}}</td>
+<td>{{flight.departure_time | titlecase}}</td>
+<td>{{flight.arrival_date | titlecase}}</td>
+<td>{{flight.arrival_time | titlecase}}</td>
 
 <td>
     <button mat-raised-button color="primary" style="margin-left: 10px" (click)="onClickEdit()">Edit</button>
