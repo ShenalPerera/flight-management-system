@@ -1,11 +1,9 @@
-
-
-<div>
-  <form #searchFilterForm="ngForm">
+<div class="search-filter">
+  <form #searchFilterForm="ngForm" class="search-form">
     <mat-form-field appearance="fill">
       <mat-label>Flight number</mat-label>
       <select  matNativeControl [(ngModel)]="searchOptions.flight_number" name="fNumber" >
-        <option value=""></option>
+        <option value = ""></option>
         <option *ngFor="let flight of flights" [value]="flight.flight_number">
           {{flight.flight_number}}
         </option>
@@ -35,7 +33,6 @@
     <mat-form-field appearance="fill">
       <mat-label>Arrival date</mat-label>
       <input matInput type="date" [(ngModel)]="searchOptions.arrivalDate" name="fArrivalDate">
-
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -53,9 +50,9 @@
       <input matInput  type="time" [(ngModel)]="searchOptions.departureTime" name="fDepartureTime">
     </mat-form-field>
 
-    <div>
-      <button (click)="onClearSearch(searchFilterForm)">Clear</button>
-    </div>
+
+      <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)">Clear</button>
+
 
   </form>
 </div>
@@ -94,7 +91,10 @@
       </table>
     </div>
   </div>
-  <button   mat-raised-button color="primary" (click)="onClickAddFlight()">Add Flight</button>
+
+  <button  class="add-flight-button" [hidden]="isOverlayShow" (click)="onClickAddFlight()"><strong>Add Flight</strong></button>
+
+
 </div>
 
 <div *ngIf="isOverlayShow">
@@ -133,17 +133,13 @@
         <span *ngIf="!overlayForm.get('oArrival')?.valid && overlayForm.get('oArrival')?.touched" class="form-error-message">
             Arrival is required.
         </span>
-
         <mat-form-field class="form-field-full-width">
-
           <input  matInput
                   placeholder="Arrival"
                   value=""
                   formControlName = "oArrival"
                   >
-
         </mat-form-field>
-
 
 
         <span *ngIf="!overlayForm.get('oArrivalDate')?.valid && overlayForm.get('oArrivalDate')?.touched" class="form-error-message">
@@ -173,6 +169,7 @@
                   formControlName = "oDepartureDateNTime"
                   >
         </mat-form-field>
+
         <div *ngIf="overlayForm.errors?.['isDateValid'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
           Departure date and time cannot be less than arrival date
         </div>
