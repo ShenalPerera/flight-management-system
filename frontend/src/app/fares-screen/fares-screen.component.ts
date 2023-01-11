@@ -42,7 +42,6 @@ export class FaresScreenComponent {
   }
   handleEditClear() {
     this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0};
-    this.createEvent = true;
   }
   handleDelete(entry: Entry) {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
@@ -64,6 +63,8 @@ export class FaresScreenComponent {
     if (entry) {
       this.createEvent = false;
       this.editedEntry = entry;
+    } else {
+      this.createEvent = true;
     }
     const dialogRef = this.dialog.open(FareFormComponent, {
         data: {
@@ -89,9 +90,7 @@ export class FaresScreenComponent {
     });
   }
   submitted() {
-    if (this.editedEntry.fare === null ) {
-      alert("Fare should be a number!");
-    } else if (this.editedEntry.departure === this.editedEntry.arrival) {
+    if (this.editedEntry.departure === this.editedEntry.arrival) {
       alert("Departure and Arrival should be distinct!");
     } else {
       if (this.createEvent) {
@@ -99,7 +98,6 @@ export class FaresScreenComponent {
         this.filterData();
       } else {
         this.editSubmitted();
-        this.createEvent = true;
       }
       this.handleEditClear();
     }
