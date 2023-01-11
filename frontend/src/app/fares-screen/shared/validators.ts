@@ -4,7 +4,7 @@ export const locationValidator: ValidatorFn =
   (control: AbstractControl): ValidationErrors | null => {
     const departure = control.get('departure');
     const arrival = control.get('arrival');
-    if (departure?.value == arrival?.value) {
+    if ((departure?.value == arrival?.value) && (departure?.value != '') && (departure?.value != '')) {
       return { sameLocation : true };
     }
     return null;
