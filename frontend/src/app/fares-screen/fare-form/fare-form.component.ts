@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Entry } from "../shared/entry.model";
 import { locationValidator, numberValidator } from "../shared/validators";
+import { FareService } from "../services/fare.service";
 
 @Component({
   selector: 'app-fare-form',
@@ -12,9 +13,10 @@ import { locationValidator, numberValidator } from "../shared/validators";
 export class FareFormComponent implements OnInit {
   sampleForm!: FormGroup;
   constructor(
+    private fareService: FareService,
     public dialogRef: MatDialogRef<FareFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      type: string,
+      createEvent: boolean,
       entry: Entry,
       departingLocation: string[],
       arrivingLocation: string[]
@@ -38,12 +40,40 @@ export class FareFormComponent implements OnInit {
     }
   }
   submitCLicked() {
-    this.dialogRef.close({
-      id: this.data.entry.id,
-      departure: this.sampleForm.value['departure'].toLowerCase(),
-      arrival: this.sampleForm.value['arrival'].toLowerCase(),
-      fare: this.sampleForm.value['fare'],
-    });
+    let duplicateId = this.fareService.isDuplicate(
+      this.sampleForm.value['departure'].toLowerCase(),
+      this.sampleForm.value['arrival'].toLowerCase()
+    )
+    if (this.data.createEvent) {
+      if (confirm("Do you want to create the fare of the route, from "+
+        this.sampleForm.value['departure'].toUpperCase()+" to "+
+        this.sampleForm.value['arrival'].toUpperCase()+" as "+
+        this.sampleForm.value['fare']+"?")) {
+
+        if (duplicateId != 0) {
+          alert("The entry is already in the database!");
+        }
+        else {
+          this.dialogRef.close({
+            id: this.data.entry.id,
+            departure: this.sampleForm.value['departure'].toLowerCase(),
+            arrival: this.sampleForm.value['arrival'].toLowerCase(),
+            fare: this.sampleForm.value['fare'],
+          });
+        }
+      }
+    } else {
+      if ((duplicateId != this.data.entry.id) && (duplicateId != 0)) {
+        alert("The entry is already in the database!");
+      } else {
+        this.dialogRef.close({
+          id: this.data.entry.id,
+          departure: this.sampleForm.value['departure'].toLowerCase(),
+          arrival: this.sampleForm.value['arrival'].toLowerCase(),
+          fare: this.sampleForm.value['fare'],
+        });
+      }
+    }
   }
   resetClicked() {
     this.sampleForm.patchValue({

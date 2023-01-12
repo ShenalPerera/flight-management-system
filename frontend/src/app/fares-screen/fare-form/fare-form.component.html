@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{ this.data.type }}</h1>
+<h1 mat-dialog-title>{{ this.data.createEvent? "Create" : "Edit" }}</h1>
 <form #f="ngForm" [formGroup]="sampleForm">
 
   <div mat-dialog-content>

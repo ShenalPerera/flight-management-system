@@ -59,7 +59,7 @@ export class FaresScreenComponent {
     }
     const dialogRef = this.dialog.open(FareFormComponent, {
         data: {
-          type: entry? "Edit" : "Create",
+          createEvent: this.createEvent,
           entry: {
             id: this.editedEntry.id,
             departure: this.editedEntry.departure,
@@ -82,29 +82,11 @@ export class FaresScreenComponent {
   }
   submitted() {
     if (this.createEvent) {
-      this.createSubmitted();
+      this.fareService.createEntry(this.editedEntry);
       this.filterData();
-    } else {
-      this.editSubmitted();
-    }
-    this.handleEditClear();
-  }
-  editSubmitted() {
-    if (this.fareService.isDuplicate(this.editedEntry.departure, this.editedEntry.arrival) != this.editedEntry.id) {
-      alert("The entry is already in the database!");
     } else {
       this.fareService.editEntry(this.editedEntry);
     }
-  }
-  createSubmitted() {
-    if (confirm("Do you want to create the fare of the route, from "+
-      this.editedEntry.departure+" to "+this.editedEntry.arrival+" as "+this.editedEntry.fare+"?")) {
-      if (this.fareService.isDuplicate(this.editedEntry.departure, this.editedEntry.arrival)) {
-        alert("The entry is already in the database!");
-      }
-      else {
-        this.fareService.createEntry(this.editedEntry);
-      }
-    }
+    this.handleEditClear();
   }
 }
