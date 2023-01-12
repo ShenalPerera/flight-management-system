@@ -148,7 +148,9 @@
         <span *ngIf="!overlayForm.get('oDepartureDateNTime')?.valid && overlayForm.get('oDepartureDateNTime')?.touched" class="form-error-message">
             Departure Date is required.
         </span>
-
+        <div *ngIf="overlayForm.errors?.['duplicateEntry'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
+          This flight number has an entry on that time*
+        </div>
         <mat-form-field class="form-field-full-width">
           <mat-label>Departure Date & Time</mat-label>
           <input  matInput
@@ -166,6 +168,7 @@
         <div *ngIf="overlayForm.errors?.['isDateValid'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
           Departure date and time cannot be less than arrival date*
         </div>
+
         <mat-form-field class="form-field-full-width">
           <mat-label>Arrival Date & Time</mat-label>
           <input  matInput

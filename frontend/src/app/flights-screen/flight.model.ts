@@ -1,7 +1,7 @@
 export class Flight{
 
   public id: string | undefined;
-  public flight_number: number | undefined;
+  public flight_number: string | undefined;
   public arrival: string | undefined;
   public departure: string | undefined;
   public arrival_date: string | undefined;
@@ -11,7 +11,7 @@ export class Flight{
 
   public departure_time:string | undefined;
 
-  constructor(id:string,flight_number:number, arrival:string, departure:string,arrival_date:string,arrival_time:string, departure_date:string,
+  constructor(id:string,flight_number:string, arrival:string, departure:string,arrival_date:string,arrival_time:string, departure_date:string,
                departure_time:string){
     this.flight_number = flight_number;
     this.arrival = arrival;

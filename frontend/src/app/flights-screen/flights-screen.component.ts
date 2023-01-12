@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Flight} from "./flight.model";
 import {DataService} from "../../assets/data-service";
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/validator-functions";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-flights-screen',
@@ -44,7 +45,7 @@ export class FlightsScreenComponent implements OnInit{
       'oArrivalDateNTime': new FormControl(null,Validators.required),
       'oDepartureDateNTime': new FormControl(null, Validators.required)
 
-    },{validators:[arrivalDatesValidator,arrivalDepartureValidator]});
+    },{validators:[arrivalDatesValidator,arrivalDepartureValidator],asyncValidators:this.invalidFlightEntry.bind(this)});
 
   }
 
@@ -103,6 +104,19 @@ export class FlightsScreenComponent implements OnInit{
     this.isOverlayShow = !this.isOverlayShow;
     this.isEditMode =false;
     this.overlayForm.reset();
+  }
+
+  invalidFlightEntry(control:AbstractControl):Promise<any> | Observable<any>{
+    return new Promise((resolve, reject) => {
+      const oId = control.get('oId')?.value;
+      const departureDateNTime = control.get('oDepartureDateNTime')?.value;
+      const flightNumber = control.get('oFlightNumber')?.value;
+
+      if (!this.dataService.checkEntryValid(oId, flightNumber, departureDateNTime)) {
+        resolve({'duplicateEntry': true});
+      }
+      resolve (null);
+    });
   }
 
 }
