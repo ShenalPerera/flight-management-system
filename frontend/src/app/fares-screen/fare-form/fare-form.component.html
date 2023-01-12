@@ -35,9 +35,9 @@
   </div>
 
   <div mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="onSubmitUpdate()" [disabled]="sampleForm.invalid">Apply</button>
-    <button mat-raised-button (click)="resetForm()">Reset</button>
-    <button mat-raised-button color="warn" (click)="closeDialog()">Discard</button>
+    <button mat-raised-button color="primary" (click)="submitCLicked()" [disabled]="sampleForm.invalid">Apply</button>
+    <button mat-raised-button (click)="resetClicked()">Reset</button>
+    <button mat-raised-button color="warn" (click)="discardClicked()">Discard</button>
   </div>
 
 </form>

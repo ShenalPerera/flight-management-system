@@ -11,8 +11,6 @@ import { locationValidator, numberValidator } from "../shared/validators";
 })
 export class FareFormComponent implements OnInit {
   sampleForm!: FormGroup;
-  originalEntry!: Entry;
-  updatedFare!: Entry;
   constructor(
     public dialogRef: MatDialogRef<FareFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
@@ -28,36 +26,30 @@ export class FareFormComponent implements OnInit {
       'arrival': new FormControl(this.data.entry.arrival, [Validators.required]),
       'fare': new FormControl(this.data.entry.fare, [Validators.required, numberValidator])
     }, { validators: locationValidator });
-    this.originalEntry = {
-      id: this.data.entry.id,
-      departure: this.data.entry.departure,
-      arrival: this.data.entry.arrival,
-      fare: this.data.entry.fare,
-    }
   }
-  closeDialog() {
-    if ((this.sampleForm.value['departure'].toLowerCase() == this.originalEntry.departure) &&
-      (this.sampleForm.value['arrival'].toLowerCase() == this.originalEntry.arrival) &&
-      (this.sampleForm.value['fare'] == this.originalEntry.fare)) {
-      this.dialogRef.close(this.updatedFare);
+  discardClicked() {
+    if (
+      (this.sampleForm.value['departure'].toLowerCase() == this.data.entry.departure) &&
+      (this.sampleForm.value['arrival'].toLowerCase() == this.data.entry.arrival) &&
+      (this.sampleForm.value['fare'] == this.data.entry.fare)) {
+      this.dialogRef.close();
     } else if (confirm("Entered data will be lost! Do you want to proceed?")) {
-        this.dialogRef.close(this.updatedFare);
+      this.dialogRef.close();
     }
   }
-  onSubmitUpdate() {
-    this.updatedFare = {
+  submitCLicked() {
+    this.dialogRef.close({
       id: this.data.entry.id,
       departure: this.sampleForm.value['departure'].toLowerCase(),
       arrival: this.sampleForm.value['arrival'].toLowerCase(),
       fare: this.sampleForm.value['fare'],
-    }
-    this.dialogRef.close(this.updatedFare);
+    });
   }
-  resetForm() {
-    this.sampleForm = new FormGroup({
-      'departure': new FormControl(this.originalEntry.departure, [Validators.required]),
-      'arrival': new FormControl(this.originalEntry.arrival, [Validators.required]),
-      'fare': new FormControl(this.originalEntry.fare, [Validators.required, numberValidator])
-    }, { validators: locationValidator });
+  resetClicked() {
+    this.sampleForm.patchValue({
+      'departure': this.data.entry.departure,
+      'arrival': this.data.entry.arrival,
+      'fare': this.data.entry.fare
+    });
   }
 }
