@@ -34,7 +34,7 @@
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
-    <mat-label>Duration</mat-label>
+    <mat-label>Duration(hours)</mat-label>
     <input formControlName="durationH" matInput name="durationH">
     <span class="text-danger" *ngIf="sampleForm.get('durationH')!.errors?.['forbiddenNumber']">
        Invalid: Cannot contain letters

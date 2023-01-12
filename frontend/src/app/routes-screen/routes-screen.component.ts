@@ -76,9 +76,7 @@ export class RoutesScreenComponent implements OnInit{
 
 
   filterData(){
-    this.searchedData = this.ALL_ROUTES.filter(
-      x => (this.searchFormDeparture === "" || this.searchFormDeparture === x.departure)
-        && (this.searchFormDestination === "" || this.searchFormDestination === x.destination))
+    this.searchedData = this.routeService.filterData(this.searchFormDeparture, this.searchFormDestination);
   }
 
 

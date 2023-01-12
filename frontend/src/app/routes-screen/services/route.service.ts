@@ -90,5 +90,11 @@ export class RouteService {
     return this.referringRoutes;
   }
 
+  filterData(searchFormDeparture: string, searchFormDestination: string){
+    return this.referringRoutes.filter(
+      x => (searchFormDeparture === "" || searchFormDeparture === x.departure)
+        && (searchFormDestination === "" || searchFormDestination === x.destination))
+  }
+
 
 }

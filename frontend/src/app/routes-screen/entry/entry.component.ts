@@ -29,8 +29,8 @@ export class EntryComponent implements OnInit{
   deleteItem() {
     if (confirm(`Do you want to delete this route ?\n
     RouteID        : ${this.route.routeID}\n
-    Departure      : ${this.route.departure}\n
-    Destination    : ${this.route.destination}\n
+    Departure      : ${this.route.departure.toUpperCase()}\n
+    Destination    : ${this.route.destination.toUpperCase()}\n
     Mileage        : ${this.route.mileage}\n
     Duration(hours): ${this.route.durationH}`)) {
       this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
