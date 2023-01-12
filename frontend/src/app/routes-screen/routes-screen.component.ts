@@ -50,6 +50,7 @@ export class RoutesScreenComponent implements OnInit{
   }
 
   openDialogToCreate(): void {
+    this.clearInputs();
     const dialogRef = this.dialog.open(FormComponent, {
       width: '315px',
       height: 'auto',
