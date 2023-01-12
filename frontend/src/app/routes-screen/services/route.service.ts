@@ -76,7 +76,10 @@ export class RouteService {
       }
     });
 
+    departuresList.sort();
+    destinationsList.sort();
     return {
+
       dpList: departuresList,
       dsList: destinationsList
     }
