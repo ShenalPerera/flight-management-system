@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { FareFormComponent } from "./fare-form/fare-form.component";
 import { Entry } from "./shared/entry.model";
+import { FareService } from "./services/fare.service";
 
 @Component({
   selector: 'app-fares-screen',
@@ -9,37 +10,29 @@ import { Entry } from "./shared/entry.model";
   styleUrls: ['./fares-screen.component.scss']
 })
 export class FaresScreenComponent {
-  data: Entry[] = [
-    {id:1, departure:"colombo", arrival:"dubai", fare:50},
-    {id:2, departure:"colombo", arrival:"sydney", fare:75},
-    {id:3, departure:"dubai", arrival:"colombo", fare:50},
-    {id:4, departure:"colombo", arrival:"new york", fare:150},
-    {id:5, departure:"new york", arrival:"sydney", fare:225},
-    {id:6, departure:"new york", arrival:"colombo", fare:150},
-    {id:7, departure:"london", arrival:"colombo", fare:125},
-    {id:8, departure:"dubai", arrival:"london", fare:80},
-    {id:9, departure:"paris", arrival:"sydney", fare:185},
-    {id:10, departure:"new york", arrival:"paris", fare:135},
-  ];
   departingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
   arrivingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
-  searchedData: Entry[] = this.data;
   searchCriteria = {departure: "", arrival: ""};
+  searchedData: Entry[] = this.fareService.filterDataService(
+    this.searchCriteria.departure,
+    this.searchCriteria.arrival
+  )
   editedEntry: Entry = {id: 0, departure: "", arrival: "", fare: 0};
   createEvent: boolean = true;
-  isDuplicate: boolean = false;
-  currentId: number = this.data.length;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    private fareService: FareService,
+    public dialog: MatDialog
+  ) {}
 
   generateLocations() {
-    this.departingLocations = [...new Set(this.data.map(item => item.departure))];
-    this.arrivingLocations = [...new Set(this.data.map(item => item.arrival))];
+    this.departingLocations = this.fareService.generateDepartingLocations();
+    this.arrivingLocations = this.fareService.generateArrivingLocations();
   }
   filterData(){
-    this.searchedData = this.data.filter(x =>
-      (this.searchCriteria.departure === "" || this.searchCriteria.departure === x.departure) &&
-      (this.searchCriteria.arrival === "" || this.searchCriteria.arrival === x.arrival)
+    this.searchedData = this.fareService.filterDataService(
+      this.searchCriteria.departure,
+      this.searchCriteria.arrival
     )
   }
 
@@ -52,18 +45,9 @@ export class FaresScreenComponent {
   }
   handleDelete(entry: Entry) {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
-      this.data.forEach((value, index) => {
-        if (value.id == entry.id)
-          this.data.splice(index, 1);
-      })
+      this.fareService.deleteEntry(entry.id);
     }
     this.filterData();
-  }
-  handleDuplicate() {
-    this.data.forEach((value) => {
-      if ((value.departure === this.editedEntry.departure) && (value.arrival === this.editedEntry.arrival))
-        this.isDuplicate = true;
-    })
   }
 
   openForm(entry?: Entry) {
@@ -106,35 +90,20 @@ export class FaresScreenComponent {
     this.handleEditClear();
   }
   editSubmitted() {
-    this.handleDuplicate();
-    if (this.isDuplicate) {
+    if (this.fareService.isDuplicate(this.editedEntry.departure, this.editedEntry.arrival) != this.editedEntry.id) {
       alert("The entry is already in the database!");
-      this.isDuplicate = false;
     } else {
-      this.data.forEach((value) => {
-        if (value.id == this.editedEntry.id) {
-          value.departure = this.editedEntry.departure;
-          value.arrival = this.editedEntry.arrival;
-          value.fare = this.editedEntry.fare;
-        }
-      })
+      this.fareService.editEntry(this.editedEntry);
     }
   }
   createSubmitted() {
     if (confirm("Do you want to create the fare of the route, from "+
       this.editedEntry.departure+" to "+this.editedEntry.arrival+" as "+this.editedEntry.fare+"?")) {
-      this.handleDuplicate();
-      if (this.isDuplicate) {
+      if (this.fareService.isDuplicate(this.editedEntry.departure, this.editedEntry.arrival)) {
         alert("The entry is already in the database!");
-        this.isDuplicate = false;
       }
       else {
-        this.data.push({
-          id: ++this.currentId,
-          departure: this.editedEntry.departure,
-          arrival: this.editedEntry.arrival,
-          fare: this.editedEntry.fare
-        });
+        this.fareService.createEntry(this.editedEntry);
       }
     }
   }
