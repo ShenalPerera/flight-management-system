@@ -77,5 +77,6 @@ export class FareFormComponent implements OnInit {
       'arrival': this.data.entry.arrival,
       'fare': this.data.entry.fare
     });
+    this.sampleForm.markAsPristine();
   }
 }
