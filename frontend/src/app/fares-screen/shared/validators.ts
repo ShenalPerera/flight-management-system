@@ -6,7 +6,7 @@ export const locationValidator: ValidatorFn =
     const arrival = control.get('arrival');
     if (
       (departure?.value.toLowerCase() == arrival?.value.toLowerCase()) &&
-      (departure?.value != '') && (departure?.value != '')
+      (departure?.value != '') && (arrival?.value != '')
     ) {
       return { sameLocation : true };
     }
