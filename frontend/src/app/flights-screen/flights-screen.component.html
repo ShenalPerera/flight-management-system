@@ -2,33 +2,20 @@
   <form #searchFilterForm="ngForm" class="search-form">
     <mat-form-field appearance="fill">
       <mat-label>Flight number</mat-label>
-      <select  matNativeControl [(ngModel)]="searchOptions.flight_number" name="fNumber" >
-        <option value = ""></option>
-        <option *ngFor="let flight of flights" [value]="flight.flight_number">
-          {{flight.flight_number}}
-        </option>
-      </select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Arrival</mat-label>
-      <select  matNativeControl [(ngModel)]="searchOptions.arrival" name="fArrival">
-        <option value=""></option>
-        <option *ngFor="let flight of flights" [value]="flight.arrival">
-          {{flight.arrival | titlecase}}
-        </option>
-      </select>
+      <input type="text" name="fNumber" matInput [(ngModel)] = "searchOptions.flight_number">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
-      <select  matNativeControl [(ngModel)]="searchOptions.departure" name="fDeparture">
-        <option value=""></option>
-        <option *ngFor="let flight of flights" [value]="flight.departure">
-          {{flight.departure | titlecase }}
-        </option>
-      </select>
+      <input type="text" name="fDeparture" matInput  [(ngModel)] = "searchOptions.departure" >
     </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival</mat-label>
+      <input type="text" name="fArrival" matInput  [(ngModel)] = "searchOptions.arrival" >
+    </mat-form-field>
+
+
 
     <mat-form-field appearance="fill">
       <mat-label>Arrival date</mat-label>
@@ -117,7 +104,7 @@
                  formControlName = "oFlightNumber"
                   >
         </mat-form-field>
-
+        <br>
         <span *ngIf="!overlayForm.get('oDeparture')?.valid && overlayForm.get('oDeparture')?.touched" class="form-error-message">
             Departure is required.
         </span>
@@ -132,6 +119,7 @@
           >
 
         </mat-form-field>
+        <br>
 
         <span *ngIf="!overlayForm.get('oArrival')?.valid && overlayForm.get('oArrival')?.touched" class="form-error-message">
             Arrival is required.
@@ -144,6 +132,7 @@
                   formControlName = "oArrival"
                   >
         </mat-form-field>
+        <br>
 
         <span *ngIf="!overlayForm.get('oDepartureDateNTime')?.valid && overlayForm.get('oDepartureDateNTime')?.touched" class="form-error-message">
             Departure Date is required.
@@ -160,13 +149,14 @@
                   formControlName = "oDepartureDateNTime"
           >
         </mat-form-field>
+        <br>
 
 
         <span *ngIf="!overlayForm.get('oArrivalDateNTime')?.valid && overlayForm.get('oArrivalDateNTime')?.touched" class="form-error-message">
             Arrival Date is required.
         </span>
         <div *ngIf="overlayForm.errors?.['isDateValid'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
-          Departure date and time cannot be less than arrival date*
+          Invalid Arrival date and time*
         </div>
 
         <mat-form-field class="form-field-full-width">
@@ -178,11 +168,12 @@
                   formControlName = "oArrivalDateNTime"
                   >
         </mat-form-field>
+        <br>
 
         <button *ngIf="!isEditMode" type="submit" [disabled]="!overlayForm.valid" mat-raised-button color="primary">Add Flight</button>
         <button *ngIf="isEditMode"  type="submit" [disabled]="!overlayForm.valid"  mat-raised-button color="primary">Save</button>
-        <button *ngIf="isEditMode" type="button" [disabled]="!overlayForm.dirty" (click)="onClickReset()" mat-raised-button color="warn">Reset</button>
-        <button *ngIf="isEditMode" (click)="onCancelEdit()" mat-raised-button color="warn">Discard</button>
+        <button  type="button" [disabled]="!overlayForm.dirty" (click)="onClickReset()" mat-raised-button color="warn">Reset</button>
+        <button type="button" (click)="onCancelEdit()" mat-raised-button color="warn">Discard</button>
 
       </form>
     </div>

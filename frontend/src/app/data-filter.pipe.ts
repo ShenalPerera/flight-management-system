@@ -14,7 +14,10 @@ export class DataFilterPipe implements PipeTransform {
     const resultArray = [];
 
     for (const item of value){
-      if (item[property_name] == data_field){
+      if (!(property_name === "flight_number") && item[property_name].toLowerCase().includes(data_field.toLowerCase())) {
+        resultArray.push(item);
+      }
+      else if (item[property_name].toLowerCase() == data_field.toLowerCase()){
         resultArray.push(item);
       }
     }

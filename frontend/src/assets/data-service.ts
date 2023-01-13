@@ -60,6 +60,8 @@ export class DataService{
     ));
   }
 
+
+
   removeFlight(flight_id : string){
     const flightIndex = this.flights.findIndex((flightElement :Flight) => {
       return flightElement.id === flight_id;
@@ -108,5 +110,6 @@ export class DataService{
     }
     return true;
   }
+
 
 }
