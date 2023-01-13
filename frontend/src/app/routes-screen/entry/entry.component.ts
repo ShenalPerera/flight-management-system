@@ -22,8 +22,15 @@ export class EntryComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.numOfHours = Math.floor(this.route.durationH);
-    this.numOfMinutes = Math.ceil((this.route.durationH - Math.floor(this.route.durationH))*60);
+    // this.numOfHours = Math.floor(this.route.durationH);
+    // this.numOfMinutes = Math.ceil((this.route.durationH - Math.floor(this.route.durationH))*60);
+  }
+
+  getHours(duration: number): number {
+    return Math.floor(this.route.durationH);
+  }
+  getMinutes(duration: number): number {
+    return Math.ceil((this.route.durationH - Math.floor(this.route.durationH))*60);
   }
 
   deleteItem() {
