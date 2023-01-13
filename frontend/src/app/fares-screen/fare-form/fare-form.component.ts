@@ -45,22 +45,18 @@ export class FareFormComponent implements OnInit {
       this.sampleForm.value['arrival'].toLowerCase()
     )
     if (this.data.createEvent) {
-      if (confirm("Do you want to create the fare of the route, from "+
+      if (duplicateId != 0) {
+        alert("The entry is already in the database!");
+      } else if (confirm("Do you want to create the fare of the route, from "+
         this.sampleForm.value['departure'].toUpperCase()+" to "+
         this.sampleForm.value['arrival'].toUpperCase()+" as "+
         this.sampleForm.value['fare']+"?")) {
-
-        if (duplicateId != 0) {
-          alert("The entry is already in the database!");
-        }
-        else {
-          this.dialogRef.close({
-            id: this.data.entry.id,
-            departure: this.sampleForm.value['departure'].toLowerCase(),
-            arrival: this.sampleForm.value['arrival'].toLowerCase(),
-            fare: this.sampleForm.value['fare'],
-          });
-        }
+        this.dialogRef.close({
+          id: this.data.entry.id,
+          departure: this.sampleForm.value['departure'].toLowerCase(),
+          arrival: this.sampleForm.value['arrival'].toLowerCase(),
+          fare: this.sampleForm.value['fare']
+        });
       }
     } else {
       if ((duplicateId != this.data.entry.id) && (duplicateId != 0)) {
