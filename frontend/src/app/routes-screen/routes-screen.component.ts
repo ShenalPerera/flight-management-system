@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Route} from './models/route';
 
 import {RouteService} from "./services/route.service";
@@ -20,15 +20,12 @@ export class RoutesScreenComponent implements OnInit{
   searchFormDestination: string = '';
   departuresList: string[] = [];
   destinationsList: string[] = [];
-  searchedData: Route[] = this.ALL_ROUTES;
-
 
   constructor(private routeService: RouteService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
     this.ALL_ROUTES = this.routeService.getRoutes();
-    this.searchedData = this.ALL_ROUTES;
 
     let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
     this.departuresList = listValues.dpList;
@@ -40,7 +37,7 @@ export class RoutesScreenComponent implements OnInit{
   clearInputs() {
     this.searchFormDeparture = '';
     this.searchFormDestination = '';
-    this.searchedData = this.ALL_ROUTES;
+    this.ALL_ROUTES = this.routeService.getRoutes();
   }
 
   updateDropdown() {
@@ -66,20 +63,14 @@ export class RoutesScreenComponent implements OnInit{
 
 
   deleteRecord(data: number) {
-    this.ALL_ROUTES = this.routeService.deleteRecord(data, this.searchedData);
-    this.searchedData = this.ALL_ROUTES;
-
-    let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
-    this.departuresList = listValues.dpList;
-    this.destinationsList = listValues.dsList;
+    this.routeService.deleteRecord(data);
+    this.filterData();
   }
 
 
   filterData(){
-    this.searchedData = this.routeService.filterData(this.searchFormDeparture, this.searchFormDestination);
+    this.ALL_ROUTES = this.routeService.filterData(this.searchFormDeparture, this.searchFormDestination);
   }
-
-
 
 
 }

@@ -45,7 +45,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr app-entry *ngFor="let route of searchedData;" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
+          <tr app-entry *ngFor="let route of ALL_ROUTES;" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
               [route]="route"
           >
           </tbody>
