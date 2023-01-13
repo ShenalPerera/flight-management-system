@@ -28,6 +28,7 @@ export class RouteService {
     return hasDuplicate;
   }
 
+
   handleDuplicatesWhenUpdating(departure: string, destination: string, routeID: number): boolean {
     let hasDuplicate: boolean = false;
     for (let route of this.referringRoutes) {
