@@ -5,7 +5,7 @@ import { Route } from '../models/route';
 import {RouteService} from "../services/route.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {locationsValidator, numberCheckValidator} from "../shared/validations";
-import {AnimationDurations} from "@angular/material/core";
+
 
 
 
@@ -116,7 +116,7 @@ export class FormComponent implements OnInit{
       if (this.areSameValues()) {
         this.dialogRef.close();
       }else {
-        if(confirm('Are you sure ?')) {
+        if(confirm('Note: Unsaved changes will be discarded.')) {
           this.dialogRef.close();
         }
       }
