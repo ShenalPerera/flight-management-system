@@ -13,7 +13,7 @@ import {Route} from "../models/route";
 export class EntryComponent implements OnInit{
 
   @Input() route !: Route;
-
+  @Input() rowNumber !: number;
   @Output() sendToBeDeletedRecordEvent = new EventEmitter<number>();
 
   numOfHours !: number;
