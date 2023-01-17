@@ -31,7 +31,7 @@ export class RoutesScreenComponent implements OnInit{
     // this.ALL_ROUTES = this.routeService.getRoutes();
     this.routeService.getRoutes()
       .subscribe(resp=>{
-        this.ALL_ROUTES = resp.data;
+        this.ALL_ROUTES = resp;
         console.log(resp);
       })
 
