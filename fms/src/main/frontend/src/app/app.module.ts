@@ -30,6 +30,8 @@ import { RouteService } from "./routes-screen/services/route.service";
 import { EntryComponent } from "./routes-screen/entry/entry.component";
 import {HttpClientModule} from "@angular/common/http";
 
+import { HttpClientModule } from "@angular/common/http";
+
 
 @NgModule({
   declarations: [

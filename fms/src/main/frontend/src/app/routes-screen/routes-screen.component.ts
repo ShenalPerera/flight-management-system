@@ -14,7 +14,8 @@ import {MatExpansionPanel} from "@angular/material/expansion";
   viewProviders: [MatExpansionPanel]
 })
 export class RoutesScreenComponent implements OnInit{
-  ALL_ROUTES !: Route[];
+  // ALL_ROUTES !: Route[];
+  ALL_ROUTES = new Array<any>();
 
   searchFormDeparture: string = '';
   searchFormDestination: string = '';
@@ -25,7 +26,16 @@ export class RoutesScreenComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.ALL_ROUTES = this.routeService.getRoutes();
+    // this.ALL_ROUTES = new Array<Route>();
+
+    // this.ALL_ROUTES = this.routeService.getRoutes();
+    this.routeService.getRoutes()
+      .subscribe(resp=>{
+        this.ALL_ROUTES = resp.data;
+        console.log(resp);
+      })
+
+
 
     let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
     this.departuresList = listValues.dpList;
@@ -37,7 +47,7 @@ export class RoutesScreenComponent implements OnInit{
   clearInputs() {
     this.searchFormDeparture = '';
     this.searchFormDestination = '';
-    this.ALL_ROUTES = this.routeService.getRoutes();
+    // this.ALL_ROUTES = this.routeService.getRoutes();
   }
 
   updateDropdown() {
