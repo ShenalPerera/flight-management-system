@@ -1,0 +1,62 @@
+
+
+<div class="search-filter" (click)="updateDropdown()">
+  <form class="search-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Departure</mat-label>
+      <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterData()" #selectDropdown>
+        <option value="" selected></option>
+        <option *ngFor="let departure of departuresList" [value]="departure">
+          {{departure | titlecase}}
+        </option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field style="padding-left: 10px" appearance="fill">
+      <mat-label>Destination</mat-label>
+      <select matNativeControl [(ngModel)]="searchFormDestination" name="destination" (change)="filterData()" #selectDropdown>
+        <option value="" selected></option>
+        <option *ngFor="let destination of destinationsList" [value]="destination">
+          {{destination | titlecase}}
+        </option>
+      </select>
+    </mat-form-field>
+
+    <button  mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
+  </form>
+</div>
+
+
+  <div style="width: 100%">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h2 style="padding-left: 2%;">Available Routes</h2>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>No.</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Mileage(miles)</th>
+            <th>Duration</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr app-entry *ngFor="let route of ALL_ROUTES; let i=index;" (sendToBeDeletedRecordEvent)="deleteRecord($event)"
+              [route]="route"
+              [rowNumber] = "i"
+          >
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <button class="add-flight-button" (click)="openDialogToCreate()"><strong>Add Route</strong></button>
+
+
+
+
+
