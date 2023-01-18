@@ -97,6 +97,7 @@ export class RouteService {
       data.routeID = this.ALL_ROUTES[this.ALL_ROUTES.length - 1].routeID + 1;
       this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', data)
         .subscribe(resp => {
+          console.log(resp)
           if (resp == null) {
             hasErrors = true;
             resolve();

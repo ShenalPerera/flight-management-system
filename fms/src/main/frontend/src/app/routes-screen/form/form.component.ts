@@ -57,13 +57,15 @@ export class FormComponent implements OnInit{
 
       this.updatedRoute = {
         routeID: this.data.route.routeID,
-        departure: this.sampleForm.value['departure'],
-        destination: this.sampleForm.value['destination'],
+        departure: this.sampleForm.value['departure'].toLowerCase(),
+        destination: this.sampleForm.value['destination'].toLowerCase(),
         mileage: +this.sampleForm.value['mileage'],
         durationH: +this.sampleForm.value['durationH'],
       };
 
       let hasErrors = await this.routeService.updateRoute(this.updatedRoute);
+
+      console.log(hasErrors);
 
       if (hasErrors) {
         confirm('Sorry! That route is already there.')
@@ -103,8 +105,8 @@ export class FormComponent implements OnInit{
 
     this.createdRoute = {
       routeID: NaN,
-      departure: this.sampleForm.value['departure'],
-      destination: this.sampleForm.value['destination'],
+      departure: this.sampleForm.value['departure'].toLowerCase(),
+      destination: this.sampleForm.value['destination'].toLowerCase(),
       mileage: +this.sampleForm.value['mileage'],
       durationH: +this.sampleForm.value['durationH'],
     };

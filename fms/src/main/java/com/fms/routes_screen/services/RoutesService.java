@@ -9,8 +9,8 @@ public class RoutesService {
     List<Route> INITIAL_ROUTES = new ArrayList<>();
 
     public RoutesService() {
-        INITIAL_ROUTES.add(new Route(1, "Galle", "India", 12.4, 2.5));
-        INITIAL_ROUTES.add(new Route(2, "Colombo", "Dubai", 15.4, 22.5));
+        INITIAL_ROUTES.add(new Route(1, "galle", "india", 12.4, 2.5));
+        INITIAL_ROUTES.add(new Route(2, "colombo", "dubai", 15.4, 22.5));
     }
 
     public String sayHello() {
@@ -23,7 +23,7 @@ public class RoutesService {
 
     public Route createRoute(Route route) {
         for (Route r : INITIAL_ROUTES) {
-            if (r.getDeparture().equals(route.getDeparture()) && route.getDestination().equals(route.getDestination())) {
+            if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
                 return null;
             }
         }
@@ -32,8 +32,17 @@ public class RoutesService {
     }
 
     public Route editRoute(Route route) {
+
+        // you can optimize
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
+                return null;
+            }
+        }
+
         for (Route r : INITIAL_ROUTES) {
             if (r.getRouteID() == route.getRouteID()) {
+
                 r.setDeparture(route.getDeparture());
                 r.setDestination(route.getDestination());
                 r.setMileage(route.getMileage());
