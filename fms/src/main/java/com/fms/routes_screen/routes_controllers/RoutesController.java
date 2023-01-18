@@ -34,5 +34,10 @@ public class RoutesController {
         return routesService.editRoute(route);
     }
 
+    @DeleteMapping("/api/routes-screen/delete-route")
+    public int deleteRoute(@RequestBody Route route) {
+        return routesService.deleteRoute(route);
+    }
+
 
 }

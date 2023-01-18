@@ -53,4 +53,17 @@ public class RoutesService {
         }
         return null;
     }
+
+    public int deleteRoute(Route route) {
+        int index=0;
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getRouteID() == route.getRouteID()) {
+                break;
+            }
+            index++;
+        }
+        System.out.println(index);
+        INITIAL_ROUTES.remove(index);
+        return route.getRouteID();
+    }
 }
