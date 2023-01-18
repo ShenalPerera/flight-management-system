@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Entry } from "../shared/entry.model";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,13 @@ export class FareService {
     {id:10, departure:"new york", arrival:"paris", fare:135},
   ];
   currentId: number = this.data.length;
+  configUrl: string = "http://localhost:8080/api/fares"
 
+  constructor(private http: HttpClient) { }
+
+  getLocations() {
+    return this.http.get<string[]>(this.configUrl+"/locations");
+  }
   generateDepartingLocations(): string[] {
     return [...new Set(this.data.map(item => item.departure))];
   }

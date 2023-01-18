@@ -10,8 +10,8 @@ import { FareService } from "./services/fare.service";
   styleUrls: ['./fares-screen.component.scss']
 })
 export class FaresScreenComponent {
-  departingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
-  arrivingLocations: string[] = ['Colombo', 'Dubai', 'Sydney'];
+  departingLocations?: string[];
+  arrivingLocations?: string[];
   searchCriteria = {departure: "", arrival: ""};
   searchedData: Entry[] = this.fareService.filterDataService(
     this.searchCriteria.departure,
@@ -26,8 +26,10 @@ export class FaresScreenComponent {
   ) {}
 
   generateLocations() {
-    this.departingLocations = this.fareService.generateDepartingLocations();
-    this.arrivingLocations = this.fareService.generateArrivingLocations();
+    this.fareService.getLocations().subscribe((data: string[]) => {
+      this.departingLocations = data,
+      this.arrivingLocations = data
+    });
   }
   filterData(){
     this.searchedData = this.fareService.filterDataService(
