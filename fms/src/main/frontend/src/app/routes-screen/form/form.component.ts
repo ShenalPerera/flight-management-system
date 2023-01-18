@@ -94,11 +94,11 @@ export class FormComponent implements OnInit{
           mileage: +this.sampleForm.value['mileage'],
           durationH: +this.sampleForm.value['durationH'],
         };
-        this.routeService.createRoute(this.createdRoute)
-          .subscribe(resp=>{
-            console.log("Newly created route: "+resp.departure);
-            // this.newRouteCreatedEvent.emit(resp);
-          });
+        this.routeService.createRoute(this.createdRoute);
+          // .subscribe(resp=>{
+          //   console.log("Newly created route: "+resp.departure);
+          //   // this.newRouteCreatedEvent.emit(resp);
+          // });
         this.onNoClickWithoutConfirmation();
       }else{
       confirm('Sorry! That route is already there.')

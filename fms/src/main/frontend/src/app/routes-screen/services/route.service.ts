@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Route} from "../models/route";
 import {HttpClient} from "@angular/common/http";
 import * as http from "http";
@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class RouteService  {
+export class RouteService {
 
 
   ALL_ROUTES = new Array<any>();
@@ -50,13 +50,52 @@ export class RouteService  {
   //
   // }
 
-  getRoutes(): Observable<any> {
-    return this.http.get<any>('http://localhost:8080/api/routes-screen/get-routes');
+  configureInitialRoutes() {
+    this.http.get<any>('http://localhost:8080/api/routes-screen/get-routes')
+      .subscribe(resp=>{
+        this.ALL_ROUTES = resp;
+      });
+    console.log("from data base: "+this.ALL_ROUTES);
   }
 
-  createRoute(data: Route): Observable<any> {
+  gettingDataFromBackend() {
+    return new Promise<void>((resolve, reject)=>{
+      this.http.get<any>('http://localhost:8080/api/routes-screen/get-routes')
+        .subscribe(resp=>{
+          this.ALL_ROUTES = resp;
+          resolve();
+        });
+    })
+  }
+
+
+
+  async getRoutes() {
+    // this.http.get<any>('http://localhost:8080/api/routes-screen/get-routes')
+    //   .subscribe(resp=>{
+    //     this.ALL_ROUTES = resp;
+    //   });
+    // console.log("returned routes: "+this.ALL_ROUTES);
+
+    await this.gettingDataFromBackend();
+    return this.ALL_ROUTES;
+  }
+
+  createRoute(data: Route) {
+    // this.ALL_ROUTES.splice(0);
+    // this.ALL_ROUTES.push(data);
+
+
     this.numberOfAllRoutes++;
-    return this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', data);
+    this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', data)
+      .subscribe( resp => {
+        // await this.gettingDataFromBackend();
+        // this.ALL_ROUTES.push(data);
+        this.ALL_ROUTES.push(resp);
+      });
+
+
+
   }
 
   handleDuplicatesWhenCreating(departure: string, destination: string): boolean {

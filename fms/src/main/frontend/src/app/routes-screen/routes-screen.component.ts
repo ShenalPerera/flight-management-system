@@ -23,17 +23,20 @@ export class RoutesScreenComponent implements OnInit{
   destinationsList: string[] = [];
 
   constructor(private routeService: RouteService, public dialog: MatDialog) {
+    console.log('constructor called')
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     // this.ALL_ROUTES = new Array<Route>();
 
     // this.ALL_ROUTES = this.routeService.getRoutes();
-    this.routeService.getRoutes()
-      .subscribe(resp=>{
-        this.ALL_ROUTES = resp;
-      })
+    // this.routeService.getRoutes()
+    //   .subscribe(resp=>{
+    //     this.ALL_ROUTES = resp;
+    //   })
 
+    this.ALL_ROUTES = await this.routeService.getRoutes();
+    console.log('ONINIT called');
     // this.ALL_ROUTES = this.routeService.getRoutes();
     // console.log(this.ALL_ROUTES);
 

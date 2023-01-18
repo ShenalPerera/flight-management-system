@@ -23,6 +23,6 @@ public class RoutesService {
 
     public Route createRoute(Route route) {
         INITIAL_ROUTES.add(route);
-        return route;
+        return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
     }
 }
