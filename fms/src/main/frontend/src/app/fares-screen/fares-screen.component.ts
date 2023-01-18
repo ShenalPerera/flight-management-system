@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { FareFormComponent } from "./fare-form/fare-form.component";
 import { Entry } from "./shared/entry.model";
@@ -9,14 +9,11 @@ import { FareService } from "./services/fare.service";
   templateUrl: './fares-screen.component.html',
   styleUrls: ['./fares-screen.component.scss']
 })
-export class FaresScreenComponent {
+export class FaresScreenComponent implements OnInit {
   departingLocations?: string[];
   arrivingLocations?: string[];
   searchCriteria = {departure: "", arrival: ""};
-  searchedData: Entry[] = this.fareService.filterDataService(
-    this.searchCriteria.departure,
-    this.searchCriteria.arrival
-  )
+  searchedData?: Entry[];
   editedEntry: Entry = {id: 0, departure: "", arrival: "", fare: 0};
   createEvent: boolean = true;
 
@@ -25,22 +22,26 @@ export class FaresScreenComponent {
     public dialog: MatDialog
   ) {}
 
+  ngOnInit() {
+    this.getEntries();
+  }
   generateLocations() {
     this.fareService.getLocations().subscribe((data: string[]) => {
       this.departingLocations = data,
       this.arrivingLocations = data
     });
   }
+  getEntries() {
+    this.fareService.getEntries().subscribe((data: Entry[]) => this.searchedData = data);
+  }
   filterData(){
-    this.searchedData = this.fareService.filterDataService(
-      this.searchCriteria.departure,
-      this.searchCriteria.arrival
-    )
+    this.fareService.filterDataService(this.searchCriteria.departure, this.searchCriteria.arrival)
+      .subscribe((data: Entry[]) => this.searchedData = data);
   }
 
   handleSearchClear() {
     this.searchCriteria = {departure: "", arrival: ""};
-    this.filterData();
+    this.getEntries();
   }
   handleEditClear() {
     this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0};

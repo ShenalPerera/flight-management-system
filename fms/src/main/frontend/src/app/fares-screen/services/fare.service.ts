@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Entry } from "../shared/entry.model";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -26,17 +26,18 @@ export class FareService {
   getLocations() {
     return this.http.get<string[]>(this.configUrl+"/locations");
   }
+  getEntries() {
+    return this.http.get<Entry[]>(this.configUrl+"/entries");
+  }
   generateDepartingLocations(): string[] {
     return [...new Set(this.data.map(item => item.departure))];
   }
   generateArrivingLocations(): string[] {
     return [...new Set(this.data.map(item => item.departure))];
   }
-  filterDataService(departure: string, arrival: string): Entry[] {
-    return this.data.filter(value =>
-      (departure === "" || departure === value.departure) &&
-      (arrival === "" || arrival === value.arrival)
-    )
+  filterDataService(departure: string, arrival: string) {
+    return this.http.get<Entry[]>(this.configUrl + "/search",
+      { params: new HttpParams().set('departure', departure).set('arrival', arrival) });
   }
   deleteEntry(id: number): void {
     this.data.forEach((value, index) => {
