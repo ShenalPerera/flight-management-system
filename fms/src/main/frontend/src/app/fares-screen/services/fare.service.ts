@@ -27,14 +27,16 @@ export class FareService {
     return this.http.get<string[]>(this.configUrl+"/locations");
   }
   getEntries() {
-    return this.http.get<Entry[]>(this.configUrl+"/entries");
+    return this.http.get<Entry[]>(this.configUrl+"/search");
   }
-  generateDepartingLocations(): string[] {
-    return [...new Set(this.data.map(item => item.departure))];
-  }
-  generateArrivingLocations(): string[] {
-    return [...new Set(this.data.map(item => item.departure))];
-  }
+
+  // generateDepartingLocations(): string[] {
+  //   return [...new Set(this.data.map(item => item.departure))];
+  // }
+  // generateArrivingLocations(): string[] {
+  //   return [...new Set(this.data.map(item => item.departure))];
+  // }
+
   filterDataService(departure: string, arrival: string) {
     return this.http.get<Entry[]>(this.configUrl + "/search",
       { params: new HttpParams().set('departure', departure).set('arrival', arrival) });
@@ -45,15 +47,17 @@ export class FareService {
         this.data.splice(index, 1);
     })
   }
-  isDuplicate(departure: string, arrival: string): number {
-    let duplicateId = 0;
-    this.data.forEach((value) => {
-      if ((value.departure === departure) && (value.arrival === arrival))
-        duplicateId = value.id;
-        return;
-    })
-    return duplicateId;
-  }
+
+  // isDuplicate(departure: string, arrival: string): number {
+  //   let duplicateId = 0;
+  //   this.data.forEach((value) => {
+  //     if ((value.departure === departure) && (value.arrival === arrival))
+  //       duplicateId = value.id;
+  //       return;
+  //   })
+  //   return duplicateId;
+  // }
+
   editEntry(entry : Entry): void {
     this.data.forEach((value) => {
       if (value.id == entry.id) {
@@ -63,12 +67,13 @@ export class FareService {
       }
     })
   }
-  createEntry(entry: Entry): void {
-    this.data.push({
-      id: ++this.currentId,
-      departure: entry.departure,
-      arrival: entry.arrival,
-      fare: entry.fare
-    });
+  createEntry(entry: Entry) {
+    return this.http.post<Entry>(this.configUrl+"/entry", entry);
+    // this.data.push({
+    //   id: ++this.currentId,
+    //   departure: entry.departure,
+    //   arrival: entry.arrival,
+    //   fare: entry.fare
+    // });
   }
 }

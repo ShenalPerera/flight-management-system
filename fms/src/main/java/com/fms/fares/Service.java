@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public class Service {
     private final List<String> locations;
     private List<Model> entries;
+    private int length = 3;
 
     public Service() {
         this.locations = new ArrayList<String>();
@@ -23,15 +24,31 @@ public class Service {
         return locations;
     }
 
-    public List<Model> getEntries() {
-        return entries;
+    public List<Model> getSearchedEntries(String departure, String arrival) {
+        if (departure.isEmpty() && arrival.isEmpty())
+            return entries;
+        else
+            return this.entries.stream().filter(data ->
+                    (data.getDeparture().equals(departure) && data.getArrival().equals(arrival))
+                            || (departure.isEmpty() && data.getArrival().equals(arrival))
+                            || (data.getDeparture().equals(departure) && arrival.isEmpty())
+            ).collect(Collectors.toList());
     }
 
-    public List<Model> getSearchedEntries(String departure, String arrival) {
-        return this.entries.stream().filter(data ->
+    private int isDuplicate(String departure, String arrival) {
+        Model duplicateEntry = this.entries.stream().filter(data ->
                 (data.getDeparture().equals(departure) && data.getArrival().equals(arrival))
-                        || (departure.isEmpty() && data.getArrival().equals(arrival))
-                        || (data.getDeparture().equals(departure) && arrival.isEmpty())
-        ).collect(Collectors.toList());
+        ).findAny().orElse(null);
+        return (duplicateEntry == null)? 0 : duplicateEntry.getId();
+    }
+
+    public Model createEntry(Model entry) {
+        if (isDuplicate(entry.getDeparture(), entry.getArrival()) == 0) {
+            Model newEntry = new Model(++this.length, entry.getDeparture(), entry.getArrival(), entry.getFare());
+            this.entries.add(newEntry);
+            return newEntry;
+        } else {
+            return null;
+        }
     }
 }

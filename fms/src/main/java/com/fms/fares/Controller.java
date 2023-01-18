@@ -1,10 +1,7 @@
 package com.fms.fares;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,15 +20,15 @@ public class Controller {
         return service.getLocations();
     }
 
-    @GetMapping("/api/fares/entries")
-    public List<Model> getEntries() {
-        return service.getEntries();
-    }
-
     @GetMapping("/api/fares/search")
     public List<Model> getSearchedEntries(
             @RequestParam(value = "departure", defaultValue = "") String departure,
             @RequestParam(value = "arrival", defaultValue = "") String arrival) {
         return service.getSearchedEntries(departure, arrival);
+    }
+
+    @PostMapping("/api/fares/entry")
+    public Model createEntry(@RequestBody Model entry) {
+        return service.createEntry(entry);
     }
 }

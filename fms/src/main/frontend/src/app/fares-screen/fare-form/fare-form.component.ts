@@ -40,36 +40,20 @@ export class FareFormComponent implements OnInit {
     }
   }
   submitCLicked() {
-    let duplicateId = this.fareService.isDuplicate(
-      this.sampleForm.value['departure'].toLowerCase(),
-      this.sampleForm.value['arrival'].toLowerCase()
-    )
     if (this.data.createEvent) {
-      if (duplicateId != 0) {
-        alert("The entry is already in the database!");
-      } else if (confirm("Do you want to create the fare of the route, from "+
-        this.sampleForm.value['departure'].toUpperCase()+" to "+
-        this.sampleForm.value['arrival'].toUpperCase()+" as "+
-        this.sampleForm.value['fare']+"?")) {
-        this.dialogRef.close({
-          id: this.data.entry.id,
-          departure: this.sampleForm.value['departure'].toLowerCase(),
-          arrival: this.sampleForm.value['arrival'].toLowerCase(),
-          fare: this.sampleForm.value['fare']
-        });
-      }
-    } else {
-      if ((duplicateId != this.data.entry.id) && (duplicateId != 0)) {
-        alert("The entry is already in the database!");
-      } else {
-        this.dialogRef.close({
-          id: this.data.entry.id,
-          departure: this.sampleForm.value['departure'].toLowerCase(),
-          arrival: this.sampleForm.value['arrival'].toLowerCase(),
-          fare: this.sampleForm.value['fare'],
-        });
-      }
-    }
+      this.fareService.createEntry({
+        id: this.data.entry.id,
+        departure: this.sampleForm.value['departure'].toLowerCase(),
+        arrival: this.sampleForm.value['arrival'].toLowerCase(),
+        fare: this.sampleForm.value['fare']
+      }).subscribe((data) => {
+        if (data === null) {
+          alert("The entry is already in the database!");
+        } else {
+          this.dialogRef.close();
+        }
+      })
+    } else {}
   }
   resetClicked() {
     this.sampleForm.patchValue({
@@ -79,4 +63,37 @@ export class FareFormComponent implements OnInit {
     });
     this.sampleForm.markAsPristine();
   }
+
+  // submitCLickedOld() {
+  //   let duplicateId = this.fareService.isDuplicate(
+  //     this.sampleForm.value['departure'].toLowerCase(),
+  //     this.sampleForm.value['arrival'].toLowerCase()
+  //   )
+  //   if (this.data.createEvent) {
+  //     if (duplicateId != 0) {
+  //       alert("The entry is already in the database!");
+  //     } else if (confirm("Do you want to create the fare of the route, from "+
+  //       this.sampleForm.value['departure'].toUpperCase()+" to "+
+  //       this.sampleForm.value['arrival'].toUpperCase()+" as "+
+  //       this.sampleForm.value['fare']+"?")) {
+  //       this.dialogRef.close({
+  //         id: this.data.entry.id,
+  //         departure: this.sampleForm.value['departure'].toLowerCase(),
+  //         arrival: this.sampleForm.value['arrival'].toLowerCase(),
+  //         fare: this.sampleForm.value['fare']
+  //       });
+  //     }
+  //   } else {
+  //     if ((duplicateId != this.data.entry.id) && (duplicateId != 0)) {
+  //       alert("The entry is already in the database!");
+  //     } else {
+  //       this.dialogRef.close({
+  //         id: this.data.entry.id,
+  //         departure: this.sampleForm.value['departure'].toLowerCase(),
+  //         arrival: this.sampleForm.value['arrival'].toLowerCase(),
+  //         fare: this.sampleForm.value['fare'],
+  //       });
+  //     }
+  //   }
+  // }
 }

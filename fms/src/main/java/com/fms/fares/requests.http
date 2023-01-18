@@ -1,9 +1,14 @@
 GET http://localhost:8080/api/fares/locations
 ###
-GET http://localhost:8080/api/fares/entries
+GET http://localhost:8080/api/fares/search
 ###
 GET http://localhost:8080/api/fares/search?departure=colombo
 ###
 GET http://localhost:8080/api/fares/search?arrival=dubai
 ###
 GET http://localhost:8080/api/fares/search?departure=colombo&arrival=sydney
+###
+POST http://localhost:8080/api/fares/entry
+Content-Type: application/json
+
+{ "departure": "dubai", "arrival": "colombo", "fare": 195 }

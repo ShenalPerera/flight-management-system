@@ -24,6 +24,7 @@ export class FaresScreenComponent implements OnInit {
 
   ngOnInit() {
     this.getEntries();
+    this.generateLocations();
   }
   generateLocations() {
     this.fareService.getLocations().subscribe((data: string[]) => {
@@ -78,18 +79,21 @@ export class FaresScreenComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.editedEntry = result;
-        this.submitted();
+        // this.submitted();
       }
-      this.handleEditClear();
+      this.filterData();
+      // this.handleEditClear();
     });
   }
-  submitted() {
-    if (this.createEvent) {
-      this.fareService.createEntry(this.editedEntry);
-      this.filterData();
-    } else {
-      this.fareService.editEntry(this.editedEntry);
-    }
-    this.handleEditClear();
-  }
+
+  // submitted() {
+  //   if (this.createEvent) {
+  //     this.fareService.createEntry(this.editedEntry).subscribe((data) => this.searchedData?.push(data));
+  //     this.fareService.createEntry(this.editedEntry);
+  //     this.filterData();
+  //   } else {
+  //     this.fareService.editEntry(this.editedEntry);
+  //   }
+  //   this.handleEditClear();
+  // }
 }
