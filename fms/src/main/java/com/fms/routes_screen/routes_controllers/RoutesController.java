@@ -2,27 +2,34 @@ package com.fms.routes_screen.routes_controllers;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fms.routes_screen.models.Route;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.fms.routes_screen.services.RoutesService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class RoutesController {
 
-    Route[] INITIAL_ROUTES = {
-            new Route(1, "Galle", "India", 12.4, 2.5),
-            new Route(2, "Colombo", "Dubai", 15.4, 22.5),
-    };
+    RoutesService routesService = new RoutesService();
+    static List<Route> INITIAL_ROUTES = new ArrayList<>();
+
+
+//            List<Route> INITIAL_ROUTES = {new Route(1, "Galle", "India", 12.4, 2.5),
+//            new Route(2, "Colombo", "Dubai", 15.4, 22.5),};
+//    Route[] INITIAL_ROUTES = {
+//            new Route(1, "Galle", "India", 12.4, 2.5),
+//            new Route(2, "Colombo", "Dubai", 15.4, 22.5),
+//    };
 
 //    Map<String, Route[]> allRoutes = new HashMap<>();
 
-    @RequestMapping("/api/routes-screen")
+
+
+    @GetMapping("/api/routes-screen")
     public String sayHello() {
-        return "Welcome to routes screen";
+
+        return routesService.sayHello();
     }
 
 //    @RequestMapping("/api/routes-screen/get-routes")
@@ -30,8 +37,16 @@ public class RoutesController {
 //        return INITIAL_ROUTES;
 //    }
 
-    @RequestMapping("/api/routes-screen/get-routes")
+    @GetMapping("/api/routes-screen/get-routes")
     public List<Route> sendAllRoutes() {
-        return Arrays.asList(INITIAL_ROUTES);
+        return routesService.sendAllRoutes();
+//        return Arrays.asList(INITIAL_ROUTES);
     }
+
+//    @PostMapping("/api/routes-screen/create-route")
+//    public List<Route> createRoute(@RequestBody Route route) {
+//
+//    }
+
+
 }
