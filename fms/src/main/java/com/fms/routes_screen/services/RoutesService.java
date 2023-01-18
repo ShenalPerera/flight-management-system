@@ -30,4 +30,18 @@ public class RoutesService {
         INITIAL_ROUTES.add(route);
         return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
     }
+
+    public Route editRoute(Route route) {
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getRouteID() == route.getRouteID()) {
+                r.setDeparture(route.getDeparture());
+                r.setDestination(route.getDestination());
+                r.setMileage(route.getMileage());
+                r.setDurationH(route.getDurationH());
+
+                return r;
+            }
+        }
+        return null;
+    }
 }

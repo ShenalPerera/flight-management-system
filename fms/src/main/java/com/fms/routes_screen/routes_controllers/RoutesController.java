@@ -29,5 +29,10 @@ public class RoutesController {
         return routesService.createRoute(route);
     }
 
+    @PutMapping("/api/routes-screen/edit-route")
+    public Route editRoute(@RequestBody Route route) {
+        return routesService.editRoute(route);
+    }
+
 
 }

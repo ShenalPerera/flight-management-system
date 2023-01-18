@@ -53,16 +53,8 @@ export class FormComponent implements OnInit{
     }, {validators: locationsValidator});
   }
 
-  onSubmitUpdate() {
+  async onSubmitUpdate() {
 
-    let hasDuplicates = this.routeService.handleDuplicatesWhenUpdating
-    (
-      this.sampleForm.value['departure'].toLowerCase(),
-      this.sampleForm.value['destination'].toLowerCase(),
-      this.data.route.routeID
-    );
-
-    if(!hasDuplicates) {
       this.updatedRoute = {
         routeID: this.data.route.routeID,
         departure: this.sampleForm.value['departure'],
@@ -71,11 +63,39 @@ export class FormComponent implements OnInit{
         durationH: +this.sampleForm.value['durationH'],
       };
 
-      this.routeService.updateRoute(this.updatedRoute);
-      this.onNoClickWithoutConfirmation();
-    }else{
-      confirm('Sorry! That route is already there.')
-    }
+      let hasErrors = await this.routeService.updateRoute(this.updatedRoute);
+
+      if (hasErrors) {
+        confirm('Sorry! That route is already there.')
+      } else {
+        this.onNoClickWithoutConfirmation();
+      }
+
+
+
+
+
+    // let hasDuplicates = this.routeService.handleDuplicatesWhenUpdating
+    // (
+    //   this.sampleForm.value['departure'].toLowerCase(),
+    //   this.sampleForm.value['destination'].toLowerCase(),
+    //   this.data.route.routeID
+    // );
+    //
+    // if(!hasDuplicates) {
+    //   this.updatedRoute = {
+    //     routeID: this.data.route.routeID,
+    //     departure: this.sampleForm.value['departure'],
+    //     destination: this.sampleForm.value['destination'],
+    //     mileage: +this.sampleForm.value['mileage'],
+    //     durationH: +this.sampleForm.value['durationH'],
+    //   };
+    //
+    //   this.routeService.updateRoute(this.updatedRoute);
+    //   this.onNoClickWithoutConfirmation();
+    // }else{
+    //   confirm('Sorry! That route is already there.')
+    // }
 
   }
 

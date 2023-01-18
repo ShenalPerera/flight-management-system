@@ -127,6 +127,44 @@ export class RouteService {
 
   }
 
+  async updateRoute(data: Route) {
+
+    let hasErrors !: boolean;
+    await new Promise<void>((resolve, reject)=>{
+      this.http.put<any>('http://localhost:8080/api/routes-screen/edit-route', data)
+        .subscribe(resp=>{
+          if (resp==null) {
+            hasErrors = true;
+            resolve();
+          }else {
+            this.ALL_ROUTES.forEach((route)=>{
+              if (route.routeID == resp.routeID) {
+                route.departure = resp.departure.toLowerCase();
+                route.destination = resp.destination.toLowerCase();
+                route.mileage = resp.mileage;
+                route.durationH = resp.durationH;
+              }
+            });
+            hasErrors = false;
+            resolve();
+          }
+        })
+    });
+
+    return hasErrors;
+
+
+    // this.ALL_ROUTES.forEach((route)=>{
+    //   if (route.routeID == data.routeID) {
+    //     route.departure = data.departure.toLowerCase();
+    //     route.destination = data.destination.toLowerCase();
+    //     route.mileage = data.mileage;
+    //     route.durationH = data.durationH;
+    //
+    //   }
+    // });
+  }
+
   handleDuplicatesWhenCreating(departure: string, destination: string): boolean {
     let hasDuplicate: boolean = false;
     for (let route of this.ALL_ROUTES) {
@@ -150,17 +188,18 @@ export class RouteService {
     return hasDuplicate;
   }
 
-  updateRoute(data: Route) {
-    this.ALL_ROUTES.forEach((route)=>{
-      if (route.routeID == data.routeID) {
-        route.departure = data.departure.toLowerCase();
-        route.destination = data.destination.toLowerCase();
-        route.mileage = data.mileage;
-        route.durationH = data.durationH;
-
-      }
-    });
-  }
+  // updateRoute(data: Route) {
+  //
+  //   this.ALL_ROUTES.forEach((route)=>{
+  //     if (route.routeID == data.routeID) {
+  //       route.departure = data.departure.toLowerCase();
+  //       route.destination = data.destination.toLowerCase();
+  //       route.mileage = data.mileage;
+  //       route.durationH = data.durationH;
+  //
+  //     }
+  //   });
+  // }
 
   // createRoute(data: Route) {
   //   this.numberOfAllRoutes++;
