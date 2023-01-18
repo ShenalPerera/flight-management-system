@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 import { Route } from '../models/route';
@@ -25,6 +25,8 @@ export class FormComponent implements OnInit{
 
   updatedRoute !: Route;
   createdRoute !: Route;
+
+  // @Output() newRouteCreatedEvent = new EventEmitter<Route>();
 
   constructor(private routeService: RouteService,
               public dialogRef: MatDialogRef<FormComponent>,
@@ -92,7 +94,11 @@ export class FormComponent implements OnInit{
           mileage: +this.sampleForm.value['mileage'],
           durationH: +this.sampleForm.value['durationH'],
         };
-        this.routeService.createRoute(this.createdRoute);
+        this.routeService.createRoute(this.createdRoute)
+          .subscribe(resp=>{
+            console.log("Newly created route: "+resp.departure);
+            // this.newRouteCreatedEvent.emit(resp);
+          });
         this.onNoClickWithoutConfirmation();
       }else{
       confirm('Sorry! That route is already there.')

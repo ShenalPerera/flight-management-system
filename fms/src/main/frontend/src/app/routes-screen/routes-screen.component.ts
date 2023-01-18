@@ -15,7 +15,7 @@ import {MatExpansionPanel} from "@angular/material/expansion";
 })
 export class RoutesScreenComponent implements OnInit{
   // ALL_ROUTES !: Route[];
-  ALL_ROUTES = new Array<any>();
+  ALL_ROUTES = new Array<Route>();
 
   searchFormDeparture: string = '';
   searchFormDestination: string = '';
@@ -32,9 +32,10 @@ export class RoutesScreenComponent implements OnInit{
     this.routeService.getRoutes()
       .subscribe(resp=>{
         this.ALL_ROUTES = resp;
-        console.log(resp);
       })
 
+    // this.ALL_ROUTES = this.routeService.getRoutes();
+    // console.log(this.ALL_ROUTES);
 
 
     let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);

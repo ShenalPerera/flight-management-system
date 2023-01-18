@@ -12,19 +12,6 @@ import java.util.*;
 public class RoutesController {
 
     RoutesService routesService = new RoutesService();
-    static List<Route> INITIAL_ROUTES = new ArrayList<>();
-
-
-//            List<Route> INITIAL_ROUTES = {new Route(1, "Galle", "India", 12.4, 2.5),
-//            new Route(2, "Colombo", "Dubai", 15.4, 22.5),};
-//    Route[] INITIAL_ROUTES = {
-//            new Route(1, "Galle", "India", 12.4, 2.5),
-//            new Route(2, "Colombo", "Dubai", 15.4, 22.5),
-//    };
-
-//    Map<String, Route[]> allRoutes = new HashMap<>();
-
-
 
     @GetMapping("/api/routes-screen")
     public String sayHello() {
@@ -32,21 +19,15 @@ public class RoutesController {
         return routesService.sayHello();
     }
 
-//    @RequestMapping("/api/routes-screen/get-routes")
-//    public Route[] sendRoutes() {
-//        return INITIAL_ROUTES;
-//    }
-
     @GetMapping("/api/routes-screen/get-routes")
     public List<Route> sendAllRoutes() {
         return routesService.sendAllRoutes();
-//        return Arrays.asList(INITIAL_ROUTES);
     }
 
-//    @PostMapping("/api/routes-screen/create-route")
-//    public List<Route> createRoute(@RequestBody Route route) {
-//
-//    }
+    @PostMapping("/api/routes-screen/create-route")
+    public Route createRoute(@RequestBody Route route) {
+        return routesService.createRoute(route);
+    }
 
 
 }

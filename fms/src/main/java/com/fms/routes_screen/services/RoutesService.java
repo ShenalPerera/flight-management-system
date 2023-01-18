@@ -20,4 +20,9 @@ public class RoutesService {
     public List<Route> sendAllRoutes() {
         return INITIAL_ROUTES;
     }
+
+    public Route createRoute(Route route) {
+        INITIAL_ROUTES.add(route);
+        return route;
+    }
 }
