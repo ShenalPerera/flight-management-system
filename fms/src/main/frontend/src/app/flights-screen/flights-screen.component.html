@@ -93,27 +93,30 @@
     <div class="mat-mdc-dialog-container">
       <form class="overlay-edit-add-form" [formGroup]="overlayForm" (ngSubmit)="onSubmitForm()">
         <input value="" formControlName ="oId" hidden="hidden">
+
         <span *ngIf="!overlayForm.get('oFlightNumber')?.valid && overlayForm.get('oFlightNumber')?.touched" class="form-error-message">
             Flight Number is required.
         </span>
-        <mat-form-field class="form-field-full-width">
 
+        <mat-form-field class="form-field-full-width">
+          <mat-label>Flight Number</mat-label>
           <input matInput
-                 placeholder="Flight Number"
                  value=""
                  formControlName = "oFlightNumber"
                   >
         </mat-form-field>
-        <br>
+
+
         <span *ngIf="!overlayForm.get('oDeparture')?.valid && overlayForm.get('oDeparture')?.touched" class="form-error-message">
             Departure is required.
         </span>
         <div *ngIf="overlayForm.errors?.['arrivalDepartureError'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
           Departure and Arrival Can not be Same*
         </div>
+
         <mat-form-field class="form-field-full-width">
+          <mat-label>Departure</mat-label>
           <input  matInput
-                  placeholder="Departure"
                   value=""
                   formControlName ="oDeparture"
           >
@@ -121,13 +124,14 @@
         </mat-form-field>
         <br>
 
+
         <span *ngIf="!overlayForm.get('oArrival')?.valid && overlayForm.get('oArrival')?.touched" class="form-error-message">
             Arrival is required.
         </span>
 
         <mat-form-field class="form-field-full-width">
+          <mat-label>Arrival</mat-label>
           <input  matInput
-                  placeholder="Arrival"
                   value=""
                   formControlName = "oArrival"
                   >
@@ -144,7 +148,6 @@
           <mat-label>Departure Date & Time</mat-label>
           <input  matInput
                   type="datetime-local"
-                  placeholder="Departure Date"
                   value=""
                   formControlName = "oDepartureDateNTime"
           >
@@ -163,7 +166,6 @@
           <mat-label>Arrival Date & Time</mat-label>
           <input  matInput
                   type="datetime-local"
-                  placeholder="Arrival Date"
                   value=""
                   formControlName = "oArrivalDateNTime"
                   >
