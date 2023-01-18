@@ -22,6 +22,11 @@ public class RoutesService {
     }
 
     public Route createRoute(Route route) {
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getDeparture().equals(route.getDeparture()) && route.getDestination().equals(route.getDestination())) {
+                return null;
+            }
+        }
         INITIAL_ROUTES.add(route);
         return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
     }

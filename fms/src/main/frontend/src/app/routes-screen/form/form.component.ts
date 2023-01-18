@@ -79,30 +79,44 @@ export class FormComponent implements OnInit{
 
   }
 
-  onSubmitCreate() {
+  async onSubmitCreate() {
 
-    let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(
-      this.sampleForm.value['departure'].toLowerCase(),
-      this.sampleForm.value['destination'].toLowerCase()
-    );
+    this.createdRoute = {
+      routeID: NaN,
+      departure: this.sampleForm.value['departure'],
+      destination: this.sampleForm.value['destination'],
+      mileage: +this.sampleForm.value['mileage'],
+      durationH: +this.sampleForm.value['durationH'],
+    };
+    let hasErrors = await this.routeService.createRoute(this.createdRoute);
+    console.log(hasErrors);
 
-    if(!hasDuplicates) {
-        this.createdRoute = {
-          routeID: NaN,
-          departure: this.sampleForm.value['departure'],
-          destination: this.sampleForm.value['destination'],
-          mileage: +this.sampleForm.value['mileage'],
-          durationH: +this.sampleForm.value['durationH'],
-        };
-        this.routeService.createRoute(this.createdRoute);
-          // .subscribe(resp=>{
-          //   console.log("Newly created route: "+resp.departure);
-          //   // this.newRouteCreatedEvent.emit(resp);
-          // });
-        this.onNoClickWithoutConfirmation();
-      }else{
+    if (hasErrors) {
       confirm('Sorry! That route is already there.')
+    } else {
+      this.onNoClickWithoutConfirmation();
     }
+
+
+    // let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(
+    //   this.sampleForm.value['departure'].toLowerCase(),
+    //   this.sampleForm.value['destination'].toLowerCase()
+    // );
+    //
+    // if(!hasDuplicates) {
+    //     this.createdRoute = {
+    //       routeID: NaN,
+    //       departure: this.sampleForm.value['departure'],
+    //       destination: this.sampleForm.value['destination'],
+    //       mileage: +this.sampleForm.value['mileage'],
+    //       durationH: +this.sampleForm.value['durationH'],
+    //     };
+    //     this.routeService.createRoute(this.createdRoute);
+    //
+    //     this.onNoClickWithoutConfirmation();
+    //   }else{
+    //   confirm('Sorry! That route is already there.')
+    // }
   }
 
   areSameValues(): boolean {
