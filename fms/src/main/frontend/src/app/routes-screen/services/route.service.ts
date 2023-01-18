@@ -63,6 +63,7 @@ export class RouteService {
       this.http.get<any>('http://localhost:8080/api/routes-screen/get-routes')
         .subscribe(resp=>{
           this.ALL_ROUTES = resp;
+          this.numberOfAllRoutes = this.ALL_ROUTES.length;
           resolve();
         });
     })
@@ -86,7 +87,8 @@ export class RouteService {
     // this.ALL_ROUTES.push(data);
 
 
-    this.numberOfAllRoutes++;
+    // this.numberOfAllRoutes++;
+    data.routeID = this.ALL_ROUTES[this.ALL_ROUTES.length-1].routeID + 1;
     this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', data)
       .subscribe( resp => {
         // await this.gettingDataFromBackend();
