@@ -9,13 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 public class RoutesService {
-    static int UNIQUE_ROUTE_ID = 4;
+    static int UNIQUE_ROUTE_ID;
     List<Route> INITIAL_ROUTES = new ArrayList<>();
 
     public RoutesService() {
         INITIAL_ROUTES.add(new Route(1, "galle", "india", 12.4, 2.5));
         INITIAL_ROUTES.add(new Route(2, "colombo", "dubai", 15.4, 22.5));
         INITIAL_ROUTES.add(new Route(3, "maxico", "quatar", 15.4, 22.5));
+        INITIAL_ROUTES.add(new Route(4, "jordan", "usa", 15.4, 22.5));
+        INITIAL_ROUTES.add(new Route(5, "uk", "canada", 15.4, 22.5));
+
+        UNIQUE_ROUTE_ID = INITIAL_ROUTES.size();
     }
 
     public String sayHello() {
@@ -32,9 +36,8 @@ public class RoutesService {
                 return null;
             }
         }
-        route.setRouteID(UNIQUE_ROUTE_ID);
+        route.setRouteID(++UNIQUE_ROUTE_ID);
         INITIAL_ROUTES.add(route);
-        UNIQUE_ROUTE_ID++;
         return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
     }
 
