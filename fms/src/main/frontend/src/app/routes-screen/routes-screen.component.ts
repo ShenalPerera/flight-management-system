@@ -73,8 +73,10 @@ export class RoutesScreenComponent implements OnInit{
         this.routeService.getRoutesFromBackend()
           .subscribe((resp)=>{
             this.ALL_ROUTES = resp;
+            this.updateDropdown()
           })
       })
+
 
 
   }
