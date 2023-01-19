@@ -57,6 +57,7 @@
 
   <div *ngIf="data.type === 'create'">
     <button mat-raised-button color="primary" style="margin-left: 10px" type="button" (click)="onSubmitCreateInBackend()" [disabled]="sampleForm.invalid">Create</button>
+    <button mat-raised-button type="button" style="margin-left: 10px" [disabled]="areSameValues()" (click)="clearValues()">Clear</button>
     <button mat-raised-button color="warn" style="margin-left: 10px" type="button" (click)="onNoClick()">Discard</button>
   </div>
 

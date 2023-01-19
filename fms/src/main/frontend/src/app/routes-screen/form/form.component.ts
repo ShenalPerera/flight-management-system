@@ -195,4 +195,13 @@ export class FormComponent implements OnInit{
     });
   }
 
+  clearValues(): void {
+    this.sampleForm.patchValue({
+      'departure': '',
+      'destination': '',
+      'mileage': '',
+      'durationH': '',
+    });
+  }
+
 }
