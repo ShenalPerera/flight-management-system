@@ -8,16 +8,29 @@ import java.util.stream.Collectors;
 public class Service {
     private final List<String> locations;
     private List<Model> entries;
-    private int length = 3;
+    private int length = 10;
 
     public Service() {
         this.locations = new ArrayList<String>();
         this.locations.add("colombo");
+        this.locations.add("dubai");
+        this.locations.add("london");
+        this.locations.add("new york");
+        this.locations.add("paris");
         this.locations.add("sydney");
+
         this.entries = new ArrayList<Model>();
         this.entries.add(new Model(1, "colombo", "dubai", 50));
         this.entries.add(new Model(2, "colombo", "sydney", 75));
-        this.entries.add(new Model(3, "dubai", "colombo", 50));
+        this.entries.add(new Model(3, "dubai", "colombo", 50)); //
+        this.entries.add(new Model(4, "colombo", "new york", 150));
+        this.entries.add(new Model(5, "new york", "sydney", 225));
+
+        this.entries.add(new Model(6, "new york", "colombo", 150));
+        this.entries.add(new Model(7, "london", "colombo", 125));
+        this.entries.add(new Model(8, "dubai", "london", 80));
+        this.entries.add(new Model(9, "paris", "sydney", 185));
+        this.entries.add(new Model(10, "new york", "paris", 135));
     }
 
     public List<String> getLocations() {
@@ -57,11 +70,11 @@ public class Service {
         if ((duplicateId != 0) && (duplicateId != entry.getId())) {
             return null;
         } else {
-            Model edittedEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
+            Model editedEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
                     .findAny().orElse(null);
-            edittedEntry.setDeparture(entry.getDeparture());
-            edittedEntry.setArrival(entry.getArrival());
-            edittedEntry.setFare(entry.getFare());
+            editedEntry.setDeparture(entry.getDeparture());
+            editedEntry.setArrival(entry.getArrival());
+            editedEntry.setFare(entry.getFare());
             return entry;
         }
     }
