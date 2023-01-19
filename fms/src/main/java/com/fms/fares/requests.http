@@ -11,4 +11,9 @@ GET http://localhost:8080/api/fares/search?departure=colombo&arrival=sydney
 POST http://localhost:8080/api/fares/entry
 Content-Type: application/json
 
-{ "departure": "dubai", "arrival": "colombo", "fare": 195 }
+{ "departure": "dubai", "arrival": "kandy", "fare": 195 }
+###
+PUT http://localhost:8080/api/fares/entry
+Content-Type: application/json
+
+{ "id": 1, "departure": "colombo", "arrival": "dubai", "fare": 15 }

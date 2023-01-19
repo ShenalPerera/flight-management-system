@@ -51,4 +51,18 @@ public class Service {
             return null;
         }
     }
+
+    public Model editEntry(Model entry) {
+        int duplicateId = isDuplicate(entry.getDeparture(), entry.getArrival());
+        if ((duplicateId != 0) && (duplicateId != entry.getId())) {
+            return null;
+        } else {
+            Model duplicateEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
+                    .findAny().orElse(null);
+            duplicateEntry.setDeparture(entry.getDeparture());
+            duplicateEntry.setArrival(entry.getArrival());
+            duplicateEntry.setFare(entry.getFare());
+            return entry;
+        }
+    }
 }

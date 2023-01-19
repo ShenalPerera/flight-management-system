@@ -21,11 +21,23 @@ public class Model {
         return departure;
     }
 
+    public void setDeparture(String departure) {
+        this.departure = departure;
+    }
+
     public String getArrival() {
         return arrival;
     }
 
+    public void setArrival(String arrival) {
+        this.arrival = arrival;
+    }
+
     public double getFare() {
         return fare;
+    }
+
+    public void setFare(double fare) {
+        this.fare = fare;
     }
 }

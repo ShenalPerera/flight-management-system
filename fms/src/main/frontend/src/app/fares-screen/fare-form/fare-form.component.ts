@@ -48,12 +48,25 @@ export class FareFormComponent implements OnInit {
         fare: this.sampleForm.value['fare']
       }).subscribe((data) => {
         if (data === null) {
-          alert("The entry is already in the database!");
+          alert("The entry is already in the system!");
         } else {
           this.dialogRef.close();
         }
       })
-    } else {}
+    } else {
+      this.fareService.editEntry({
+        id: this.data.entry.id,
+        departure: this.sampleForm.value['departure'].toLowerCase(),
+        arrival: this.sampleForm.value['arrival'].toLowerCase(),
+        fare: this.sampleForm.value['fare']
+      }).subscribe((data) => {
+        if (data === null) {
+          alert("The entry is already in the system!");
+        } else {
+          this.dialogRef.close();
+        }
+      })
+    }
   }
   resetClicked() {
     this.sampleForm.patchValue({

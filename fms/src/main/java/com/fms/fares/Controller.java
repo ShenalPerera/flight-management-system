@@ -31,4 +31,9 @@ public class Controller {
     public Model createEntry(@RequestBody Model entry) {
         return service.createEntry(entry);
     }
+
+    @PutMapping("/api/fares/entry")
+    public Model editEntry(@RequestBody Model entry) {
+        return service.editEntry(entry);
+    }
 }

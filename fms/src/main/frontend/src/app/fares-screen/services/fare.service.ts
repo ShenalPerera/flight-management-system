@@ -58,14 +58,15 @@ export class FareService {
   //   return duplicateId;
   // }
 
-  editEntry(entry : Entry): void {
-    this.data.forEach((value) => {
-      if (value.id == entry.id) {
-        value.departure = entry.departure;
-        value.arrival = entry.arrival;
-        value.fare = entry.fare;
-      }
-    })
+  editEntry(entry : Entry) {
+    return this.http.put<Entry>(this.configUrl+"/entry", entry);
+    // this.data.forEach((value) => {
+    //   if (value.id == entry.id) {
+    //     value.departure = entry.departure;
+    //     value.arrival = entry.arrival;
+    //     value.fare = entry.fare;
+    //   }
+    // })
   }
   createEntry(entry: Entry) {
     return this.http.post<Entry>(this.configUrl+"/entry", entry);
