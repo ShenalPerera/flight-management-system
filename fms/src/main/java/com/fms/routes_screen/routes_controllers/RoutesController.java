@@ -15,7 +15,6 @@ public class RoutesController {
 
     @GetMapping("/api/routes-screen")
     public String sayHello() {
-
         return routesService.sayHello();
     }
 

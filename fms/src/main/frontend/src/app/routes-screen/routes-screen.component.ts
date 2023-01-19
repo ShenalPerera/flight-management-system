@@ -25,7 +25,11 @@ export class RoutesScreenComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.ALL_ROUTES = this.routeService.getRoutes();
+    this.routeService.getRoutesFromBackend()
+      .subscribe((resp)=>{
+        this.ALL_ROUTES = resp;
+      })
+    // this.ALL_ROUTES = this.routeService.getRoutes();
 
     let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
     this.departuresList = listValues.dpList;

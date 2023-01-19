@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Route} from "../models/route";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class RouteService  {
   ALL_ROUTES: Route[];
   tempALL_ROUTES !: Route[];
   numberOfAllRoutes !: number
-  constructor() {
+  constructor(private http: HttpClient) {
     this.ALL_ROUTES = [
       {routeID: 1, departure: "nepal", destination: "dubai", mileage: 1223.45, durationH: 12.5},
       {routeID: 2, departure: "nepal", destination: "sydney", mileage: 1433.43, durationH: 32.7},
@@ -37,6 +38,9 @@ export class RouteService  {
     this.numberOfAllRoutes = this.ALL_ROUTES.length;
   }
 
+  getRoutesFromBackend() {
+    return this.http.get<Route[]>('http://localhost:8080/api/routes-screen/get-routes');
+  }
 
 
   getRoutes(): Route[] {
