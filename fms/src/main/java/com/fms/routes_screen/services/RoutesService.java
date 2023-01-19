@@ -1,6 +1,7 @@
 package com.fms.routes_screen.services;
 
 import com.fms.routes_screen.models.Route;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,18 +61,10 @@ public class RoutesService {
         return null;
     }
 
-    public Map<String, Integer> deleteRoute(Route route) {
-        int index=0;
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == route.getRouteID()) {
-                break;
-            }
-            index++;
-        }
-        System.out.println(index);
-        Map<String, Integer> response = new HashMap<>();
-        response.put("deletedRouteIndex", index);
-        INITIAL_ROUTES.remove(index);
-        return response;
+    public int deleteRoute(@RequestParam int routeID){
+        INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
+        return routeID;
     }
+
+
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Route} from "../models/route";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +69,11 @@ export class RouteService  {
 
   updateRouteInBackend(route: Route) {
     return this.http.put<any>('http://localhost:8080/api/routes-screen/update-route', route);
+  }
+
+  deleteRecordInBackend(routeID: number) {
+    return this.http.delete('http://localhost:8080/api/routes-screen/delete-route',
+      {params: new HttpParams().set('routeID', routeID)});
   }
 
 

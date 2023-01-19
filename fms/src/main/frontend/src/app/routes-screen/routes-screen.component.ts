@@ -88,6 +88,16 @@ export class RoutesScreenComponent implements OnInit{
     }
   }
 
+  deleteRouteInBackend(data: number) {
+    this.routeService.deleteRecordInBackend(data)
+      .subscribe((resp)=>{
+        console.log('Route deleted with the id: '+resp);
+        this.routeService.getRoutesFromBackend()
+          .subscribe((resp)=>{
+            this.ALL_ROUTES = resp;
+          })
+      })
+  }
 
   deleteRecord(data: number) {
     this.routeService.deleteRecord(data);
