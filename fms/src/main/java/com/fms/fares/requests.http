@@ -17,3 +17,5 @@ PUT http://localhost:8080/api/fares/entry
 Content-Type: application/json
 
 { "id": 1, "departure": "colombo", "arrival": "dubai", "fare": 15 }
+###
+DELETE http://localhost:8080/api/fares/entry?id=3

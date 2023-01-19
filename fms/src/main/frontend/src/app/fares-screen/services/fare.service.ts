@@ -41,11 +41,13 @@ export class FareService {
     return this.http.get<Entry[]>(this.configUrl + "/search",
       { params: new HttpParams().set('departure', departure).set('arrival', arrival) });
   }
-  deleteEntry(id: number): void {
-    this.data.forEach((value, index) => {
-      if (value.id == id)
-        this.data.splice(index, 1);
-    })
+  deleteEntry(id: number) {
+    return this.http.delete<number>(this.configUrl+"/entry",
+      { params: new HttpParams().set('id', id) });
+    // this.data.forEach((value, index) => {
+    //   if (value.id == id)
+    //     this.data.splice(index, 1);
+    // })
   }
 
   // isDuplicate(departure: string, arrival: string): number {

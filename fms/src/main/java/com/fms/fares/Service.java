@@ -57,12 +57,17 @@ public class Service {
         if ((duplicateId != 0) && (duplicateId != entry.getId())) {
             return null;
         } else {
-            Model duplicateEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
+            Model edittedEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
                     .findAny().orElse(null);
-            duplicateEntry.setDeparture(entry.getDeparture());
-            duplicateEntry.setArrival(entry.getArrival());
-            duplicateEntry.setFare(entry.getFare());
+            edittedEntry.setDeparture(entry.getDeparture());
+            edittedEntry.setArrival(entry.getArrival());
+            edittedEntry.setFare(entry.getFare());
             return entry;
         }
+    }
+
+    public int deleteEntry(int id) {
+        this.entries.removeIf(data -> data.getId() == id);
+        return id;
     }
 }

@@ -36,4 +36,9 @@ public class Controller {
     public Model editEntry(@RequestBody Model entry) {
         return service.editEntry(entry);
     }
+
+    @DeleteMapping("/api/fares/entry")
+    public int deleteEntry(@RequestParam(value = "id") int id) {
+        return service.deleteEntry(id);
+    }
 }
