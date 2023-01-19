@@ -42,6 +42,31 @@ export class RouteService  {
     return this.http.get<Route[]>('http://localhost:8080/api/routes-screen/get-routes');
   }
 
+  initializeDeparturesAndDestinations(departuresList: string[], destinationsList: string[], routes: Route[]) {
+    departuresList = [];
+    destinationsList = [];
+
+    routes.forEach((route)=>{
+      if (!(departuresList.includes(route.departure))) {
+        departuresList.push(route.departure);
+      }
+      if (!(destinationsList.includes(route.destination))) {
+        destinationsList.push(route.destination);
+      }
+    });
+
+    departuresList.sort();
+    destinationsList.sort();
+    return {
+      dpList: departuresList,
+      dsList: destinationsList
+    }
+  }
+
+  createRouteInBackend(route: Route) {
+    return this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', route);
+  }
+
 
   getRoutes(): Route[] {
     return this.ALL_ROUTES;
@@ -95,26 +120,6 @@ export class RouteService  {
     )
   }
 
-  initializeDeparturesAndDestinations(departuresList: string[], destinationsList: string[], routes: Route[]) {
-    departuresList = [];
-    destinationsList = [];
-
-    routes.forEach((route)=>{
-      if (!(departuresList.includes(route.departure))) {
-        departuresList.push(route.departure);
-      }
-      if (!(destinationsList.includes(route.destination))) {
-        destinationsList.push(route.destination);
-      }
-    });
-
-    departuresList.sort();
-    destinationsList.sort();
-    return {
-      dpList: departuresList,
-      dsList: destinationsList
-    }
-  }
 
   setDeparturesAndDestinations(departuresList: string[], destinationsList: string[]) {
     departuresList = [];

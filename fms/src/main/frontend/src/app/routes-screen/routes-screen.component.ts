@@ -44,11 +44,14 @@ export class RoutesScreenComponent implements OnInit{
   clearInputs() {
     this.searchFormDeparture = '';
     this.searchFormDestination = '';
-    this.ALL_ROUTES = this.routeService.getRoutes();
+    this.routeService.getRoutesFromBackend()
+      .subscribe((resp)=>{
+        this.ALL_ROUTES = resp;
+      });
   }
 
   updateDropdown() {
-    let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
+    let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, this.ALL_ROUTES);
     this.departuresList = listValues.dpList;
     this.destinationsList = listValues.dsList;
   }
@@ -64,6 +67,14 @@ export class RoutesScreenComponent implements OnInit{
       },
       disableClose: true
     });
+
+    dialogRef.afterClosed()
+      .subscribe(()=>{
+        this.routeService.getRoutesFromBackend()
+          .subscribe((resp)=>{
+            this.ALL_ROUTES = resp;
+          })
+      })
 
 
   }

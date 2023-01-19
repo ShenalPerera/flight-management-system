@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RoutesService {
+    static int UNIQUE_ROUTE_ID = 4;
     List<Route> INITIAL_ROUTES = new ArrayList<>();
 
     public RoutesService() {
@@ -30,7 +31,9 @@ public class RoutesService {
                 return null;
             }
         }
+        route.setRouteID(UNIQUE_ROUTE_ID);
         INITIAL_ROUTES.add(route);
+        UNIQUE_ROUTE_ID++;
         return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
     }
 
