@@ -46,6 +46,9 @@ public class RoutesService {
 
         // you can optimize
         for (Route r : INITIAL_ROUTES) {
+            if (r.getRouteID() == route.getRouteID()) {
+                continue;
+            }
             if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
                 return null;
             }
