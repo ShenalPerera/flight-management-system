@@ -59,14 +59,10 @@ export class DataService {
     oDepartureDateNTime: string
   }) {
 
-    const flightIndex = this.flights.findIndex((flightElement: Flight) => {
-      return flightElement.id === value.oId;
-    });
-
     let arrivalDateNTime = this.getDateNTime(value.oArrivalDateNTime);
     let departureDateNTime = this.getDateNTime(value.oDepartureDateNTime);
 
-    this.flights[flightIndex] = new Flight(value.oId,
+    const editedFlight: Flight = new  Flight(value.oId,
       value.oFlightNumber,
       value.oArrival,
       value.oDeparture,
@@ -75,6 +71,9 @@ export class DataService {
       departureDateNTime.date,
       departureDateNTime.time);
 
+    this.flightService.editFlight(editedFlight).subscribe(() => {
+      this.fetchFlights();
+    });
   }
 
   getDateNTime(s: string): { date: string, time: string } {
@@ -94,7 +93,6 @@ export class DataService {
     }
     return true;
   }
-
 
 
 }

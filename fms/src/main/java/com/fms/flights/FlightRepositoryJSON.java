@@ -34,4 +34,8 @@ public class FlightRepositoryJSON {
         }
         return null;
     }
+
+    public Flight editFlight(Flight editedFlight){
+        return flights.set(flights.indexOf(editedFlight),editedFlight );
+    }
 }

@@ -29,13 +29,14 @@ public class FlightController {
         return flightService.addNewFlight(flight);
     }
 
+
+    @PutMapping("/edit-flight")
+    public ResponseEntity<Flight> editFlight(@RequestBody Flight editedFlight){
+        return flightService.editFlight(editedFlight);
+    }
+
     @DeleteMapping("/delete-flight")
     public ResponseEntity<Flight> deleteFlight(@RequestParam(name = "id") String flightId) {
-        Flight deletedFlight = flightService.deleteFlight(flightId);
-
-        if (deletedFlight == null) {
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(deletedFlight, HttpStatus.OK);
+        return flightService.deleteFlight(flightId);
     }
 }

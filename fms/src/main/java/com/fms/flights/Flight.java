@@ -1,5 +1,7 @@
 package com.fms.flights;
 
+import java.util.Objects;
+
 public class Flight {
     public String id;
     public String flight_number;
@@ -86,4 +88,13 @@ public class Flight {
     public void setDeparture_time(String departure_time) {
         this.departure_time = departure_time;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return Objects.equals(id, flight.id);
+    }
+
 }

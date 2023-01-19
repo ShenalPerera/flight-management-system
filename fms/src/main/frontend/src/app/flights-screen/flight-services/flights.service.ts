@@ -22,4 +22,8 @@ export class FlightsService{
     return this.http.delete("http://localhost:8080/flights/delete-flight",{params: new HttpParams().set("id",id)});
   }
 
+  editFlight(editedFlight:Flight){
+    return this.http.put("http://localhost:8080/flights/edit-flight",editedFlight);
+  }
+
 }
