@@ -7,6 +7,9 @@ public class Route {
     double mileage;
     double durationH;
 
+    public Route() {
+
+    }
     public Route(int routeID, String departure, String destination, double mileage, double durationH) {
         this.routeID = routeID;
         this.departure = departure;

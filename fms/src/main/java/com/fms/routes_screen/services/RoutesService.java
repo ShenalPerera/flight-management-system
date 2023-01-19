@@ -3,7 +3,9 @@ package com.fms.routes_screen.services;
 import com.fms.routes_screen.models.Route;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RoutesService {
     List<Route> INITIAL_ROUTES = new ArrayList<>();
@@ -11,6 +13,7 @@ public class RoutesService {
     public RoutesService() {
         INITIAL_ROUTES.add(new Route(1, "galle", "india", 12.4, 2.5));
         INITIAL_ROUTES.add(new Route(2, "colombo", "dubai", 15.4, 22.5));
+        INITIAL_ROUTES.add(new Route(3, "maxico", "quatar", 15.4, 22.5));
     }
 
     public String sayHello() {
@@ -54,7 +57,7 @@ public class RoutesService {
         return null;
     }
 
-    public int deleteRoute(Route route) {
+    public Map<String, Integer> deleteRoute(Route route) {
         int index=0;
         for (Route r : INITIAL_ROUTES) {
             if (r.getRouteID() == route.getRouteID()) {
@@ -63,7 +66,9 @@ public class RoutesService {
             index++;
         }
         System.out.println(index);
+        Map<String, Integer> response = new HashMap<>();
+        response.put("deletedRouteIndex", index);
         INITIAL_ROUTES.remove(index);
-        return route.getRouteID();
+        return response;
     }
 }

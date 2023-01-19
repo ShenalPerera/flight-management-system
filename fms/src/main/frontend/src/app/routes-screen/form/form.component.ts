@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 import { Route } from '../models/route';
@@ -26,8 +26,6 @@ export class FormComponent implements OnInit{
   updatedRoute !: Route;
   createdRoute !: Route;
 
-  // @Output() newRouteCreatedEvent = new EventEmitter<Route>();
-
   constructor(private routeService: RouteService,
               public dialogRef: MatDialogRef<FormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
@@ -53,92 +51,52 @@ export class FormComponent implements OnInit{
     }, {validators: locationsValidator});
   }
 
-  async onSubmitUpdate() {
+  onSubmitUpdate() {
 
+    let hasDuplicates = this.routeService.handleDuplicatesWhenUpdating
+    (
+      this.sampleForm.value['departure'].toLowerCase(),
+      this.sampleForm.value['destination'].toLowerCase(),
+      this.data.route.routeID
+    );
+
+    if(!hasDuplicates) {
       this.updatedRoute = {
         routeID: this.data.route.routeID,
-        departure: this.sampleForm.value['departure'].toLowerCase(),
-        destination: this.sampleForm.value['destination'].toLowerCase(),
+        departure: this.sampleForm.value['departure'],
+        destination: this.sampleForm.value['destination'],
         mileage: +this.sampleForm.value['mileage'],
         durationH: +this.sampleForm.value['durationH'],
       };
 
-      let hasErrors = await this.routeService.updateRoute(this.updatedRoute);
-
-      console.log(hasErrors);
-
-      if (hasErrors) {
-        confirm('Sorry! That route is already there.')
-      } else {
-        this.onNoClickWithoutConfirmation();
-      }
-
-
-
-
-
-    // let hasDuplicates = this.routeService.handleDuplicatesWhenUpdating
-    // (
-    //   this.sampleForm.value['departure'].toLowerCase(),
-    //   this.sampleForm.value['destination'].toLowerCase(),
-    //   this.data.route.routeID
-    // );
-    //
-    // if(!hasDuplicates) {
-    //   this.updatedRoute = {
-    //     routeID: this.data.route.routeID,
-    //     departure: this.sampleForm.value['departure'],
-    //     destination: this.sampleForm.value['destination'],
-    //     mileage: +this.sampleForm.value['mileage'],
-    //     durationH: +this.sampleForm.value['durationH'],
-    //   };
-    //
-    //   this.routeService.updateRoute(this.updatedRoute);
-    //   this.onNoClickWithoutConfirmation();
-    // }else{
-    //   confirm('Sorry! That route is already there.')
-    // }
+      this.routeService.updateRoute(this.updatedRoute);
+      this.onNoClickWithoutConfirmation();
+    }else{
+      confirm('Sorry! That route is already there.')
+    }
 
   }
 
-  async onSubmitCreate() {
+  onSubmitCreate() {
 
-    this.createdRoute = {
-      routeID: NaN,
-      departure: this.sampleForm.value['departure'].toLowerCase(),
-      destination: this.sampleForm.value['destination'].toLowerCase(),
-      mileage: +this.sampleForm.value['mileage'],
-      durationH: +this.sampleForm.value['durationH'],
-    };
-    let hasErrors = await this.routeService.createRoute(this.createdRoute);
-    console.log(hasErrors);
+    let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(
+      this.sampleForm.value['departure'].toLowerCase(),
+      this.sampleForm.value['destination'].toLowerCase()
+    );
 
-    if (hasErrors) {
+    if(!hasDuplicates) {
+        this.createdRoute = {
+          routeID: NaN,
+          departure: this.sampleForm.value['departure'],
+          destination: this.sampleForm.value['destination'],
+          mileage: +this.sampleForm.value['mileage'],
+          durationH: +this.sampleForm.value['durationH'],
+        };
+        this.routeService.createRoute(this.createdRoute);
+        this.onNoClickWithoutConfirmation();
+      }else{
       confirm('Sorry! That route is already there.')
-    } else {
-      this.onNoClickWithoutConfirmation();
     }
-
-
-    // let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(
-    //   this.sampleForm.value['departure'].toLowerCase(),
-    //   this.sampleForm.value['destination'].toLowerCase()
-    // );
-    //
-    // if(!hasDuplicates) {
-    //     this.createdRoute = {
-    //       routeID: NaN,
-    //       departure: this.sampleForm.value['departure'],
-    //       destination: this.sampleForm.value['destination'],
-    //       mileage: +this.sampleForm.value['mileage'],
-    //       durationH: +this.sampleForm.value['durationH'],
-    //     };
-    //     this.routeService.createRoute(this.createdRoute);
-    //
-    //     this.onNoClickWithoutConfirmation();
-    //   }else{
-    //   confirm('Sorry! That route is already there.')
-    // }
   }
 
   areSameValues(): boolean {

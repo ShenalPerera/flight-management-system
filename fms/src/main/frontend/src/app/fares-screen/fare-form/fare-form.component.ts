@@ -12,7 +12,6 @@ import { FareService } from "../services/fare.service";
 })
 export class FareFormComponent implements OnInit {
   sampleForm!: FormGroup;
-
   constructor(
     private fareService: FareService,
     public dialogRef: MatDialogRef<FareFormComponent>,
