@@ -65,38 +65,14 @@ export class FormComponent implements OnInit{
           if (resp==null) {
             confirm('Sorry! That route is already there.')
           }else {
-            this.onNoClickWithoutConfirmation();
+            this.afterApplyClosing();
           }
         })
 
 
   }
 
-  onSubmitUpdate() {
 
-    let hasDuplicates = this.routeService.handleDuplicatesWhenUpdating
-    (
-      this.sampleForm.value['departure'].toLowerCase(),
-      this.sampleForm.value['destination'].toLowerCase(),
-      this.data.route.routeID
-    );
-
-    if(!hasDuplicates) {
-      this.updatedRoute = {
-        routeID: this.data.route.routeID,
-        departure: this.sampleForm.value['departure'],
-        destination: this.sampleForm.value['destination'],
-        mileage: +this.sampleForm.value['mileage'],
-        durationH: +this.sampleForm.value['durationH'],
-      };
-
-      this.routeService.updateRoute(this.updatedRoute);
-      this.onNoClickWithoutConfirmation();
-    }else{
-      confirm('Sorry! That route is already there.')
-    }
-
-  }
 
   onSubmitCreateInBackend() {
     this.createdRoute = {
@@ -112,51 +88,14 @@ export class FormComponent implements OnInit{
         if (resp==null) {
           confirm('Sorry! That route is already there.');
         }else {
-          this.onNoClickWithoutConfirmation();
+          this.afterApplyClosing();
         }
       })
 
-    // let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(
-    //   this.sampleForm.value['departure'].toLowerCase(),
-    //   this.sampleForm.value['destination'].toLowerCase()
-    // );
-    //
-    // if(!hasDuplicates) {
-    //   this.createdRoute = {
-    //     routeID: NaN,
-    //     departure: this.sampleForm.value['departure'],
-    //     destination: this.sampleForm.value['destination'],
-    //     mileage: +this.sampleForm.value['mileage'],
-    //     durationH: +this.sampleForm.value['durationH'],
-    //   };
-    //   this.routeService.createRoute(this.createdRoute);
-    //   this.onNoClickWithoutConfirmation();
-    // }else{
-    //   confirm('Sorry! That route is already there.')
-    // }
+
   }
 
-  onSubmitCreate() {
 
-    let hasDuplicates = this.routeService.handleDuplicatesWhenCreating(
-      this.sampleForm.value['departure'].toLowerCase(),
-      this.sampleForm.value['destination'].toLowerCase()
-    );
-
-    if(!hasDuplicates) {
-        this.createdRoute = {
-          routeID: NaN,
-          departure: this.sampleForm.value['departure'],
-          destination: this.sampleForm.value['destination'],
-          mileage: +this.sampleForm.value['mileage'],
-          durationH: +this.sampleForm.value['durationH'],
-        };
-        this.routeService.createRoute(this.createdRoute);
-        this.onNoClickWithoutConfirmation();
-      }else{
-      confirm('Sorry! That route is already there.')
-    }
-  }
 
   areSameValues(): boolean {
       if (
@@ -169,6 +108,21 @@ export class FormComponent implements OnInit{
       }else {
         return false;
       }
+  }
+
+  afterApplyClosing(): void {
+    this.dialogRef.close({reloadData: true});
+  }
+
+  afterDiscardClosing(): void {
+    if (this.areSameValues()) {
+      this.dialogRef.close({reloadData: false});
+    }else {
+      if(confirm('Note: Unsaved changes will be discarded.')) {
+        this.dialogRef.close({reloadData: false});
+      }
+    }
+
   }
 
   onNoClick(): void {

@@ -69,12 +69,14 @@ export class RoutesScreenComponent implements OnInit{
     });
 
     dialogRef.afterClosed()
-      .subscribe(()=>{
-        this.routeService.getRoutesFromBackend()
-          .subscribe((resp)=>{
-            this.ALL_ROUTES = resp;
-            this.updateDropdown()
-          })
+      .subscribe((resp)=>{
+        if (resp.reloadData) {
+          this.routeService.getRoutesFromBackend()
+            .subscribe((resp)=>{
+              this.ALL_ROUTES = resp;
+              this.updateDropdown()
+            })
+        }
       })
 
 

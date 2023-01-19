@@ -58,8 +58,10 @@ export class EntryComponent implements OnInit{
     });
 
     dialogRef.afterClosed()
-      .subscribe(()=>{
-        this.dataPopulateEvent.emit(true);
+      .subscribe((resp)=>{
+        if (resp.reloadData) {
+          this.dataPopulateEvent.emit(true);
+        }
       })
 
   }
