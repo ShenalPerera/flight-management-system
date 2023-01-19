@@ -28,6 +28,7 @@ import { FareItemComponent } from './fares-screen/fare-item/fare-item.component'
 import { FareFormComponent } from './fares-screen/fare-form/fare-form.component';
 import { RouteService } from "./routes-screen/services/route.service";
 import { EntryComponent } from "./routes-screen/entry/entry.component";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { EntryComponent } from "./routes-screen/entry/entry.component";
     MatSelectModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
+    HttpClientModule
   ],
   providers: [
     RouteService,
