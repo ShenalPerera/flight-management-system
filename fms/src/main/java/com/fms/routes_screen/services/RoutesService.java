@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RoutesService {
     static int UNIQUE_ROUTE_ID;
@@ -68,6 +69,19 @@ public class RoutesService {
         INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
         return routeID;
     }
+
+    public List<Route> searchRoutes(String departure, String destination) {
+
+//        return this.ALL_ROUTES.filter(
+//                x => (searchFormDeparture === "" || searchFormDeparture === x.departure)
+//                && (searchFormDestination === "" || searchFormDestination === x.destination))
+        return INITIAL_ROUTES.stream()
+                .filter(
+                        route->(departure.equals("") || departure.equals(route.getDeparture())) &&
+                                (destination.equals("") || destination.equals(route.getDestination())))
+                .collect(Collectors.toList());
+    }
+
 
 
 }

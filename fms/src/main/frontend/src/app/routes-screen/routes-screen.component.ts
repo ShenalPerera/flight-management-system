@@ -99,6 +99,14 @@ export class RoutesScreenComponent implements OnInit{
       })
   }
 
+  filterDataFromBackend(){
+    this.routeService.fetchSpecificRoutesFromBackend(this.searchFormDeparture, this.searchFormDestination)
+      .subscribe((resp)=>{
+        console.log('searched routes: '+resp);
+        this.ALL_ROUTES = resp;
+      })
+  }
+
   deleteRecord(data: number) {
     this.routeService.deleteRecord(data);
     this.filterData();

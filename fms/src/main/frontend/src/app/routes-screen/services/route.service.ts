@@ -76,6 +76,14 @@ export class RouteService  {
       {params: new HttpParams().set('routeID', routeID)});
   }
 
+  fetchSpecificRoutesFromBackend(departure: string, destination: string) {
+
+    return this.http.get<Route[]>('http://localhost:8080/api/routes-screen/search-routes',
+      {
+        params: new HttpParams().set('departure', departure).set('destination', destination)
+      })
+  }
+
 
   getRoutes(): Route[] {
     return this.ALL_ROUTES;

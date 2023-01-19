@@ -5,7 +5,7 @@
   <form class="search-form">
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
-      <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterData()" #selectDropdown>
+      <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterDataFromBackend()" #selectDropdown>
         <option value="" selected></option>
         <option *ngFor="let departure of departuresList" [value]="departure">
           {{departure | titlecase}}
@@ -15,7 +15,7 @@
 
     <mat-form-field style="padding-left: 10px" appearance="fill">
       <mat-label>Destination</mat-label>
-      <select matNativeControl [(ngModel)]="searchFormDestination" name="destination" (change)="filterData()" #selectDropdown>
+      <select matNativeControl [(ngModel)]="searchFormDestination" name="destination" (change)="filterDataFromBackend()" #selectDropdown>
         <option value="" selected></option>
         <option *ngFor="let destination of destinationsList" [value]="destination">
           {{destination | titlecase}}
