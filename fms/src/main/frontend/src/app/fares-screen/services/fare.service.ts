@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Entry } from "../shared/entry.model";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +11,24 @@ export class FareService {
 
   constructor(private http: HttpClient) { }
 
-  getLocations() {
+  getLocations(): Observable<string[]> {
     return this.http.get<string[]>(this.CONFIG_URL+"/locations");
   }
-  getAllEntries() {
+  getAllEntries(): Observable<Entry[]> {
     return this.http.get<Entry[]>(this.CONFIG_URL+"/search");
   }
-  getFilteredEntries(departure: string, arrival: string) {
+  getFilteredEntries(departure: string, arrival: string): Observable<Entry[]> {
     return this.http.get<Entry[]>(this.CONFIG_URL + "/search",
       { params: new HttpParams().set('departure', departure).set('arrival', arrival) });
   }
-  deleteEntry(id: number) {
+  deleteEntry(id: number): Observable<number> {
     return this.http.delete<number>(this.CONFIG_URL+"/entry",
       { params: new HttpParams().set('id', id) });
   }
-  editEntry(entry : Entry) {
+  editEntry(entry : Entry): Observable<Entry> {
     return this.http.put<Entry>(this.CONFIG_URL+"/entry", entry);
   }
-  createEntry(entry: Entry) {
+  createEntry(entry: Entry): Observable<Entry> {
     return this.http.post<Entry>(this.CONFIG_URL+"/entry", entry);
   }
 }

@@ -13,7 +13,7 @@ export class FaresScreenComponent implements OnInit {
   locations?: string[];
   searchCriteria = {departure: "", arrival: ""};
   searchedData?: Entry[];
-  editedEntry: Entry = {id: 0, departure: "", arrival: "", fare: 0};
+  editedEntry?: Entry;
   createEvent: boolean = true;
 
   constructor(
@@ -24,27 +24,28 @@ export class FaresScreenComponent implements OnInit {
   ngOnInit() {
     this.getAllEntries();
     this.generateLocations();
+    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0};
   }
-  generateLocations() {
+  generateLocations(): void {
     this.fareService.getLocations().subscribe((data: string[]) =>  this.locations = data);
   }
-  getAllEntries() {
+  getAllEntries(): void {
     this.fareService.getAllEntries().subscribe((data: Entry[]) => this.searchedData = data);
   }
-  filterEntries(){
+  filterEntries(): void {
     this.fareService.getFilteredEntries(this.searchCriteria.departure, this.searchCriteria.arrival)
       .subscribe((data: Entry[]) => this.searchedData = data);
   }
-  handleSearchClear() {
+  handleSearchClear(): void {
     this.searchCriteria = {departure: "", arrival: ""};
     this.getAllEntries();
   }
-  handleDelete(entry: Entry) {
+  handleDelete(entry: Entry): void {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
       this.fareService.deleteEntry(entry.id).subscribe(() => this.filterEntries() );
     }
   }
-  openForm(entry?: Entry) {
+  openForm(entry?: Entry): void {
     if (entry) {
       this.createEvent = false;
       this.editedEntry = entry;

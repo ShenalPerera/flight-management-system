@@ -1,8 +1,11 @@
 package com.fms.fares;
 
+import com.fms.fares.exceptions.DuplicateEntryException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -61,14 +64,14 @@ public class Service {
             this.entries.add(newEntry);
             return newEntry;
         } else {
-            return null;
+            throw new DuplicateEntryException();
         }
     }
 
     public Model editEntry(Model entry) {
         int duplicateId = isDuplicate(entry.getDeparture(), entry.getArrival());
         if ((duplicateId != 0) && (duplicateId != entry.getId())) {
-            return null;
+            throw new DuplicateEntryException();
         } else {
             Model editedEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
                     .findAny().orElse(null);
