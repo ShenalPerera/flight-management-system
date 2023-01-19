@@ -8,8 +8,7 @@ import {Observable, Subscription} from "rxjs";
 @Component({
   selector: 'app-flights-screen',
   templateUrl: './flights-screen.component.html',
-  styleUrls: ['./flights-screen.component.scss'],
-  providers: [DataService]
+  styleUrls: ['./flights-screen.component.scss']
 })
 
 
@@ -60,7 +59,9 @@ export class FlightsScreenComponent implements OnInit {
   }
 
   onDeleteFlight(flight_id: string, searchForm: NgForm) {
-    this.dataService.removeFlight(flight_id);
+    this.dataService.removeFlight(flight_id).subscribe( () => {
+      this.dataService.fetchFlights();
+    })
     searchForm.reset();
   }
 

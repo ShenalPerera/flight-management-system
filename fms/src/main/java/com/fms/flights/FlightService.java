@@ -19,4 +19,8 @@ public class FlightService {
     public Flight addNewFlight(Flight flight ){
         return flightRepositoryJSON.addEntry(flight);
     }
+
+    public Flight deleteFlight(String flightId){
+        return flightRepositoryJSON.deleteEntryById(flightId);
+    }
 }

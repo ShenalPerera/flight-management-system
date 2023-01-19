@@ -1,5 +1,5 @@
 import {Flight} from "../app/flights-screen/flight.model";
-import {Injectable} from "@angular/core";
+import {Inject, Injectable} from "@angular/core";
 import genUniqueId from "../utills/unique-id-generator";
 import {Subject, switchMap} from "rxjs";
 import {FlightsService} from "../app/flights-screen/flight-services/flights.service";
@@ -13,7 +13,7 @@ export class DataService {
 
   flights: Flight[] = [];
 
-  constructor(private flightService: FlightsService) {}
+  constructor(@Inject(FlightsService) private flightService: FlightsService) {}
   getFlights() {
     return this.flights.slice();
   }
@@ -51,13 +51,7 @@ export class DataService {
 
 
   removeFlight(flight_id: string) {
-    const flightIndex = this.flights.findIndex((flightElement: Flight) => {
-      return flightElement.id === flight_id;
-    });
-
-    if (flightIndex !== -1) {
-      this.flights.splice(flightIndex, 1);
-    }
+    return this.flightService.removeFlight(flight_id);
   }
 
   updateFlight(value: {
