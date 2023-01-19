@@ -79,6 +79,15 @@ export class RoutesScreenComponent implements OnInit{
 
   }
 
+  dataPopulate(data: boolean) {
+    if (data) {
+      this.routeService.getRoutesFromBackend()
+        .subscribe((resp)=>{
+          this.ALL_ROUTES = resp;
+        })
+    }
+  }
+
 
   deleteRecord(data: number) {
     this.routeService.deleteRecord(data);

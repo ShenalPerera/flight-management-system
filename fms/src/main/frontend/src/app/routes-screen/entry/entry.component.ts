@@ -3,6 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "../form/form.component";
 import {MatExpansionPanel} from "@angular/material/expansion";
 import {Route} from "../models/route";
+import {RouteService} from "../services/route.service";
 
 @Component({
   selector: 'tr [app-entry]',
@@ -15,10 +16,11 @@ export class EntryComponent implements OnInit{
   @Input() route !: Route;
   @Input() rowNumber !: number;
   @Output() sendToBeDeletedRecordEvent = new EventEmitter<number>();
+  @Output() dataPopulateEvent = new EventEmitter<boolean>();
 
   numOfHours !: number;
   numOfMinutes !: number;
-  constructor(public dialog: MatDialog) {
+  constructor(private routeService: RouteService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -54,6 +56,11 @@ export class EntryComponent implements OnInit{
       },
       disableClose: true
     });
+
+    dialogRef.afterClosed()
+      .subscribe(()=>{
+        this.dataPopulateEvent.emit(true);
+      })
 
   }
 

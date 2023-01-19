@@ -51,6 +51,27 @@ export class FormComponent implements OnInit{
     }, {validators: locationsValidator});
   }
 
+  onSubmitUpdateInBackend() {
+      this.updatedRoute = {
+        routeID: this.data.route.routeID,
+        departure: this.sampleForm.value['departure'].toLowerCase(),
+        destination: this.sampleForm.value['destination'].toLowerCase(),
+        mileage: +this.sampleForm.value['mileage'],
+        durationH: +this.sampleForm.value['durationH'],
+      };
+
+      this.routeService.updateRouteInBackend(this.updatedRoute)
+        .subscribe((resp)=>{
+          if (resp==null) {
+            confirm('Sorry! That route is already there.')
+          }else {
+            this.onNoClickWithoutConfirmation();
+          }
+        })
+
+
+  }
+
   onSubmitUpdate() {
 
     let hasDuplicates = this.routeService.handleDuplicatesWhenUpdating
@@ -77,11 +98,11 @@ export class FormComponent implements OnInit{
 
   }
 
-  onSubmitCreateToBackend() {
+  onSubmitCreateInBackend() {
     this.createdRoute = {
       routeID: NaN,
-      departure: this.sampleForm.value['departure'],
-      destination: this.sampleForm.value['destination'],
+      departure: this.sampleForm.value['departure'].toLowerCase(),
+      destination: this.sampleForm.value['destination'].toLowerCase(),
       mileage: +this.sampleForm.value['mileage'],
       durationH: +this.sampleForm.value['durationH'],
     }

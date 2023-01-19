@@ -67,6 +67,10 @@ export class RouteService  {
     return this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', route);
   }
 
+  updateRouteInBackend(route: Route) {
+    return this.http.put<any>('http://localhost:8080/api/routes-screen/update-route', route);
+  }
+
 
   getRoutes(): Route[] {
     return this.ALL_ROUTES;
