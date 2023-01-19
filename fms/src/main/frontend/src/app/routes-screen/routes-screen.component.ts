@@ -28,12 +28,15 @@ export class RoutesScreenComponent implements OnInit{
     this.routeService.getRoutesFromBackend()
       .subscribe((resp)=>{
         this.ALL_ROUTES = resp;
-      })
+        let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
+        this.departuresList = listValues.dpList;
+        this.destinationsList = listValues.dsList;
+      });
     // this.ALL_ROUTES = this.routeService.getRoutes();
 
-    let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList);
-    this.departuresList = listValues.dpList;
-    this.destinationsList = listValues.dsList;
+    // let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
+    // this.departuresList = listValues.dpList;
+    // this.destinationsList = listValues.dsList;
 
 
   }

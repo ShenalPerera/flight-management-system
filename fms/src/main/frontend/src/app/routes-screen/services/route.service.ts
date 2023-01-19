@@ -95,9 +95,31 @@ export class RouteService  {
     )
   }
 
+  initializeDeparturesAndDestinations(departuresList: string[], destinationsList: string[], routes: Route[]) {
+    departuresList = [];
+    destinationsList = [];
+
+    routes.forEach((route)=>{
+      if (!(departuresList.includes(route.departure))) {
+        departuresList.push(route.departure);
+      }
+      if (!(destinationsList.includes(route.destination))) {
+        destinationsList.push(route.destination);
+      }
+    });
+
+    departuresList.sort();
+    destinationsList.sort();
+    return {
+      dpList: departuresList,
+      dsList: destinationsList
+    }
+  }
+
   setDeparturesAndDestinations(departuresList: string[], destinationsList: string[]) {
     departuresList = [];
     destinationsList = [];
+
     this.ALL_ROUTES.forEach((route)=>{
       if (!(departuresList.includes(route.departure))) {
         departuresList.push(route.departure);
