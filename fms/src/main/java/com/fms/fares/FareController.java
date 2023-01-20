@@ -1,5 +1,6 @@
 package com.fms.fares;
 
+import com.fms.fares.models.Fare;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +10,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
-public class Controller {
-    private final Service service;
+public class FareController {
+    private final FareService service;
 
     @Autowired
-    Controller(Service service) {
+    FareController(FareService service) {
         this.service = service;
     }
 
@@ -23,20 +24,20 @@ public class Controller {
     }
 
     @GetMapping("/api/fares/search")
-    public ResponseEntity<List<Model>> getSearchedEntries(
+    public ResponseEntity<List<Fare>> getSearchedEntries(
             @RequestParam(value = "departure", defaultValue = "") String departure,
             @RequestParam(value = "arrival", defaultValue = "") String arrival) {
-        return new ResponseEntity<List<Model>>(service.getSearchedEntries(departure, arrival), HttpStatus.OK);
+        return new ResponseEntity<List<Fare>>(service.getSearchedEntries(departure, arrival), HttpStatus.OK);
     }
 
     @PostMapping("/api/fares/entry")
-    public ResponseEntity<Model> createEntry(@RequestBody Model entry) {
-        return new ResponseEntity<Model>(service.createEntry(entry), HttpStatus.CREATED);
+    public ResponseEntity<Fare> createEntry(@RequestBody Fare entry) {
+        return new ResponseEntity<Fare>(service.createEntry(entry), HttpStatus.CREATED);
     }
 
     @PutMapping("/api/fares/entry")
-    public ResponseEntity<Model> editEntry(@RequestBody Model entry) {
-        return new ResponseEntity<Model>(service.editEntry(entry), HttpStatus.OK);
+    public ResponseEntity<Fare> editEntry(@RequestBody Fare entry) {
+        return new ResponseEntity<Fare>(service.editEntry(entry), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/fares/entry")
