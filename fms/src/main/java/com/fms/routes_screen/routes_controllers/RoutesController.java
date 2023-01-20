@@ -53,10 +53,17 @@ public class RoutesController {
         return routesService.editRoute(route);
     }
 
+//    @DeleteMapping("/api/routes-screen/delete-route")
+//    public int deleteRoute(@RequestParam int routeID){
+//        return routesService.deleteRoute(routeID);
+//    }
+
     @DeleteMapping("/api/routes-screen/delete-route")
-    public int deleteRoute(@RequestParam int routeID){
+    ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
         return routesService.deleteRoute(routeID);
     }
+
+
 
     @GetMapping("/api/routes-screen/search-routes")
     public List<Route> searchRoutes(@RequestParam String departure, @RequestParam String destination) {

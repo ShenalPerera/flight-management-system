@@ -41,7 +41,7 @@ public class RoutesService {
         }
         route.setRouteID(++UNIQUE_ROUTE_ID);
         INITIAL_ROUTES.add(route);
-        return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.OK);
+        return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.CREATED);
 //        return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
     }
 
@@ -73,9 +73,10 @@ public class RoutesService {
         return null;
     }
 
-    public int deleteRoute(@RequestParam int routeID){
+    public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
         INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
-        return routeID;
+        return new ResponseEntity<Integer>(routeID, HttpStatus.OK);
+//        return routeID;
     }
 
     public List<Route> searchRoutes(String departure, String destination) {

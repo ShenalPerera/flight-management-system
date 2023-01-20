@@ -33,7 +33,7 @@ export class RoutesScreenComponent implements OnInit{
         this.destinationsList = listValues.dsList;
       },
       error: (e)=>{
-        alert("Something Went Wrong. Try Again.");
+        alert("Something Went Wrong In Retrieving Data. Try Again.");
       }});
     // this.ALL_ROUTES = this.routeService.getRoutes();
 
@@ -52,7 +52,7 @@ export class RoutesScreenComponent implements OnInit{
         this.ALL_ROUTES = resp;
       },
       error: (e)=>{
-        alert("Something Went Wrong. Try Again.");
+        alert("Something Went Wrong In Retrieving Data. Try Again.");
       }});
   }
 
@@ -83,7 +83,7 @@ export class RoutesScreenComponent implements OnInit{
                 this.updateDropdown()
               },
             error: (e)=>{
-              alert("Something Went Wrong. Try Again.");
+              alert("Something Went Wrong In Retrieving Data. Try Again.");
             }})
         }
       })
@@ -99,22 +99,27 @@ export class RoutesScreenComponent implements OnInit{
             this.ALL_ROUTES = resp;
           },
         error: (e)=>{
-          alert("Something Went Wrong. Try Again.");
+          alert("Something Went Wrong In Retrieving Data. Try Again.");
         }})
     }
   }
 
   deleteRouteInBackend(data: number) {
     this.routeService.deleteRecordInBackend(data)
-      .subscribe((resp)=>{
-        console.log('Route deleted with the id: '+resp);
-        this.routeService.getRoutesFromBackend()
-          .subscribe({next: (resp)=>{
-              this.ALL_ROUTES = resp;
-            },
-            error: (e)=>{
-              alert("Something Went Wrong. Try Again.");
-            }})
+      .subscribe({
+        next: (resp)=>{
+          console.log('Route deleted with the id: '+resp);
+          this.routeService.getRoutesFromBackend()
+            .subscribe({next: (resp)=>{
+                this.ALL_ROUTES = resp;
+              },
+              error: (e)=>{
+                alert("Something Went Wrong In Retrieving Data. Try Again.");
+              }})
+        },
+        error: (e)=>{
+          alert("Something Went Wrong In Deletion. Try Again.");
+        }
       })
   }
 
@@ -124,7 +129,7 @@ export class RoutesScreenComponent implements OnInit{
           this.ALL_ROUTES = resp;
         },
         error: (e)=>{
-          alert("Something Went Wrong. Try Again.");
+          alert("Something Went Wrong In Retrieving Data. Try Again.");
         }})
   }
 
