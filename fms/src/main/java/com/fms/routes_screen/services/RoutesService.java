@@ -34,6 +34,14 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
+
+        // validations when not using the UI
+        if (route.getDeparture().equals("") || route.getDestination().equals("") ||
+        route.getDeparture().equalsIgnoreCase(route.getDestination())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
         for (Route r : INITIAL_ROUTES) {
             if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -46,6 +54,7 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> editRoute(Route route) {
+
 
         // you can optimize
         for (Route r : INITIAL_ROUTES) {
