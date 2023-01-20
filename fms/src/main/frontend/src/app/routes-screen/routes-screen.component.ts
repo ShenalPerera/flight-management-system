@@ -26,12 +26,15 @@ export class RoutesScreenComponent implements OnInit{
 
   ngOnInit() {
     this.routeService.getRoutesFromBackend()
-      .subscribe((resp)=>{
+      .subscribe({next: (resp)=>{
         this.ALL_ROUTES = resp;
         let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
         this.departuresList = listValues.dpList;
         this.destinationsList = listValues.dsList;
-      });
+      },
+      error: (e)=>{
+        alert("Something Went Wrong. Try Again.");
+      }});
     // this.ALL_ROUTES = this.routeService.getRoutes();
 
     // let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
@@ -45,9 +48,12 @@ export class RoutesScreenComponent implements OnInit{
     this.searchFormDeparture = '';
     this.searchFormDestination = '';
     this.routeService.getRoutesFromBackend()
-      .subscribe((resp)=>{
+      .subscribe({ next: (resp)=>{
         this.ALL_ROUTES = resp;
-      });
+      },
+      error: (e)=>{
+        alert("Something Went Wrong. Try Again.");
+      }});
   }
 
   updateDropdown() {
@@ -72,10 +78,13 @@ export class RoutesScreenComponent implements OnInit{
       .subscribe((resp)=>{
         if (resp.reloadData) {
           this.routeService.getRoutesFromBackend()
-            .subscribe((resp)=>{
-              this.ALL_ROUTES = resp;
-              this.updateDropdown()
-            })
+            .subscribe({next: (resp)=>{
+                this.ALL_ROUTES = resp;
+                this.updateDropdown()
+              },
+            error: (e)=>{
+              alert("Something Went Wrong. Try Again.");
+            }})
         }
       })
 
@@ -86,9 +95,12 @@ export class RoutesScreenComponent implements OnInit{
   dataPopulate(data: boolean) {
     if (data) {
       this.routeService.getRoutesFromBackend()
-        .subscribe((resp)=>{
-          this.ALL_ROUTES = resp;
-        })
+        .subscribe({next: (resp)=>{
+            this.ALL_ROUTES = resp;
+          },
+        error: (e)=>{
+          alert("Something Went Wrong. Try Again.");
+        }})
     }
   }
 
@@ -97,18 +109,23 @@ export class RoutesScreenComponent implements OnInit{
       .subscribe((resp)=>{
         console.log('Route deleted with the id: '+resp);
         this.routeService.getRoutesFromBackend()
-          .subscribe((resp)=>{
-            this.ALL_ROUTES = resp;
-          })
+          .subscribe({next: (resp)=>{
+              this.ALL_ROUTES = resp;
+            },
+            error: (e)=>{
+              alert("Something Went Wrong. Try Again.");
+            }})
       })
   }
 
   filterDataFromBackend(){
     this.routeService.fetchSpecificRoutesFromBackend(this.searchFormDeparture, this.searchFormDestination)
-      .subscribe((resp)=>{
-        console.log('searched routes: '+resp);
-        this.ALL_ROUTES = resp;
-      })
+      .subscribe({next: (resp)=>{
+          this.ALL_ROUTES = resp;
+        },
+        error: (e)=>{
+          alert("Something Went Wrong. Try Again.");
+        }})
   }
 
   deleteRecord(data: number) {

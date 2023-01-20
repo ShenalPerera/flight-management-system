@@ -3,6 +3,9 @@ package com.fms.routes_screen.routes_controllers;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fms.routes_screen.models.Route;
 import com.fms.routes_screen.services.RoutesService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -18,9 +21,16 @@ public class RoutesController {
         return routesService.sayHello();
     }
 
+
+
+//    @GetMapping("/api/routes-screen/get-routes")
+//    public List<Route> sendAllRoutes() {
+//        return routesService.sendAllRoutes();
+//    }
+
     @GetMapping("/api/routes-screen/get-routes")
-    public List<Route> sendAllRoutes() {
-        return routesService.sendAllRoutes();
+    ResponseEntity<List<Route>> sendAllRoutes() {
+        return new ResponseEntity<>(routesService.sendAllRoutes(), HttpStatus.OK);
     }
 
     @PostMapping("/api/routes-screen/create-route")
