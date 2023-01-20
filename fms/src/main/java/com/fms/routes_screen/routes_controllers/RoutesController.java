@@ -65,11 +65,17 @@ public class RoutesController {
 
 
 
+//    @GetMapping("/api/routes-screen/search-routes")
+//    public List<Route> searchRoutes(@RequestParam String departure, @RequestParam String destination) {
+//        System.out.println("you are searching for "+departure);
+//        return routesService.searchRoutes(departure, destination);
+//    }
+
     @GetMapping("/api/routes-screen/search-routes")
-    public List<Route> searchRoutes(@RequestParam String departure, @RequestParam String destination) {
-        System.out.println("you are searching for "+departure);
+    ResponseEntity<List<Route>> searchRoutes(@RequestParam String departure, @RequestParam String destination) {
         return routesService.searchRoutes(departure, destination);
     }
+
 
 
 }

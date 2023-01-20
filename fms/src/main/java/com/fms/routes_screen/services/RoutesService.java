@@ -79,16 +79,18 @@ public class RoutesService {
 //        return routeID;
     }
 
-    public List<Route> searchRoutes(String departure, String destination) {
+    public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
 
 //        return this.ALL_ROUTES.filter(
 //                x => (searchFormDeparture === "" || searchFormDeparture === x.departure)
 //                && (searchFormDestination === "" || searchFormDestination === x.destination))
-        return INITIAL_ROUTES.stream()
+        return new ResponseEntity<>(
+                INITIAL_ROUTES.stream()
                 .filter(
                         route->(departure.equals("") || departure.equals(route.getDeparture())) &&
                                 (destination.equals("") || destination.equals(route.getDestination())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()),
+                HttpStatus.OK);
     }
 
 

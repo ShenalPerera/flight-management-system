@@ -66,7 +66,7 @@ export class FormComponent implements OnInit{
               this.afterApplyClosing();
           },
           error: (e)=>{
-            confirm('Sorry! That route is already there.')
+            alert('Sorry! That route is already there.')
           }
         })
 
@@ -89,7 +89,7 @@ export class FormComponent implements OnInit{
             this.afterApplyClosing();
         },
         error: (e)=>{
-          confirm('Sorry! That route is already there.');
+          alert('Sorry! That route is already there.');
         }
       })
 
