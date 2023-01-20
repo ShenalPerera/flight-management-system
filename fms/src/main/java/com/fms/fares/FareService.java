@@ -83,11 +83,12 @@ public class FareService {
             else
                 throw new IdDoesntExistException();
         } else {
-            Fare editedEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
-                    .findAny().orElse(null);
-            editedEntry.setDeparture(entry.getDeparture());
-            editedEntry.setArrival(entry.getArrival());
-            editedEntry.setFare(entry.getFare());
+            this.entries.stream().filter(data -> data.getId() == entry.getId())
+                    .findAny().ifPresent(data -> {
+                        data.setDeparture(entry.getDeparture());
+                        data.setArrival(entry.getArrival());
+                        data.setFare(entry.getFare());
+                    });
             return entry;
         }
     }
