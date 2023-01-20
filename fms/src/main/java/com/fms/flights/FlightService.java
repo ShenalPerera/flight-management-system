@@ -22,21 +22,15 @@ public class FlightService {
         return flightRepositoryJSON.addEntry(flight);
     }
 
-    public ResponseEntity<Flight> editFlight(Flight editedFlight){
-        Flight updatedFlight = this.flightRepositoryJSON.editFlight(editedFlight);
-
-        if (updatedFlight != null){
-            return new ResponseEntity<>(updatedFlight,HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    public Flight editFlight(Flight editedFlight){
+        return this.flightRepositoryJSON.editFlight(editedFlight);
     }
 
-    public ResponseEntity<Flight> deleteFlight(String flightId){
+    public ResponseEntity<Object> deleteFlight(String flightId){
         Flight deletedFlight = flightRepositoryJSON.deleteEntryById(flightId);
 
         if (deletedFlight == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(207).body("Entry not found!");
         }
         return new ResponseEntity<>(deletedFlight, HttpStatus.OK);
 

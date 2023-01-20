@@ -53,15 +53,17 @@ export class FlightsScreenComponent implements OnInit {
     }, {
       validators: [arrivalDatesValidator, arrivalDepartureValidator],
       asyncValidators: this.invalidFlightEntry.bind(this),
-      updateOn: "blur"
+      updateOn:"blur"
     });
 
   }
 
   onDeleteFlight(flight_id: string, searchForm: NgForm) {
-    this.dataService.removeFlight(flight_id).subscribe( () => {
+    this.dataService.removeFlight(flight_id).subscribe( {
+      next:(sd)=>{
       this.dataService.fetchFlights();
-    })
+      },
+      error:()=>console.log("THis is an error")})
     searchForm.reset();
   }
 

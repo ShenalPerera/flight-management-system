@@ -1,0 +1,20 @@
+DELETE http://localhost:8080/flights/delete-flight?id=12
+Accept: application/json
+
+###
+PUT http://localhost:8080/flights/edit-flight
+Content-Type: application/json
+
+{
+  "id": "14",
+  "flight_number": "1",
+  "departure": "Colombo",
+  "arrival": "Dubailia",
+  "departure_date": "2023-04-26",
+  "arrival_date": "2024-05-12",
+  "departure_time": "13:00",
+  "arrival_time": "11:00"
+}
+
+###
+GET http://localhost:8080/flights/get-flights

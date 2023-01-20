@@ -31,12 +31,16 @@ public class FlightController {
 
 
     @PutMapping("/edit-flight")
-    public ResponseEntity<Flight> editFlight(@RequestBody Flight editedFlight){
-        return flightService.editFlight(editedFlight);
+    public ResponseEntity<Object> editFlight(@RequestBody Flight editedFlight){
+        if (flightService.editFlight(editedFlight) != null){
+            return ResponseEntity.status(200).body("Edit Successful");
+        }
+        System.out.println("This lib exceeded");
+        return ResponseEntity.status(204).body("Entry is not found!");
     }
 
     @DeleteMapping("/delete-flight")
-    public ResponseEntity<Flight> deleteFlight(@RequestParam(name = "id") String flightId) {
+    public ResponseEntity<Object> deleteFlight(@RequestParam(name = "id") String flightId) {
         return flightService.deleteFlight(flightId);
     }
 }

@@ -36,6 +36,12 @@ public class FlightRepositoryJSON {
     }
 
     public Flight editFlight(Flight editedFlight){
-        return flights.set(flights.indexOf(editedFlight),editedFlight );
+        try {
+            return flights.set(flights.indexOf(editedFlight),editedFlight );
+        }
+        catch (IndexOutOfBoundsException e){
+            return null;
+        }
+
     }
 }
