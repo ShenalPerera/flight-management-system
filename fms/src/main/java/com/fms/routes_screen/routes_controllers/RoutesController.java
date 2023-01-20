@@ -43,8 +43,13 @@ public class RoutesController {
         return routesService.createRoute(route);
     }
 
+//    @PutMapping("/api/routes-screen/update-route")
+//    public Route editRoute(@RequestBody Route route) {
+//        return routesService.editRoute(route);
+//    }
+
     @PutMapping("/api/routes-screen/update-route")
-    public Route editRoute(@RequestBody Route route) {
+    ResponseEntity<Route> editRoute(@RequestBody Route route) {
         return routesService.editRoute(route);
     }
 

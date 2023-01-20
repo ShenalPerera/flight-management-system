@@ -61,11 +61,12 @@ export class FormComponent implements OnInit{
       };
 
       this.routeService.updateRouteInBackend(this.updatedRoute)
-        .subscribe((resp)=>{
-          if (resp==null) {
+        .subscribe({
+          next: (resp)=>{
+              this.afterApplyClosing();
+          },
+          error: (e)=>{
             confirm('Sorry! That route is already there.')
-          }else {
-            this.afterApplyClosing();
           }
         })
 

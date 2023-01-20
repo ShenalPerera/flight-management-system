@@ -45,7 +45,7 @@ public class RoutesService {
 //        return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
     }
 
-    public Route editRoute(Route route) {
+    public ResponseEntity<Route> editRoute(Route route) {
 
         // you can optimize
         for (Route r : INITIAL_ROUTES) {
@@ -53,7 +53,7 @@ public class RoutesService {
                 continue;
             }
             if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
-                return null;
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         }
 
@@ -65,9 +65,11 @@ public class RoutesService {
                 r.setMileage(route.getMileage());
                 r.setDurationH(route.getDurationH());
 
-                return r;
+                return new ResponseEntity<>(r, HttpStatus.OK);
+//                return r;
             }
         }
+        // have to implement not found
         return null;
     }
 
