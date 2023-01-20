@@ -1,11 +1,12 @@
 package com.fms.fares;
 
 import com.fms.fares.exceptions.DuplicateEntryException;
+import com.fms.fares.exceptions.IdDoesntExistException;
+import com.fms.fares.exceptions.SameLocationException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.zip.DataFormatException;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -25,7 +26,7 @@ public class Service {
         this.entries = new ArrayList<Model>();
         this.entries.add(new Model(1, "colombo", "dubai", 50));
         this.entries.add(new Model(2, "colombo", "sydney", 75));
-        this.entries.add(new Model(3, "dubai", "colombo", 50)); //
+        this.entries.add(new Model(3, "dubai", "colombo", 50));
         this.entries.add(new Model(4, "colombo", "new york", 150));
         this.entries.add(new Model(5, "new york", "sydney", 225));
 
@@ -59,6 +60,8 @@ public class Service {
     }
 
     public Model createEntry(Model entry) {
+        if (entry.getDeparture().equals(entry.getArrival()))
+            throw new SameLocationException();
         if (isDuplicate(entry.getDeparture(), entry.getArrival()) == 0) {
             Model newEntry = new Model(++this.length, entry.getDeparture(), entry.getArrival(), entry.getFare());
             this.entries.add(newEntry);
@@ -69,9 +72,14 @@ public class Service {
     }
 
     public Model editEntry(Model entry) {
+        if (entry.getDeparture().equals(entry.getArrival()))
+            throw new SameLocationException();
         int duplicateId = isDuplicate(entry.getDeparture(), entry.getArrival());
-        if ((duplicateId != 0) && (duplicateId != entry.getId())) {
-            throw new DuplicateEntryException();
+        if  (duplicateId != entry.getId()) {
+            if (duplicateId != 0)
+                throw new DuplicateEntryException();
+            else
+                throw new IdDoesntExistException();
         } else {
             Model editedEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
                     .findAny().orElse(null);
@@ -83,7 +91,9 @@ public class Service {
     }
 
     public int deleteEntry(int id) {
-        this.entries.removeIf(data -> data.getId() == id);
-        return id;
+        if (!this.entries.removeIf(data -> data.getId() == id))
+            throw new IdDoesntExistException();
+        else
+            return id;
     }
 }
