@@ -74,15 +74,28 @@ public class FareService {
     }
 
     public Fare editEntry(Fare entry) {
+
         if (entry.getDeparture().equals(entry.getArrival()))
             throw new SameLocationException();
+
         int duplicateId = isDuplicate(entry.getDeparture(), entry.getArrival());
-        if  (duplicateId != entry.getId()) {
+        if  (duplicateId != entry.getId()) { // a duplicate entry may exist (the user given ID may not exist)
+
             if (duplicateId != 0)
                 throw new DuplicateEntryException();
             else
-                throw new IdDoesntExistException();
-        } else {
+                try {
+                    Fare editedEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
+                            .findAny().orElse(null);
+                    editedEntry.setDeparture(entry.getDeparture());
+                    editedEntry.setArrival(entry.getArrival());
+                    editedEntry.setFare(entry.getFare());
+                    return entry;
+                } catch (NullPointerException e) { // the user given id doesn't exist
+                    throw new IdDoesntExistException();
+                }
+
+        } else { // the user hasn't changed departure and location
             this.entries.stream().filter(data -> data.getId() == entry.getId())
                     .findAny().ifPresent(data -> {
                         data.setDeparture(entry.getDeparture());

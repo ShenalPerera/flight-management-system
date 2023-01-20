@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
+@RequestMapping("api/fares")
 public class FareController {
     private final FareService service;
 
@@ -18,29 +19,29 @@ public class FareController {
         this.service = service;
     }
 
-    @GetMapping("/api/fares/locations")
+    @GetMapping("locations")
     public ResponseEntity<List<String>> getLocations() {
         return new ResponseEntity<List<String>>(service.getLocations(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/fares/search")
+    @GetMapping("search")
     public ResponseEntity<List<Fare>> getSearchedEntries(
             @RequestParam(value = "departure", defaultValue = "") String departure,
             @RequestParam(value = "arrival", defaultValue = "") String arrival) {
         return new ResponseEntity<List<Fare>>(service.getSearchedEntries(departure, arrival), HttpStatus.OK);
     }
 
-    @PostMapping("/api/fares/entry")
+    @PostMapping("entry")
     public ResponseEntity<Fare> createEntry(@RequestBody Fare entry) {
         return new ResponseEntity<Fare>(service.createEntry(entry), HttpStatus.CREATED);
     }
 
-    @PutMapping("/api/fares/entry")
+    @PutMapping("entry")
     public ResponseEntity<Fare> editEntry(@RequestBody Fare entry) {
         return new ResponseEntity<Fare>(service.editEntry(entry), HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/fares/entry")
+    @DeleteMapping("entry")
     public ResponseEntity<Integer> deleteEntry(@RequestParam(value = "id") int id) {
         return new ResponseEntity<Integer>(service.deleteEntry(id), HttpStatus.NO_CONTENT);
     }
