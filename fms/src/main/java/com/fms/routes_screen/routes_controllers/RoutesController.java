@@ -33,8 +33,13 @@ public class RoutesController {
         return new ResponseEntity<>(routesService.sendAllRoutes(), HttpStatus.OK);
     }
 
+//    @PostMapping("/api/routes-screen/create-route")
+//    public Route createRoute(@RequestBody Route route) {
+//        return routesService.createRoute(route);
+//    }
+
     @PostMapping("/api/routes-screen/create-route")
-    public Route createRoute(@RequestBody Route route) {
+    ResponseEntity<Route> createRoute(@RequestBody Route route) {
         return routesService.createRoute(route);
     }
 

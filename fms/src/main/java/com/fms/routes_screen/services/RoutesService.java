@@ -1,6 +1,8 @@
 package com.fms.routes_screen.services;
 
 import com.fms.routes_screen.models.Route;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -31,15 +33,16 @@ public class RoutesService {
         return INITIAL_ROUTES;
     }
 
-    public Route createRoute(Route route) {
+    public ResponseEntity<Route> createRoute(Route route) {
         for (Route r : INITIAL_ROUTES) {
             if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
-                return null;
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         }
         route.setRouteID(++UNIQUE_ROUTE_ID);
         INITIAL_ROUTES.add(route);
-        return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
+        return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.OK);
+//        return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
     }
 
     public Route editRoute(Route route) {
