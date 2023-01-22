@@ -83,12 +83,27 @@ public class RoutesService {
             }
         }
         // have to implement not found
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
-        INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
-        return new ResponseEntity<Integer>(routeID, HttpStatus.OK);
+
+        boolean isIdExists = false;
+        //check whether the id is existing
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getRouteID() == routeID) {
+                isIdExists = true;
+            }
+        }
+
+        if (isIdExists) {
+            INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
+            return new ResponseEntity<Integer>(routeID, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+        }
+
+
 //        return routeID;
     }
 
