@@ -55,6 +55,10 @@ public class RoutesService {
 
     public ResponseEntity<Route> editRoute(Route route) {
 
+        if (route.getDeparture().equals("") || route.getDestination().equals("") ||
+                route.getDeparture().equalsIgnoreCase(route.getDestination())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         // you can optimize
         for (Route r : INITIAL_ROUTES) {
@@ -79,7 +83,7 @@ public class RoutesService {
             }
         }
         // have to implement not found
-        return null;
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
