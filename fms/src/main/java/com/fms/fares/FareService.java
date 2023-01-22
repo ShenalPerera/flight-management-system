@@ -2,6 +2,7 @@ package com.fms.fares;
 
 import com.fms.fares.exceptions.DuplicateEntryException;
 import com.fms.fares.exceptions.IdDoesntExistException;
+import com.fms.fares.exceptions.NegativeNumberException;
 import com.fms.fares.exceptions.SameLocationException;
 import com.fms.fares.models.Fare;
 import org.springframework.stereotype.Service;
@@ -62,8 +63,12 @@ public class FareService {
     }
 
     public Fare createEntry(Fare entry) {
+
         if (entry.getDeparture().equals(entry.getArrival()))
             throw new SameLocationException();
+        if (entry.getFare() < 0)
+            throw new NegativeNumberException();
+
         if (isDuplicate(entry.getDeparture(), entry.getArrival()) == 0) {
             Fare newEntry = new Fare(++this.length, entry.getDeparture(), entry.getArrival(), entry.getFare());
             this.entries.add(newEntry);
@@ -77,6 +82,8 @@ public class FareService {
 
         if (entry.getDeparture().equals(entry.getArrival()))
             throw new SameLocationException();
+        if (entry.getFare() < 0)
+            throw new NegativeNumberException();
 
         int duplicateId = isDuplicate(entry.getDeparture(), entry.getArrival());
         if  (duplicateId != entry.getId()) { // a duplicate entry may exist (the user given ID may not exist)
