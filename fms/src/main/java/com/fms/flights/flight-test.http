@@ -6,7 +6,7 @@ Content-Type: application/json
   "id": "12",
   "flight_number": "123",
   "departure": "Colombo",
-  "arrival": "Dubailia",
+  "arrival": "Colomboo",
   "departure_date": "2023-04-29",
   "arrival_date": "2023-04-29",
   "departure_time": "13:00",
@@ -21,9 +21,9 @@ Content-Type: application/json
   "id": "1",
   "flight_number": "1",
   "departure": "Colombo",
-  "arrival": "Dubailia",
+  "arrival": "Colombo",
   "departure_date": "2023-04-26",
-  "arrival_date": "2023-04-26",
+  "arrival_date": "2023-04-27",
   "departure_time": "13:00",
   "arrival_time": "13:00"
 }

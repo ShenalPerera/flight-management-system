@@ -105,4 +105,10 @@ public class Flight {
 
         return !isEmptyField && validDepartureAndArrival;
     }
+
+    public boolean isContainsEmptyFields(){
+        return id.isBlank() || flight_number.isBlank() || arrival.isBlank() || departure.isBlank() || arrival_date.isBlank()||
+                arrival_time.isBlank() || departure_date.isBlank() || departure_time.isBlank();
+    }
+
 }
