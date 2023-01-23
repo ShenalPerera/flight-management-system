@@ -15,7 +15,7 @@ public class FareService {
     private int length = 10;
 
     public FareService() {
-        this.locations = new ArrayList<String>();
+        this.locations = new ArrayList<>();
         this.locations.add("colombo");
         this.locations.add("dubai");
         this.locations.add("london");
@@ -23,7 +23,7 @@ public class FareService {
         this.locations.add("paris");
         this.locations.add("sydney");
 
-        this.entries = new ArrayList<Fare>();
+        this.entries = new ArrayList<>();
         this.entries.add(new Fare(1, "colombo", "dubai", 50));
         this.entries.add(new Fare(2, "colombo", "sydney", 75));
         this.entries.add(new Fare(3, "dubai", "colombo", 50));
