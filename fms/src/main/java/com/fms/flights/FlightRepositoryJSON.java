@@ -15,7 +15,7 @@ public class FlightRepositoryJSON {
     private final List<Flight> flights = new ArrayList<>();
 
     FlightRepositoryJSON(){
-        flights.add(new Flight("1", "1", "colombo", "India", "2023-01-04", "13:04", "2023-01-05", "11:00"));
+        flights.add(new Flight("1", "1", "colombo", "India", "2023-01-04", "2023-01-05", "13:04", "11:00"));
     }
 
 
@@ -49,7 +49,6 @@ public class FlightRepositoryJSON {
     }
 
     public List<Flight> getFlightsByFlightNumberNDepartureDate(Flight flight){
-
         LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDeparture_date() +"T" + flight.getDeparture_time());
 
         return flights.stream().filter(flightEntry ->

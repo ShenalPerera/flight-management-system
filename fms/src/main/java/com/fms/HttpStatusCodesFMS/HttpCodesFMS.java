@@ -3,9 +3,10 @@ package com.fms.HttpStatusCodesFMS;
 public enum HttpCodesFMS  {
     SAME_ARRIVAL_DEPARTURE_FOUND(250),
     DUPLICATE_ENTRY_FOUND(251),
-
     EMPTY_FIELD_FOUND(252),
-    INVALID_DEPARTURE_AND_ARRIVAL_DATE(253);
+    INVALID_DEPARTURE_AND_ARRIVAL_DATE(253),
+    ENTRY_NOT_FOUND(254);
+
     private final int statusCode;
     HttpCodesFMS(int statusCode){
         this.statusCode = statusCode;

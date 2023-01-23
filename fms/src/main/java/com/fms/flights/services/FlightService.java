@@ -22,13 +22,10 @@ public class FlightService {
     }
 
     public Flight addNewFlight(Flight flight ){
-
         if (isFlightValid(flight)){
             return flightRepositoryJSON.addEntry(flight);
         }
-
         throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
-
     }
 
     public Flight editFlight(Flight flight){
@@ -39,7 +36,11 @@ public class FlightService {
     }
 
     public Flight deleteFlight(String flightId){
-        return flightRepositoryJSON.deleteEntryById(flightId);
+        Flight flight = flightRepositoryJSON.deleteEntryById(flightId);
+        if (flight == null){
+            throw new FMSException(HttpCodesFMS.ENTRY_NOT_FOUND);
+        }
+        return flight;
     }
 
 

@@ -30,23 +30,13 @@ public class FlightController {
         return ResponseEntity.status(200).body(flightService.addNewFlight(flight));
     }
 
-
     @PutMapping("/edit-flight")
-    public ResponseEntity<Object> editFlight(@RequestBody Flight editedFlight){
-        Flight newFlight = flightService.editFlight(editedFlight);
-
-        if (newFlight != null){
-            return ResponseEntity.status(200).body(newFlight);
-        }
-        return ResponseEntity.status(422).body("Form submission Failed!");
+    public ResponseEntity<Flight> editFlight(@RequestBody Flight editedFlight){
+        return ResponseEntity.status(200).body(flightService.editFlight(editedFlight));
     }
 
     @DeleteMapping("/delete-flight")
     public ResponseEntity<Object> deleteFlight(@RequestParam(name = "id") String flightId) {
-        Flight deletedFlight = flightService.deleteFlight(flightId);
-        if (deletedFlight == null) {
-            return ResponseEntity.status(409).body("Entry not found!");
-        }
-        return new ResponseEntity<>(deletedFlight, HttpStatus.OK);
+        return new ResponseEntity<>(flightService.deleteFlight(flightId), HttpStatus.OK);
     }
 }

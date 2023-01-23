@@ -131,12 +131,14 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
 
     tempSubscription.subscribe({
       next:(response)=>{
-        let flight = response.body;
         if (response.status === HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND){
-          alert("Flight number : " + flight?.id + " has flight on given departure time!");
+          alert("Flight number already has flight on given departure time!");
         }
-        this.resetFormScreeMode();
-        this.dataService.fetchFlights();
+        else {
+          this.resetFormScreeMode();
+          this.dataService.fetchFlights();
+        }
+
       },
       error:err => {
         alert(err.error);
