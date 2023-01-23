@@ -1,6 +1,7 @@
 package com.fms.routes_screen.services;
 
 import com.fms.routes_screen.exceptions.DuplicateRouteException;
+import com.fms.routes_screen.exceptions.InvalidFormException;
 import com.fms.routes_screen.models.Route;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,7 +74,8 @@ public class RoutesService {
 
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new InvalidFormException("Invalid form.");
         }
         else {
             for (Route r : INITIAL_ROUTES) {

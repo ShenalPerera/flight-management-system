@@ -18,4 +18,11 @@ public class ApiExceptionHandler {
                 new ApiException(e.getMessage(), HttpStatus.CONFLICT, ZonedDateTime.now(ZoneId.of("Z")));
         return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(value = {InvalidFormException.class})
+    public ResponseEntity<Object> handleInvalidFormException(InvalidFormException e) {
+        ApiException apiException =
+                new ApiException(e.getMessage(), HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+    }
 }
