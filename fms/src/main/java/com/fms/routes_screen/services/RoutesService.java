@@ -56,6 +56,18 @@ public class RoutesService {
         return oldRoute;
     }
 
+    public boolean hasConflictWhenUpdating(Route route) {
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getRouteID() == route.getRouteID()) {
+                continue;
+            }
+            if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Route> sendAllRoutes() {
         return INITIAL_ROUTES;
     }
@@ -79,28 +91,16 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> editRoute(Route route) {
-
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else {
-            for (Route r : INITIAL_ROUTES) {
-                if (r.getRouteID() == route.getRouteID()) {
-                    continue;
-                }
-                if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
+            if (hasConflictWhenUpdating(route)) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-
             for (Route r : INITIAL_ROUTES) {
                 if (r.getRouteID() == route.getRouteID()) {
                     r = updateTheContent(r, route);
-//                    r.setDeparture(route.getDeparture());
-//                    r.setDestination(route.getDestination());
-//                    r.setMileage(route.getMileage());
-//                    r.setDurationH(route.getDurationH());
-
                     return new ResponseEntity<>(r, HttpStatus.OK);
                 }
             }
