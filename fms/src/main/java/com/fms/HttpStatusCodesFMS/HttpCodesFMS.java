@@ -1,4 +1,4 @@
-package com.fms.HttpCodesFMS;
+package com.fms.HttpStatusCodesFMS;
 
 public enum HttpCodesFMS  {
     SAME_ARRIVAL_DEPARTURE_FOUND(250),

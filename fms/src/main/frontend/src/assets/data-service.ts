@@ -41,9 +41,7 @@ export class DataService {
                     departureDateNTime.time
                   );
 
-    return this.flightService.addNewFlight(new_flight).pipe(
-      switchMap( () => this.flightService.fetchFlights()));
-
+    return this.flightService.addNewFlight(new_flight);
   }
 
 

@@ -8,7 +8,7 @@ Content-Type: application/json
   "departure": "Colombo",
   "arrival": "sd",
   "departure_date": "2023-04-29",
-  "arrival_date": "2023-04-20",
+  "arrival_date": "2023-04-30",
   "departure_time": "13:00",
   "arrival_time": "13:00"
 }
@@ -18,13 +18,13 @@ PUT http://localhost:8080/flights/edit-flight
 Content-Type: application/json
 
 {
-  "id": "1",
-  "flight_number": "1",
+  "id": "12",
+  "flight_number": "123",
   "departure": "Colombo",
-  "arrival": "Colombo",
-  "departure_date": "2023-04-26",
-  "arrival_date": "2023-04-27",
-  "departure_time": "13:00",
+  "arrival": "Dubai",
+  "departure_date": "2024-02-24",
+  "arrival_date": "2025-04-30",
+  "departure_time": "23:42",
   "arrival_time": "13:00"
 }
 

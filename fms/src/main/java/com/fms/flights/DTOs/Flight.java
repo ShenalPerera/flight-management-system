@@ -9,7 +9,6 @@ public class Flight {
     private  String departure;
     private String arrival_date;
     private String departure_date;
-
     private String arrival_time;
 
     private String departure_time;

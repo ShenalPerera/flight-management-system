@@ -1,6 +1,6 @@
 package com.fms.flights.services;
 
-import com.fms.HttpCodesFMS.HttpCodesFMS;
+import com.fms.HttpStatusCodesFMS.HttpCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.flights.DTOs.Flight;
 import com.fms.flights.FlightRepositoryJSON;
@@ -22,24 +22,20 @@ public class FlightService {
     }
 
     public Flight addNewFlight(Flight flight ){
-        validateFlightEntryFields(flight);
 
-        List<Flight> flightsOnSameDay = flightRepositoryJSON.getFlightsByFlightNumberNDepartureDate(flight);
-        Flight newFlight =  flightRepositoryJSON.addEntry(flight);
-
-        if (newFlight == null){
-            throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
+        if (isFlightValid(flight)){
+            return flightRepositoryJSON.addEntry(flight);
         }
-        return newFlight;
 
+        throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
 
     }
 
-    public Flight editFlight(Flight editedFlight){
-        if (validateFlightEntryFields(editedFlight)){
-            return this.flightRepositoryJSON.editFlight(editedFlight);
+    public Flight editFlight(Flight flight){
+        if (isFlightValid(flight)){
+            return flightRepositoryJSON.editFlight(flight);
         }
-        return null;
+        throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 
     public Flight deleteFlight(String flightId){
@@ -47,7 +43,7 @@ public class FlightService {
     }
 
 
-    private boolean validateFlightEntryFields(Flight flight){
+    private void validateFlightEntryFields(Flight flight){
         if (flight.isContainsEmptyFields()){
             throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
         }
@@ -60,7 +56,10 @@ public class FlightService {
         if (departureDateNTime.isAfter(arrivalDateNTime) || departureDateNTime.isEqual(arrivalDateNTime)){
             throw new FMSException(HttpCodesFMS.INVALID_DEPARTURE_AND_ARRIVAL_DATE);
         }
+    }
 
-        return true;
+    private boolean isFlightValid(Flight flight){
+        validateFlightEntryFields(flight);
+        return flightRepositoryJSON.getFlightsByFlightNumberNDepartureDate(flight).isEmpty();
     }
 }

@@ -3,6 +3,7 @@ package com.fms.flights;
 import com.fms.flights.DTOs.Flight;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,9 +48,16 @@ public class FlightRepositoryJSON {
 
     }
 
-    public List<Flight> getFlightsByFlightNumberNDepartureDate(Flight newtFlight){
+    public List<Flight> getFlightsByFlightNumberNDepartureDate(Flight flight){
+
+        LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDeparture_date() +"T" + flight.getDeparture_time());
+
         return flights.stream().filter(flightEntry ->
-                Objects.equals(flightEntry.getFlight_number(), newtFlight.getFlight_number())).
+                Objects.equals(flightEntry.getFlight_number(), flight.getFlight_number()) &&
+                departureDateNTime.isEqual(LocalDateTime.parse(flightEntry.getDeparture_date() +"T" + flightEntry.getDeparture_time())) &&
+                !Objects.equals(flightEntry.getId(), flight.getId())
+
+                ).
                 collect(Collectors.toList());
     }
 }

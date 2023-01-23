@@ -1,7 +1,7 @@
 package com.fms.exceptions;
 
 
-import com.fms.HttpCodesFMS.HttpCodesFMS;
+import com.fms.HttpStatusCodesFMS.HttpCodesFMS;
 
 public class FMSException extends  RuntimeException{
     private final HttpCodesFMS statusCode;

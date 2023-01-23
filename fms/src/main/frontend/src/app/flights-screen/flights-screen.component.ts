@@ -4,6 +4,8 @@ import {DataService} from "../../assets/data-service";
 import {AbstractControl, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/validator-functions";
 import {Observable, Subscription} from "rxjs";
+import {HttpResponse} from "@angular/common/http";
+import {HttpStatusCodesFMS} from "../HttpStatusCodesFMS/httpStatusCodes.enum";
 
 @Component({
   selector: 'app-flights-screen',
@@ -118,7 +120,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
 
   onSubmitForm() {
     const value = this.overlayForm.value;
-    let tempSubscription!:Observable<Object>;
+    let tempSubscription !: Observable<HttpResponse<Flight>>;
 
     if (this.isEditMode) {
       tempSubscription =  this.dataService.updateFlight(value);
@@ -128,7 +130,11 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     }
 
     tempSubscription.subscribe({
-      next:()=>{
+      next:(response)=>{
+        let flight = response.body;
+        if (response.status === HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND){
+          alert("Flight number : " + flight?.id + " has flight on given departure time!");
+        }
         this.resetFormScreeMode();
         this.dataService.fetchFlights();
       },

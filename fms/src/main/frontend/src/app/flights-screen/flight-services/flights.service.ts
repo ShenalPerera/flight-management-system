@@ -15,7 +15,7 @@ export class FlightsService{
   }
 
   addNewFlight(flight:Flight){
-    return this.http.post<Flight>("http://localhost:8080/flights/add-flight",flight);
+    return this.http.post<Flight>("http://localhost:8080/flights/add-flight",flight,{observe:'response'});
   }
 
   removeFlight(id:string){
@@ -23,7 +23,7 @@ export class FlightsService{
   }
 
   editFlight(editedFlight:Flight){
-    return this.http.put("http://localhost:8080/flights/edit-flight",editedFlight);
+    return this.http.put<Flight>("http://localhost:8080/flights/edit-flight",editedFlight,{observe:'response'});
   }
 
 }
