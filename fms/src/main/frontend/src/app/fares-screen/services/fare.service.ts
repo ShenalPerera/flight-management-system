@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Entry } from "../shared/entry.model";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -25,10 +25,10 @@ export class FareService {
     return this.http.delete<number>(this.CONFIG_URL+"/entry",
       { params: new HttpParams().set('id', id) });
   }
-  editEntry(entry : Entry): Observable<Entry> {
-    return this.http.put<Entry>(this.CONFIG_URL+"/entry", entry);
+  editEntry(entry : Entry): Observable<HttpResponse<Entry>> {
+    return this.http.put<Entry>(this.CONFIG_URL+"/entry", entry, { observe: "response" });
   }
-  createEntry(entry: Entry): Observable<Entry> {
-    return this.http.post<Entry>(this.CONFIG_URL+"/entry", entry);
+  createEntry(entry: Entry): Observable<HttpResponse<Entry>> {
+    return this.http.post<Entry>(this.CONFIG_URL+"/entry", entry, { observe: "response" });
   }
 }

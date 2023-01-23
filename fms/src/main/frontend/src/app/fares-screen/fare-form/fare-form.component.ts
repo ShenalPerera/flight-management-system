@@ -12,6 +12,7 @@ import { FareService } from "../services/fare.service";
 })
 export class FareFormComponent implements OnInit {
   sampleForm!: FormGroup;
+  private DUPLICATE_ENTRY_FOUND_STATUS_CODE = 251
   constructor(
     private fareService: FareService,
     public dialogRef: MatDialogRef<FareFormComponent>,
@@ -48,8 +49,12 @@ export class FareFormComponent implements OnInit {
         arrival: this.sampleForm.value['arrival'].toLowerCase(),
         fare: this.sampleForm.value['fare']
       }).subscribe({
-        next: () =>  this.dialogRef.close(true),
-        error: () => alert("The entry is already in the system!")
+        next: (response) => {
+          if (response.status == this.DUPLICATE_ENTRY_FOUND_STATUS_CODE)
+            alert("The entry is already in the system!!")
+          else
+            this.dialogRef.close(true)
+        }
       });
     } else {
       this.fareService.editEntry({
@@ -58,8 +63,12 @@ export class FareFormComponent implements OnInit {
         arrival: this.sampleForm.value['arrival'].toLowerCase(),
         fare: this.sampleForm.value['fare']
       }).subscribe({
-        next: () =>  this.dialogRef.close(true),
-        error: () => alert("The entry is already in the system!")
+        next: (response) => {
+          if (response.status == this.DUPLICATE_ENTRY_FOUND_STATUS_CODE)
+            alert("The entry is already in the system!!")
+          else
+            this.dialogRef.close(true)
+        }
       });
     }
   }

@@ -1,5 +1,7 @@
 package com.fms.fares;
 
+import com.fms.HttpCodesFMS.HttpCodesFMS;
+import com.fms.exceptions.FMSException;
 import com.fms.fares.exceptions.*;
 import com.fms.fares.models.Fare;
 import org.slf4j.Logger;
@@ -73,17 +75,17 @@ public class FareService {
         } else if (entry.getDeparture().equals(entry.getArrival())) {
             logger.error("departure [{}] and arrival [{}] are not distinct",
                     entry.getDeparture(), entry.getArrival());
-            throw new SameLocationException();
+            throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         } else if (entry.getFare() < 0) {
             logger.error("fare is negative [{}]", entry.getFare());
             throw new NegativeNumberException();
         } else if (isDuplicate(entry.getDeparture(), entry.getArrival()) != 0) {
             logger.error("a duplicate entry exists for the given inputs");
-            throw new DuplicateEntryException();
+            throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
         } else if (entry.getDeparture().isEmpty() || entry.getArrival().isEmpty()) {
             logger.error("the query contains empty strings | departure [{}], arrival [{}]",
                     entry.getDeparture(), entry.getArrival());
-            throw new EmptyStringException();
+            throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
         }
 
         Fare newEntry = new Fare(++this.length, entry.getDeparture(), entry.getArrival(), entry.getFare());
@@ -100,14 +102,14 @@ public class FareService {
         } else if (entry.getDeparture().equals(entry.getArrival())) {
             logger.error("departure [{}] and arrival [{}] are not distinct",
                     entry.getDeparture(), entry.getArrival());
-            throw new SameLocationException();
+            throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         } else if (entry.getFare() < 0) {
             logger.error("fare is negative [{}]", entry.getFare());
             throw new NegativeNumberException();
         } else if (entry.getDeparture().isEmpty() || entry.getArrival().isEmpty()) {
             logger.error("the query contains empty strings | departure [{}], arrival [{}]",
                     entry.getDeparture(), entry.getArrival());
-            throw new EmptyStringException();
+            throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
         }
 
         int duplicateId = isDuplicate(entry.getDeparture(), entry.getArrival());
@@ -115,7 +117,7 @@ public class FareService {
 
             if (duplicateId != 0) {
                 logger.error("a duplicate entry exists for the given inputs");
-                throw new DuplicateEntryException();
+                throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
             }
             else
                 try {
