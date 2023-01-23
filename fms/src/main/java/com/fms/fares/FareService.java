@@ -2,6 +2,8 @@ package com.fms.fares;
 
 import com.fms.fares.exceptions.*;
 import com.fms.fares.models.Fare;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,8 +15,11 @@ public class FareService {
     private final List<String> locations;
     private List<Fare> entries;
     private int length = 10;
+    private final Logger logger;
 
     public FareService() {
+        this.logger = LoggerFactory.getLogger(FareService.class);
+
         this.locations = new ArrayList<>();
         this.locations.add("colombo");
         this.locations.add("dubai");
@@ -61,16 +66,25 @@ public class FareService {
 
     public Fare createEntry(Fare entry) {
 
-        if ((entry.getDeparture() == null) || (entry.getArrival() == null) || (entry.getFare() == 0))
+        if ((entry.getDeparture() == null) || (entry.getArrival() == null) || (entry.getFare() == 0)) {
+            logger.error("missing data from the query | departure [{}], arrival [{}], fare [{}]",
+                    entry.getDeparture(), entry.getArrival(), entry.getFare());
             throw new MissingDataException();
-        if (entry.getDeparture().equals(entry.getArrival()))
+        } else if (entry.getDeparture().equals(entry.getArrival())) {
+            logger.error("departure [{}] and arrival [{}] are not distinct",
+                    entry.getDeparture(), entry.getArrival());
             throw new SameLocationException();
-        if (entry.getFare() < 0)
+        } else if (entry.getFare() < 0) {
+            logger.error("fare is negative [{}]", entry.getFare());
             throw new NegativeNumberException();
-        if (isDuplicate(entry.getDeparture(), entry.getArrival()) != 0)
+        } else if (isDuplicate(entry.getDeparture(), entry.getArrival()) != 0) {
+            logger.error("a duplicate entry exists for the given inputs");
             throw new DuplicateEntryException();
-        if (entry.getDeparture().isEmpty() || entry.getArrival().isEmpty())
+        } else if (entry.getDeparture().isEmpty() || entry.getArrival().isEmpty()) {
+            logger.error("the query contains empty strings | departure [{}], arrival [{}]",
+                    entry.getDeparture(), entry.getArrival());
             throw new EmptyStringException();
+        }
 
         Fare newEntry = new Fare(++this.length, entry.getDeparture(), entry.getArrival(), entry.getFare());
         this.entries.add(newEntry);
@@ -79,20 +93,30 @@ public class FareService {
 
     public Fare editEntry(Fare entry) {
 
-        if ((entry.getId() == 0) || (entry.getDeparture() == null) || (entry.getArrival() == null) || (entry.getFare() == 0))
+        if ((entry.getId() == 0) || (entry.getDeparture() == null) || (entry.getArrival() == null) || (entry.getFare() == 0)) {
+            logger.error("missing data from the query | id [{}], departure [{}], arrival [{}], fare [{}]",
+                    entry.getId(), entry.getDeparture(), entry.getArrival(), entry.getFare());
             throw new MissingDataException();
-        if (entry.getDeparture().equals(entry.getArrival()))
+        } else if (entry.getDeparture().equals(entry.getArrival())) {
+            logger.error("departure [{}] and arrival [{}] are not distinct",
+                    entry.getDeparture(), entry.getArrival());
             throw new SameLocationException();
-        if (entry.getFare() < 0)
+        } else if (entry.getFare() < 0) {
+            logger.error("fare is negative [{}]", entry.getFare());
             throw new NegativeNumberException();
-        if (entry.getDeparture().isEmpty() || entry.getArrival().isEmpty())
+        } else if (entry.getDeparture().isEmpty() || entry.getArrival().isEmpty()) {
+            logger.error("the query contains empty strings | departure [{}], arrival [{}]",
+                    entry.getDeparture(), entry.getArrival());
             throw new EmptyStringException();
+        }
 
         int duplicateId = isDuplicate(entry.getDeparture(), entry.getArrival());
         if  (duplicateId != entry.getId()) { // a duplicate entry may exist (the user given ID may not exist)
 
-            if (duplicateId != 0)
+            if (duplicateId != 0) {
+                logger.error("a duplicate entry exists for the given inputs");
                 throw new DuplicateEntryException();
+            }
             else
                 try {
                     Fare editedEntry = this.entries.stream().filter(data -> data.getId() == entry.getId())
@@ -102,6 +126,7 @@ public class FareService {
                     editedEntry.setFare(entry.getFare());
                     return entry;
                 } catch (NullPointerException e) { // the user given id doesn't exist
+                    logger.error("an entry doesn't exist for the given id [{}]", entry.getId());
                     throw new IdDoesntExistException();
                 }
 
@@ -117,9 +142,11 @@ public class FareService {
     }
 
     public int deleteEntry(int id) {
-        if (!this.entries.removeIf(data -> data.getId() == id))
+        if (!this.entries.removeIf(data -> data.getId() == id)) {
+            logger.error("an entry doesn't exist for the given id [{}]", id);
             throw new IdDoesntExistException();
-        else
+        } else {
             return id;
+        }
     }
 }
