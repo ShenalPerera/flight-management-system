@@ -38,9 +38,9 @@ public class RoutesService {
         return areSame;
     }
 
-    public boolean isIdExisting(Route route) {
+    public boolean isIdExisting(int routeID) {
         for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == route.getRouteID()) {
+            if (r.getRouteID() == routeID) {
                 return true;
             }
         }
@@ -102,12 +102,7 @@ public class RoutesService {
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
 
-        boolean isIdExists = false;
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == routeID) {
-                isIdExists = true;
-            }
-        }
+        boolean isIdExists = isIdExisting(routeID);
 
         if (isIdExists) {
             INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
