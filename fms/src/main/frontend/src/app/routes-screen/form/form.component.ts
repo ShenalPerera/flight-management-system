@@ -16,6 +16,8 @@ import {locationsValidator, numberCheckValidator} from "../shared/validations";
 })
 export class FormComponent implements OnInit{
 
+  private DUPLICATE_ENTRY_FOUND_STATUS_CODE = 251
+
   departure!: string;
   destination!: string;
   mileage!: number;
@@ -32,8 +34,10 @@ export class FormComponent implements OnInit{
                 route: Route,
                 type: string
               }) {
+
   }
   ngOnInit() {
+
     let mileageString = this.data.route.mileage.toString();
     let durationString = this.data.route.durationH.toString();
     if (mileageString == '0') {
@@ -86,11 +90,16 @@ export class FormComponent implements OnInit{
     this.routeService.createRouteInBackend(this.createdRoute)
       .subscribe({
         next: (resp)=>{
+          if (resp.status == this.DUPLICATE_ENTRY_FOUND_STATUS_CODE) {
+            alert('Sorry! That route is already there.');
+          }else {
             this.afterApplyClosing();
+          }
+
         },
-        error: (e)=>{
-          alert('Sorry! That route is already there.');
-        }
+        // error: (e)=>{
+        //   alert('Sorry! That route is already there.');
+        // }
       })
 
 
