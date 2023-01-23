@@ -49,7 +49,7 @@ public class FlightService {
 
     private boolean validateFlightEntryFields(Flight flight){
         if (flight.isContainsEmptyFields()){
-            throw new FMSException(HttpCodesFMS.EMPTY_FILED_FOUND);
+            throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
         }
         if (flight.getDeparture().equalsIgnoreCase(flight.getArrival())){
             throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
