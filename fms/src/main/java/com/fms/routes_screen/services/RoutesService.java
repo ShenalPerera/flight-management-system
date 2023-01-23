@@ -47,6 +47,15 @@ public class RoutesService {
         return false;
     }
 
+    public Route updateTheContent(Route oldRoute, Route newRoute) {
+        oldRoute.setDeparture(newRoute.getDeparture());
+        oldRoute.setDestination(newRoute.getDestination());
+        oldRoute.setMileage(newRoute.getMileage());
+        oldRoute.setDurationH(newRoute.getDurationH());
+
+        return oldRoute;
+    }
+
     public List<Route> sendAllRoutes() {
         return INITIAL_ROUTES;
     }
@@ -86,11 +95,11 @@ public class RoutesService {
 
             for (Route r : INITIAL_ROUTES) {
                 if (r.getRouteID() == route.getRouteID()) {
-
-                    r.setDeparture(route.getDeparture());
-                    r.setDestination(route.getDestination());
-                    r.setMileage(route.getMileage());
-                    r.setDurationH(route.getDurationH());
+                    r = updateTheContent(r, route);
+//                    r.setDeparture(route.getDeparture());
+//                    r.setDestination(route.getDestination());
+//                    r.setMileage(route.getMileage());
+//                    r.setDurationH(route.getDurationH());
 
                     return new ResponseEntity<>(r, HttpStatus.OK);
                 }
