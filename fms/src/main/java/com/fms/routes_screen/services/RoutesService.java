@@ -1,6 +1,7 @@
 package com.fms.routes_screen.services;
 
 import com.fms.routes_screen.exceptions.DuplicateRouteException;
+import com.fms.routes_screen.exceptions.IdNotFoundException;
 import com.fms.routes_screen.exceptions.InvalidFormException;
 import com.fms.routes_screen.exceptions.MissingFieldsException;
 import com.fms.routes_screen.models.Route;
@@ -116,7 +117,8 @@ public class RoutesService {
                     return new ResponseEntity<>(r, HttpStatus.OK);
                 }
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new IdNotFoundException("ID not found");
         }
 
     }
@@ -129,7 +131,8 @@ public class RoutesService {
             INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
             return new ResponseEntity<Integer>(routeID, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+//            return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+            throw new IdNotFoundException("ID not found");
         }
     }
 
