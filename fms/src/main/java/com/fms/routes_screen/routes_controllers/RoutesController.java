@@ -2,6 +2,7 @@ package com.fms.routes_screen.routes_controllers;
 
 import com.fms.routes_screen.models.Route;
 import com.fms.routes_screen.services.RoutesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,15 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:4200")
 public class RoutesController {
 
-    RoutesService routesService = new RoutesService();
+//    RoutesService routesService = new RoutesService();
+
+//    @Autowired
+    RoutesService routesService;
+
+    @Autowired
+    RoutesController(RoutesService routesService) {
+        this.routesService = routesService;
+    }
 
     @GetMapping("/api/routes-screen")
     public String sayHello() {
