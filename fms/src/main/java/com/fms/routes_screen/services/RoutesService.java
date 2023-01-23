@@ -5,6 +5,8 @@ import com.fms.routes_screen.exceptions.IdNotFoundException;
 import com.fms.routes_screen.exceptions.InvalidFormException;
 import com.fms.routes_screen.exceptions.MissingFieldsException;
 import com.fms.routes_screen.models.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ public class RoutesService {
     static int UNIQUE_ROUTE_ID;
     List<Route> INITIAL_ROUTES = new ArrayList<>();
 
+    private Logger logger;
     public RoutesService() {
         INITIAL_ROUTES.add(new Route(1, "galle", "india", 12.4, 2.5));
         INITIAL_ROUTES.add(new Route(2, "colombo", "dubai", 15.4, 22.5));
@@ -27,6 +30,7 @@ public class RoutesService {
         INITIAL_ROUTES.add(new Route(4, "jordan", "usa", 15.4, 22.5));
         INITIAL_ROUTES.add(new Route(5, "uk", "canada", 15.4, 22.5));
 
+        this.logger = LoggerFactory.getLogger(RoutesService.class);
         UNIQUE_ROUTE_ID = INITIAL_ROUTES.size();
     }
 
@@ -77,18 +81,24 @@ public class RoutesService {
     public ResponseEntity<Route> createRoute(Route route) {
 
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
+            logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
+                    route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
             throw new MissingFieldsException("Required fields are missing");
         }
 
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{}",
+                    route.getDeparture(), route.getDestination());
             throw new InvalidFormException("Invalid form.");
         }
         else {
             for (Route r : INITIAL_ROUTES) {
                 if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
 //                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                    logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
+                            route.getDeparture(), route.getDestination());
                     throw new DuplicateRouteException("That route is already there.");
                 }
             }
@@ -100,17 +110,26 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> editRoute(Route route) {
+
+        if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
+            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
+                    route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
+            throw new MissingFieldsException("Required fields are missing");
+        }
+
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
+            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{}",
+                    route.getDeparture(), route.getDestination());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
-            throw new MissingFieldsException("Required fields are missing");
-        }
+
 
         else {
             if (hasConflictWhenUpdating(route)) {
 //                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
+                        route.getDeparture(), route.getDestination());
                 throw new DuplicateRouteException("That route is already there.");
             }
             for (Route r : INITIAL_ROUTES) {
@@ -120,6 +139,8 @@ public class RoutesService {
                 }
             }
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
+                    route.getRouteID());
             throw new IdNotFoundException("ID not found");
         }
 
@@ -134,6 +155,8 @@ public class RoutesService {
             return new ResponseEntity<Integer>(routeID, HttpStatus.OK);
         } else {
 //            return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+            logger.error("'/api/routes-screen/delete-route' accessed with routeID->{} which is not found",
+                    routeID);
             throw new IdNotFoundException("ID not found");
         }
     }
