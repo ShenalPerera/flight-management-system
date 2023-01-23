@@ -29,67 +29,80 @@ public class RoutesService {
         return "Welcome to routes screen";
     }
 
+    public boolean correctDepartureAndDestination(String departure, String destination) {
+        boolean areSame = false;
+        if (departure.equals("") || destination.equals("") ||
+                departure.equalsIgnoreCase(destination)) {
+            areSame = true;
+        }
+        return areSame;
+    }
+
+    public boolean isIdExisting(Route route) {
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getRouteID() == route.getRouteID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Route> sendAllRoutes() {
         return INITIAL_ROUTES;
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
 
-        // validations when not using the UI
-        if (route.getDeparture().equals("") || route.getDestination().equals("") ||
-        route.getDeparture().equalsIgnoreCase(route.getDestination())) {
+        if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+        else {
+            for (Route r : INITIAL_ROUTES) {
+                if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
             }
+            route.setRouteID(++UNIQUE_ROUTE_ID);
+            INITIAL_ROUTES.add(route);
+            return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.CREATED);
         }
-        route.setRouteID(++UNIQUE_ROUTE_ID);
-        INITIAL_ROUTES.add(route);
-        return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.CREATED);
-//        return INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1);
+
     }
 
     public ResponseEntity<Route> editRoute(Route route) {
 
-        if (route.getDeparture().equals("") || route.getDestination().equals("") ||
-                route.getDeparture().equalsIgnoreCase(route.getDestination())) {
+        if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        else {
+            for (Route r : INITIAL_ROUTES) {
+                if (r.getRouteID() == route.getRouteID()) {
+                    continue;
+                }
+                if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
 
-        // you can optimize
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == route.getRouteID()) {
-                continue;
+            for (Route r : INITIAL_ROUTES) {
+                if (r.getRouteID() == route.getRouteID()) {
+
+                    r.setDeparture(route.getDeparture());
+                    r.setDestination(route.getDestination());
+                    r.setMileage(route.getMileage());
+                    r.setDurationH(route.getDurationH());
+
+                    return new ResponseEntity<>(r, HttpStatus.OK);
+                }
             }
-            if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == route.getRouteID()) {
-
-                r.setDeparture(route.getDeparture());
-                r.setDestination(route.getDestination());
-                r.setMileage(route.getMileage());
-                r.setDurationH(route.getDurationH());
-
-                return new ResponseEntity<>(r, HttpStatus.OK);
-//                return r;
-            }
-        }
-        // have to implement not found
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
 
         boolean isIdExists = false;
-        //check whether the id is existing
         for (Route r : INITIAL_ROUTES) {
             if (r.getRouteID() == routeID) {
                 isIdExists = true;
@@ -102,16 +115,10 @@ public class RoutesService {
         } else {
             return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
         }
-
-
-//        return routeID;
     }
 
     public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
 
-//        return this.ALL_ROUTES.filter(
-//                x => (searchFormDeparture === "" || searchFormDeparture === x.departure)
-//                && (searchFormDestination === "" || searchFormDestination === x.destination))
         return new ResponseEntity<>(
                 INITIAL_ROUTES.stream()
                 .filter(
@@ -120,7 +127,5 @@ public class RoutesService {
                 .collect(Collectors.toList()),
                 HttpStatus.OK);
     }
-
-
 
 }
