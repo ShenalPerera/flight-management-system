@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class FlightRepositoryJSON {
@@ -44,5 +45,11 @@ public class FlightRepositoryJSON {
             return null;
         }
 
+    }
+
+    public List<Flight> getFlightsByFlightNumberNDepartureDate(Flight newtFlight){
+        return flights.stream().filter(flightEntry ->
+                Objects.equals(flightEntry.getFlight_number(), newtFlight.getFlight_number())).
+                collect(Collectors.toList());
     }
 }

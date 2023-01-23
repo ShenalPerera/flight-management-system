@@ -22,10 +22,17 @@ public class FlightService {
     }
 
     public Flight addNewFlight(Flight flight ){
-        if (validateFlightEntryFields(flight)){
-            return flightRepositoryJSON.addEntry(flight);
+        validateFlightEntryFields(flight);
+
+        List<Flight> flightsOnSameDay = flightRepositoryJSON.getFlightsByFlightNumberNDepartureDate(flight);
+        Flight newFlight =  flightRepositoryJSON.addEntry(flight);
+
+        if (newFlight == null){
+            throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
-        return null;
+        return newFlight;
+
+
     }
 
     public Flight editFlight(Flight editedFlight){

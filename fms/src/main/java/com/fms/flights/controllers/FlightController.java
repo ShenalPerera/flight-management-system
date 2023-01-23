@@ -26,13 +26,8 @@ public class FlightController {
     }
 
     @PostMapping("/add-flight")
-    public ResponseEntity<Object> addNewFlight(@RequestBody Flight flight) {
-        Flight newFlight  = flightService.addNewFlight(flight);
-
-        if (newFlight == null){
-            return ResponseEntity.status(422).body("Invalid form fields");
-        }
-        return ResponseEntity.status(200).body(newFlight);
+    public ResponseEntity<Flight> addNewFlight(@RequestBody Flight flight) {
+        return ResponseEntity.status(200).body(flightService.addNewFlight(flight));
     }
 
 
