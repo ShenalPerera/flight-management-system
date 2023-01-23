@@ -1,5 +1,7 @@
 package com.fms.routes_screen.services;
 
+import com.fms.HttpStatusCodesFMS.HttpCodesFMS;
+import com.fms.exceptions.FMSException;
 import com.fms.routes_screen.exceptions.DuplicateRouteException;
 import com.fms.routes_screen.exceptions.IdNotFoundException;
 import com.fms.routes_screen.exceptions.InvalidFormException;
@@ -83,7 +85,8 @@ public class RoutesService {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
                     route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
-            throw new MissingFieldsException("Required fields are missing");
+            throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
+//            throw new MissingFieldsException("Required fields are missing");
         }
 
 
@@ -91,7 +94,8 @@ public class RoutesService {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{}",
                     route.getDeparture(), route.getDestination());
-            throw new InvalidFormException("Invalid form.");
+            throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
+//            throw new InvalidFormException("Invalid form.");
         }
         else {
             for (Route r : INITIAL_ROUTES) {
@@ -99,7 +103,8 @@ public class RoutesService {
 //                    return new ResponseEntity<>(HttpStatus.CONFLICT);
                     logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
                             route.getDeparture(), route.getDestination());
-                    throw new DuplicateRouteException("That route is already there.");
+                    throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
+//                    throw new DuplicateRouteException("That route is already there.");
                 }
             }
             route.setRouteID(++UNIQUE_ROUTE_ID);
@@ -114,13 +119,15 @@ public class RoutesService {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
                     route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
-            throw new MissingFieldsException("Required fields are missing");
+            throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
+//            throw new MissingFieldsException("Required fields are missing");
         }
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{}",
                     route.getDeparture(), route.getDestination());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
 
@@ -130,7 +137,8 @@ public class RoutesService {
 //                return new ResponseEntity<>(HttpStatus.CONFLICT);
                 logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
                         route.getDeparture(), route.getDestination());
-                throw new DuplicateRouteException("That route is already there.");
+                throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
+//                throw new DuplicateRouteException("That route is already there.");
             }
             for (Route r : INITIAL_ROUTES) {
                 if (r.getRouteID() == route.getRouteID()) {
@@ -141,7 +149,8 @@ public class RoutesService {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
                     route.getRouteID());
-            throw new IdNotFoundException("ID not found");
+            throw new FMSException(HttpCodesFMS.ENTRY_NOT_FOUND);
+//            throw new IdNotFoundException("ID not found");
         }
 
     }
@@ -157,7 +166,8 @@ public class RoutesService {
 //            return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
             logger.error("'/api/routes-screen/delete-route' accessed with routeID->{} which is not found",
                     routeID);
-            throw new IdNotFoundException("ID not found");
+            throw new FMSException(HttpCodesFMS.ENTRY_NOT_FOUND);
+//            throw new IdNotFoundException("ID not found");
         }
     }
 
