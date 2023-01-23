@@ -2,6 +2,7 @@ package com.fms.routes_screen.services;
 
 import com.fms.routes_screen.exceptions.DuplicateRouteException;
 import com.fms.routes_screen.exceptions.InvalidFormException;
+import com.fms.routes_screen.exceptions.MissingFieldsException;
 import com.fms.routes_screen.models.Route;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -72,6 +73,10 @@ public class RoutesService {
 
     public ResponseEntity<Route> createRoute(Route route) {
 
+        if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
+            throw new MissingFieldsException("Required fields are missing");
+        }
+
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -95,6 +100,11 @@ public class RoutesService {
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
+        if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
+            throw new MissingFieldsException("Required fields are missing");
+        }
+
         else {
             if (hasConflictWhenUpdating(route)) {
 //                return new ResponseEntity<>(HttpStatus.CONFLICT);
