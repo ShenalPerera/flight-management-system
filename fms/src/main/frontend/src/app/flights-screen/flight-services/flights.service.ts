@@ -19,7 +19,7 @@ export class FlightsService{
   }
 
   removeFlight(id:string){
-    return this.http.delete("http://localhost:8080/flights/delete-flight",{params: new HttpParams().set("id",id)});
+    return this.http.delete("http://localhost:8080/flights/delete-flight",{params: new HttpParams().set("id",id),observe:'response'});
   }
 
   editFlight(editedFlight:Flight){

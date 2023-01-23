@@ -1,18 +1,18 @@
-package com.fms.flights;
+package com.fms.flights.DTOs;
 
 import java.util.Objects;
 
 public class Flight {
-    public String id;
-    public String flight_number;
-    public String arrival;
-    public String departure;
-    public String arrival_date;
-    public String departure_date;
+    private String id;
+    private String flight_number;
+    private String arrival;
+    private  String departure;
+    private String arrival_date;
+    private String departure_date;
 
-    public String arrival_time;
+    private String arrival_time;
 
-    public String departure_time;
+    private String departure_time;
 
     public Flight(String id, String flight_number, String arrival, String departure, String arrival_date, String departure_date, String arrival_time, String departure_time) {
         this.id = id;
@@ -97,4 +97,12 @@ public class Flight {
         return Objects.equals(id, flight.id);
     }
 
+    public boolean isValidFlight(){
+        boolean isEmptyField =  id.isBlank() || flight_number.isBlank() || arrival.isBlank() || departure.isBlank() || arrival_date.isBlank()||
+                arrival_time.isBlank() || departure_date.isBlank() || departure_time.isBlank();
+
+        boolean validDepartureAndArrival = !arrival.equalsIgnoreCase(departure);
+
+        return !isEmptyField && validDepartureAndArrival;
+    }
 }

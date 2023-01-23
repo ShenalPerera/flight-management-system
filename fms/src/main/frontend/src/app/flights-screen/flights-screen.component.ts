@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Flight} from "./flight.model";
 import {DataService} from "../../assets/data-service";
 import {AbstractControl, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/validator-functions";
 import {Observable, Subscription} from "rxjs";
+import {HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-flights-screen',
@@ -12,7 +13,7 @@ import {Observable, Subscription} from "rxjs";
 })
 
 
-export class FlightsScreenComponent implements OnInit {
+export class FlightsScreenComponent implements OnInit ,OnDestroy{
   isOverlayShow: boolean = false;
   isEditMode!: boolean;
   public flights !: Flight[];
@@ -30,6 +31,7 @@ export class FlightsScreenComponent implements OnInit {
   public formTempData!: {};
 
   private flightArraySubscription ?: Subscription;
+  private errorResponseSubscription?:Subscription;
 
   constructor(private dataService: DataService) {
 
@@ -41,7 +43,6 @@ export class FlightsScreenComponent implements OnInit {
       this.flights = updatedFlightList;
     })
 
-
     this.overlayForm = new FormGroup({
       'oId': new FormControl(null),
       'oFlightNumber': new FormControl(null, Validators.required),
@@ -52,19 +53,24 @@ export class FlightsScreenComponent implements OnInit {
 
     }, {
       validators: [arrivalDatesValidator, arrivalDepartureValidator],
-      asyncValidators: this.invalidFlightEntry.bind(this),
       updateOn:"blur"
     });
 
   }
 
+  ngOnDestroy() {
+    this.flightArraySubscription?.unsubscribe();
+  }
+
   onDeleteFlight(flight_id: string, searchForm: NgForm) {
     this.dataService.removeFlight(flight_id).subscribe( {
-      next:(sd)=>{
-      this.dataService.fetchFlights();
+      next:(response)=>{
+        this.dataService.fetchFlights();
+        searchForm.reset();
       },
-      error:()=>console.log("THis is an error")})
-    searchForm.reset();
+      error:(err)=>console.log("Tis is an error" + err.body)});
+
+
   }
 
 
@@ -114,10 +120,35 @@ export class FlightsScreenComponent implements OnInit {
   onSubmitForm() {
     const value = this.overlayForm.value;
     if (this.isEditMode) {
-      this.dataService.updateFlight(value);
-    } else {
-      this.dataService.addFlight(value);
+      this.dataService.updateFlight(value).subscribe({
+        next:()=>{
+          this.resetFormScreeMode();
+          this.dataService.fetchFlights();
+        },
+        error:err => {
+          if (err.status === 422){
+            alert(err.error);
+          }
+        }
+      })
     }
+    else {
+      this.dataService.addFlight(value).subscribe({
+        next: () => {
+          this.resetFormScreeMode();
+          this.dataService.fetchFlights();
+        },
+        error: err => {
+          if (err.status === 422){
+            alert("Invalid inputs! Form submission failed!");
+          }
+        }
+      });
+    }
+
+  }
+
+  resetFormScreeMode(){
     this.isOverlayShow = !this.isOverlayShow;
     this.isEditMode = false;
     this.overlayForm.reset();

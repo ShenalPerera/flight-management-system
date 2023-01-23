@@ -1,5 +1,6 @@
 package com.fms.flights;
 
+import com.fms.flights.DTOs.Flight;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class FlightRepositoryJSON {
     }
 
     public Flight deleteEntryById(String id){
-        Flight deletedFlight = flights.stream().filter(flight -> Objects.equals(flight.id, id)).findFirst().orElse(null);
+        Flight deletedFlight = flights.stream().filter(flight -> Objects.equals(flight.getId(), id)).findFirst().orElse(null);
         boolean isDeleted = flights.remove(deletedFlight);
 
         if (isDeleted){

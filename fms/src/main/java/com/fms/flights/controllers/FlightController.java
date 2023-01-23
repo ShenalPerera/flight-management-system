@@ -1,5 +1,7 @@
-package com.fms.flights;
+package com.fms.flights.controllers;
 
+import com.fms.flights.DTOs.Flight;
+import com.fms.flights.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,23 +26,32 @@ public class FlightController {
     }
 
     @PostMapping("/add-flight")
-    public Flight addNewFlight(@RequestBody Flight flight) {
+    public ResponseEntity<Object> addNewFlight(@RequestBody Flight flight) {
+        Flight newFlight  = flightService.addNewFlight(flight);
 
-        return flightService.addNewFlight(flight);
+        if (newFlight == null){
+            return ResponseEntity.status(422).body("Invalid form fields");
+        }
+        return ResponseEntity.status(200).body(newFlight);
     }
 
 
     @PutMapping("/edit-flight")
     public ResponseEntity<Object> editFlight(@RequestBody Flight editedFlight){
-        if (flightService.editFlight(editedFlight) != null){
-            return ResponseEntity.status(200).body("Edit Successful");
+        Flight newFlight = flightService.editFlight(editedFlight);
+
+        if (newFlight != null){
+            return ResponseEntity.status(200).body(newFlight);
         }
-        System.out.println("This lib exceeded");
-        return ResponseEntity.status(204).body("Entry is not found!");
+        return ResponseEntity.status(422).body("Form submission Failed!");
     }
 
     @DeleteMapping("/delete-flight")
     public ResponseEntity<Object> deleteFlight(@RequestParam(name = "id") String flightId) {
-        return flightService.deleteFlight(flightId);
+        Flight deletedFlight = flightService.deleteFlight(flightId);
+        if (deletedFlight == null) {
+            return ResponseEntity.status(409).body("Entry not found!");
+        }
+        return new ResponseEntity<>(deletedFlight, HttpStatus.OK);
     }
 }

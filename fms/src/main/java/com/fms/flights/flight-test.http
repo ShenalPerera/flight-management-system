@@ -1,20 +1,36 @@
-DELETE http://localhost:8080/flights/delete-flight?id=12
-Accept: application/json
+###
+POST http://localhost:8080/flights/add-flight
+Content-Type: application/json
+
+{
+  "id": "12",
+  "flight_number": "123",
+  "departure": "Colombo",
+  "arrival": "Dubailia",
+  "departure_date": "2023-04-29",
+  "arrival_date": "2023-04-29",
+  "departure_time": "13:00",
+  "arrival_time": "13:00"
+}
 
 ###
 PUT http://localhost:8080/flights/edit-flight
 Content-Type: application/json
 
 {
-  "id": "14",
+  "id": "1",
   "flight_number": "1",
   "departure": "Colombo",
   "arrival": "Dubailia",
   "departure_date": "2023-04-26",
-  "arrival_date": "2024-05-12",
+  "arrival_date": "2023-04-26",
   "departure_time": "13:00",
-  "arrival_time": "11:00"
+  "arrival_time": "13:00"
 }
+
+###
+DELETE http://localhost:8080/flights/delete-flight?id=12
+Accept: application/json
 
 ###
 GET http://localhost:8080/flights/get-flights

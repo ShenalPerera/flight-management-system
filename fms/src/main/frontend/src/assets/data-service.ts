@@ -3,6 +3,7 @@ import {Inject, Injectable} from "@angular/core";
 import genUniqueId from "../utills/unique-id-generator";
 import {Subject, switchMap} from "rxjs";
 import {FlightsService} from "../app/flights-screen/flight-services/flights.service";
+import {NgForm} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -41,11 +42,8 @@ export class DataService {
                     departureDateNTime.time
                   );
 
-    this.flightService.addNewFlight(new_flight).pipe(
-      switchMap( newFlight => this.flightService.fetchFlights())).subscribe( newFlightList => {
-        this.flights = newFlightList;
-        this.flightListChanged.next(this.flights.slice());
-    });
+    return this.flightService.addNewFlight(new_flight).pipe(
+      switchMap( () => this.flightService.fetchFlights()));
 
   }
 
@@ -71,9 +69,7 @@ export class DataService {
       departureDateNTime.date,
       departureDateNTime.time);
 
-    this.flightService.editFlight(editedFlight).subscribe(() => {
-      this.fetchFlights();
-    });
+    return this.flightService.editFlight(editedFlight);
   }
 
   getDateNTime(s: string): { date: string, time: string } {
