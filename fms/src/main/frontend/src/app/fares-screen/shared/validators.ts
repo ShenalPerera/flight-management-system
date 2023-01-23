@@ -17,7 +17,7 @@ export const numberValidator: ValidatorFn =
   (control: AbstractControl): ValidationErrors | null => {
   if (control.value == null)
     return { notANumber : true };
-  if (control.value < 0)
+  if (control.value <= 0)
     return { notAPositiveNumber : true };
   return null;
 };
