@@ -35,12 +35,6 @@ export class RoutesScreenComponent implements OnInit{
       error: (e)=>{
         alert("Something Went Wrong In Retrieving Data. Try Again.");
       }});
-    // this.ALL_ROUTES = this.routeService.getRoutes();
-
-    // let listValues = this.routeService.setDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
-    // this.departuresList = listValues.dpList;
-    // this.destinationsList = listValues.dsList;
-
 
   }
 
@@ -97,6 +91,7 @@ export class RoutesScreenComponent implements OnInit{
       this.routeService.getRoutesFromBackend()
         .subscribe({next: (resp)=>{
             this.ALL_ROUTES = resp;
+            this.updateDropdown();
           },
         error: (e)=>{
           alert("Something Went Wrong In Retrieving Data. Try Again.");
@@ -110,7 +105,6 @@ export class RoutesScreenComponent implements OnInit{
         next: (resp)=>{
           this.searchFormDeparture = '';
           this.searchFormDestination = '';
-          // console.log('Route deleted with the id: '+resp);
           this.routeService.getRoutesFromBackend()
             .subscribe({next: (resp)=>{
                 this.ALL_ROUTES = resp;
@@ -135,15 +129,6 @@ export class RoutesScreenComponent implements OnInit{
         }})
   }
 
-  deleteRecord(data: number) {
-    this.routeService.deleteRecord(data);
-    this.filterData();
-  }
-
-
-  filterData(){
-    this.ALL_ROUTES = this.routeService.filterData(this.searchFormDeparture, this.searchFormDestination);
-  }
 
 
 }
