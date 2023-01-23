@@ -1,9 +1,6 @@
 package com.fms.fares;
 
-import com.fms.fares.exceptions.DuplicateEntryException;
-import com.fms.fares.exceptions.IdDoesntExistException;
-import com.fms.fares.exceptions.NegativeNumberException;
-import com.fms.fares.exceptions.SameLocationException;
+import com.fms.fares.exceptions.*;
 import com.fms.fares.models.Fare;
 import org.springframework.stereotype.Service;
 
@@ -64,26 +61,32 @@ public class FareService {
 
     public Fare createEntry(Fare entry) {
 
+        if ((entry.getDeparture() == null) || (entry.getArrival() == null) || (entry.getFare() == 0))
+            throw new MissingDataException();
         if (entry.getDeparture().equals(entry.getArrival()))
             throw new SameLocationException();
         if (entry.getFare() < 0)
             throw new NegativeNumberException();
-
-        if (isDuplicate(entry.getDeparture(), entry.getArrival()) == 0) {
-            Fare newEntry = new Fare(++this.length, entry.getDeparture(), entry.getArrival(), entry.getFare());
-            this.entries.add(newEntry);
-            return newEntry;
-        } else {
+        if (isDuplicate(entry.getDeparture(), entry.getArrival()) != 0)
             throw new DuplicateEntryException();
-        }
+        if (entry.getDeparture().isEmpty() || entry.getArrival().isEmpty())
+            throw new EmptyStringException();
+
+        Fare newEntry = new Fare(++this.length, entry.getDeparture(), entry.getArrival(), entry.getFare());
+        this.entries.add(newEntry);
+        return newEntry;
     }
 
     public Fare editEntry(Fare entry) {
 
+        if ((entry.getId() == 0) || (entry.getDeparture() == null) || (entry.getArrival() == null) || (entry.getFare() == 0))
+            throw new MissingDataException();
         if (entry.getDeparture().equals(entry.getArrival()))
             throw new SameLocationException();
         if (entry.getFare() < 0)
             throw new NegativeNumberException();
+        if (entry.getDeparture().isEmpty() || entry.getArrival().isEmpty())
+            throw new EmptyStringException();
 
         int duplicateId = isDuplicate(entry.getDeparture(), entry.getArrival());
         if  (duplicateId != entry.getId()) { // a duplicate entry may exist (the user given ID may not exist)
