@@ -4,7 +4,6 @@ import {DataService} from "../../assets/data-service";
 import {AbstractControl, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/validator-functions";
 import {Observable, Subscription} from "rxjs";
-import {HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-flights-screen',
@@ -119,33 +118,24 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
 
   onSubmitForm() {
     const value = this.overlayForm.value;
+    let tempSubscription!:Observable<Object>;
+
     if (this.isEditMode) {
-      this.dataService.updateFlight(value).subscribe({
-        next:()=>{
-          this.resetFormScreeMode();
-          this.dataService.fetchFlights();
-        },
-        error:err => {
-          if (err.status === 422){
-            alert(err.error);
-          }
-        }
-      })
+      tempSubscription =  this.dataService.updateFlight(value);
     }
     else {
-      this.dataService.addFlight(value).subscribe({
-        next: () => {
-          this.resetFormScreeMode();
-          this.dataService.fetchFlights();
-        },
-        error: err => {
-          if (err.status === 422){
-            alert("Invalid inputs! Form submission failed!");
-          }
-        }
-      });
+      tempSubscription =  this.dataService.addFlight(value);
     }
 
+    tempSubscription.subscribe({
+      next:()=>{
+        this.resetFormScreeMode();
+        this.dataService.fetchFlights();
+      },
+      error:err => {
+        alert(err.error);
+      }
+    })
   }
 
   resetFormScreeMode(){

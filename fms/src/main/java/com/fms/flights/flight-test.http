@@ -6,9 +6,9 @@ Content-Type: application/json
   "id": "12",
   "flight_number": "123",
   "departure": "Colombo",
-  "arrival": "Colomboo",
+  "arrival": "sd",
   "departure_date": "2023-04-29",
-  "arrival_date": "2023-04-29",
+  "arrival_date": "2023-04-20",
   "departure_time": "13:00",
   "arrival_time": "13:00"
 }

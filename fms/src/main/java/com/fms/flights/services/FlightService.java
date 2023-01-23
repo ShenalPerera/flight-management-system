@@ -1,12 +1,9 @@
 package com.fms.flights.services;
 
-import com.fms.fares.exceptions.DuplicateEntryException;
-import com.fms.fares.exceptions.SameLocationException;
+import com.fms.HttpCodesFMS.HttpCodesFMS;
+import com.fms.exceptions.FMSException;
 import com.fms.flights.DTOs.Flight;
 import com.fms.flights.FlightRepositoryJSON;
-import com.fms.flights.exceptions.EmptyFieldException;
-import com.fms.flights.exceptions.InvalidDatesException;
-import com.fms.flights.exceptions.SameArrivalDepartureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,24 +36,22 @@ public class FlightService {
     }
 
     public Flight deleteFlight(String flightId){
-
         return flightRepositoryJSON.deleteEntryById(flightId);
-
     }
 
 
     private boolean validateFlightEntryFields(Flight flight){
         if (flight.isContainsEmptyFields()){
-            throw new EmptyFieldException("Flight contains empty fields");
+            throw new FMSException(HttpCodesFMS.EMPTY_FILED_FOUND);
         }
         if (flight.getDeparture().equalsIgnoreCase(flight.getArrival())){
-            throw new SameArrivalDepartureException("Flight has same Departure and Arrival | ( " + flight.getDeparture() + ")");
+            throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
         LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDeparture_date() +"T" + flight.getDeparture_time());
         LocalDateTime arrivalDateNTime = LocalDateTime.parse(flight.getArrival_date() + "T" + flight.getArrival_time());
 
         if (departureDateNTime.isAfter(arrivalDateNTime) || departureDateNTime.isEqual(arrivalDateNTime)){
-            throw new InvalidDatesException("Invalid arrival date and time for given departure date and time");
+            throw new FMSException(HttpCodesFMS.INVALID_DEPARTURE_AND_ARRIVAL_DATE);
         }
 
         return true;

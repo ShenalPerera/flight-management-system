@@ -97,15 +97,6 @@ public class Flight {
         return Objects.equals(id, flight.id);
     }
 
-    public boolean isValidFlight(){
-        boolean isEmptyField =  id.isBlank() || flight_number.isBlank() || arrival.isBlank() || departure.isBlank() || arrival_date.isBlank()||
-                arrival_time.isBlank() || departure_date.isBlank() || departure_time.isBlank();
-
-        boolean validDepartureAndArrival = !arrival.equalsIgnoreCase(departure);
-
-        return !isEmptyField && validDepartureAndArrival;
-    }
-
     public boolean isContainsEmptyFields(){
         return id.isBlank() || flight_number.isBlank() || arrival.isBlank() || departure.isBlank() || arrival_date.isBlank()||
                 arrival_time.isBlank() || departure_date.isBlank() || departure_time.isBlank();
