@@ -1,14 +1,14 @@
 package com.fms.routes_screen.services;
 
+import com.fms.routes_screen.exceptions.DuplicateRouteException;
 import com.fms.routes_screen.models.Route;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RoutesService {
@@ -30,11 +30,8 @@ public class RoutesService {
     }
 
     public boolean correctDepartureAndDestination(String departure, String destination) {
-        boolean areSame = false;
-        if (departure.equals("") || destination.equals("") ||
-                departure.equalsIgnoreCase(destination)) {
-            areSame = true;
-        }
+        boolean areSame = departure.equals("") || destination.equals("") ||
+                departure.equalsIgnoreCase(destination);
         return areSame;
     }
 
@@ -74,13 +71,15 @@ public class RoutesService {
 
     public ResponseEntity<Route> createRoute(Route route) {
 
+
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else {
             for (Route r : INITIAL_ROUTES) {
                 if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
-                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+//                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                    throw new DuplicateRouteException("That route is already there.");
                 }
             }
             route.setRouteID(++UNIQUE_ROUTE_ID);
@@ -96,7 +95,8 @@ public class RoutesService {
         }
         else {
             if (hasConflictWhenUpdating(route)) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+//                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                throw new DuplicateRouteException("That route is already there.");
             }
             for (Route r : INITIAL_ROUTES) {
                 if (r.getRouteID() == route.getRouteID()) {
