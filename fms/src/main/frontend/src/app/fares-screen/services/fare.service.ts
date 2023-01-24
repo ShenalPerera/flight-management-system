@@ -22,13 +22,13 @@ export class FareService {
       { params: new HttpParams().set('departure', departure).set('arrival', arrival) });
   }
   deleteEntry(id: number): Observable<number> {
-    return this.http.delete<number>(this.CONFIG_URL+"/entry",
+    return this.http.delete<number>(this.CONFIG_URL+"/fare",
       { params: new HttpParams().set('id', id) });
   }
   editEntry(entry : Entry): Observable<HttpResponse<Entry>> {
-    return this.http.put<Entry>(this.CONFIG_URL+"/entry", entry, { observe: "response" });
+    return this.http.put<Entry>(this.CONFIG_URL+"/fare", entry, { observe: "response" });
   }
   createEntry(entry: Entry): Observable<HttpResponse<Entry>> {
-    return this.http.post<Entry>(this.CONFIG_URL+"/entry", entry, { observe: "response" });
+    return this.http.post<Entry>(this.CONFIG_URL+"/fare", entry, { observe: "response" });
   }
 }
