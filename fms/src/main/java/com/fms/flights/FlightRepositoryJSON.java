@@ -31,7 +31,6 @@ public class FlightRepositoryJSON {
     public Flight deleteEntryById(String id){
         Flight deletedFlight = flights.stream().filter(flight -> Objects.equals(flight.getId(), id)).findFirst().orElse(null);
         boolean isDeleted = flights.remove(deletedFlight);
-
         if (isDeleted){
             return deletedFlight;
         }

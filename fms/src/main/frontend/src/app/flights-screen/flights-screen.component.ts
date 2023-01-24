@@ -66,6 +66,9 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   onDeleteFlight(flight_id: string, searchForm: NgForm) {
     this.dataService.removeFlight(flight_id).subscribe( {
       next:(response)=>{
+        if (response.status === HttpStatusCodesFMS.ENTRY_NOT_FOUND){
+          alert("You can not delete this entry!");
+        }
         this.dataService.fetchFlights();
         searchForm.reset();
       },
@@ -102,7 +105,6 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
 
   onCancelEdit() {
     if (confirm("Are you want to exit from editing?")) {
-
       this.isOverlayShow = !this.isOverlayShow;
       this.overlayForm.reset();
     }
@@ -112,7 +114,8 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   onClickReset() {
     if (this.isEditMode) {
       this.overlayForm.setValue(this.formTempData);
-    } else {
+    }
+    else {
       this.overlayForm.reset();
     }
     this.overlayForm.markAsPristine();
@@ -138,10 +141,9 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
           this.resetFormScreeMode();
           this.dataService.fetchFlights();
         }
-
       },
       error:err => {
-        alert(err.error);
+        alert("Unexpected Error occurred! Please try again!");
       }
     })
   }
