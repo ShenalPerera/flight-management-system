@@ -78,8 +78,14 @@ public class RoutesService {
         }
     }
 
-    public void checkDuplicates(Route route) {
-
+    public void checkDuplicates(String departure, String destination) {
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getDeparture().equalsIgnoreCase(departure) && r.getDestination().equalsIgnoreCase(destination)) {
+                logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
+                        departure, destination);
+                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+            }
+        }
     }
 
     public List<Route> sendAllRoutes() {
@@ -89,14 +95,8 @@ public class RoutesService {
     public ResponseEntity<Route> createRoute(Route route) {
         checkEmptyFields(route);
         checkDepartureAndDestination(route.getDeparture(), route.getDestination());
+        checkDuplicates(route.getDeparture(), route.getDestination());
 
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getDeparture().equalsIgnoreCase(route.getDeparture()) && r.getDestination().equalsIgnoreCase(route.getDestination())) {
-                logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
-                        route.getDeparture(), route.getDestination());
-                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-            }
-        }
         route.setRouteID(++UNIQUE_ROUTE_ID);
         INITIAL_ROUTES.add(route);
         return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.CREATED);
