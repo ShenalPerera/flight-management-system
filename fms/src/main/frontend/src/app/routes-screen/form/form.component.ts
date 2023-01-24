@@ -140,20 +140,6 @@ export class FormComponent implements OnInit{
 
   }
 
-  onNoClick(): void {
-      if (this.areSameValues()) {
-        this.dialogRef.close();
-      }else {
-        if(confirm('Note: Unsaved changes will be discarded.')) {
-          this.dialogRef.close();
-        }
-      }
-
-  }
-
-  onNoClickWithoutConfirmation(): void {
-    this.dialogRef.close();
-  }
 
   resetValues(): void {
     this.sampleForm.patchValue({

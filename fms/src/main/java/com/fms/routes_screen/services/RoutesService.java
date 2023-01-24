@@ -2,14 +2,9 @@ package com.fms.routes_screen.services;
 
 import com.fms.HttpStatusCodesFMS.HttpCodesFMS;
 import com.fms.exceptions.FMSException;
-import com.fms.routes_screen.exceptions.DuplicateRouteException;
-import com.fms.routes_screen.exceptions.IdNotFoundException;
-import com.fms.routes_screen.exceptions.InvalidFormException;
-import com.fms.routes_screen.exceptions.MissingFieldsException;
 import com.fms.routes_screen.models.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,11 +19,11 @@ public class RoutesService {
     static int UNIQUE_ROUTE_ID;
     List<Route> INITIAL_ROUTES = new ArrayList<>();
 
-    private Logger logger;
+    private final Logger logger;
     public RoutesService() {
-        INITIAL_ROUTES.add(new Route(1, "galle", "india", 12.4, 2.5));
-        INITIAL_ROUTES.add(new Route(2, "colombo", "dubai", 15.4, 22.5));
-        INITIAL_ROUTES.add(new Route(3, "maxico", "quatar", 15.4, 22.5));
+        INITIAL_ROUTES.add(new Route(1, "sri lanka", "india", 12.4, 2.5));
+        INITIAL_ROUTES.add(new Route(2, "usa", "dubai", 15.4, 22.5));
+        INITIAL_ROUTES.add(new Route(3, "mexico", "germany", 15.4, 22.5));
         INITIAL_ROUTES.add(new Route(4, "jordan", "usa", 15.4, 22.5));
         INITIAL_ROUTES.add(new Route(5, "uk", "canada", 15.4, 22.5));
 
@@ -41,9 +36,7 @@ public class RoutesService {
     }
 
     public boolean correctDepartureAndDestination(String departure, String destination) {
-        boolean areSame = departure.equals("") || destination.equals("") ||
-                departure.equalsIgnoreCase(destination);
-        return areSame;
+        return departure.equals("") || destination.equals("") || departure.equalsIgnoreCase(destination);
     }
 
     public boolean isIdExisting(int routeID) {
@@ -161,7 +154,7 @@ public class RoutesService {
 
         if (isIdExists) {
             INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
-            return new ResponseEntity<Integer>(routeID, HttpStatus.OK);
+            return new ResponseEntity<>(routeID, HttpStatus.OK);
         } else {
 //            return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
             logger.error("'/api/routes-screen/delete-route' accessed with routeID->{} which is not found",

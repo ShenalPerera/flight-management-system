@@ -14,12 +14,8 @@ import java.util.*;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class RoutesController {
-
-//    RoutesService routesService = new RoutesService();
-
-//    @Autowired
     RoutesService routesService;
-    private Logger logger;
+    private final Logger logger;
 
     @Autowired
     RoutesController(RoutesService routesService) {
