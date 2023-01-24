@@ -51,18 +51,6 @@ public class RoutesService {
         return oldRoute;
     }
 
-    public boolean hasConflictWhenUpdating(Route route) {
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == route.getRouteID()) {
-                continue;
-            }
-            if (r.getDeparture().equalsIgnoreCase(route.getDeparture()) && r.getDestination().equalsIgnoreCase(route.getDestination())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void checkInputFields(Route route) {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
@@ -88,6 +76,30 @@ public class RoutesService {
         }
     }
 
+    public Route getThePossibleRouteToEdit(Route route) {
+        Route matchedRoute = new Route();
+        boolean matched = false;
+
+        for (Route r : INITIAL_ROUTES) {
+            if (r.getRouteID() == route.getRouteID()) {
+                matchedRoute = r;
+                matched = true;
+                continue;
+            }
+            if (r.getDeparture().equalsIgnoreCase(route.getDeparture()) && r.getDestination().equalsIgnoreCase(route.getDestination())) {
+                logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
+                        route.getDeparture(), route.getDestination());
+                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+            }
+            if (!matched) {
+                logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
+                        route.getRouteID());
+                throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+            }
+        }
+        return matchedRoute;
+    }
+
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
@@ -104,23 +116,14 @@ public class RoutesService {
 
     }
 
+
     public ResponseEntity<Route> editRoute(Route route) {
         checkInputFields(route);
+        Route routeToBeEdited = getThePossibleRouteToEdit(route);
 
-        if (hasConflictWhenUpdating(route)) {
-            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
-                    route.getDeparture(), route.getDestination());
-            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-        }
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == route.getRouteID()) {
-                r = updateTheRouteContent(r, route);
-                return new ResponseEntity<>(r, HttpStatus.OK);
-            }
-        }
-        logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
-                route.getRouteID());
-        throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+        return new ResponseEntity<>(
+                updateTheRouteContent(routeToBeEdited, route),
+                HttpStatus.OK);
 
     }
 
