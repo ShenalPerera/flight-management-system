@@ -78,21 +78,21 @@ public class RoutesService {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
                     route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
-            throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
+            throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
         }
 
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{}",
                     route.getDeparture(), route.getDestination());
-            throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
+            throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
         else {
             for (Route r : INITIAL_ROUTES) {
                 if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
                     logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
                             route.getDeparture(), route.getDestination());
-                    throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+                    throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
                 }
             }
             route.setRouteID(++UNIQUE_ROUTE_ID);
@@ -107,13 +107,13 @@ public class RoutesService {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
                     route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
-            throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
+            throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
         }
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{}",
                     route.getDeparture(), route.getDestination());
-            throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
+            throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
 
 
@@ -122,7 +122,7 @@ public class RoutesService {
             if (hasConflictWhenUpdating(route)) {
                 logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
                         route.getDeparture(), route.getDestination());
-                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+                throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
             }
             for (Route r : INITIAL_ROUTES) {
                 if (r.getRouteID() == route.getRouteID()) {
@@ -132,7 +132,7 @@ public class RoutesService {
             }
             logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
                     route.getRouteID());
-            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+            throw new FMSException(HttpCodesFMS.ENTRY_NOT_FOUND);
         }
 
     }
@@ -147,7 +147,7 @@ public class RoutesService {
         } else {
             logger.error("'/api/routes-screen/delete-route' accessed with routeID->{} which is not found",
                     routeID);
-            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+            throw new FMSException(HttpCodesFMS.ENTRY_NOT_FOUND);
         }
     }
 

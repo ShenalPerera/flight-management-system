@@ -1,6 +1,6 @@
 package com.fms.flights.controllers;
 
-import com.fms.flights.DTOs.Flight;
+import com.fms.flights.models.Flight;
 import com.fms.flights.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.fms.flights.DTOs;
+package com.fms.flights.models;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ public class Flight {
     private String id;
     private String flight_number;
     private String arrival;
-    private  String departure;
+    private String departure;
     private String arrival_date;
     private String departure_date;
     private String arrival_time;

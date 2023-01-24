@@ -1,6 +1,6 @@
 package com.fms.flights;
 
-import com.fms.flights.DTOs.Flight;
+import com.fms.flights.models.Flight;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -10,11 +10,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
-public class FlightRepositoryJSON {
+public class FlightRepository {
 
     private final List<Flight> flights = new ArrayList<>();
 
-    FlightRepositoryJSON(){
+    FlightRepository(){
         flights.add(new Flight("1", "1", "colombo", "India", "2023-01-04", "2023-01-05", "13:04", "11:00"));
     }
 

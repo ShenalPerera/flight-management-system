@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Entry } from "../shared/entry.model";
 import { locationValidator, numberValidator } from "../shared/validators";
 import { FareService } from "../services/fare.service";
-import { HttpStatusCodesFMS } from "../../HttpStatusCodesFMS/httpStatusCodes.enum"
+import { HttpStatusCodesFMS } from "../../http-status-codes-fms/httpStatusCodes.enum"
 
 @Component({
   selector: 'app-fare-form',

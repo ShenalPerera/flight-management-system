@@ -5,7 +5,7 @@ import {AbstractControl, FormControl, FormGroup, NgForm, Validators} from "@angu
 import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/validator-functions";
 import {Observable, Subscription} from "rxjs";
 import {HttpResponse} from "@angular/common/http";
-import {HttpStatusCodesFMS} from "../HttpStatusCodesFMS/httpStatusCodes.enum";
+import {HttpStatusCodesFMS} from "../http-status-codes-fms/httpStatusCodes.enum";
 
 @Component({
   selector: 'app-flights-screen',
