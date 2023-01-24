@@ -31,10 +31,6 @@ public class RoutesService {
         UNIQUE_ROUTE_ID = INITIAL_ROUTES.size();
     }
 
-    public String sayHello() {
-        return "Welcome to routes screen";
-    }
-
     public boolean correctDepartureAndDestination(String departure, String destination) {
         return departure.equals("") || destination.equals("") || departure.equalsIgnoreCase(destination);
     }
@@ -69,18 +65,20 @@ public class RoutesService {
         return false;
     }
 
-    public List<Route> sendAllRoutes() {
-        return INITIAL_ROUTES;
-    }
-
-    public ResponseEntity<Route> createRoute(Route route) {
-
+    public void checkEmptyFields(Route route) {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
                     route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
+    }
 
+    public List<Route> sendAllRoutes() {
+        return INITIAL_ROUTES;
+    }
+
+    public ResponseEntity<Route> createRoute(Route route) {
+        checkEmptyFields(route);
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{}",
@@ -103,21 +101,13 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> editRoute(Route route) {
-
-        if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
-            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
-                    route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
-            throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
-        }
+        checkEmptyFields(route);
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{}",
                     route.getDeparture(), route.getDestination());
             throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
-
-
-
         else {
             if (hasConflictWhenUpdating(route)) {
                 logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
@@ -138,7 +128,6 @@ public class RoutesService {
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
-
         boolean isIdExists = isIdExisting(routeID);
 
         if (isIdExists) {
@@ -152,7 +141,6 @@ public class RoutesService {
     }
 
     public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
-
         return new ResponseEntity<>(
                 INITIAL_ROUTES.stream()
                 .filter(

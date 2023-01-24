@@ -23,11 +23,6 @@ public class RoutesController {
         this.logger = LoggerFactory.getLogger(RoutesController.class);
     }
 
-    @GetMapping("/api/routes-screen")
-    public String sayHello() {
-        return routesService.sayHello();
-    }
-
     @GetMapping("/api/routes-screen/get-routes")
     ResponseEntity<List<Route>> sendAllRoutes() {
         logger.info("'/api/routes-screen/get-routes' accessed");
