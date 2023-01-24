@@ -88,7 +88,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
       'oArrivalDateNTime': flight.arrival_date + "T" + flight.arrival_time,
       'oDepartureDateNTime': flight.departure_date + "T" + flight.departure_time,
     }
-    this.overlayForm.setValue(this.formTempData);
+    this.overlayForm.reset(this.formTempData);
     this.isOverlayShow = !this.isOverlayShow;
   }
 
@@ -104,9 +104,15 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   }
 
   onCancelEdit() {
-    if (confirm("Are you want to exit from editing?")) {
+    if (this.overlayForm.pristine){
       this.isOverlayShow = !this.isOverlayShow;
       this.overlayForm.reset();
+    }
+    else {
+      if (confirm("Are you want to exit from editing?")) {
+        this.isOverlayShow = !this.isOverlayShow;
+        this.overlayForm.reset();
+      }
     }
 
   }
