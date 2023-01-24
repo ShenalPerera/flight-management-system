@@ -42,7 +42,7 @@ public class RoutesService {
         return false;
     }
 
-    public Route updateTheContent(Route oldRoute, Route newRoute) {
+    public Route updateTheRouteContent(Route oldRoute, Route newRoute) {
         oldRoute.setDeparture(newRoute.getDeparture());
         oldRoute.setDestination(newRoute.getDestination());
         oldRoute.setMileage(newRoute.getMileage());
@@ -117,7 +117,7 @@ public class RoutesService {
         }
         for (Route r : INITIAL_ROUTES) {
             if (r.getRouteID() == route.getRouteID()) {
-                r = updateTheContent(r, route);
+                r = updateTheRouteContent(r, route);
                 return new ResponseEntity<>(r, HttpStatus.OK);
             }
         }
