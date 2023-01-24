@@ -53,15 +53,15 @@ public class FareService {
             return entries;
         else
             return this.entries.stream().filter(data ->
-                    (data.getDeparture().equals(departure) && data.getArrival().equals(arrival))
-                            || (departure.isEmpty() && data.getArrival().equals(arrival))
-                            || (data.getDeparture().equals(departure) && arrival.isEmpty())
+                    (data.getDeparture().equalsIgnoreCase(departure) && data.getArrival().equalsIgnoreCase(arrival))
+                            || (departure.isEmpty() && data.getArrival().equalsIgnoreCase(arrival))
+                            || (data.getDeparture().equalsIgnoreCase(departure) && arrival.isEmpty())
             ).collect(Collectors.toList());
     }
 
     private int isDuplicate(String departure, String arrival) {
         Fare duplicateEntry = this.entries.stream().filter(data ->
-                (data.getDeparture().equals(departure) && data.getArrival().equals(arrival))
+                (data.getDeparture().equalsIgnoreCase(departure) && data.getArrival().equalsIgnoreCase(arrival))
         ).findAny().orElse(null);
         return (duplicateEntry == null)? 0 : duplicateEntry.getId();
     }
@@ -72,7 +72,7 @@ public class FareService {
             logger.error("missing data from the query | departure [{}], arrival [{}], fare [{}]",
                     entry.getDeparture(), entry.getArrival(), entry.getFare());
             throw new MissingDataException();
-        } else if (entry.getDeparture().equals(entry.getArrival())) {
+        } else if (entry.getDeparture().equalsIgnoreCase(entry.getArrival())) {
             logger.error("departure [{}] and arrival [{}] are not distinct",
                     entry.getDeparture(), entry.getArrival());
             throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
@@ -99,7 +99,7 @@ public class FareService {
             logger.error("missing data from the query | id [{}], departure [{}], arrival [{}], fare [{}]",
                     entry.getId(), entry.getDeparture(), entry.getArrival(), entry.getFare());
             throw new MissingDataException();
-        } else if (entry.getDeparture().equals(entry.getArrival())) {
+        } else if (entry.getDeparture().equalsIgnoreCase(entry.getArrival())) {
             logger.error("departure [{}] and arrival [{}] are not distinct",
                     entry.getDeparture(), entry.getArrival());
             throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
@@ -129,7 +129,7 @@ public class FareService {
                     return entry;
                 } catch (NullPointerException e) { // the user given id doesn't exist
                     logger.error("an entry doesn't exist for the given id [{}]", entry.getId());
-                    throw new IdDoesntExistException();
+                    throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
                 }
 
         } else { // the user hasn't changed departure and location
@@ -146,7 +146,7 @@ public class FareService {
     public int deleteEntry(int id) {
         if (!this.entries.removeIf(data -> data.getId() == id)) {
             logger.error("an entry doesn't exist for the given id [{}]", id);
-            throw new IdDoesntExistException();
+            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         } else {
             return id;
         }

@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Entry } from "../shared/entry.model";
 import { locationValidator, numberValidator } from "../shared/validators";
 import { FareService } from "../services/fare.service";
+import { HttpStatusCodesFMS } from "../../HttpStatusCodesFMS/httpStatusCodes.enum"
 
 @Component({
   selector: 'app-fare-form',
@@ -12,7 +13,6 @@ import { FareService } from "../services/fare.service";
 })
 export class FareFormComponent implements OnInit {
   sampleForm!: FormGroup;
-  private DUPLICATE_ENTRY_FOUND_STATUS_CODE = 251
   constructor(
     private fareService: FareService,
     public dialogRef: MatDialogRef<FareFormComponent>,
@@ -50,7 +50,7 @@ export class FareFormComponent implements OnInit {
         fare: this.sampleForm.value['fare']
       }).subscribe({
         next: (response) => {
-          if (response.status == this.DUPLICATE_ENTRY_FOUND_STATUS_CODE)
+          if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
             alert("The entry is already in the system!!")
           else
             this.dialogRef.close(true)
@@ -64,7 +64,7 @@ export class FareFormComponent implements OnInit {
         fare: this.sampleForm.value['fare']
       }).subscribe({
         next: (response) => {
-          if (response.status == this.DUPLICATE_ENTRY_FOUND_STATUS_CODE)
+          if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
             alert("The entry is already in the system!!")
           else
             this.dialogRef.close(true)
