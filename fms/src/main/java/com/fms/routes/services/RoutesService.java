@@ -66,7 +66,7 @@ public class RoutesService {
         }
     }
 
-    public void checkDuplicates(String departure, String destination) {
+    public void checkDuplicatesWhenCreating(String departure, String destination) {
         for (Route r : INITIAL_ROUTES) {
             if (r.getDeparture().equalsIgnoreCase(departure) && r.getDestination().equalsIgnoreCase(destination)) {
                 logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
@@ -108,7 +108,7 @@ public class RoutesService {
 
     public ResponseEntity<Route> createRoute(Route route) {
         checkInputFields(route);
-        checkDuplicates(route.getDeparture(), route.getDestination());
+        checkDuplicatesWhenCreating(route.getDeparture(), route.getDestination());
 
         route.setRouteID(++UNIQUE_ROUTE_ID);
         INITIAL_ROUTES.add(route);
