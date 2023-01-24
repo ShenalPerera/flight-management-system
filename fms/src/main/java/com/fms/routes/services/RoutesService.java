@@ -1,8 +1,8 @@
-package com.fms.routes_screen.services;
+package com.fms.routes.services;
 
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
-import com.fms.routes_screen.models.Route;
+import com.fms.routes.models.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

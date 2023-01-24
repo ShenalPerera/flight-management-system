@@ -1,4 +1,4 @@
-package com.fms.routes_screen.models;
+package com.fms.routes.models;
 
 public class Route {
     int routeID;

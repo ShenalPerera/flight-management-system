@@ -1,7 +1,7 @@
-package com.fms.routes_screen.routes_controllers;
+package com.fms.routes.routes_controllers;
 
-import com.fms.routes_screen.models.Route;
-import com.fms.routes_screen.services.RoutesService;
+import com.fms.routes.models.Route;
+import com.fms.routes.services.RoutesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
