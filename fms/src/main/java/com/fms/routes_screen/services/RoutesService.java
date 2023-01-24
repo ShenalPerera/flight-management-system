@@ -79,25 +79,20 @@ public class RoutesService {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
                     route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
             throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
-//            throw new MissingFieldsException("Required fields are missing");
         }
 
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{}",
                     route.getDeparture(), route.getDestination());
             throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
-//            throw new InvalidFormException("Invalid form.");
         }
         else {
             for (Route r : INITIAL_ROUTES) {
                 if (r.getDeparture().equals(route.getDeparture()) && r.getDestination().equals(route.getDestination())) {
-//                    return new ResponseEntity<>(HttpStatus.CONFLICT);
                     logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
                             route.getDeparture(), route.getDestination());
                     throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
-//                    throw new DuplicateRouteException("That route is already there.");
                 }
             }
             route.setRouteID(++UNIQUE_ROUTE_ID);
@@ -113,25 +108,21 @@ public class RoutesService {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
                     route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
             throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
-//            throw new MissingFieldsException("Required fields are missing");
         }
 
         if (correctDepartureAndDestination(route.getDeparture(), route.getDestination())) {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{}",
                     route.getDeparture(), route.getDestination());
             throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
 
 
         else {
             if (hasConflictWhenUpdating(route)) {
-//                return new ResponseEntity<>(HttpStatus.CONFLICT);
                 logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
                         route.getDeparture(), route.getDestination());
                 throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
-//                throw new DuplicateRouteException("That route is already there.");
             }
             for (Route r : INITIAL_ROUTES) {
                 if (r.getRouteID() == route.getRouteID()) {
@@ -139,11 +130,9 @@ public class RoutesService {
                     return new ResponseEntity<>(r, HttpStatus.OK);
                 }
             }
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
                     route.getRouteID());
             throw new FMSException(HttpCodesFMS.ENTRY_NOT_FOUND);
-//            throw new IdNotFoundException("ID not found");
         }
 
     }
@@ -156,11 +145,9 @@ public class RoutesService {
             INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
             return new ResponseEntity<>(routeID, HttpStatus.OK);
         } else {
-//            return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
             logger.error("'/api/routes-screen/delete-route' accessed with routeID->{} which is not found",
                     routeID);
             throw new FMSException(HttpCodesFMS.ENTRY_NOT_FOUND);
-//            throw new IdNotFoundException("ID not found");
         }
     }
 
