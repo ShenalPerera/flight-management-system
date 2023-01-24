@@ -174,7 +174,7 @@
         <br>
 
         <button *ngIf="!isEditMode" type="submit" [disabled]="!overlayForm.valid" mat-raised-button color="primary">Add Flight</button>
-        <button *ngIf="isEditMode"  type="submit" [disabled]="!overlayForm.valid"  mat-raised-button color="primary">Save</button>
+        <button *ngIf="isEditMode"  type="submit" [disabled]="!overlayForm.valid && !overlayForm.pristine"  mat-raised-button color="primary">Save</button>
         <button  type="button" [disabled]="!overlayForm.dirty" (click)="onClickReset()" mat-raised-button color="warn">Reset</button>
         <button type="button" (click)="onCancelEdit()" mat-raised-button color="warn">Discard</button>
 

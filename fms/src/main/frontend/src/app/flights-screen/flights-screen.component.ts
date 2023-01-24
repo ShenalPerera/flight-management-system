@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Flight} from "./flight.model";
-import {DataService} from "../../assets/data-service";
+import {FlightDataService} from "./flight-services/flight-data-service";
 import {AbstractControl, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/validator-functions";
 import {Observable, Subscription} from "rxjs";
@@ -34,7 +34,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   private flightArraySubscription ?: Subscription;
   private errorResponseSubscription?:Subscription;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: FlightDataService) {
 
   }
 
@@ -72,7 +72,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
         this.dataService.fetchFlights();
         searchForm.reset();
       },
-      error:(err)=>console.log("Tis is an error" + err.body)});
+      error:(err)=>alert("Unexpected error occurred!")});
 
 
   }

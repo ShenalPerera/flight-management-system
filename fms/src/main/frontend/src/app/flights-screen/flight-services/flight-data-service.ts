@@ -1,14 +1,14 @@
-import {Flight} from "../app/flights-screen/flight.model";
+import {Flight} from "../flight.model";
 import {Inject, Injectable} from "@angular/core";
-import genUniqueId from "../utills/unique-id-generator";
+import genUniqueId from "../../../utills/unique-id-generator";
 import {Subject} from "rxjs";
-import {FlightsService} from "../app/flights-screen/flight-services/flights.service";
+import {FlightsService} from "./flights.service";
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class DataService {
+export class FlightDataService {
   flightListChanged = new Subject<Flight[]>();
 
   flights: Flight[] = [];
