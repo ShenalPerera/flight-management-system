@@ -63,15 +63,13 @@ public class RoutesService {
         return false;
     }
 
-    public void checkEmptyFields(Route route) {
+    public void checkInputFields(Route route) {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
                     route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
-    }
 
-    public void checkInputFields(Route route) {
         if (route.getDeparture().equals("") || route.getDestination().equals("") || route.getDeparture().equalsIgnoreCase(route.getDestination())
         || route.getMileage()<0 || route.getDurationH()<0) {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
@@ -97,7 +95,6 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
-        checkEmptyFields(route);
         checkInputFields(route);
         checkDuplicates(route.getDeparture(), route.getDestination());
 
@@ -108,7 +105,6 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> editRoute(Route route) {
-        checkEmptyFields(route);
         checkInputFields(route);
 
         if (hasConflictWhenUpdating(route)) {
