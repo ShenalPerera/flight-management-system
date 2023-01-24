@@ -34,24 +34,24 @@ public class FareController {
             @RequestParam(value = "departure", defaultValue = "") String departure,
             @RequestParam(value = "arrival", defaultValue = "") String arrival) {
         logger.info("'search' endpoint accessed");
-        return new ResponseEntity<>(service.getSearchedEntries(departure, arrival), HttpStatus.OK);
+        return new ResponseEntity<>(service.getSearchedFares(departure, arrival), HttpStatus.OK);
     }
 
-    @PostMapping("entry")
-    public ResponseEntity<Fare> createEntry(@RequestBody Fare entry) {
-        logger.trace("create 'entry' endpoint accessed");
-        return new ResponseEntity<>(service.createEntry(entry), HttpStatus.CREATED);
+    @PostMapping("fare")
+    public ResponseEntity<Fare> createEntry(@RequestBody Fare fare) {
+        logger.trace("create 'fare' endpoint accessed");
+        return new ResponseEntity<>(service.createFare(fare), HttpStatus.CREATED);
     }
 
-    @PutMapping("entry")
-    public ResponseEntity<Fare> editEntry(@RequestBody Fare entry) {
-        logger.info("update 'entry' endpoint accessed");
-        return new ResponseEntity<>(service.editEntry(entry), HttpStatus.OK);
+    @PutMapping("fare")
+    public ResponseEntity<Fare> editEntry(@RequestBody Fare fare) {
+        logger.info("update 'fare' endpoint accessed");
+        return new ResponseEntity<>(service.editFare(fare), HttpStatus.OK);
     }
 
-    @DeleteMapping("entry")
+    @DeleteMapping("fare")
     public ResponseEntity<Integer> deleteEntry(@RequestParam(value = "id") int id) {
-        logger.info("delete 'entry' endpoint accessed");
-        return new ResponseEntity<>(service.deleteEntry(id), HttpStatus.NO_CONTENT);
+        logger.info("delete 'fare' endpoint accessed");
+        return new ResponseEntity<>(service.deleteFare(id), HttpStatus.NO_CONTENT);
     }
 }
