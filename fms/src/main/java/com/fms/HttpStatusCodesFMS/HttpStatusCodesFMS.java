@@ -1,6 +1,6 @@
 package com.fms.HttpStatusCodesFMS;
 
-public enum HttpCodesFMS  {
+public enum HttpStatusCodesFMS {
     SAME_ARRIVAL_DEPARTURE_FOUND(250),
     DUPLICATE_ENTRY_FOUND(251),
     EMPTY_FIELD_FOUND(252),
@@ -8,7 +8,7 @@ public enum HttpCodesFMS  {
     ENTRY_NOT_FOUND(254);
 
     private final int statusCode;
-    HttpCodesFMS(int statusCode){
+    HttpStatusCodesFMS(int statusCode){
         this.statusCode = statusCode;
     }
 
@@ -16,8 +16,8 @@ public enum HttpCodesFMS  {
         return statusCode;
     }
 
-    public static int valueOf(HttpCodesFMS httpCodesFMS){
-        return httpCodesFMS.statusCode;
+    public static int valueOf(HttpStatusCodesFMS httpStatusCodesFMS){
+        return httpStatusCodesFMS.statusCode;
     }
 
 

@@ -1,20 +1,20 @@
 package com.fms.exceptions;
 
 
-import com.fms.HttpStatusCodesFMS.HttpCodesFMS;
+import com.fms.HttpStatusCodesFMS.HttpStatusCodesFMS;
 
 public class FMSException extends  RuntimeException{
-    private final HttpCodesFMS statusCode;
+    private final HttpStatusCodesFMS statusCode;
 
-    public FMSException(HttpCodesFMS statusCode){
+    public FMSException(HttpStatusCodesFMS statusCode){
         this.statusCode = statusCode;
     }
 
-    public HttpCodesFMS getStatusCode() {
+    public HttpStatusCodesFMS getStatusCode() {
         return statusCode;
     }
 
     public int getStatusCodeValue(){
-        return HttpCodesFMS.valueOf(statusCode);
+        return HttpStatusCodesFMS.valueOf(statusCode);
     }
 }

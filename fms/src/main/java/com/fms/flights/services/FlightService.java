@@ -1,6 +1,6 @@
 package com.fms.flights.services;
 
-import com.fms.HttpStatusCodesFMS.HttpCodesFMS;
+import com.fms.HttpStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.flights.DTOs.Flight;
 import com.fms.flights.FlightRepositoryJSON;
@@ -25,20 +25,20 @@ public class FlightService {
         if (isFlightValid(flight)){
             return flightRepositoryJSON.addEntry(flight);
         }
-        throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
+        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 
     public Flight editFlight(Flight flight){
         if (isFlightValid(flight)){
             return flightRepositoryJSON.editFlight(flight);
         }
-        throw new FMSException(HttpCodesFMS.DUPLICATE_ENTRY_FOUND);
+        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 
     public Flight deleteFlight(String flightId){
         Flight flight = flightRepositoryJSON.deleteEntryById(flightId);
         if (flight == null){
-            throw new FMSException(HttpCodesFMS.ENTRY_NOT_FOUND);
+            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
         return flight;
     }
@@ -46,16 +46,16 @@ public class FlightService {
 
     private void validateFlightEntryFields(Flight flight){
         if (flight.isContainsEmptyFields()){
-            throw new FMSException(HttpCodesFMS.EMPTY_FIELD_FOUND);
+            throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
         if (flight.getDeparture().equalsIgnoreCase(flight.getArrival())){
-            throw new FMSException(HttpCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
+            throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
         LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDeparture_date() +"T" + flight.getDeparture_time());
         LocalDateTime arrivalDateNTime = LocalDateTime.parse(flight.getArrival_date() + "T" + flight.getArrival_time());
 
         if (departureDateNTime.isAfter(arrivalDateNTime) || departureDateNTime.isEqual(arrivalDateNTime)){
-            throw new FMSException(HttpCodesFMS.INVALID_DEPARTURE_AND_ARRIVAL_DATE);
+            throw new FMSException(HttpStatusCodesFMS.INVALID_DEPARTURE_AND_ARRIVAL_DATE);
         }
     }
 
