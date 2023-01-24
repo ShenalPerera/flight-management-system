@@ -31,7 +31,7 @@ public class RoutesService {
         UNIQUE_ROUTE_ID = INITIAL_ROUTES.size();
     }
 
-    // ******************************************** VALIDATIONS ********************************************************
+    // ******************************************** HELPER METHODS *****************************************************
 
     public boolean isIdExisting(int routeID) {
         for (Route r : INITIAL_ROUTES) {
@@ -71,11 +71,12 @@ public class RoutesService {
         }
     }
 
-    public void checkDepartureAndDestination(String departure, String destination) {
-        if (departure.equals("") || destination.equals("") || departure.equalsIgnoreCase(destination)) {
-            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{}",
-                    departure, destination);
-            throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
+    public void checkInputFields(Route route) {
+        if (route.getDeparture().equals("") || route.getDestination().equals("") || route.getDeparture().equalsIgnoreCase(route.getDestination())
+        || route.getMileage()<0 || route.getDurationH()<0) {
+            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
+                    route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
+            throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
         }
     }
 
@@ -97,7 +98,7 @@ public class RoutesService {
 
     public ResponseEntity<Route> createRoute(Route route) {
         checkEmptyFields(route);
-        checkDepartureAndDestination(route.getDeparture(), route.getDestination());
+        checkInputFields(route);
         checkDuplicates(route.getDeparture(), route.getDestination());
 
         route.setRouteID(++UNIQUE_ROUTE_ID);
@@ -108,7 +109,7 @@ public class RoutesService {
 
     public ResponseEntity<Route> editRoute(Route route) {
         checkEmptyFields(route);
-        checkDepartureAndDestination(route.getDeparture(), route.getDestination());
+        checkInputFields(route);
 
         if (hasConflictWhenUpdating(route)) {
             logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
