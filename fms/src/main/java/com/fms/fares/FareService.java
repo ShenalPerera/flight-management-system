@@ -133,7 +133,7 @@ public class FareService {
         if ((fare.getDeparture() == null) || (fare.getArrival() == null) || (fare.getFare() == 0)) {
             logger.error("missing data from the query | departure [{}], arrival [{}], fare [{}]",
                     fare.getDeparture(), fare.getArrival(), fare.getFare());
-            throw new FMSException(HttpStatusCodesFMS.MISSING_DATA);
+            throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
         }
     }
     private void checkSameLocation(Fare fare) {
@@ -147,7 +147,7 @@ public class FareService {
         if ((fare.getId() == 0) || (fare.getDeparture() == null) || (fare.getArrival() == null) || (fare.getFare() == 0)) {
             logger.error("missing data from the query | id [{}], departure [{}], arrival [{}], fare [{}]",
                     fare.getId(), fare.getDeparture(), fare.getArrival(), fare.getFare());
-            throw new FMSException(HttpStatusCodesFMS.MISSING_DATA);
+            throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
         }
     }
     private void checkNegativeValues(Fare fare) {
