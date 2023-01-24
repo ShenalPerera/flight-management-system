@@ -67,11 +67,16 @@ export class FormComponent implements OnInit{
       this.routeService.updateRouteInBackend(this.updatedRoute)
         .subscribe({
           next: (resp)=>{
+            if (resp.status == this.DUPLICATE_ENTRY_FOUND_STATUS_CODE) {
+              alert('Sorry! That route is already there.');
+            }else{
               this.afterApplyClosing();
+            }
+
           },
-          error: (e)=>{
-            alert('Sorry! That route is already there.')
-          }
+          // error: (e)=>{
+          //   alert('Sorry! That route is already there.')
+          // }
         })
 
 

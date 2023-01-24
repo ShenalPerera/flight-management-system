@@ -39,7 +39,7 @@ export class RouteService  {
   }
 
   updateRouteInBackend(route: Route) {
-    return this.http.put<any>('http://localhost:8080/api/routes-screen/update-route', route);
+    return this.http.put<any>('http://localhost:8080/api/routes-screen/update-route', route, {observe: 'response'});
   }
 
   deleteRecordInBackend(routeID: number) {
