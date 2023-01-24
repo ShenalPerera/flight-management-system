@@ -10,14 +10,14 @@ GET http://localhost:8080/api/fares/search?departure=colombo&arrival=sydney
 ###
 GET http://localhost:8080/api/fares/search?departure=madrid
 ###
-POST http://localhost:8080/api/fares/entry
+POST http://localhost:8080/api/fares/fare
 Content-Type: application/json
 
 { "departure": "dubai", "arrival": "kandy", "fare": 195 }
 ###
-PUT http://localhost:8080/api/fares/entry
+PUT http://localhost:8080/api/fares/fare
 Content-Type: application/json
 
 { "id": 1, "departure": "colombo", "arrival": "dubai", "fare": 70 }
 ###
-DELETE http://localhost:8080/api/fares/entry?id=3
+DELETE http://localhost:8080/api/fares/fare?id=3

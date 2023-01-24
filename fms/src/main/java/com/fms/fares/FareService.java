@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,11 +61,9 @@ public class FareService {
             ).collect(Collectors.toList());
     }
 
-    private int isDuplicate(String departure, String arrival) {
-        Fare duplicateEntry = this.fares.stream().filter(data ->
-                (data.getDeparture().equalsIgnoreCase(departure) && data.getArrival().equalsIgnoreCase(arrival))
-        ).findAny().orElse(null);
-        return (duplicateEntry == null)? 0 : duplicateEntry.getId();
+    private boolean isDuplicate(String departure, String arrival) {
+        return this.fares.stream().anyMatch(data ->
+                departure.equalsIgnoreCase(data.getDeparture()) && arrival.equalsIgnoreCase(data.getArrival()));
     }
 
     public Fare createFare(Fare fare) {
@@ -80,42 +79,25 @@ public class FareService {
         return newEntry;
     }
 
-    public Fare editFare(Fare fare) {
+    public Fare editFare(Fare userFare) {
 
-        checkMissingDataWithId(fare);
-        checkSameLocation(fare);
-        checkNegativeValues(fare);
-        checkEmptyStrings(fare);
+        checkMissingDataWithId(userFare);
+        checkSameLocation(userFare);
+        checkNegativeValues(userFare);
+        checkEmptyStrings(userFare);
 
-        int duplicateId = isDuplicate(fare.getDeparture(), fare.getArrival());
-        if  (duplicateId != fare.getId()) { // a duplicate fare may exist (the user given ID may not exist)
+        AtomicReference<Fare> searchedFare = new AtomicReference<>(new Fare());
+        this.fares.forEach(data -> {
+            checkDuplicateFaresWithId(userFare, data);
+            if (data.getId() == userFare.getId())
+                searchedFare.set(data);
+        });
+        checkObjectExistence(userFare, searchedFare);
 
-            if (duplicateId != 0) {
-                logger.error("a duplicate fare exists for the given inputs");
-                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-            }
-            else
-                try {
-                    Fare editedEntry = this.fares.stream().filter(data -> data.getId() == fare.getId())
-                            .findAny().orElse(null);
-                    editedEntry.setDeparture(fare.getDeparture());
-                    editedEntry.setArrival(fare.getArrival());
-                    editedEntry.setFare(fare.getFare());
-                    return fare;
-                } catch (NullPointerException e) { // the user given id doesn't exist
-                    logger.error("an fare doesn't exist for the given id [{}]", fare.getId());
-                    throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
-                }
-
-        } else { // the user hasn't changed departure and location
-            this.fares.stream().filter(data -> data.getId() == fare.getId())
-                    .findAny().ifPresent(data -> {
-                        data.setDeparture(fare.getDeparture());
-                        data.setArrival(fare.getArrival());
-                        data.setFare(fare.getFare());
-                    });
-            return fare;
-        }
+        searchedFare.get().setDeparture(userFare.getDeparture());
+        searchedFare.get().setArrival(userFare.getArrival());
+        searchedFare.get().setFare(userFare.getFare());
+        return userFare;
     }
 
     public int deleteFare(int id) {
@@ -157,7 +139,13 @@ public class FareService {
         }
     }
     private void checkDuplicateFares(Fare fare) {
-        if (isDuplicate(fare.getDeparture(), fare.getArrival()) != 0) {
+        if (isDuplicate(fare.getDeparture(), fare.getArrival())) {
+            logger.error("a duplicate fare exists for the given inputs");
+            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        }
+    }
+    private void checkDuplicateFaresWithId(Fare givenFare, Fare fareInDatabase) {
+        if (givenFare.getDeparture().equalsIgnoreCase(fareInDatabase.getDeparture()) && givenFare.getArrival().equalsIgnoreCase(fareInDatabase.getArrival()) && (fareInDatabase.getId() != givenFare.getId())) {
             logger.error("a duplicate fare exists for the given inputs");
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
@@ -167,6 +155,12 @@ public class FareService {
             logger.error("the query contains empty strings | departure [{}], arrival [{}]",
                     fare.getDeparture(), fare.getArrival());
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
+        }
+    }
+    private void checkObjectExistence(Fare userFare, AtomicReference<Fare> searchedFare) {
+        if (searchedFare.get().getId() != userFare.getId()) {
+            logger.error("an fare doesn't exist for the given id [{}]", userFare.getId());
+            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }
 }

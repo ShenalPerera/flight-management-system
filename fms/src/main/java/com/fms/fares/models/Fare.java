@@ -6,6 +6,8 @@ public class Fare {
     private String arrival;
     private double fare;
 
+    public Fare() {}
+
     public Fare(int id, String departure, String arrival, double fare) {
         this.id = id;
         this.departure = departure;
