@@ -77,24 +77,17 @@ public class RoutesService {
     }
 
     public Route getThePossibleRouteToEdit(Route route) {
-        Route matchedRoute = new Route();
-        boolean matched = false;
+        Route matchedRoute = null;
 
         for (Route r : INITIAL_ROUTES) {
             if (r.getRouteID() == route.getRouteID()) {
                 matchedRoute = r;
-                matched = true;
                 continue;
             }
             if (r.getDeparture().equalsIgnoreCase(route.getDeparture()) && r.getDestination().equalsIgnoreCase(route.getDestination())) {
                 logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
                         route.getDeparture(), route.getDestination());
                 throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-            }
-            if (!matched) {
-                logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
-                        route.getRouteID());
-                throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
             }
         }
         return matchedRoute;
@@ -119,12 +112,17 @@ public class RoutesService {
 
     public ResponseEntity<Route> editRoute(Route route) {
         checkInputFields(route);
+
         Route routeToBeEdited = getThePossibleRouteToEdit(route);
 
-        return new ResponseEntity<>(
-                updateTheRouteContent(routeToBeEdited, route),
-                HttpStatus.OK);
-
+        if (routeToBeEdited != null) {
+            return new ResponseEntity<>(
+                    updateTheRouteContent(routeToBeEdited, route),
+                    HttpStatus.OK);
+        }
+        logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
+                route.getRouteID());
+        throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
