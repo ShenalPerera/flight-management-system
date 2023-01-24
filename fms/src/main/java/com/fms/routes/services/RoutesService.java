@@ -31,6 +31,7 @@ public class RoutesService {
         UNIQUE_ROUTE_ID = INITIAL_ROUTES.size();
     }
 
+    // ******************************************** VALIDATIONS ********************************************************
 
     public boolean isIdExisting(int routeID) {
         for (Route r : INITIAL_ROUTES) {
@@ -87,6 +88,8 @@ public class RoutesService {
             }
         }
     }
+
+    // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
         return INITIAL_ROUTES;
