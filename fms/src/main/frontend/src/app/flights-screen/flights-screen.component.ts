@@ -6,6 +6,7 @@ import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/val
 import {Observable, Subscription} from "rxjs";
 import {HttpResponse} from "@angular/common/http";
 import {HttpStatusCodesFMS} from "../http-status-codes-fms/httpStatusCodes.enum";
+import {AirportsHandleService} from "../services/airports-handle.service";
 
 @Component({
   selector: 'app-flights-screen',
@@ -18,6 +19,8 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   isOverlayShow: boolean = false;
   isEditMode!: boolean;
   public flights !: Flight[];
+
+  public airports !: string[];
   overlayForm!: FormGroup;
   public searchOptions = {
     flight_number: '',
@@ -34,15 +37,25 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   private flightArraySubscription ?: Subscription;
   private errorResponseSubscription?:Subscription;
 
-  constructor(private dataService: FlightDataService) {
+  private airportsListSubscription ?: Subscription;
+  constructor(private dataService: FlightDataService,private airportsListService:AirportsHandleService) {
 
   }
 
   ngOnInit() {
     this.dataService.fetchFlights();
+    this.airportsListService.getAirportsList().subscribe( response => {
+      this.airports = response;
+    });
+
     this.flightArraySubscription = this.dataService.flightListChanged.subscribe((updatedFlightList:Flight[]) => {
       this.flights = updatedFlightList;
-    })
+    });
+
+    this.airportsListSubscription = this.airportsListService.airportsListChange.subscribe( (airportsList:string[]) => {
+      this.airports = airportsList;
+    });
+
 
     this.overlayForm = new FormGroup({
       'oId': new FormControl(null),
@@ -57,10 +70,12 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
       updateOn:"blur"
     });
 
+
   }
 
   ngOnDestroy() {
     this.flightArraySubscription?.unsubscribe();
+    this.airportsListSubscription?.unsubscribe();
   }
 
   onDeleteFlight(flight_id: string, searchForm: NgForm) {

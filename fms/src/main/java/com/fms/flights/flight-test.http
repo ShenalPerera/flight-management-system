@@ -34,3 +34,7 @@ Accept: application/json
 
 ###
 GET http://localhost:8080/flights/get-flights
+
+
+###
+GET http://localhost:8080/flights/get-airports

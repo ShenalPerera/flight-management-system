@@ -1,4 +1,4 @@
-<div class="search-filter">
+<div class="search-filter" >
   <form #searchFilterForm="ngForm" class="search-form">
     <mat-form-field appearance="fill">
       <mat-label>Flight number</mat-label>
@@ -7,7 +7,14 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
-      <input type="text" name="fDeparture" matInput  [(ngModel)] = "searchOptions.departure" >
+      <select matNativeControl [(ngModel)]="searchOptions.departure" name="departure" >
+        <option value="" selected></option>
+        <option *ngFor="let airport of airports" [value]="airport">
+          {{airport | titlecase }}
+        </option>
+      </select>
+
+<!--      /<input type="text" name="fDeparture" matInput  [(ngModel)] = "searchOptions.departure" >-->
     </mat-form-field>
 
     <mat-form-field appearance="fill">
