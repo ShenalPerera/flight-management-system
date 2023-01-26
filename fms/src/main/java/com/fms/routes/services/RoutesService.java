@@ -133,6 +133,16 @@ public class RoutesService {
         Route routeToBeEdited = getThePossibleRouteToEdit(route);
 
         if (routeToBeEdited != null) {
+
+            // update in the database
+            Route toBeEdited = routeRepository.findById(route.getRouteID()).get();
+            toBeEdited.setDeparture(route.getDeparture());
+            toBeEdited.setDestination(route.getDestination());
+            toBeEdited.setMileage(route.getMileage());
+            toBeEdited.setDurationH(route.getDurationH());
+
+            routeRepository.save(toBeEdited);
+
             return new ResponseEntity<>(
                     updateTheRouteContent(routeToBeEdited, route),
                     HttpStatus.OK);
