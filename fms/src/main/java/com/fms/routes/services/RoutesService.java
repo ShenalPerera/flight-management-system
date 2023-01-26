@@ -153,12 +153,10 @@ public class RoutesService {
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
-        boolean isIdExists = isIdExisting(routeID);
-
-        if (isIdExists) {
-            INITIAL_ROUTES.removeIf(route->route.getRouteID()==routeID);
+        try {
+            routeRepository.deleteById(routeID);
             return new ResponseEntity<>(routeID, HttpStatus.OK);
-        } else {
+        } catch (Exception e) {
             logger.error("'/api/routes-screen/delete-route' accessed with routeID->{} which is not found",
                     routeID);
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
