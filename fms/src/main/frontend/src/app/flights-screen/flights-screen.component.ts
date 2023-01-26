@@ -35,7 +35,6 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   public formTempData!: {};
 
   private flightArraySubscription ?: Subscription;
-  private errorResponseSubscription?:Subscription;
 
   private airportsListSubscription ?: Subscription;
   constructor(private dataService: FlightDataService,private airportsListService:AirportsHandleService) {
@@ -45,6 +44,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   ngOnInit() {
     this.dataService.fetchFlights();
     this.airportsListService.getAirportsList().subscribe( response => {
+      localStorage.setItem("airports",JSON.stringify(response));
       this.airports = response;
     });
 
@@ -88,8 +88,6 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
         searchForm.reset();
       },
       error:(err)=>alert("Unexpected error occurred!")});
-
-
   }
 
 
@@ -114,8 +112,13 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     this.overlayForm.reset();
   }
 
+  onClickSearch(f:NgForm){
+    let value = f.value;
+    this.dataService.searchFlights(value);
+  }
   onClearSearch(f: NgForm) {
-    f.reset();
+    f.reset({fNumber:"",fDeparture:"",fArrival:"",fDepartureDate:"",fArrivalDate:"",fDepartureTime:"",fArrivalTime:""});
+    this.dataService.fetchFlights();
   }
 
   onCancelEdit() {
@@ -129,7 +132,6 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
         this.overlayForm.reset();
       }
     }
-
   }
 
   onClickReset() {

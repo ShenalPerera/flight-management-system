@@ -38,3 +38,7 @@ GET http://localhost:8080/flights/get-flights
 
 ###
 GET http://localhost:8080/flights/get-airports
+
+
+###
+GET http://localhost:8080/flights/get-filtered-flights?flightNumber=&departure=&arrival=&departureDate=&departureTime=&arrivalDate=&arrivalTime=

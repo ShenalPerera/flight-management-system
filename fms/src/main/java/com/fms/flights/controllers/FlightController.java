@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,17 @@ public class FlightController {
         return flightService.getAllFlights();
     }
 
+    @GetMapping("/get-filtered-flights")
+    public List<Flight> getFilteredFlights(@RequestParam(name = "flightNumber") String flightNumber,
+                                           @RequestParam(name = "departure") String departure,
+                                           @RequestParam(name = "arrival") String arrival,
+                                           @RequestParam(name = "departureDate") String departureDate,
+                                           @RequestParam(name = "departureTime") String departureTime,
+                                           @RequestParam(name = "arrivalDate") String arrivalDate,
+                                           @RequestParam(name = "arrivalTime") String arrivalTime
+                                           ){
+        return flightService.getFilteredFlightsBySearchOptions(flightNumber,departure,arrival,departureDate,departureTime,arrivalDate,arrivalTime);
+    }
     @GetMapping("/get-airports")
     public ResponseEntity<List<String>>  getAirports(){
         return ResponseEntity.status(200).body(airportsFileHandler.getAirportFromFile());

@@ -96,6 +96,20 @@ public class Flight {
         return Objects.equals(id, flight.id);
     }
 
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "id='" + id + '\'' +
+                ", flight_number='" + flight_number + '\'' +
+                ", arrival='" + arrival + '\'' +
+                ", departure='" + departure + '\'' +
+                ", arrival_date='" + arrival_date + '\'' +
+                ", departure_date='" + departure_date + '\'' +
+                ", arrival_time='" + arrival_time + '\'' +
+                ", departure_time='" + departure_time + '\'' +
+                '}';
+    }
+
     public boolean isContainsEmptyFields(){
         return id.isBlank() || flight_number.isBlank() || arrival.isBlank() || departure.isBlank() || arrival_date.isBlank()||
                 arrival_time.isBlank() || departure_date.isBlank() || departure_time.isBlank();

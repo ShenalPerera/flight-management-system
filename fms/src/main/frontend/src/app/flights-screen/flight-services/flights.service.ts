@@ -26,4 +26,17 @@ export class FlightsService{
     return this.http.put<Flight>("http://localhost:8080/flights/edit-flight",editedFlight,{observe:'response'});
   }
 
+  searchFlight(flightData:{fNumber: string, fArrival: string, fDeparture: string, fArrivalDate: string, fDepartureDate: string ,fArrivalTime:string, fDepartureTime:string }){
+    let searchParams = new HttpParams();
+    searchParams = searchParams.append("flightNumber",flightData.fNumber);
+    searchParams = searchParams.append("arrival",flightData.fArrival);
+    searchParams = searchParams.append("departure",flightData.fDeparture);
+    searchParams = searchParams.append("departureDate",flightData.fDepartureDate);
+    searchParams = searchParams.append("arrivalDate",flightData.fArrivalDate);
+    searchParams = searchParams.append("departureTime",flightData.fDepartureTime);
+    searchParams = searchParams.append("arrivalTime",flightData.fArrivalTime);
+
+    return this.http.get<Flight[]>("http://localhost:8080/flights/get-filtered-flights",{params: searchParams});
+  }
+
 }

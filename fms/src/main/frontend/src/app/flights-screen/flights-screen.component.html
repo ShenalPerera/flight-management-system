@@ -2,49 +2,47 @@
   <form #searchFilterForm="ngForm" class="search-form">
     <mat-form-field appearance="fill">
       <mat-label>Flight number</mat-label>
-      <input type="text" name="fNumber" matInput [(ngModel)] = "searchOptions.flight_number">
+      <input type="text" name="fNumber" matInput [ngModel] = "searchOptions.flight_number">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
-      <select matNativeControl [(ngModel)]="searchOptions.departure" name="departure" >
+      <select matNativeControl [ngModel]="searchOptions.departure" name="fDeparture" >
         <option value="" selected></option>
         <option *ngFor="let airport of airports" [value]="airport">
           {{airport | titlecase }}
         </option>
       </select>
-
-<!--      /<input type="text" name="fDeparture" matInput  [(ngModel)] = "searchOptions.departure" >-->
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Arrival</mat-label>
-      <input type="text" name="fArrival" matInput  [(ngModel)] = "searchOptions.arrival" >
+      <input type="text" name="fArrival" matInput  [ngModel] = "searchOptions.arrival" >
     </mat-form-field>
 
 
 
     <mat-form-field appearance="fill">
       <mat-label>Arrival date</mat-label>
-      <input matInput type="date" [(ngModel)]="searchOptions.arrivalDate" name="fArrivalDate">
+      <input matInput type="date" [ngModel]="searchOptions.arrivalDate" name="fArrivalDate">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Departure date</mat-label>
-      <input matInput type="date" [(ngModel)]="searchOptions.departureDate" name="fDepartureDate" >
+      <input matInput type="date" [ngModel]="searchOptions.departureDate" name="fDepartureDate" >
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Arrival time</mat-label>
-      <input matInput  type="time" [(ngModel)]="searchOptions.arrivalTime" name="fArrivalTime">
+      <input matInput  type="time" [ngModel]="searchOptions.arrivalTime" name="fArrivalTime">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Departure time</mat-label>
-      <input matInput  type="time" [(ngModel)]="searchOptions.departureTime" name="fDepartureTime">
+      <input matInput  type="time" [ngModel]="searchOptions.departureTime" name="fDepartureTime">
     </mat-form-field>
 
-
+    <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>
     <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)">Clear</button>
 
 

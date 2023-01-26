@@ -21,6 +21,17 @@ public class FlightService {
         return flightRepository.getAll();
     }
 
+    public List<Flight> getFilteredFlightsBySearchOptions(String flightNUmber,
+                                                          String departure,
+                                                          String arrival,
+                                                          String departureDate,
+                                                          String departureTime,
+                                                          String arrivalDate,
+                                                          String arrivalTime) {
+        Flight searchFlightObject = new Flight(null,flightNUmber,arrival,departure,arrivalDate,departureDate,arrivalTime,departureTime);
+        return this.flightRepository.getFLightsByParameters(searchFlightObject);
+    }
+
     public Flight addNewFlight(Flight flight ){
         if (isFlightValid(flight)){
             return flightRepository.addEntry(flight);

@@ -25,7 +25,16 @@ export class FlightDataService {
     });
   }
 
+  searchFlights(value: {fNumber: string, fArrival: string, fDeparture: string, fArrivalDate: string, fDepartureDate: string ,fArrivalTime:string, fDepartureTime:string}){
 
+
+
+
+    this.flightService.searchFlight(value).subscribe( filteredFlights => {
+      this.flights = filteredFlights;
+      this.flightListChanged.next(this.flights.slice());
+    })
+  }
   addFlight(value: { oId: string, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string, oDepartureDateNTime: string }) {
     value.oId = genUniqueId();
     return this.flightService.addNewFlight(this.createFlight(value));
