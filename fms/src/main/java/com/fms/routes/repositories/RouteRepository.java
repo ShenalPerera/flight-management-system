@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RouteRepository extends JpaRepository<Route, Integer> {
     Route findFirstByDepartureAndDestinationAndRouteIDNot(String departure, String destination, int routeID);
+
 }

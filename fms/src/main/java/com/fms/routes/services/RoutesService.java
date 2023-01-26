@@ -137,16 +137,24 @@ public class RoutesService {
         // create a method to check the existing departure and destination
 //        Route routeToBeEdited = getThePossibleRouteToEdit(route);
 //        try {
-            Route routeToBeEdited = routeRepository.findFirstByDepartureAndDestinationAndRouteIDNot(
+            Route conflictedRoute = routeRepository.findFirstByDepartureAndDestinationAndRouteIDNot(
                     route.getDeparture(), route.getDestination(), route.getRouteID()
             );
-            if (routeToBeEdited == null) {
-                routeToBeEdited = routeRepository.save(route);
-                return new ResponseEntity<>(routeToBeEdited, HttpStatus.OK);
+            if (conflictedRoute == null) {
+                try {
+                    Route routeToBeEdited = routeRepository.findById(route.getRouteID()).get();
+                    routeToBeEdited = routeRepository.save(route);
+                    return new ResponseEntity<>(routeToBeEdited, HttpStatus.OK);
+                } catch (Exception e) {
+                    logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
+                            route.getRouteID());
+                    throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+                }
+
             }else {
-                logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
-                        route.getRouteID());
-                throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+                logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
+                        route.getDeparture(), route.getDestination());
+                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
             }
 //        }
 
