@@ -10,6 +10,7 @@ export class AirportsHandleService{
   private airportsList !: string[];
   airportsListChange= new Subject<string[]>;
   constructor(private http:HttpClient) {}
+
   getAirportsList(){
     let airports = localStorage.getItem('airports');
     if (!airports){
@@ -19,8 +20,9 @@ export class AirportsHandleService{
       this.airportsList = airports ? JSON.parse(airports):[];
       return of(this.airportsList);
     }
-
   }
+
+
 
 
 }
