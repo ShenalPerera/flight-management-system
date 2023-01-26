@@ -61,11 +61,6 @@ public class FareService {
             ).collect(Collectors.toList());
     }
 
-    private boolean isDuplicate(String departure, String arrival) {
-        return this.fares.stream().anyMatch(data ->
-                departure.equalsIgnoreCase(data.getDeparture()) && arrival.equalsIgnoreCase(data.getArrival()));
-    }
-
     public Fare createFare(Fare fare) {
 
         validateInputs(fare);
@@ -102,6 +97,13 @@ public class FareService {
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
         return id;
+    }
+
+    // utility functions
+
+    private boolean isDuplicate(String departure, String arrival) {
+        return this.fares.stream().anyMatch(data ->
+                departure.equalsIgnoreCase(data.getDeparture()) && arrival.equalsIgnoreCase(data.getArrival()));
     }
 
     // validations
