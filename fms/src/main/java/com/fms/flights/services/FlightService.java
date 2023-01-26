@@ -1,5 +1,6 @@
 package com.fms.flights.services;
 
+import com.fms.flights.FlightRepositoryFMS;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.flights.models.Flight;
@@ -13,12 +14,14 @@ import java.util.List;
 @Service
 public class FlightService {
     private final FlightRepository flightRepository;
+    private final FlightRepositoryFMS flightRepositoryFMS;
     @Autowired
-    FlightService(FlightRepository flightRepository){
+    FlightService(FlightRepository flightRepository, FlightRepositoryFMS flightRepositoryFMS){
         this.flightRepository = flightRepository;
+        this.flightRepositoryFMS = flightRepositoryFMS;
     }
     public List<Flight> getAllFlights(){
-        return flightRepository.getAll();
+        return flightRepositoryFMS.findAll();
     }
 
     public List<Flight> getFilteredFlightsBySearchOptions(String flightNUmber,
@@ -34,7 +37,7 @@ public class FlightService {
 
     public Flight addNewFlight(Flight flight ){
         if (isFlightValid(flight)){
-            return flightRepository.addEntry(flight);
+            return flightRepositoryFMS.save(flight);
         }
         throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
@@ -62,8 +65,8 @@ public class FlightService {
         if (flight.getDeparture().equalsIgnoreCase(flight.getArrival())){
             throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
-        LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDeparture_date() +"T" + flight.getDeparture_time());
-        LocalDateTime arrivalDateNTime = LocalDateTime.parse(flight.getArrival_date() + "T" + flight.getArrival_time());
+        LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDepartureDate() +"T" + flight.getDepartureTime());
+        LocalDateTime arrivalDateNTime = LocalDateTime.parse(flight.getArrivalDate() + "T" + flight.getArrivalTime());
 
         if (departureDateNTime.isAfter(arrivalDateNTime) || departureDateNTime.isEqual(arrivalDateNTime)){
             throw new FMSException(HttpStatusCodesFMS.INVALID_DEPARTURE_AND_ARRIVAL_DATE);
@@ -72,6 +75,13 @@ public class FlightService {
 
     private boolean isFlightValid(Flight flight){
         validateFlightEntryFields(flight);
-        return flightRepository.getFlightsByFlightNumberNDepartureDate(flight).isEmpty();
+
+        List<Flight> filteredFlights = this.flightRepositoryFMS.findAllByFlightNumberAndDepartureDateAndIdNot(
+                flight.getFlightNumber(),
+                flight.getDepartureDate(),
+                flight.getId()
+        );
+
+        return filteredFlights.isEmpty();
     }
 }

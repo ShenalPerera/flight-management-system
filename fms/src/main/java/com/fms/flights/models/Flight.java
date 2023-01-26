@@ -1,27 +1,82 @@
 package com.fms.flights.models;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity(name = "Flight")
+@Table
 public class Flight {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "flight_id", updatable = false, nullable = false)
     private String id;
-    private String flight_number;
-    private String arrival;
+
+    @Column(
+            name = "flight_number",
+            nullable = false,
+            columnDefinition = "CHAR(4)"
+    )
+    private String flightNumber;
+
+    @Column(
+            name = "departure",
+            nullable = false,
+            columnDefinition = "VARCHAR(20)"
+    )
     private String departure;
-    private String arrival_date;
-    private String departure_date;
-    private String arrival_time;
 
-    private String departure_time;
+    @Column(
+            name = "arrival",
+            nullable = false,
+            columnDefinition = "VARCHAR(20)"
+    )
+    private String arrival;
 
-    public Flight(String id, String flight_number, String arrival, String departure, String arrival_date, String departure_date, String arrival_time, String departure_time) {
+    @Column(
+            name = "departure_date",
+            nullable = false,
+            columnDefinition = "DATE"
+    )
+    private String departureDate;
+
+    @Column(
+            name = "arrival_date",
+            nullable = false,
+            columnDefinition = "DATE"
+    )
+    private String arrivalDate;
+
+
+    @Column(
+            name = "departure_time",
+            nullable = false,
+            columnDefinition = "TIME"
+    )
+    private String departureTime;
+
+
+    @Column(
+            name = "arrival_time",
+            nullable = false,
+            columnDefinition = "TIME"
+    )
+    private String arrivalTime;
+
+
+    public Flight(String id, String flightNumber, String arrival, String departure, String arrivalDate, String departureDate, String arrivalTime, String departureTime) {
         this.id = id;
-        this.flight_number = flight_number;
+        this.flightNumber = flightNumber;
         this.arrival = arrival;
         this.departure = departure;
-        this.arrival_date = arrival_date;
-        this.departure_date = departure_date;
-        this.arrival_time = arrival_time;
-        this.departure_time = departure_time;
+        this.arrivalDate = arrivalDate;
+        this.departureDate = departureDate;
+        this.arrivalTime = arrivalTime;
+        this.departureTime = departureTime;
+    }
+
+    public Flight() {
+
     }
 
     public String getId() {
@@ -32,12 +87,12 @@ public class Flight {
         this.id = id;
     }
 
-    public String getFlight_number() {
-        return flight_number;
+    public String getFlightNumber() {
+        return flightNumber;
     }
 
-    public void setFlight_number(String flight_number) {
-        this.flight_number = flight_number;
+    public void setFlightNumber(String flight_number) {
+        this.flightNumber = flight_number;
     }
 
     public String getArrival() {
@@ -56,36 +111,36 @@ public class Flight {
         this.departure = departure;
     }
 
-    public String getArrival_date() {
-        return arrival_date;
+    public String getArrivalDate() {
+        return arrivalDate;
     }
 
-    public void setArrival_date(String arrival_date) {
-        this.arrival_date = arrival_date;
+    public void setArrivalDate(String arrival_date) {
+        this.arrivalDate = arrival_date;
     }
 
-    public String getDeparture_date() {
-        return departure_date;
+    public String getDepartureDate() {
+        return departureDate;
     }
 
-    public void setDeparture_date(String departure_date) {
-        this.departure_date = departure_date;
+    public void setDepartureDate(String departure_date) {
+        this.departureDate = departure_date;
     }
 
-    public String getArrival_time() {
-        return arrival_time;
+    public String getArrivalTime() {
+        return arrivalTime;
     }
 
-    public void setArrival_time(String arrival_time) {
-        this.arrival_time = arrival_time;
+    public void setArrivalTime(String arrival_time) {
+        this.arrivalTime = arrival_time;
     }
 
-    public String getDeparture_time() {
-        return departure_time;
+    public String getDepartureTime() {
+        return departureTime;
     }
 
-    public void setDeparture_time(String departure_time) {
-        this.departure_time = departure_time;
+    public void setDepartureTime(String departure_time) {
+        this.departureTime = departure_time;
     }
 
     @Override
@@ -100,19 +155,19 @@ public class Flight {
     public String toString() {
         return "Flight{" +
                 "id='" + id + '\'' +
-                ", flight_number='" + flight_number + '\'' +
+                ", flight_number='" + flightNumber + '\'' +
                 ", arrival='" + arrival + '\'' +
                 ", departure='" + departure + '\'' +
-                ", arrival_date='" + arrival_date + '\'' +
-                ", departure_date='" + departure_date + '\'' +
-                ", arrival_time='" + arrival_time + '\'' +
-                ", departure_time='" + departure_time + '\'' +
+                ", arrival_date='" + arrivalDate + '\'' +
+                ", departure_date='" + departureDate + '\'' +
+                ", arrival_time='" + arrivalTime + '\'' +
+                ", departure_time='" + departureTime + '\'' +
                 '}';
     }
 
     public boolean isContainsEmptyFields(){
-        return id.isBlank() || flight_number.isBlank() || arrival.isBlank() || departure.isBlank() || arrival_date.isBlank()||
-                arrival_time.isBlank() || departure_date.isBlank() || departure_time.isBlank();
+        return id.isBlank() || flightNumber.isBlank() || arrival.isBlank() || departure.isBlank() || arrivalDate.isBlank()||
+                arrivalTime.isBlank() || departureDate.isBlank() || departureTime.isBlank();
     }
 
 }
