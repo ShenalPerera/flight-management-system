@@ -106,6 +106,10 @@ public class RoutesService {
         return matchedRoute;
     }
 
+//    public Route getTheLocationsMatchedRoute(Route route) {
+//        Route = routeRepository.
+//    }
+
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
@@ -130,26 +134,35 @@ public class RoutesService {
     public ResponseEntity<Route> editRoute(Route route) {
         checkInputFields(route);
 
-        Route routeToBeEdited = getThePossibleRouteToEdit(route);
+        // create a method to check the existing departure and destination
+//        Route routeToBeEdited = getThePossibleRouteToEdit(route);
+//        try {
+            Route routeToBeEdited = routeRepository.findFirstByDepartureAndDestinationAndRouteIDNot(
+                    route.getDeparture(), route.getDestination(), route.getRouteID()
+            );
+            if (routeToBeEdited == null) {
+                routeToBeEdited = routeRepository.save(route);
+                return new ResponseEntity<>(routeToBeEdited, HttpStatus.OK);
+            }else {
+                logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
+                        route.getRouteID());
+                throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+            }
+//        }
 
-        if (routeToBeEdited != null) {
-
-            // update in the database
-            Route toBeEdited = routeRepository.findById(route.getRouteID()).get();
-            toBeEdited.setDeparture(route.getDeparture());
-            toBeEdited.setDestination(route.getDestination());
-            toBeEdited.setMileage(route.getMileage());
-            toBeEdited.setDurationH(route.getDurationH());
-
-            routeRepository.save(toBeEdited);
-
-            return new ResponseEntity<>(
-                    updateTheRouteContent(routeToBeEdited, route),
-                    HttpStatus.OK);
-        }
-        logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
-                route.getRouteID());
-        throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+//        if (routeToBeEdited != null) {
+//            try {
+//                Route editedRoute = routeRepository.save(route);
+//                return new ResponseEntity<>(editedRoute, HttpStatus.OK);
+//            }catch (Exception e) {
+//                logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
+//                        route.getRouteID());
+//                throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+//            }
+//        }
+//        logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
+//                route.getRouteID());
+//        throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
