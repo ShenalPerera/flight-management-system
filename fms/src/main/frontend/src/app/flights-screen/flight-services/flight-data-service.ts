@@ -58,10 +58,10 @@ export class FlightDataService {
   checkEntryValid(oId: string, flight_number: string, departure_date: string): boolean {
 
     for (let flight of this.flights) {
-      let departureDateNTime = new Date(flight.departure_date + "T" + flight.departure_time);
+      let departureDateNTime = new Date(flight.departureDate + "T" + flight.departureTime);
       let departureDateNTimeArg = new Date(departure_date);
 
-      if (flight.flight_number === flight_number && flight.id !== oId && departureDateNTimeArg.getTime() === departureDateNTime.getTime()) {
+      if (flight.flightNumber === flight_number && flight.id !== oId && departureDateNTimeArg.getTime() === departureDateNTime.getTime()) {
         return false;
       }
     }

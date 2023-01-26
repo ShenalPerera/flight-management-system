@@ -95,11 +95,11 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     this.isEditMode = true;
     this.formTempData = {
       'oId': flight.id,
-      'oFlightNumber': flight.flight_number,
+      'oFlightNumber': flight.flightNumber,
       'oArrival': flight.arrival,
       'oDeparture': flight.departure,
-      'oArrivalDateNTime': flight.arrival_date + "T" + flight.arrival_time,
-      'oDepartureDateNTime': flight.departure_date + "T" + flight.departure_time,
+      'oArrivalDateNTime': flight.arrivalDate + "T" + flight.arrivalTime,
+      'oDepartureDateNTime': flight.departureDate + "T" + flight.departureTime,
     }
     this.overlayForm.reset(this.formTempData);
     this.isOverlayShow = !this.isOverlayShow;
