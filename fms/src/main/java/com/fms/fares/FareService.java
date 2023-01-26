@@ -6,18 +6,17 @@ import com.fms.fares.models.Fare;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
 public class FareService {
     private final List<String> locations;
     private List<Fare> fares;
-    private int length;
     private final Logger logger;
     private final FareRepository fareRepository;
 
@@ -46,8 +45,6 @@ public class FareService {
         this.fares.add(new Fare(8, "dubai", "london", 80));
         this.fares.add(new Fare(9, "paris", "sydney", 185));
         this.fares.add(new Fare(10, "new york", "paris", 135));
-
-        this.length = fares.size();
     }
 
     public List<String> getLocations() {
@@ -66,49 +63,38 @@ public class FareService {
     }
 
     public Fare createFare(Fare fare) {
-
         validateInputs(fare);
         checkMissingData(fare);
         checkDuplicateFares(fare);
-
-        Fare newEntry = new Fare(fare.getDeparture(), fare.getArrival(), fare.getFare());
-        this.fares.add(newEntry);
-        this.fareRepository.save(newEntry);
-        return newEntry;
+        return this.fareRepository.save(fare);
     }
 
     public Fare editFare(Fare userFare) {
-
         validateInputs(userFare);
         checkMissingDataWithId(userFare);
-
-        AtomicReference<Fare> searchedFare = new AtomicReference<>(new Fare());
-        this.fares.forEach(data -> {
-            checkDuplicateFaresWithId(userFare, data);
-            if (data.getId() == userFare.getId())
-                searchedFare.set(data);
-        });
-        checkObjectExistence(userFare, searchedFare);
-
-        searchedFare.get().setDeparture(userFare.getDeparture());
-        searchedFare.get().setArrival(userFare.getArrival());
-        searchedFare.get().setFare(userFare.getFare());
+        checkDuplicateFaresWithId(userFare);
+        checkObjectExistence(userFare);
+        this.fareRepository.save(userFare);
         return userFare;
     }
 
     public int deleteFare(int id) {
-        if (!this.fares.removeIf(data -> data.getId() == id)) {
+        try {
+            this.fareRepository.deleteById(id);
+            return id;
+        } catch (EmptyResultDataAccessException e) {
             logger.error("an entry doesn't exist for the given id [{}]", id);
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
-        return id;
     }
 
     // utility functions
 
     private boolean isDuplicate(String departure, String arrival) {
-        return this.fares.stream().anyMatch(data ->
-                departure.equalsIgnoreCase(data.getDeparture()) && arrival.equalsIgnoreCase(data.getArrival()));
+        return this.fareRepository.findFirstByDepartureAndArrival(departure, arrival) != null;
+    }
+    private boolean isDuplicateWithId(String departure, String arrival, int id) {
+        return this.fareRepository.findFirstByDepartureAndArrivalAndIdNot(departure, arrival, id) != null;
     }
 
     // validations
@@ -154,10 +140,8 @@ public class FareService {
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
-    private void checkDuplicateFaresWithId(Fare givenFare, Fare fareInDatabase) {
-        if (givenFare.getDeparture().equalsIgnoreCase(fareInDatabase.getDeparture())
-                && givenFare.getArrival().equalsIgnoreCase(fareInDatabase.getArrival())
-                && (fareInDatabase.getId() != givenFare.getId())) {
+    private void checkDuplicateFaresWithId(Fare fare) {
+        if (isDuplicateWithId(fare.getDeparture(), fare.getArrival(), fare.getId())) {
             logger.error("a duplicate fare exists for the given inputs");
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
@@ -169,9 +153,9 @@ public class FareService {
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
     }
-    private void checkObjectExistence(Fare userFare, AtomicReference<Fare> searchedFare) {
-        if (searchedFare.get().getId() != userFare.getId()) {
-            logger.error("an fare doesn't exist for the given id [{}]", userFare.getId());
+    private void checkObjectExistence(Fare userFare) {
+        if (!this.fareRepository.existsById(userFare.getId())) {
+            logger.error("a fare doesn't exist for the given id [{}]", userFare.getId());
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }
