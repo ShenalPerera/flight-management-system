@@ -1,6 +1,11 @@
 package com.fms.routes.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Route {
+    @Id
     int routeID;
     String departure;
     String destination;

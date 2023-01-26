@@ -3,8 +3,10 @@ package com.fms.routes.services;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.routes.models.Route;
+import com.fms.routes.repositories.RouteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,22 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoutesService {
+
     static int UNIQUE_ROUTE_ID;
     List<Route> INITIAL_ROUTES = new ArrayList<>();
 
     private final Logger logger;
-    public RoutesService() {
+
+    private RouteRepository routeRepository;
+
+    @Autowired
+    public RoutesService(RouteRepository routeRepository) {
+
+        this.routeRepository = routeRepository;
+
+
+        routeRepository.save(new Route(44, "testDeparture", "testDestination", 10, 10));
+
         INITIAL_ROUTES.add(new Route(1, "sri lanka", "india", 12.4, 2.5));
         INITIAL_ROUTES.add(new Route(2, "usa", "dubai", 15.4, 22.5));
         INITIAL_ROUTES.add(new Route(3, "mexico", "germany", 15.4, 22.5));
