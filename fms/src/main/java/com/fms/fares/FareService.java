@@ -5,6 +5,7 @@ import com.fms.exceptions.FMSException;
 import com.fms.fares.models.Fare;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,9 +19,12 @@ public class FareService {
     private List<Fare> fares;
     private int length;
     private final Logger logger;
+    private final FareRepository fareRepository;
 
-    public FareService() {
+    @Autowired
+    public FareService(FareRepository fareRepository) {
         this.logger = LoggerFactory.getLogger(FareService.class);
+        this.fareRepository = fareRepository;
 
         this.locations = new ArrayList<>();
         this.locations.add("colombo");
@@ -67,8 +71,9 @@ public class FareService {
         checkMissingData(fare);
         checkDuplicateFares(fare);
 
-        Fare newEntry = new Fare(++this.length, fare.getDeparture(), fare.getArrival(), fare.getFare());
+        Fare newEntry = new Fare(fare.getDeparture(), fare.getArrival(), fare.getFare());
         this.fares.add(newEntry);
+        this.fareRepository.save(newEntry);
         return newEntry;
     }
 
