@@ -117,6 +117,10 @@ public class RoutesService {
         checkDuplicatesWhenCreating(route.getDeparture(), route.getDestination());
 
         route.setRouteID(++UNIQUE_ROUTE_ID);
+
+        // save in the database
+        routeRepository.save(route);
+
         INITIAL_ROUTES.add(route);
         return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.CREATED);
 
