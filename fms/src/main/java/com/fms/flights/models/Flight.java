@@ -10,7 +10,7 @@ public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "flight_id", updatable = false, nullable = false)
-    private String id;
+    private String flightId;
 
     @Column(
             name = "flight_number",
@@ -64,8 +64,8 @@ public class Flight {
     private String arrivalTime;
 
 
-    public Flight(String id, String flightNumber, String arrival, String departure, String arrivalDate, String departureDate, String arrivalTime, String departureTime) {
-        this.id = id;
+    public Flight(String flightId, String flightNumber, String arrival, String departure, String arrivalDate, String departureDate, String arrivalTime, String departureTime) {
+        this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.arrival = arrival;
         this.departure = departure;
@@ -79,12 +79,12 @@ public class Flight {
 
     }
 
-    public String getId() {
-        return id;
+    public String getFlightId() {
+        return flightId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setFlightId(String id) {
+        this.flightId = id;
     }
 
     public String getFlightNumber() {
@@ -148,13 +148,13 @@ public class Flight {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Flight flight = (Flight) o;
-        return Objects.equals(id, flight.id);
+        return Objects.equals(flightId, flight.flightId);
     }
 
     @Override
     public String toString() {
         return "Flight{" +
-                "id='" + id + '\'' +
+                "id='" + flightId + '\'' +
                 ", flight_number='" + flightNumber + '\'' +
                 ", arrival='" + arrival + '\'' +
                 ", departure='" + departure + '\'' +
@@ -166,7 +166,7 @@ public class Flight {
     }
 
     public boolean isContainsEmptyFields(){
-        return id.isBlank() || flightNumber.isBlank() || arrival.isBlank() || departure.isBlank() || arrivalDate.isBlank()||
+        return flightId.isBlank() || flightNumber.isBlank() || arrival.isBlank() || departure.isBlank() || arrivalDate.isBlank()||
                 arrivalTime.isBlank() || departureDate.isBlank() || departureTime.isBlank();
     }
 

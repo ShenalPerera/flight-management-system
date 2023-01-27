@@ -1,6 +1,6 @@
 export class Flight{
 
-  public id: string | undefined;
+  public flightId: string | undefined;
   public flightNumber: string | undefined;
   public arrival: string | undefined;
   public departure: string | undefined;
@@ -20,7 +20,7 @@ export class Flight{
     this.departureDate = departure_date;
     this.arrivalTime = arrival_time;
     this.departureTime =departure_time;
-    this.id = id
+    this.flightId = id
   }
 
 

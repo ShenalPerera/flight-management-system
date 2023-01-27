@@ -20,7 +20,7 @@ export class FlightItemComponent implements OnInit{
 
   onClickDelete(){
     if (confirm("Are you sure you want to delete this entry?" )){
-      this.flightDeleted.emit(this.flight.id);
+      this.flightDeleted.emit(this.flight.flightId);
     }
 
   }

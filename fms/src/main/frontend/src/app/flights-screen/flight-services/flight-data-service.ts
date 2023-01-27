@@ -61,7 +61,7 @@ export class FlightDataService {
       let departureDateNTime = new Date(flight.departureDate + "T" + flight.departureTime);
       let departureDateNTimeArg = new Date(departure_date);
 
-      if (flight.flightNumber === flight_number && flight.id !== oId && departureDateNTimeArg.getTime() === departureDateNTime.getTime()) {
+      if (flight.flightNumber === flight_number && flight.flightId !== oId && departureDateNTimeArg.getTime() === departureDateNTime.getTime()) {
         return false;
       }
     }

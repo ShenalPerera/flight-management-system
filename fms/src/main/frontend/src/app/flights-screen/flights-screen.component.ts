@@ -94,7 +94,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   onEditFlight(flight: Flight) {
     this.isEditMode = true;
     this.formTempData = {
-      'oId': flight.id,
+      'oId': flight.flightId,
       'oFlightNumber': flight.flightNumber,
       'oArrival': flight.arrival,
       'oDeparture': flight.departure,
