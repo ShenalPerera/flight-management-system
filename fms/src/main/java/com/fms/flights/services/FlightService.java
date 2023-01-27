@@ -6,12 +6,12 @@ import com.fms.exceptions.FMSException;
 import com.fms.flights.models.Flight;
 import com.fms.flights.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
 @Service
 public class FlightService {
     private final FlightRepository flightRepository;
@@ -50,12 +50,14 @@ public class FlightService {
         throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 
-    public Flight deleteFlight(String flightId){
-        Flight flight = flightRepository.deleteEntryById(flightId);
-        if (flight == null){
+    public boolean deleteFlight(String flightId){
+        try {
+            flightRepositoryFMS.deleteById(flightId);
+            return true;
+        }
+        catch (EmptyResultDataAccessException e){
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
-        return flight;
     }
 
 
