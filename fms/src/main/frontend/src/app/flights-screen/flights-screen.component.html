@@ -141,7 +141,6 @@
         <mat-form-field class="form-field-full-width">
           <mat-label>Departure</mat-label>
             <select matNativeControl  formControlName="oDeparture"  >
-              <option value="" selected></option>
               <option *ngFor="let airport of airports" [value]="airport">
                 {{airport | titlecase }}
               </option>
@@ -157,7 +156,6 @@
         <mat-form-field class="form-field-full-width">
           <mat-label>Arrival</mat-label>
             <select matNativeControl  formControlName="oArrival"  >
-              <option value="" selected></option>
               <option *ngFor="let airport of airports" [value]="airport">
                 {{airport | titlecase }}
               </option>
