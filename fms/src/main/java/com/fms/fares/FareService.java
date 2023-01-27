@@ -7,11 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FareService {
@@ -19,11 +20,17 @@ public class FareService {
     private List<Fare> fares;
     private final Logger logger;
     private final FareRepository fareRepository;
+    private final JdbcTemplate jdbcTemplate;
+    private final String FIND_ALL_QUERY = "SELECT * FROM fare;";
+    private final String FIND_ALL_BY_DEPARTURE_QUERY = "SELECT * FROM fare WHERE departure = ?;";
+    private final String FIND_ALL_BY_ARRIVAL_QUERY = "SELECT * FROM fare WHERE arrival = ?;";
+    private final String FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY = "SELECT * FROM fare WHERE departure = ? AND arrival = ?;";
 
     @Autowired
-    public FareService(FareRepository fareRepository) {
+    public FareService(FareRepository fareRepository, JdbcTemplate jdbcTemplate) {
         this.logger = LoggerFactory.getLogger(FareService.class);
         this.fareRepository = fareRepository;
+        this.jdbcTemplate = jdbcTemplate;
 
         this.locations = new ArrayList<>();
         this.locations.add("colombo");
@@ -52,14 +59,20 @@ public class FareService {
     }
 
     public List<Fare> getSearchedFares(String departure, String arrival) {
+        RowMapper<Fare> rowMapper = (resultSet, rowNum) -> new Fare(
+                resultSet.getInt("id"),
+                resultSet.getString("departure"),
+                resultSet.getString("arrival"),
+                resultSet.getDouble("fare")
+        );
         if (departure.isEmpty() && arrival.isEmpty())
-            return fares;
+            return jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
+        else if (arrival.isEmpty())
+            return jdbcTemplate.query(FIND_ALL_BY_DEPARTURE_QUERY, rowMapper, departure);
+        else if (departure.isEmpty())
+            return jdbcTemplate.query(FIND_ALL_BY_ARRIVAL_QUERY, rowMapper, arrival);
         else
-            return this.fares.stream().filter(data ->
-                    (departure.equalsIgnoreCase(data.getDeparture()) && arrival.equalsIgnoreCase(data.getArrival()))
-                            || (departure.isEmpty() && arrival.equalsIgnoreCase(data.getArrival()))
-                            || (departure.equalsIgnoreCase(data.getDeparture()) && arrival.isEmpty())
-            ).collect(Collectors.toList());
+            return jdbcTemplate.query(FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY, rowMapper, departure, arrival);
     }
 
     public Fare createFare(Fare fare) {
