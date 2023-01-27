@@ -1,11 +1,14 @@
 package com.fms.routes.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Route {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int routeID;
     String departure;
     String destination;

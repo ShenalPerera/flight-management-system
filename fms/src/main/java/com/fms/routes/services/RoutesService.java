@@ -41,16 +41,16 @@ public class RoutesService {
         this.routeRepository = routeRepository;
         this.jdbcTemplate = jdbcTemplate;
 
-        routeRepository.save(new Route(44, "testDeparture", "testDestination", 10, 10));
-
-        INITIAL_ROUTES.add(new Route(1, "sri lanka", "india", 12.4, 2.5));
-        INITIAL_ROUTES.add(new Route(2, "usa", "dubai", 15.4, 22.5));
-        INITIAL_ROUTES.add(new Route(3, "mexico", "germany", 15.4, 22.5));
-        INITIAL_ROUTES.add(new Route(4, "jordan", "usa", 15.4, 22.5));
-        INITIAL_ROUTES.add(new Route(5, "uk", "canada", 15.4, 22.5));
+//        routeRepository.save(new Route(44, "testDeparture", "testDestination", 10, 10));
+//
+//        INITIAL_ROUTES.add(new Route(1, "sri lanka", "india", 12.4, 2.5));
+//        INITIAL_ROUTES.add(new Route(2, "usa", "dubai", 15.4, 22.5));
+//        INITIAL_ROUTES.add(new Route(3, "mexico", "germany", 15.4, 22.5));
+//        INITIAL_ROUTES.add(new Route(4, "jordan", "usa", 15.4, 22.5));
+//        INITIAL_ROUTES.add(new Route(5, "uk", "canada", 15.4, 22.5));
 
         this.logger = LoggerFactory.getLogger(RoutesService.class);
-        UNIQUE_ROUTE_ID = INITIAL_ROUTES.size();
+//        UNIQUE_ROUTE_ID = INITIAL_ROUTES.size();
     }
 
     // ******************************************** HELPER METHODS *****************************************************
@@ -152,13 +152,13 @@ public class RoutesService {
 //        checkDuplicatesWhenCreating(route.getDeparture(), route.getDestination());
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
-            route.setRouteID(++UNIQUE_ROUTE_ID);
+//            route.setRouteID(++UNIQUE_ROUTE_ID);
 
             // save in the database
             routeRepository.save(route);
 
             INITIAL_ROUTES.add(route);
-            return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
                     route.getDeparture(), route.getDestination());
