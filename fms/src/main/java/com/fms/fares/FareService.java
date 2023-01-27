@@ -18,10 +18,6 @@ public class FareService {
     private final Logger logger;
     private final FareRepository fareRepository;
     private final JdbcTemplate jdbcTemplate;
-    private final String FIND_ALL_QUERY = "SELECT * FROM fare;";
-    private final String FIND_ALL_BY_DEPARTURE_QUERY = "SELECT * FROM fare WHERE departure = ?;";
-    private final String FIND_ALL_BY_ARRIVAL_QUERY = "SELECT * FROM fare WHERE arrival = ?;";
-    private final String FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY = "SELECT * FROM fare WHERE departure = ? AND arrival = ?;";
 
     @Autowired
     public FareService(FareRepository fareRepository, JdbcTemplate jdbcTemplate) {
@@ -31,41 +27,45 @@ public class FareService {
     }
 
     public List<Fare> getSearchedFares(String departure, String arrival) {
+
+        String FIND_ALL_QUERY = "SELECT * FROM fare;";
+        String FIND_ALL_BY_DEPARTURE_QUERY = "SELECT * FROM fare WHERE departure = ?;";
+        String FIND_ALL_BY_ARRIVAL_QUERY = "SELECT * FROM fare WHERE arrival = ?;";
+        String FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY = "SELECT * FROM fare WHERE departure = ? AND arrival = ?;";
+
         RowMapper<Fare> rowMapper = (resultSet, rowNum) -> new Fare(
                 resultSet.getInt("id"),
                 resultSet.getString("departure"),
                 resultSet.getString("arrival"),
                 resultSet.getDouble("fare")
         );
+
         if (departure.isEmpty() && arrival.isEmpty())
             return jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        else if (arrival.isEmpty())
+        if (arrival.isEmpty())
             return jdbcTemplate.query(FIND_ALL_BY_DEPARTURE_QUERY, rowMapper, departure);
-        else if (departure.isEmpty())
+        if (departure.isEmpty())
             return jdbcTemplate.query(FIND_ALL_BY_ARRIVAL_QUERY, rowMapper, arrival);
-        else
-            return jdbcTemplate.query(FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY, rowMapper, departure, arrival);
+        return jdbcTemplate.query(FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY, rowMapper, departure, arrival);
     }
 
     public Fare createFare(Fare fare) {
         validateInputs(fare);
         checkMissingData(fare);
         checkDuplicateFares(fare);
-        return this.fareRepository.save(fare);
+        return fareRepository.save(fare);
     }
 
     public Fare editFare(Fare userFare) {
         validateInputs(userFare);
         checkMissingDataWithId(userFare);
-        checkDuplicateFaresWithId(userFare);
-        checkObjectExistence(userFare);
-        this.fareRepository.save(userFare);
-        return userFare;
+        checkDuplicateFaresAndExistence(userFare);
+        return fareRepository.save(userFare);
     }
 
     public int deleteFare(int id) {
         try {
-            this.fareRepository.deleteById(id);
+            fareRepository.deleteById(id);
             return id;
         } catch (EmptyResultDataAccessException e) {
             logger.error("an entry doesn't exist for the given id [{}]", id);
@@ -76,10 +76,10 @@ public class FareService {
     // utility functions
 
     private boolean isDuplicate(String departure, String arrival) {
-        return this.fareRepository.findFirstByDepartureAndArrival(departure, arrival) != null;
+        return fareRepository.findFirstByDepartureAndArrival(departure, arrival) != null;
     }
-    private boolean isDuplicateWithId(String departure, String arrival, int id) {
-        return this.fareRepository.findFirstByDepartureAndArrivalAndIdNot(departure, arrival, id) != null;
+    private List<Fare> getFaresForValidation(String departure, String arrival, int id) {
+        return fareRepository.findByDepartureAndArrivalOrId(departure, arrival, id);
     }
 
     // validations
@@ -125,10 +125,15 @@ public class FareService {
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
-    private void checkDuplicateFaresWithId(Fare fare) {
-        if (isDuplicateWithId(fare.getDeparture(), fare.getArrival(), fare.getId())) {
+    private void checkDuplicateFaresAndExistence(Fare fare) {
+        List<Fare> fareList = getFaresForValidation(fare.getDeparture(), fare.getArrival(), fare.getId());
+        if (fareList.size() > 1) {
             logger.error("a duplicate fare exists for the given inputs");
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        }
+        if (fareList.isEmpty() || (fareList.get(0).getId() != fare.getId())) {
+            logger.error("a fare doesn't exist for the given id [{}]", fare.getId());
+            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }
     private void checkEmptyStrings(Fare fare) {
@@ -136,12 +141,6 @@ public class FareService {
             logger.error("the query contains empty strings | departure [{}], arrival [{}]",
                     fare.getDeparture(), fare.getArrival());
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
-        }
-    }
-    private void checkObjectExistence(Fare userFare) {
-        if (!this.fareRepository.existsById(userFare.getId())) {
-            logger.error("a fare doesn't exist for the given id [{}]", userFare.getId());
-            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }
 }
