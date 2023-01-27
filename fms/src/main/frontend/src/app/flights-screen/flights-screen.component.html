@@ -1,13 +1,21 @@
 <div class="search-filter" >
-  <form #searchFilterForm="ngForm" class="search-form">
+  <form #searchFilterForm="ngForm" class="search-form" [hidden]="!airports">
     <mat-form-field appearance="fill">
       <mat-label>Flight number</mat-label>
-      <input type="text" name="fNumber" matInput [ngModel] = "searchOptions.flight_number">
+      <input
+        type="text"
+        name="fNumber"
+        matInput
+        [ngModel] = "searchOptions.flight_number"
+        maxLength="4"
+        minlength="4"
+        pattern="^[A-Za-z]{3}[0-9]{1}$"
+      >
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Departure</mat-label>
-      <select matNativeControl [ngModel]="searchOptions.departure" name="fDeparture" >
+      <select matNativeControl [ngModel]="searchOptions.departure" name="fDeparture"  >
         <option value="" selected></option>
         <option *ngFor="let airport of airports" [value]="airport">
           {{airport | titlecase }}
@@ -17,7 +25,12 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Arrival</mat-label>
-      <input type="text" name="fArrival" matInput  [ngModel] = "searchOptions.arrival" >
+      <select matNativeControl [ngModel]="searchOptions.departure" name="fArrival" >
+        <option value="" selected></option>
+        <option *ngFor="let airport of airports" [value]="airport">
+          {{airport | titlecase }}
+        </option>
+      </select>
     </mat-form-field>
 
 
@@ -109,6 +122,8 @@
           <input matInput
                  value=""
                  formControlName = "oFlightNumber"
+                 maxlength="4"
+                 minlength="4"
                   >
         </mat-form-field>
 
@@ -122,11 +137,12 @@
 
         <mat-form-field class="form-field-full-width">
           <mat-label>Departure</mat-label>
-          <input  matInput
-                  value=""
-                  formControlName ="oDeparture"
-          >
-
+            <select matNativeControl  name="oDeparture"  >
+              <option value="" selected></option>
+              <option *ngFor="let airport of airports" [value]="airport">
+                {{airport | titlecase }}
+              </option>
+            </select>
         </mat-form-field>
         <br>
 
@@ -137,10 +153,12 @@
 
         <mat-form-field class="form-field-full-width">
           <mat-label>Arrival</mat-label>
-          <input  matInput
-                  value=""
-                  formControlName = "oArrival"
-                  >
+            <select matNativeControl  name="oArrival"  >
+              <option value="" selected></option>
+              <option *ngFor="let airport of airports" [value]="airport">
+                {{airport | titlecase }}
+              </option>
+            </select>
         </mat-form-field>
         <br>
 

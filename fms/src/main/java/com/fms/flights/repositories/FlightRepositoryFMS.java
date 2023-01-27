@@ -1,4 +1,4 @@
-package com.fms.flights;
+package com.fms.flights.repositories;
 
 import com.fms.flights.models.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;

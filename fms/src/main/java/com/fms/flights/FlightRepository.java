@@ -2,12 +2,9 @@ package com.fms.flights;
 
 import com.fms.flights.models.Flight;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 @Component
 public class FlightRepository {
@@ -19,44 +16,44 @@ public class FlightRepository {
     }
 
 
-    public List<Flight> getAll() {
-        return flights;
-    }
-
-    public Flight addEntry(Flight flight) {
-        flights.add(flight);
-        return flight;
-    }
-
-    public Flight deleteEntryById(String id) {
-        Flight deletedFlight = flights.stream().filter(flight -> Objects.equals(flight.getId(), id)).findFirst().orElse(null);
-        boolean isDeleted = flights.remove(deletedFlight);
-        if (isDeleted) {
-            return deletedFlight;
-        }
-        return null;
-    }
-
-    public Flight editFlight(Flight editedFlight) {
-        try {
-            return flights.set(flights.indexOf(editedFlight), editedFlight);
-        } catch (IndexOutOfBoundsException e) {
-            return null;
-        }
-
-    }
-
-    public List<Flight> getFlightsByFlightNumberNDepartureDate(Flight flight) {
-        LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDepartureDate() + "T" + flight.getDepartureTime());
-
-        return flights.stream().filter(flightEntry ->
-                        Objects.equals(flightEntry.getFlightNumber(), flight.getFlightNumber()) &&
-                                departureDateNTime.isEqual(LocalDateTime.parse(flightEntry.getDepartureDate() + "T" + flightEntry.getDepartureTime())) &&
-                                !Objects.equals(flightEntry.getId(), flight.getId())
-
-                ).
-                collect(Collectors.toList());
-    }
+//    public List<Flight> getAll() {
+//        return flights;
+//    }
+//
+//    public Flight addEntry(Flight flight) {
+//        flights.add(flight);
+//        return flight;
+//    }
+//
+//    public Flight deleteEntryById(String id) {
+//        Flight deletedFlight = flights.stream().filter(flight -> Objects.equals(flight.getId(), id)).findFirst().orElse(null);
+//        boolean isDeleted = flights.remove(deletedFlight);
+//        if (isDeleted) {
+//            return deletedFlight;
+//        }
+//        return null;
+//    }
+//
+//    public Flight editFlight(Flight editedFlight) {
+//        try {
+//            return flights.set(flights.indexOf(editedFlight), editedFlight);
+//        } catch (IndexOutOfBoundsException e) {
+//            return null;
+//        }
+//
+//    }
+//
+//    public List<Flight> getFlightsByFlightNumberNDepartureDate(Flight flight) {
+//        LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDepartureDate() + "T" + flight.getDepartureTime());
+//
+//        return flights.stream().filter(flightEntry ->
+//                        Objects.equals(flightEntry.getFlightNumber(), flight.getFlightNumber()) &&
+//                                departureDateNTime.isEqual(LocalDateTime.parse(flightEntry.getDepartureDate() + "T" + flightEntry.getDepartureTime())) &&
+//                                !Objects.equals(flightEntry.getId(), flight.getId())
+//
+//                ).
+//                collect(Collectors.toList());
+//    }
 
     public List<Flight> getFLightsByParameters(Flight flight) {
         List<Flight> filteredFlights = new ArrayList<>();

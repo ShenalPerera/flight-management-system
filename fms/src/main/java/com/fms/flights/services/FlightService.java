@@ -1,6 +1,6 @@
 package com.fms.flights.services;
 
-import com.fms.flights.FlightRepositoryFMS;
+import com.fms.flights.repositories.FlightRepositoryFMS;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.flights.models.Flight;

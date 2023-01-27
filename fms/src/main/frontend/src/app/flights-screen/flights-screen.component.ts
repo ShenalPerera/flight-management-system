@@ -59,7 +59,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
 
     this.overlayForm = new FormGroup({
       'oId': new FormControl(null),
-      'oFlightNumber': new FormControl(null, Validators.required),
+      'oFlightNumber': new FormControl(null, [Validators.required,Validators.pattern("^[A-Za-z]{3}[0-9]{1}$")]),
       'oArrival': new FormControl(null, Validators.required),
       'oDeparture': new FormControl(null, Validators.required),
       'oArrivalDateNTime': new FormControl(null, Validators.required),
