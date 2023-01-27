@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,12 +26,15 @@ public class RoutesService {
     private final Logger logger;
 
     private RouteRepository routeRepository;
+    private JdbcTemplate jdbcTemplate;
+
+    String GET_ALL_ROUTES_QUERY = "SELECT * FROM route;";
 
     @Autowired
-    public RoutesService(RouteRepository routeRepository) {
+    public RoutesService(RouteRepository routeRepository, JdbcTemplate jdbcTemplate) {
 
         this.routeRepository = routeRepository;
-
+        this.jdbcTemplate = jdbcTemplate;
 
         routeRepository.save(new Route(44, "testDeparture", "testDestination", 10, 10));
 
@@ -113,7 +117,17 @@ public class RoutesService {
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
-        return INITIAL_ROUTES;
+
+        List<Route> allRoutes = jdbcTemplate.query(this.GET_ALL_ROUTES_QUERY,
+                ((rs, rowNum) -> new Route(
+                        rs.getInt("routeID"),
+                        rs.getString("departure"),
+                        rs.getString("destination"),
+                        rs.getDouble("mileage"),
+                        rs.getDouble("durationH")
+                )));
+        return allRoutes;
+//        return INITIAL_ROUTES;
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
