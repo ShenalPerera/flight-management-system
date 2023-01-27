@@ -149,15 +149,21 @@ public class RoutesService {
 
     public ResponseEntity<Route> createRoute(Route route) {
         checkInputFields(route);
-        checkDuplicatesWhenCreating(route.getDeparture(), route.getDestination());
+//        checkDuplicatesWhenCreating(route.getDeparture(), route.getDestination());
+        Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
+        if (conflictedRoute == null) {
+            route.setRouteID(++UNIQUE_ROUTE_ID);
 
-        route.setRouteID(++UNIQUE_ROUTE_ID);
+            // save in the database
+            routeRepository.save(route);
 
-        // save in the database
-        routeRepository.save(route);
-
-        INITIAL_ROUTES.add(route);
-        return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.CREATED);
+            INITIAL_ROUTES.add(route);
+            return new ResponseEntity<>(INITIAL_ROUTES.get(INITIAL_ROUTES.size()-1), HttpStatus.CREATED);
+        } else {
+            logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
+                    route.getDeparture(), route.getDestination());
+            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        }
 
     }
 
