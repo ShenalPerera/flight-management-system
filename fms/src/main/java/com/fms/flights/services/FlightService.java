@@ -50,10 +50,9 @@ public class FlightService {
         throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 
-    public boolean deleteFlight(String flightId){
+    public void deleteFlight(String flightId){
         try {
             flightRepositoryFMS.deleteById(flightId);
-            return true;
         }
         catch (EmptyResultDataAccessException e){
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
