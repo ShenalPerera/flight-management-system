@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,6 +30,10 @@ public class RoutesService {
     private JdbcTemplate jdbcTemplate;
 
     String GET_ALL_ROUTES_QUERY = "SELECT * FROM route;";
+    String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION = "SELECT * FROM route WHERE departure = ? AND destination = ?;";
+    String GET_FILTERED_ROUTES_BY_DEPARTURE = "SELECT * FROM route WHERE departure = ?;";
+    String GET_FILTERED_ROUTES_BY_DESTINATION = "SELECT * FROM route WHERE destination = ?;";
+
 
     @Autowired
     public RoutesService(RouteRepository routeRepository, JdbcTemplate jdbcTemplate) {
@@ -114,6 +119,18 @@ public class RoutesService {
 //        Route = routeRepository.
 //    }
 
+//    public List<Route> getFilteredRoutes(String query, String departure, String destination) {
+//        List<Route> filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_WHEN_BOTH_FIELDS_ARE_PRESENT,
+//                new Object[]{departure, destination},
+//                ((rs, rowNum) -> new Route(
+//                        rs.getInt("routeID"),
+//                        rs.getString("departure"),
+//                        rs.getString("destination"),
+//                        rs.getDouble("mileage"),
+//                        rs.getDouble("durationH")
+//                )));
+//    }
+
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
@@ -179,13 +196,45 @@ public class RoutesService {
     }
 
     public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
-        return new ResponseEntity<>(
-                INITIAL_ROUTES.stream()
-                .filter(
-                        route->(departure.equals("") || departure.equals(route.getDeparture())) &&
-                                (destination.equals("") || destination.equals(route.getDestination())))
-                .collect(Collectors.toList()),
-                HttpStatus.OK);
+        RowMapper<Route> rowMapper = (resultSet, rowNum)-> new Route(
+                resultSet.getInt("routeID"),
+                resultSet.getString("departure"),
+                resultSet.getString("destination"),
+                resultSet.getDouble("mileage"),
+                resultSet.getDouble("durationH")
+        );
+        List<Route> filteredRoutes;
+        if (!departure.isEmpty() && destination.isEmpty()) {
+            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE, rowMapper, departure);
+            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+        } else if (departure.isEmpty() && !destination.isEmpty()) {
+            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DESTINATION, rowMapper, destination);
+            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+        } else if (!departure.isEmpty() && !destination.isEmpty()) {
+            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION, rowMapper, departure, destination);
+            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+        } else{
+            return new ResponseEntity<>(sendAllRoutes(), HttpStatus.OK);
+        }
+
+
+//        return new ResponseEntity<>(
+//                INITIAL_ROUTES.stream()
+//                .filter(
+//                        route->(departure.equals("") || departure.equals(route.getDeparture())) &&
+//                                (destination.equals("") || destination.equals(route.getDestination())))
+//                .collect(Collectors.toList()),
+//                HttpStatus.OK);
+//        List<Route> filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_WHEN_BOTH_FIELDS_ARE_PRESENT,
+//                new Object[]{departure, destination},
+//                ((rs, rowNum) -> new Route(
+//                        rs.getInt("routeID"),
+//                        rs.getString("departure"),
+//                        rs.getString("destination"),
+//                        rs.getDouble("mileage"),
+//                        rs.getDouble("durationH")
+//                )));
+//        return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
     }
 
 }
