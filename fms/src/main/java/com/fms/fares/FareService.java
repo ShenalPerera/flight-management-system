@@ -17,7 +17,6 @@ import java.util.List;
 @Service
 public class FareService {
     private final List<String> locations;
-    private List<Fare> fares;
     private final Logger logger;
     private final FareRepository fareRepository;
     private final JdbcTemplate jdbcTemplate;
@@ -39,19 +38,6 @@ public class FareService {
         this.locations.add("new york");
         this.locations.add("paris");
         this.locations.add("sydney");
-
-        this.fares = new ArrayList<>();
-        this.fares.add(new Fare(1, "colombo", "dubai", 50));
-        this.fares.add(new Fare(2, "colombo", "sydney", 75));
-        this.fares.add(new Fare(3, "dubai", "colombo", 50));
-        this.fares.add(new Fare(4, "colombo", "new york", 150));
-        this.fares.add(new Fare(5, "new york", "sydney", 225));
-
-        this.fares.add(new Fare(6, "new york", "colombo", 150));
-        this.fares.add(new Fare(7, "london", "colombo", 125));
-        this.fares.add(new Fare(8, "dubai", "london", 80));
-        this.fares.add(new Fare(9, "paris", "sydney", 185));
-        this.fares.add(new Fare(10, "new york", "paris", 135));
     }
 
     public List<String> getLocations() {
