@@ -16,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RoutesService {
-
-    static int UNIQUE_ROUTE_ID;
     List<Route> INITIAL_ROUTES = new ArrayList<>();
 
     private final Logger logger;
@@ -30,48 +27,19 @@ public class RoutesService {
     private JdbcTemplate jdbcTemplate;
 
     String GET_ALL_ROUTES_QUERY = "SELECT * FROM route;";
-    String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION = "SELECT * FROM route WHERE departure = ? AND destination = ?;";
-    String GET_FILTERED_ROUTES_BY_DEPARTURE = "SELECT * FROM route WHERE departure = ?;";
-    String GET_FILTERED_ROUTES_BY_DESTINATION = "SELECT * FROM route WHERE destination = ?;";
+    String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY = "SELECT * FROM route WHERE departure = ? AND destination = ?;";
+    String GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY = "SELECT * FROM route WHERE departure = ?;";
+    String GET_FILTERED_ROUTES_BY_DESTINATION_QUERY = "SELECT * FROM route WHERE destination = ?;";
 
 
     @Autowired
     public RoutesService(RouteRepository routeRepository, JdbcTemplate jdbcTemplate) {
-
         this.routeRepository = routeRepository;
         this.jdbcTemplate = jdbcTemplate;
-
-//        routeRepository.save(new Route(44, "testDeparture", "testDestination", 10, 10));
-//
-//        INITIAL_ROUTES.add(new Route(1, "sri lanka", "india", 12.4, 2.5));
-//        INITIAL_ROUTES.add(new Route(2, "usa", "dubai", 15.4, 22.5));
-//        INITIAL_ROUTES.add(new Route(3, "mexico", "germany", 15.4, 22.5));
-//        INITIAL_ROUTES.add(new Route(4, "jordan", "usa", 15.4, 22.5));
-//        INITIAL_ROUTES.add(new Route(5, "uk", "canada", 15.4, 22.5));
-
         this.logger = LoggerFactory.getLogger(RoutesService.class);
-//        UNIQUE_ROUTE_ID = INITIAL_ROUTES.size();
     }
 
     // ******************************************** HELPER METHODS *****************************************************
-
-    public boolean isIdExisting(int routeID) {
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == routeID) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Route updateTheRouteContent(Route oldRoute, Route newRoute) {
-        oldRoute.setDeparture(newRoute.getDeparture());
-        oldRoute.setDestination(newRoute.getDestination());
-        oldRoute.setMileage(newRoute.getMileage());
-        oldRoute.setDurationH(newRoute.getDurationH());
-
-        return oldRoute;
-    }
 
     public void checkInputFields(Route route) {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
@@ -88,49 +56,6 @@ public class RoutesService {
         }
     }
 
-    public void checkDuplicatesWhenCreating(String departure, String destination) {
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getDeparture().equalsIgnoreCase(departure) && r.getDestination().equalsIgnoreCase(destination)) {
-                logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
-                        departure, destination);
-                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-            }
-        }
-    }
-
-    public Route getThePossibleRouteToEdit(Route route) {
-        Route matchedRoute = null;
-
-        for (Route r : INITIAL_ROUTES) {
-            if (r.getRouteID() == route.getRouteID()) {
-                matchedRoute = r;
-                continue;
-            }
-            if (r.getDeparture().equalsIgnoreCase(route.getDeparture()) && r.getDestination().equalsIgnoreCase(route.getDestination())) {
-                logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
-                        route.getDeparture(), route.getDestination());
-                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-            }
-        }
-        return matchedRoute;
-    }
-
-//    public Route getTheLocationsMatchedRoute(Route route) {
-//        Route = routeRepository.
-//    }
-
-//    public List<Route> getFilteredRoutes(String query, String departure, String destination) {
-//        List<Route> filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_WHEN_BOTH_FIELDS_ARE_PRESENT,
-//                new Object[]{departure, destination},
-//                ((rs, rowNum) -> new Route(
-//                        rs.getInt("routeID"),
-//                        rs.getString("departure"),
-//                        rs.getString("destination"),
-//                        rs.getDouble("mileage"),
-//                        rs.getDouble("durationH")
-//                )));
-//    }
-
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
@@ -144,17 +69,12 @@ public class RoutesService {
                         rs.getDouble("durationH")
                 )));
         return allRoutes;
-//        return INITIAL_ROUTES;
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
         checkInputFields(route);
-//        checkDuplicatesWhenCreating(route.getDeparture(), route.getDestination());
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
-//            route.setRouteID(++UNIQUE_ROUTE_ID);
-
-            // save in the database
             routeRepository.save(route);
 
             INITIAL_ROUTES.add(route);
@@ -211,36 +131,18 @@ public class RoutesService {
         );
         List<Route> filteredRoutes;
         if (!departure.isEmpty() && destination.isEmpty()) {
-            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE, rowMapper, departure);
+            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY, rowMapper, departure);
             return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
         } else if (departure.isEmpty() && !destination.isEmpty()) {
-            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DESTINATION, rowMapper, destination);
+            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DESTINATION_QUERY, rowMapper, destination);
             return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
         } else if (!departure.isEmpty() && !destination.isEmpty()) {
-            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION, rowMapper, departure, destination);
+            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY, rowMapper, departure, destination);
             return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
         } else{
             return new ResponseEntity<>(sendAllRoutes(), HttpStatus.OK);
         }
 
-
-//        return new ResponseEntity<>(
-//                INITIAL_ROUTES.stream()
-//                .filter(
-//                        route->(departure.equals("") || departure.equals(route.getDeparture())) &&
-//                                (destination.equals("") || destination.equals(route.getDestination())))
-//                .collect(Collectors.toList()),
-//                HttpStatus.OK);
-//        List<Route> filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_WHEN_BOTH_FIELDS_ARE_PRESENT,
-//                new Object[]{departure, destination},
-//                ((rs, rowNum) -> new Route(
-//                        rs.getInt("routeID"),
-//                        rs.getString("departure"),
-//                        rs.getString("destination"),
-//                        rs.getDouble("mileage"),
-//                        rs.getDouble("durationH")
-//                )));
-//        return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
     }
 
 }
