@@ -55,7 +55,8 @@ public class FlightController {
     }
 
     @DeleteMapping("/delete-flight")
-    public ResponseEntity<Object> deleteFlight(@RequestParam(name = "id") String flightId) {
-        return new ResponseEntity<>("Delete Success : " + flightService.deleteFlight(flightId), HttpStatus.OK);
+    public ResponseEntity<String> deleteFlight(@RequestParam(name = "id") String flightId) {
+        flightService.deleteFlight(flightId);
+        return  ResponseEntity.status(200).body(null);
     }
 }
