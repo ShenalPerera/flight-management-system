@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class FlightService {
@@ -36,15 +37,15 @@ public class FlightService {
     }
 
     public Flight addNewFlight(Flight flight ){
-        if (isFlightValid(flight)){
+        if (isFlightValidForCreate(flight)){
             return flightRepositoryFMS.save(flight);
         }
         throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 
     public Flight editFlight(Flight flight){
-        if (isFlightValid(flight)){
-            return flightRepository.editFlight(flight);
+        if (isFlightValidForEdit(flight)){
+            return flightRepositoryFMS.save(flight);
         }
         throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
@@ -73,13 +74,22 @@ public class FlightService {
         }
     }
 
-    private boolean isFlightValid(Flight flight){
-        validateFlightEntryFields(flight);
+    private boolean isFlightValidForEdit(Flight flight){
 
-        List<Flight> filteredFlights = this.flightRepositoryFMS.findAllByFlightNumberAndDepartureDateAndIdNot(
+        List<Flight> filteredFlights = this.flightRepositoryFMS.findAllByFlightNumberAndDepartureDateOrId(
                 flight.getFlightNumber(),
                 flight.getDepartureDate(),
                 flight.getId()
+        );
+        return filteredFlights.size() == 1 && Objects.equals(filteredFlights.remove(0).getId(), flight.getId());
+    }
+
+    private boolean isFlightValidForCreate(Flight flight){
+        validateFlightEntryFields(flight);
+
+        List<Flight> filteredFlights = this.flightRepositoryFMS.findAllByFlightNumberAndDepartureDate(
+                flight.getFlightNumber(),
+                flight.getDepartureDate()
         );
 
         return filteredFlights.isEmpty();

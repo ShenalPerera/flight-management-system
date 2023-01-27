@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FlightRepositoryFMS extends JpaRepository<Flight,String> {
+    List<Flight> findAllByFlightNumberAndDepartureDateOrId(String flightNUmber, String departureDate, String id);
 
-    List<Flight> findAllByFlightNumberAndDepartureDateAndIdNot(String flightNUmber, String departureDate, String id);
+    List<Flight> findAllByFlightNumberAndDepartureDate(String flightNUmber, String departureDate);
 }
