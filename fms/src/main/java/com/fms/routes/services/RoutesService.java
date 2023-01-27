@@ -13,18 +13,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RoutesService {
-    List<Route> INITIAL_ROUTES = new ArrayList<>();
 
     private final Logger logger;
-
-    private RouteRepository routeRepository;
-    private JdbcTemplate jdbcTemplate;
+    private final RouteRepository routeRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     String GET_ALL_ROUTES_QUERY = "SELECT * FROM route;";
     String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY = "SELECT * FROM route WHERE departure = ? AND destination = ?;";
@@ -59,8 +55,7 @@ public class RoutesService {
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
-
-        List<Route> allRoutes = jdbcTemplate.query(this.GET_ALL_ROUTES_QUERY,
+        return jdbcTemplate.query(this.GET_ALL_ROUTES_QUERY,
                 ((rs, rowNum) -> new Route(
                         rs.getInt("routeID"),
                         rs.getString("departure"),
@@ -68,7 +63,6 @@ public class RoutesService {
                         rs.getDouble("mileage"),
                         rs.getDouble("durationH")
                 )));
-        return allRoutes;
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
@@ -76,8 +70,6 @@ public class RoutesService {
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
             routeRepository.save(route);
-
-            INITIAL_ROUTES.add(route);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
@@ -136,7 +128,7 @@ public class RoutesService {
         } else if (departure.isEmpty() && !destination.isEmpty()) {
             filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DESTINATION_QUERY, rowMapper, destination);
             return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
-        } else if (!departure.isEmpty() && !destination.isEmpty()) {
+        } else if (!departure.isEmpty()) {
             filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY, rowMapper, departure, destination);
             return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
         } else{
