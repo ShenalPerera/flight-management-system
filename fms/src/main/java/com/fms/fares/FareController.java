@@ -23,12 +23,6 @@ public class FareController {
         this.logger = LoggerFactory.getLogger(FareController.class);
     }
 
-    @GetMapping("locations")
-    public ResponseEntity<List<String>> getLocations() {
-        logger.info("'locations' endpoint accessed");
-        return new ResponseEntity<>(service.getLocations(), HttpStatus.OK);
-    }
-
     @GetMapping("search")
     public ResponseEntity<List<Fare>> getSearchedEntries(
             @RequestParam(value = "departure", defaultValue = "") String departure,

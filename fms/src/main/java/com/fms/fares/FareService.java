@@ -11,12 +11,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FareService {
-    private final List<String> locations;
     private final Logger logger;
     private final FareRepository fareRepository;
     private final JdbcTemplate jdbcTemplate;
@@ -30,18 +28,6 @@ public class FareService {
         this.logger = LoggerFactory.getLogger(FareService.class);
         this.fareRepository = fareRepository;
         this.jdbcTemplate = jdbcTemplate;
-
-        this.locations = new ArrayList<>();
-        this.locations.add("colombo");
-        this.locations.add("dubai");
-        this.locations.add("london");
-        this.locations.add("new york");
-        this.locations.add("paris");
-        this.locations.add("sydney");
-    }
-
-    public List<String> getLocations() {
-        return locations;
     }
 
     public List<Fare> getSearchedFares(String departure, String arrival) {

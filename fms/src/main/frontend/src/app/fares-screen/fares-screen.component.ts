@@ -3,6 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { FareFormComponent } from "./fare-form/fare-form.component";
 import { Entry } from "./shared/entry.model";
 import { FareService } from "./services/fare.service";
+import {AirportsHandleService} from "../services/airports-handle.service";
 
 @Component({
   selector: 'app-fares-screen',
@@ -18,6 +19,7 @@ export class FaresScreenComponent implements OnInit {
 
   constructor(
     private fareService: FareService,
+    private airportsHandleService: AirportsHandleService,
     public dialog: MatDialog
   ) {}
 
@@ -27,7 +29,10 @@ export class FaresScreenComponent implements OnInit {
     this.editedEntry = {id: 0, departure: "", arrival: "", fare: 1};
   }
   generateLocations(): void {
-    this.fareService.getLocations().subscribe((data: string[]) =>  this.locations = data);
+    this.airportsHandleService.getAirportsList().subscribe(response => {
+      localStorage.setItem("airports",JSON.stringify(response));
+      this.locations = response;
+    });
   }
   getAllEntries(): void {
     this.fareService.getAllEntries().subscribe((data: Entry[]) => this.searchedData = data);
