@@ -113,10 +113,13 @@
       <form class="overlay-edit-add-form" [formGroup]="overlayForm" (ngSubmit)="onSubmitForm()">
         <input value="" formControlName ="oId" hidden="hidden">
 
-        <span *ngIf="!overlayForm.get('oFlightNumber')?.valid && overlayForm.get('oFlightNumber')?.touched" class="form-error-message">
+        <span *ngIf="overlayForm.get('oFlightNumber')?.hasError('required') && overlayForm.get('oFlightNumber')?.touched" class="form-error-message">
             Flight Number is required.
         </span>
 
+        <span *ngIf="overlayForm.get('oFlightNumber')?.hasError('pattern') && overlayForm.get('oFlightNumber')?.touched" class="form-error-message">
+           Should have 3 leading letters and number - [SLP1]
+        </span>
         <mat-form-field class="form-field-full-width">
           <mat-label>Flight Number</mat-label>
           <input matInput
@@ -137,7 +140,7 @@
 
         <mat-form-field class="form-field-full-width">
           <mat-label>Departure</mat-label>
-            <select matNativeControl  name="oDeparture"  >
+            <select matNativeControl  formControlName="oDeparture"  >
               <option value="" selected></option>
               <option *ngFor="let airport of airports" [value]="airport">
                 {{airport | titlecase }}
@@ -153,7 +156,7 @@
 
         <mat-form-field class="form-field-full-width">
           <mat-label>Arrival</mat-label>
-            <select matNativeControl  name="oArrival"  >
+            <select matNativeControl  formControlName="oArrival"  >
               <option value="" selected></option>
               <option *ngFor="let airport of airports" [value]="airport">
                 {{airport | titlecase }}
