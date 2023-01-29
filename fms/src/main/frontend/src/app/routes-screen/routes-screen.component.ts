@@ -31,6 +31,8 @@ export class RoutesScreenComponent implements OnInit{
         let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
         this.departuresList = listValues.dpList;
         this.destinationsList = listValues.dsList;
+
+        console.log(this.ALL_ROUTES[this.ALL_ROUTES.length-1]);
       },
       error: (e)=>{
         alert("Something Went Wrong In Retrieving Data. Try Again.");

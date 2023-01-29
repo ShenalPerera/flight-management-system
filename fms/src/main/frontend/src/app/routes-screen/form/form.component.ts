@@ -62,6 +62,8 @@ export class FormComponent implements OnInit{
         destination: this.sampleForm.value['destination'].toLowerCase(),
         mileage: +this.sampleForm.value['mileage'],
         durationH: +this.sampleForm.value['durationH'],
+        createdDateTime : '',
+        modifiedDateTime : ''
       };
 
       this.routeService.updateRouteInBackend(this.updatedRoute)
@@ -91,6 +93,8 @@ export class FormComponent implements OnInit{
       destination: this.sampleForm.value['destination'].toLowerCase(),
       mileage: +this.sampleForm.value['mileage'],
       durationH: +this.sampleForm.value['durationH'],
+      createdDateTime : '',
+      modifiedDateTime : ''
     }
     this.routeService.createRouteInBackend(this.createdRoute)
       .subscribe({

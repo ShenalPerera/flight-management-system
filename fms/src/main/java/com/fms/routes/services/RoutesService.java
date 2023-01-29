@@ -13,6 +13,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -61,7 +64,9 @@ public class RoutesService {
                         rs.getString("departure"),
                         rs.getString("destination"),
                         rs.getDouble("mileage"),
-                        rs.getDouble("durationH")
+                        rs.getDouble("durationH"),
+                        rs.getDate("created_date_time"),
+                        rs.getDate("modified_date_time")
                 )));
     }
 
@@ -69,6 +74,7 @@ public class RoutesService {
         checkInputFields(route);
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
+            route.setCreatedDateTime(new Date());
             routeRepository.save(route);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
@@ -88,6 +94,7 @@ public class RoutesService {
         );
         if (conflictedRoute == null) {
                 if (routeRepository.existsById(route.getRouteID())) {
+                    route.setModifiedDateTime(java.sql.Date.valueOf(new Date().toString()));
                     Route editedRoute = routeRepository.save(route);
                     return new ResponseEntity<>(editedRoute, HttpStatus.OK);
                 }else {
@@ -119,7 +126,9 @@ public class RoutesService {
                 resultSet.getString("departure"),
                 resultSet.getString("destination"),
                 resultSet.getDouble("mileage"),
-                resultSet.getDouble("durationH")
+                resultSet.getDouble("durationH"),
+                resultSet.getDate("created_date_time"),
+                resultSet.getDate("modified_date_time")
         );
         List<Route> filteredRoutes;
         if (!departure.isEmpty() && destination.isEmpty()) {

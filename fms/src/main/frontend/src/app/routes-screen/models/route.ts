@@ -4,5 +4,9 @@ export class Route {
   destination!: string;
   mileage!: number;
   durationH!: number;
+  createdDateTime !: string;
+  modifiedDateTime !: string;
+
+
 
 }

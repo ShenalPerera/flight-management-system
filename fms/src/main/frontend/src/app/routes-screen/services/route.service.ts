@@ -35,10 +35,12 @@ export class RouteService  {
   }
 
   createRouteInBackend(route: Route) {
+    // route.created = new Date();
     return this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', route, {observe: 'response'});
   }
 
   updateRouteInBackend(route: Route) {
+    // route.modified = new Date();
     return this.http.put<any>('http://localhost:8080/api/routes-screen/update-route', route, {observe: 'response'});
   }
 
