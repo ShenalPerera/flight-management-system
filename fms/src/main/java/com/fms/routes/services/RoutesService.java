@@ -94,7 +94,7 @@ public class RoutesService {
         );
         if (conflictedRoute == null) {
                 if (routeRepository.existsById(route.getRouteID())) {
-                    route.setModifiedDateTime(java.sql.Date.valueOf(new Date().toString()));
+                    route.setModifiedDateTime(new Date());
                     Route editedRoute = routeRepository.save(route);
                     return new ResponseEntity<>(editedRoute, HttpStatus.OK);
                 }else {
