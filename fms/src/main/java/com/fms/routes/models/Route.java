@@ -1,14 +1,12 @@
 package com.fms.routes.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Entity
 public class Route {
@@ -20,15 +18,17 @@ public class Route {
     double mileage;
     double durationH;
 //    @CreationTimestamp
-    LocalDateTime createdDateTime;
+//    @Temporal(TemporalType.TIMESTAMP)
+    String createdDateTime;
 //    @UpdateTimestamp
-    LocalDateTime modifiedDateTime;
+//    @Temporal(TemporalType.TIMESTAMP)
+    String modifiedDateTime;
 
     public Route() {
 
     }
     public Route(int routeID, String departure, String destination,
-                 double mileage, double durationH, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime) {
+                 double mileage, double durationH, String createdDateTime, String modifiedDateTime) {
         this.routeID = routeID;
         this.departure = departure;
         this.destination = destination;
@@ -79,19 +79,19 @@ public class Route {
         this.durationH = durationH;
     }
 
-    public LocalDateTime getCreatedDateTime() {
+    public String getCreatedDateTime() {
         return createdDateTime;
     }
 
-    public LocalDateTime getModifiedDateTime() {
+    public String getModifiedDateTime() {
         return modifiedDateTime;
     }
 
-    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+    public void setCreatedDateTime(String createdDateTime) {
         this.createdDateTime = createdDateTime;
     }
 
-    public void setModifiedDateTime(LocalDateTime modifiedDateTime) {
+    public void setModifiedDateTime(String modifiedDateTime) {
         this.modifiedDateTime = modifiedDateTime;
     }
 }

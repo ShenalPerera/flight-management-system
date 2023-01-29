@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -65,16 +67,19 @@ public class RoutesService {
                         rs.getString("destination"),
                         rs.getDouble("mileage"),
                         rs.getDouble("durationH"),
-                        rs.getObject("created_date_time", LocalDateTime.class),
-                        rs.getObject("modified_date_time", LocalDateTime.class)
+                        rs.getString("created_date_time"),
+                        rs.getString("modified_date_time")
                 )));
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
+        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss Z");
         checkInputFields(route);
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
-            route.setCreatedDateTime(LocalDateTime.now());
+            System.out.println(ZonedDateTime.now().format(FORMATTER));
+            route.setCreatedDateTime(ZonedDateTime.now().format(FORMATTER));
+
 //            route.setCreatedDateTime(new Date());
             routeRepository.save(route);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -89,6 +94,7 @@ public class RoutesService {
 
     public ResponseEntity<Route> editRoute(Route route) {
         checkInputFields(route);
+        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss Z");
 
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestinationAndRouteIDNot(
                 route.getDeparture(), route.getDestination(), route.getRouteID()
@@ -102,7 +108,7 @@ public class RoutesService {
                     routeToBeEdited.setDestination(route.getDestination());
                     routeToBeEdited.setMileage(route.getMileage());
                     routeToBeEdited.setDurationH(route.getDurationH());
-                    routeToBeEdited.setModifiedDateTime(LocalDateTime.now());
+                    routeToBeEdited.setModifiedDateTime(ZonedDateTime.now().format(FORMATTER));
 //                    route.setModifiedDateTime(LocalDateTime.now());
 //                    route.setModifiedDateTime(new Date());
                     Route editedRoute = routeRepository.save(routeToBeEdited);
@@ -137,8 +143,8 @@ public class RoutesService {
                 resultSet.getString("destination"),
                 resultSet.getDouble("mileage"),
                 resultSet.getDouble("durationH"),
-                resultSet.getObject("created_date_time", LocalDateTime.class),
-                resultSet.getObject("modified_date_time", LocalDateTime.class)
+                resultSet.getString("created_date_time"),
+                resultSet.getString("modified_date_time")
         );
         List<Route> filteredRoutes;
         if (!departure.isEmpty() && destination.isEmpty()) {
