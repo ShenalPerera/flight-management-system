@@ -65,8 +65,8 @@ public class RoutesService {
                         rs.getString("destination"),
                         rs.getDouble("mileage"),
                         rs.getDouble("durationH"),
-                        rs.getDate("created_date_time"),
-                        rs.getDate("modified_date_time")
+                        rs.getObject("created_date_time", LocalDateTime.class),
+                        rs.getObject("modified_date_time", LocalDateTime.class)
                 )));
     }
 
@@ -74,7 +74,8 @@ public class RoutesService {
         checkInputFields(route);
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
-            route.setCreatedDateTime(new Date());
+            route.setCreatedDateTime(LocalDateTime.now());
+//            route.setCreatedDateTime(new Date());
             routeRepository.save(route);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
@@ -94,8 +95,17 @@ public class RoutesService {
         );
         if (conflictedRoute == null) {
                 if (routeRepository.existsById(route.getRouteID())) {
-                    route.setModifiedDateTime(new Date());
-                    Route editedRoute = routeRepository.save(route);
+
+                    // wrong logic get the existing route
+                    Route routeToBeEdited = routeRepository.findByRouteID(route.getRouteID());
+                    routeToBeEdited.setDeparture(route.getDeparture());
+                    routeToBeEdited.setDestination(route.getDestination());
+                    routeToBeEdited.setMileage(route.getMileage());
+                    routeToBeEdited.setDurationH(route.getDurationH());
+                    routeToBeEdited.setModifiedDateTime(LocalDateTime.now());
+//                    route.setModifiedDateTime(LocalDateTime.now());
+//                    route.setModifiedDateTime(new Date());
+                    Route editedRoute = routeRepository.save(routeToBeEdited);
                     return new ResponseEntity<>(editedRoute, HttpStatus.OK);
                 }else {
                     logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
@@ -127,8 +137,8 @@ public class RoutesService {
                 resultSet.getString("destination"),
                 resultSet.getDouble("mileage"),
                 resultSet.getDouble("durationH"),
-                resultSet.getDate("created_date_time"),
-                resultSet.getDate("modified_date_time")
+                resultSet.getObject("created_date_time", LocalDateTime.class),
+                resultSet.getObject("modified_date_time", LocalDateTime.class)
         );
         List<Route> filteredRoutes;
         if (!departure.isEmpty() && destination.isEmpty()) {

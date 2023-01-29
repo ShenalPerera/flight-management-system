@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -17,14 +19,16 @@ public class Route {
     String destination;
     double mileage;
     double durationH;
-    java.util.Date createdDateTime;
-    java.util.Date modifiedDateTime;
+//    @CreationTimestamp
+    LocalDateTime createdDateTime;
+//    @UpdateTimestamp
+    LocalDateTime modifiedDateTime;
 
     public Route() {
 
     }
     public Route(int routeID, String departure, String destination,
-                 double mileage, double durationH, Date createdDateTime, Date modifiedDateTime) {
+                 double mileage, double durationH, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime) {
         this.routeID = routeID;
         this.departure = departure;
         this.destination = destination;
@@ -75,19 +79,19 @@ public class Route {
         this.durationH = durationH;
     }
 
-    public java.util.Date getCreatedDateTime() {
+    public LocalDateTime getCreatedDateTime() {
         return createdDateTime;
     }
 
-    public java.util.Date getModifiedDateTime() {
+    public LocalDateTime getModifiedDateTime() {
         return modifiedDateTime;
     }
 
-    public void setCreatedDateTime(java.util.Date createdDateTime) {
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
         this.createdDateTime = createdDateTime;
     }
 
-    public void setModifiedDateTime(java.util.Date modifiedDateTime) {
+    public void setModifiedDateTime(LocalDateTime modifiedDateTime) {
         this.modifiedDateTime = modifiedDateTime;
     }
 }
