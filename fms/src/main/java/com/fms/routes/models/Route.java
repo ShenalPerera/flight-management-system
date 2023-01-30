@@ -1,13 +1,7 @@
 package com.fms.routes.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
 
 @Entity
 public class Route {
@@ -18,18 +12,12 @@ public class Route {
     String destination;
     double mileage;
     double durationH;
-//    @CreationTimestamp
-//    @Temporal(TemporalType.TIMESTAMP)
     Timestamp createdDateTime;
-//    @UpdateTimestamp
-//    @Temporal(TemporalType.TIMESTAMP)
     Timestamp modifiedDateTime;
-
     @Version
     long version;
 
     public Route() {
-
     }
 
     public Route(int routeID, String departure, String destination, double mileage, double durationH, Timestamp createdDateTime, Timestamp modifiedDateTime, long version) {
@@ -86,13 +74,12 @@ public class Route {
     public Timestamp getCreatedDateTime() {
         return createdDateTime;
     }
+    public void setCreatedDateTime(Timestamp createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
 
     public Timestamp getModifiedDateTime() {
         return modifiedDateTime;
-    }
-
-    public void setCreatedDateTime(Timestamp createdDateTime) {
-        this.createdDateTime = createdDateTime;
     }
 
     public void setModifiedDateTime(Timestamp modifiedDateTime) {

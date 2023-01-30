@@ -15,9 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +29,6 @@ public class RoutesService {
     String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY = "SELECT * FROM route WHERE departure = ? AND destination = ?;";
     String GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY = "SELECT * FROM route WHERE departure = ?;";
     String GET_FILTERED_ROUTES_BY_DESTINATION_QUERY = "SELECT * FROM route WHERE destination = ?;";
-
 
     @Autowired
     public RoutesService(RouteRepository routeRepository, JdbcTemplate jdbcTemplate) {
@@ -85,7 +81,6 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
-        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss Z");
         checkInputFields(route);
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
@@ -97,12 +92,10 @@ public class RoutesService {
                     route.getDeparture(), route.getDestination());
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
-
     }
 
 
     public ResponseEntity<Route> editRoute(Route route) {
-//        System.out.println(route.getVersion());
         checkInputFields(route);
         List<Route> routeList = routeRepository.findByDepartureAndDestinationOrRouteID(route.getDeparture(), route.getDestination(), route.getRouteID());
         if (routeList.size()>1) {
@@ -115,12 +108,6 @@ public class RoutesService {
         }
 
         Route updatedRoute = updateRouteContent(routeList.get(0), route);
-
-//        routeList.get(0).setDeparture(route.getDeparture());
-//        routeList.get(0).setDestination(route.getDestination());
-//        routeList.get(0).setMileage(route.getMileage());
-//        routeList.get(0).setDurationH(route.getDurationH());
-//        routeList.get(0).setModifiedDateTime(new Timestamp(new Date().getTime()));
 
         // check whether the database value has been changed
         if (route.getVersion() != routeRepository.findByRouteID(route.getRouteID()).getVersion()) {
