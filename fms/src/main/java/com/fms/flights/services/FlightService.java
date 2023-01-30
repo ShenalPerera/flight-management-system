@@ -5,7 +5,6 @@ import com.fms.flights.repositories.FlightRepositoryFMS;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.flights.models.Flight;
-import com.fms.flights.FlightRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,7 @@ public class FlightService {
         this.logger = LoggerFactory.getLogger(FlightService.class);
     }
     public List<Flight> getAllFlights(){
+        logger.info("Calling method : {}","[flightRepository.findAll()");
         return flightRepositoryFMS.findAll();
     }
 
@@ -59,10 +59,10 @@ public class FlightService {
 
         queryStr.append(conditions);
 
-        logger.info( "created query : " + queryStr);
+        logger.info( "Query created : " + queryStr);
 
         List<Flight> filteredFlights =  flightRepositoryForFilterData.findAllByGivenOptions(queryStr.toString());
-        logger.info("resultant size of the list : {}",filteredFlights);
+        logger.info("resultant size of the list : {}",filteredFlights.size());
         return filteredFlights;
     }
 
@@ -103,23 +103,30 @@ public class FlightService {
 
     public Flight addNewFlight(Flight flight ){
         if (isFlightValidForCreate(flight)){
+            logger.info("Validated flight : success [addNewFlight]");
             return flightRepositoryFMS.save(flight);
         }
+        logger.error("Flight data is not valid : Duplicate entry found!");
         throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 
     public Flight editFlight(Flight flight){
         if (isFlightValidForEdit(flight)){
+            logger.info("Validated flight : success [editFlight]");
             return flightRepositoryFMS.save(flight);
         }
+        logger.error("Flight data is not valid : Duplicate entry found!");
         throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 
     public void deleteFlight(String flightId){
         try {
+            logger.info("Deleting flight : [flightId : {}]",flightId);
             flightRepositoryFMS.deleteById(flightId);
+            logger.info("Flight deleted : Success [flightId : {}]",flightId);
         }
         catch (EmptyResultDataAccessException e){
+            logger.error("Delete operation : Not success - No entry found with flightId : [{}]",flightId);
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }
@@ -127,15 +134,18 @@ public class FlightService {
 
     private void validateFlightEntryFields(Flight flight){
         if (flight.isContainsEmptyFields()){
+            logger.error("Invalid data : Flight contains empty values - [{}]",flight);
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
         if (flight.getDeparture().equalsIgnoreCase(flight.getArrival())){
+            logger.error("Invalid data : departure date and arrival date cannot be same");
             throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
         LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDepartureDate() +"T" + flight.getDepartureTime());
         LocalDateTime arrivalDateNTime = LocalDateTime.parse(flight.getArrivalDate() + "T" + flight.getArrivalTime());
 
         if (departureDateNTime.isAfter(arrivalDateNTime) || departureDateNTime.isEqual(arrivalDateNTime)){
+            logger.error("Invalid data: Same flight can not have multiple entries on same date");
             throw new FMSException(HttpStatusCodesFMS.INVALID_DEPARTURE_AND_ARRIVAL_DATE);
         }
     }

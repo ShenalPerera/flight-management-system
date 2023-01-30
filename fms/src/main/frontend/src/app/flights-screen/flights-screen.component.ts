@@ -78,6 +78,13 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     this.airportsListSubscription?.unsubscribe();
   }
 
+  getAirports(){
+    this.airportsListService.getAirportsList().subscribe( response => {
+      localStorage.setItem("airports",JSON.stringify(response));
+      this.airports = response;
+    });
+  }
+
   onDeleteFlight(flight_id: string, searchForm: NgForm) {
     this.dataService.removeFlight(flight_id).subscribe( {
       next:(response)=>{

@@ -3,10 +3,10 @@ POST http://localhost:8080/flights/add-flight
 Content-Type: application/json
 
 {
-  "id": "12s",
+  "flightId": "ldibdve-uxbom5",
   "flightNumber": "1234",
   "departure": "Colombo",
-  "arrival": "sd",
+  "arrival": "",
   "departureDate": "2023-04-29",
   "arrivalDate": "2023-04-30",
   "departureTime": "13:00",
@@ -18,7 +18,7 @@ PUT http://localhost:8080/flights/edit-flight
 Content-Type: application/json
 
 {
-  "id": "12s",
+  "flightId": "12s",
   "flightNumber": "1234",
   "departure": "Colombo",
   "arrival": "Dubai",
