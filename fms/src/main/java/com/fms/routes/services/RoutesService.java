@@ -78,10 +78,7 @@ public class RoutesService {
         checkInputFields(route);
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
-            System.out.println(ZonedDateTime.now().format(FORMATTER));
             route.setCreatedDateTime(new Timestamp(new Date().getTime()));
-
-//            route.setCreatedDateTime(new Date());
             routeRepository.save(route);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
