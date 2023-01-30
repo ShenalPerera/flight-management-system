@@ -8,7 +8,7 @@
       <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" #selectDropdown>
 <!--      <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterDataFromBackend()" #selectDropdown>-->
         <option value="" selected></option>
-        <option *ngFor="let departure of departuresList" [value]="departure">
+        <option *ngFor="let departure of airports" [value]="departure">
           {{departure | titlecase}}
         </option>
       </select>
@@ -19,7 +19,7 @@
 <!--      <select matNativeControl [(ngModel)]="searchFormDestination" name="destination" (change)="filterDataFromBackend()" #selectDropdown>-->
       <select matNativeControl [(ngModel)]="searchFormDestination" name="destination" #selectDropdown>
         <option value="" selected></option>
-        <option *ngFor="let destination of destinationsList" [value]="destination">
+        <option *ngFor="let destination of airports" [value]="destination">
           {{destination | titlecase}}
         </option>
       </select>

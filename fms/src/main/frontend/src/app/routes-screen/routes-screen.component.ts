@@ -5,6 +5,7 @@ import {RouteService} from "./services/route.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "./form/form.component";
 import {MatExpansionPanel} from "@angular/material/expansion";
+import {AirportsHandleService} from "../services/airports-handle.service";
 
 
 @Component({
@@ -18,26 +19,37 @@ export class RoutesScreenComponent implements OnInit{
 
   searchFormDeparture: string = '';
   searchFormDestination: string = '';
+  airports: string[] = [];
   departuresList: string[] = [];
   destinationsList: string[] = [];
 
-  constructor(private routeService: RouteService, public dialog: MatDialog) {
+  constructor(private routeService: RouteService, public dialog: MatDialog, private airportsHandleService: AirportsHandleService) {
   }
 
   ngOnInit() {
     this.routeService.getRoutesFromBackend()
       .subscribe({next: (resp)=>{
         this.ALL_ROUTES = resp;
-        let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
-        this.departuresList = listValues.dpList;
-        this.destinationsList = listValues.dsList;
+        this.generateLocations();
 
-        console.log(typeof this.ALL_ROUTES[0].modifiedDateTime);
+
+        // let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
+        // this.departuresList = listValues.dpList;
+        // this.destinationsList = listValues.dsList;
+        //
+        // console.log(typeof this.ALL_ROUTES[0].modifiedDateTime);
       },
       error: (e)=>{
         alert("Something Went Wrong In Retrieving Data. Try Again.");
       }});
 
+  }
+
+  generateLocations(): void {
+    this.airportsHandleService.getAirportsList().subscribe(response => {
+      localStorage.setItem("airports",JSON.stringify(response));
+      this.airports = response;
+    });
   }
 
   clearInputs() {
@@ -52,11 +64,11 @@ export class RoutesScreenComponent implements OnInit{
       }});
   }
 
-  updateDropdown() {
-    let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, this.ALL_ROUTES);
-    this.departuresList = listValues.dpList;
-    this.destinationsList = listValues.dsList;
-  }
+  // updateDropdown() {
+  //   let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, this.ALL_ROUTES);
+  //   this.departuresList = listValues.dpList;
+  //   this.destinationsList = listValues.dsList;
+  // }
 
   openDialogToCreate(): void {
     this.clearInputs();
@@ -76,7 +88,7 @@ export class RoutesScreenComponent implements OnInit{
           this.routeService.getRoutesFromBackend()
             .subscribe({next: (resp)=>{
                 this.ALL_ROUTES = resp;
-                this.updateDropdown()
+                // this.updateDropdown()
               },
             error: (e)=>{
               alert("Something Went Wrong In Retrieving Data. Try Again.");
@@ -93,7 +105,7 @@ export class RoutesScreenComponent implements OnInit{
       this.routeService.getRoutesFromBackend()
         .subscribe({next: (resp)=>{
             this.ALL_ROUTES = resp;
-            this.updateDropdown();
+            // this.updateDropdown();
           },
         error: (e)=>{
           alert("Something Went Wrong In Retrieving Data. Try Again.");
