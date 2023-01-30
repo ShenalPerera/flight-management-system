@@ -1,6 +1,6 @@
 package com.fms.flights.services;
 
-import com.fms.flights.FlightRepositoryForFilterData;
+import com.fms.flights.repositories.FlightRepositoryForFilterData;
 import com.fms.flights.repositories.FlightRepositoryFMS;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
@@ -18,14 +18,13 @@ import java.util.List;
 import java.util.Objects;
 @Service
 public class FlightService {
-    private final FlightRepository flightRepository;
     private final FlightRepositoryFMS flightRepositoryFMS;
 
     private final FlightRepositoryForFilterData flightRepositoryForFilterData;
     private final Logger logger;
     @Autowired
-    FlightService(FlightRepository flightRepository, FlightRepositoryFMS flightRepositoryFMS, FlightRepositoryForFilterData flightRepositoryForFilterData){
-        this.flightRepository = flightRepository;
+    FlightService(
+            FlightRepositoryFMS flightRepositoryFMS, FlightRepositoryForFilterData flightRepositoryForFilterData){
         this.flightRepositoryFMS = flightRepositoryFMS;
         this.flightRepositoryForFilterData = flightRepositoryForFilterData;
         this.logger = LoggerFactory.getLogger(FlightService.class);
