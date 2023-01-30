@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -67,8 +68,8 @@ public class RoutesService {
                         rs.getString("destination"),
                         rs.getDouble("mileage"),
                         rs.getDouble("durationH"),
-                        rs.getString("created_date_time"),
-                        rs.getString("modified_date_time")
+                        rs.getTimestamp("created_date_time"),
+                        rs.getTimestamp("modified_date_time")
                 )));
     }
 
@@ -78,7 +79,7 @@ public class RoutesService {
         Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
         if (conflictedRoute == null) {
             System.out.println(ZonedDateTime.now().format(FORMATTER));
-            route.setCreatedDateTime(ZonedDateTime.now().format(FORMATTER));
+            route.setCreatedDateTime(new Timestamp(new Date().getTime()));
 
 //            route.setCreatedDateTime(new Date());
             routeRepository.save(route);
@@ -108,7 +109,7 @@ public class RoutesService {
                     routeToBeEdited.setDestination(route.getDestination());
                     routeToBeEdited.setMileage(route.getMileage());
                     routeToBeEdited.setDurationH(route.getDurationH());
-                    routeToBeEdited.setModifiedDateTime(ZonedDateTime.now().format(FORMATTER));
+                    routeToBeEdited.setModifiedDateTime(new Timestamp(new Date().getTime()));
 //                    route.setModifiedDateTime(LocalDateTime.now());
 //                    route.setModifiedDateTime(new Date());
                     Route editedRoute = routeRepository.save(routeToBeEdited);
@@ -143,8 +144,8 @@ public class RoutesService {
                 resultSet.getString("destination"),
                 resultSet.getDouble("mileage"),
                 resultSet.getDouble("durationH"),
-                resultSet.getString("created_date_time"),
-                resultSet.getString("modified_date_time")
+                resultSet.getTimestamp("created_date_time"),
+                resultSet.getTimestamp("modified_date_time")
         );
         List<Route> filteredRoutes;
         if (!departure.isEmpty() && destination.isEmpty()) {

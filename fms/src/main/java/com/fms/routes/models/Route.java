@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -19,16 +20,16 @@ public class Route {
     double durationH;
 //    @CreationTimestamp
 //    @Temporal(TemporalType.TIMESTAMP)
-    String createdDateTime;
+    Timestamp createdDateTime;
 //    @UpdateTimestamp
 //    @Temporal(TemporalType.TIMESTAMP)
-    String modifiedDateTime;
+    Timestamp modifiedDateTime;
 
     public Route() {
 
     }
     public Route(int routeID, String departure, String destination,
-                 double mileage, double durationH, String createdDateTime, String modifiedDateTime) {
+                 double mileage, double durationH, Timestamp createdDateTime, Timestamp modifiedDateTime) {
         this.routeID = routeID;
         this.departure = departure;
         this.destination = destination;
@@ -79,19 +80,19 @@ public class Route {
         this.durationH = durationH;
     }
 
-    public String getCreatedDateTime() {
+    public Timestamp getCreatedDateTime() {
         return createdDateTime;
     }
 
-    public String getModifiedDateTime() {
+    public Timestamp getModifiedDateTime() {
         return modifiedDateTime;
     }
 
-    public void setCreatedDateTime(String createdDateTime) {
+    public void setCreatedDateTime(Timestamp createdDateTime) {
         this.createdDateTime = createdDateTime;
     }
 
-    public void setModifiedDateTime(String modifiedDateTime) {
+    public void setModifiedDateTime(Timestamp modifiedDateTime) {
         this.modifiedDateTime = modifiedDateTime;
     }
 }
