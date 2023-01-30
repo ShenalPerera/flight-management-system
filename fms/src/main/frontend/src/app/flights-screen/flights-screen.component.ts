@@ -78,13 +78,6 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     this.airportsListSubscription?.unsubscribe();
   }
 
-  getAirports(){
-    this.airportsListService.getAirportsList().subscribe( response => {
-      localStorage.setItem("airports",JSON.stringify(response));
-      this.airports = response;
-    });
-  }
-
   onDeleteFlight(flight_id: string, searchForm: NgForm) {
     this.dataService.removeFlight(flight_id).subscribe( {
       next:(response)=>{
@@ -184,17 +177,5 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     this.overlayForm.reset();
   }
 
-  invalidFlightEntry(control: AbstractControl): Promise<any> | Observable<any> {
-    return new Promise((resolve, reject) => {
-      const oId = control.get('oId')?.value;
-      const departureDateNTime = control.get('oDepartureDateNTime')?.value;
-      const flightNumber = control.get('oFlightNumber')?.value;
-
-      if (!this.dataService.checkEntryValid(oId, flightNumber, departureDateNTime)) {
-        resolve({'duplicateEntry': true});
-      }
-      resolve(null);
-    });
-  }
 
 }

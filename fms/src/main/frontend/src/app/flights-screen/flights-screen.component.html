@@ -163,17 +163,14 @@
         </mat-form-field>
         <br>
 
-        <span *ngIf="!overlayForm.get('oDepartureDateNTime')?.valid && overlayForm.get('oDepartureDateNTime')?.touched" class="form-error-message">
+        <span *ngIf="overlayForm.get('oDepartureDateNTime')?.hasError('required') && overlayForm.get('oDepartureDateNTime')?.touched" class="form-error-message">
             Departure Date is required.
         </span>
-        <div *ngIf="overlayForm.errors?.['duplicateEntry'] && (overlayForm.touched || overlayForm!.dirty)" class="form-error-message">
-          This flight number has an entry on that time*
-        </div>
+
         <mat-form-field class="form-field-full-width">
           <mat-label>Departure Date & Time</mat-label>
           <input  matInput
                   type="datetime-local"
-                  value=""
                   formControlName = "oDepartureDateNTime"
           >
         </mat-form-field>
@@ -191,7 +188,6 @@
           <mat-label>Arrival Date & Time</mat-label>
           <input  matInput
                   type="datetime-local"
-                  value=""
                   formControlName = "oArrivalDateNTime"
                   >
         </mat-form-field>
