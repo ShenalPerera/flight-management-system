@@ -58,6 +58,16 @@ public class RoutesService {
         }
     }
 
+    public Route updateRouteContent(Route oldRoute, Route newRoute) {
+        oldRoute.setDeparture(newRoute.getDeparture());
+        oldRoute.setDestination(newRoute.getDestination());
+        oldRoute.setMileage(newRoute.getMileage());
+        oldRoute.setDurationH(newRoute.getDurationH());
+        oldRoute.setModifiedDateTime(new Timestamp(new Date().getTime()));
+
+        return oldRoute;
+    }
+
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
@@ -101,43 +111,18 @@ public class RoutesService {
             logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found", route.getRouteID());
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
-        routeList.get(0).setDeparture(route.getDeparture());
-        routeList.get(0).setDestination(route.getDestination());
-        routeList.get(0).setMileage(route.getMileage());
-        routeList.get(0).setDurationH(route.getDurationH());
-        routeList.get(0).setModifiedDateTime(new Timestamp(new Date().getTime()));
 
-        Route editedRoute = routeRepository.save(routeList.get(0));
-        return new ResponseEntity<>(editedRoute, HttpStatus.OK);
-//        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss Z");
-//
-//        Route conflictedRoute = routeRepository.findFirstByDepartureAndDestinationAndRouteIDNot(
-//                route.getDeparture(), route.getDestination(), route.getRouteID()
-//        );
-//        if (conflictedRoute == null) {
-//                if (routeRepository.existsById(route.getRouteID())) {
-//
-//                    // wrong logic get the existing route
-//                    Route routeToBeEdited = routeRepository.findByRouteID(route.getRouteID());
-//                    routeToBeEdited.setDeparture(route.getDeparture());
-//                    routeToBeEdited.setDestination(route.getDestination());
-//                    routeToBeEdited.setMileage(route.getMileage());
-//                    routeToBeEdited.setDurationH(route.getDurationH());
-//                    routeToBeEdited.setModifiedDateTime(new Timestamp(new Date().getTime()));
-////                    route.setModifiedDateTime(LocalDateTime.now());
-////                    route.setModifiedDateTime(new Date());
-//                    Route editedRoute = routeRepository.save(routeToBeEdited);
-//                    return new ResponseEntity<>(editedRoute, HttpStatus.OK);
-//                }else {
-//                    logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found",
-//                            route.getRouteID());
-//                    throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
-//                }
-//        }else {
-//            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
-//                    route.getDeparture(), route.getDestination());
-//            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-//        }
+        Route updatedRoute = updateRouteContent(routeList.get(0), route);
+
+//        routeList.get(0).setDeparture(route.getDeparture());
+//        routeList.get(0).setDestination(route.getDestination());
+//        routeList.get(0).setMileage(route.getMileage());
+//        routeList.get(0).setDurationH(route.getDurationH());
+//        routeList.get(0).setModifiedDateTime(new Timestamp(new Date().getTime()));
+
+        updatedRoute = routeRepository.save(updatedRoute);
+        return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
+
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
