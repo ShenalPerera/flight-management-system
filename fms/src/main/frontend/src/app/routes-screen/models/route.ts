@@ -1,3 +1,5 @@
+import {Timestamp} from "rxjs";
+
 export class Route {
   routeID!: number;
   departure!: string;

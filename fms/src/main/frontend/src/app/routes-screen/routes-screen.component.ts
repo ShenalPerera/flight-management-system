@@ -32,7 +32,7 @@ export class RoutesScreenComponent implements OnInit{
         this.departuresList = listValues.dpList;
         this.destinationsList = listValues.dsList;
 
-        console.log(this.ALL_ROUTES[this.ALL_ROUTES.length-1]);
+        console.log(typeof this.ALL_ROUTES[0].modifiedDateTime);
       },
       error: (e)=>{
         alert("Something Went Wrong In Retrieving Data. Try Again.");
