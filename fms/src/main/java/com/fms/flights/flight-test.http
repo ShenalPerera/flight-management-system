@@ -6,7 +6,7 @@ Content-Type: application/json
   "flightId": "ldibdve-uxbom5",
   "flightNumber": "1234",
   "departure": "Colombo",
-  "arrival": "",
+  "arrival": "sdfd",
   "departureDate": "2023-04-29",
   "arrivalDate": "2023-04-30",
   "departureTime": "13:00",
@@ -18,7 +18,7 @@ PUT http://localhost:8080/flights/edit-flight
 Content-Type: application/json
 
 {
-  "flightId": "12s",
+  "flightId": "e5efbd0f-f7e0-4d05-802a-6551dd6250a9",
   "flightNumber": "1234",
   "departure": "Colombo",
   "arrival": "Dubai",

@@ -1,7 +1,11 @@
 package com.fms.flights.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity(name = "Flight")
@@ -62,6 +66,23 @@ public class Flight {
             columnDefinition = "TIME"
     )
     private String arrivalTime;
+
+    @CreationTimestamp
+    @Column(
+            name = "created_date_time",
+            nullable = false
+    )
+    private Timestamp createdDateNTime;
+
+    @UpdateTimestamp
+    @Column(
+            name = "modified_date_time",
+            nullable = false
+    )
+    private Timestamp modifiedDateNTime;
+
+    @Version
+    private long version;
 
 
     public Flight(String flightId, String flightNumber, String arrival, String departure, String arrivalDate, String departureDate, String arrivalTime, String departureTime) {
@@ -143,6 +164,29 @@ public class Flight {
         this.departureTime = departure_time;
     }
 
+    public Timestamp getCreatedDateNTime() {
+        return createdDateNTime;
+    }
+
+    public void setCreatedDateNTime(Timestamp createdDateNTime) {
+        this.createdDateNTime = createdDateNTime;
+    }
+
+    public Timestamp getModifiedDateNTime() {
+        return modifiedDateNTime;
+    }
+
+    public void setModifiedDateNTime(Timestamp modifiedDateNTime) {
+        this.modifiedDateNTime = modifiedDateNTime;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

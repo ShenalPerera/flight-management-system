@@ -1,3 +1,5 @@
+import {Timestamp} from "rxjs";
+
 export class Flight{
 
   public flightId: string | undefined;
@@ -6,10 +8,11 @@ export class Flight{
   public departure: string | undefined;
   public arrivalDate: string | undefined;
   public departureDate:string | undefined;
-
   public arrivalTime: string | undefined;
-
   public departureTime:string | undefined;
+  public createdDateNTime:string | undefined;
+  public modifiedDateNTime:string | undefined;
+  public version:number | undefined;
 
   constructor(id:string,flight_number:string, arrival:string, departure:string,arrival_date:string,arrival_time:string, departure_date:string,
                departure_time:string){
@@ -22,6 +25,5 @@ export class Flight{
     this.departureTime =departure_time;
     this.flightId = id
   }
-
 
 }

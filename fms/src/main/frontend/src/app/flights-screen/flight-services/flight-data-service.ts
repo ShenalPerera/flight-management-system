@@ -46,8 +46,14 @@ export class FlightDataService {
   }
 
   updateFlight(value: {
-    oId: string, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string, oDepartureDateNTime: string}){
-    return this.flightService.editFlight(this.createFlight(value));
+    oId: string, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string, oDepartureDateNTime: string},flight:Flight){
+    let editedFlight = this.createFlight(value);
+
+    editedFlight.createdDateNTime = flight.createdDateNTime;
+    editedFlight.modifiedDateNTime = flight.modifiedDateNTime;
+    editedFlight.version = flight.version;
+
+    return this.flightService.editFlight(editedFlight);
   }
 
   getDateNTime(s: string): { date: string, time: string } {

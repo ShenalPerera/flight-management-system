@@ -20,6 +20,8 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   isEditMode!: boolean;
   public flights !: Flight[];
 
+  tempFlight !: Flight;
+
   public airports !: string[];
   overlayForm!: FormGroup;
   public searchOptions = {
@@ -99,8 +101,9 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
       'oArrival': flight.arrival,
       'oDeparture': flight.departure,
       'oArrivalDateNTime': flight.arrivalDate + "T" + flight.arrivalTime,
-      'oDepartureDateNTime': flight.departureDate + "T" + flight.departureTime,
+      'oDepartureDateNTime': flight.departureDate + "T" + flight.departureTime
     }
+    this.tempFlight = flight;
     this.overlayForm.reset(this.formTempData);
     this.isOverlayShow = !this.isOverlayShow;
   }
@@ -149,7 +152,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     let tempSubscription !: Observable<HttpResponse<Flight>>;
 
     if (this.isEditMode) {
-      tempSubscription =  this.dataService.updateFlight(value);
+      tempSubscription =  this.dataService.updateFlight(value,this.tempFlight);
     }
     else {
       tempSubscription =  this.dataService.addFlight(value);
