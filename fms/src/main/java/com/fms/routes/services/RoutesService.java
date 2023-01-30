@@ -79,7 +79,8 @@ public class RoutesService {
                         rs.getDouble("mileage"),
                         rs.getDouble("durationH"),
                         rs.getTimestamp("created_date_time"),
-                        rs.getTimestamp("modified_date_time")
+                        rs.getTimestamp("modified_date_time"),
+                        rs.getInt("version")
                 )));
     }
 
@@ -101,6 +102,7 @@ public class RoutesService {
 
 
     public ResponseEntity<Route> editRoute(Route route) {
+//        System.out.println(route.getVersion());
         checkInputFields(route);
         List<Route> routeList = routeRepository.findByDepartureAndDestinationOrRouteID(route.getDeparture(), route.getDestination(), route.getRouteID());
         if (routeList.size()>1) {
@@ -119,6 +121,12 @@ public class RoutesService {
 //        routeList.get(0).setMileage(route.getMileage());
 //        routeList.get(0).setDurationH(route.getDurationH());
 //        routeList.get(0).setModifiedDateTime(new Timestamp(new Date().getTime()));
+
+        // check whether the database value has been changed
+        if (route.getVersion() != routeRepository.findByRouteID(route.getRouteID()).getVersion()) {
+            logger.error("'/api/routes-screen/update-route' accessed with version->{} which is not synced with system. Please reload", route.getVersion());
+            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
+        }
 
         updatedRoute = routeRepository.save(updatedRoute);
         return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
@@ -144,7 +152,8 @@ public class RoutesService {
                 resultSet.getDouble("mileage"),
                 resultSet.getDouble("durationH"),
                 resultSet.getTimestamp("created_date_time"),
-                resultSet.getTimestamp("modified_date_time")
+                resultSet.getTimestamp("modified_date_time"),
+                resultSet.getInt("version")
         );
         List<Route> filteredRoutes;
         if (!departure.isEmpty() && destination.isEmpty()) {

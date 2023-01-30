@@ -51,7 +51,7 @@ export class EntryComponent implements OnInit{
       width: '315px',
       height: 'auto',
       data: {
-        route: {routeID: this.route.routeID, departure: this.route.departure, destination: this.route.destination, mileage: this.route.mileage, durationH: this.route.durationH},
+        route: {routeID: this.route.routeID, departure: this.route.departure, destination: this.route.destination, mileage: this.route.mileage, durationH: this.route.durationH, version: this.route.version},
         type: 'edit'
       },
       disableClose: true

@@ -11,4 +11,5 @@ public interface RouteRepository extends JpaRepository<Route, Integer> {
     Route findByRouteID(int routeID);
 
     List<Route> findByDepartureAndDestinationOrRouteID(String departure, String destination, int routeID);
+
 }

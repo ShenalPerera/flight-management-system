@@ -25,11 +25,14 @@ public class Route {
 //    @Temporal(TemporalType.TIMESTAMP)
     Timestamp modifiedDateTime;
 
+    @Version
+    long version;
+
     public Route() {
 
     }
-    public Route(int routeID, String departure, String destination,
-                 double mileage, double durationH, Timestamp createdDateTime, Timestamp modifiedDateTime) {
+
+    public Route(int routeID, String departure, String destination, double mileage, double durationH, Timestamp createdDateTime, Timestamp modifiedDateTime, long version) {
         this.routeID = routeID;
         this.departure = departure;
         this.destination = destination;
@@ -37,8 +40,8 @@ public class Route {
         this.durationH = durationH;
         this.createdDateTime = createdDateTime;
         this.modifiedDateTime = modifiedDateTime;
+        this.version = version;
     }
-
 
     public int getRouteID() {
         return routeID;
@@ -94,5 +97,13 @@ public class Route {
 
     public void setModifiedDateTime(Timestamp modifiedDateTime) {
         this.modifiedDateTime = modifiedDateTime;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 }

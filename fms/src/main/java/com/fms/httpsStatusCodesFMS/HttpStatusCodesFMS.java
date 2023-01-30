@@ -7,7 +7,8 @@ public enum HttpStatusCodesFMS {
     INVALID_DEPARTURE_AND_ARRIVAL_DATE(253),
     ENTRY_NOT_FOUND(254),
     WRONG_INPUTS_FOUND(255),
-    NEGATIVE_NUMBER(256);
+    NEGATIVE_NUMBER(256),
+    OUT_OF_SYNCED(257);
 
     private final int statusCode;
     HttpStatusCodesFMS(int statusCode){
