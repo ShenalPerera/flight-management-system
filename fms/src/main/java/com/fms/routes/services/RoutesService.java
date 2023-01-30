@@ -54,6 +54,18 @@ public class RoutesService {
         }
     }
 
+    public void checkRouteIDAndDuplicates(Route route, List<Route> routeList) {
+        if (routeList.size()>1) {
+            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
+                    route.getDeparture(), route.getDestination());
+            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        }
+        if (routeList.isEmpty() || routeList.get(0).getRouteID() != route.getRouteID()) {
+            logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found", route.getRouteID());
+            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+        }
+    }
+
     public Route updateRouteContent(Route oldRoute, Route newRoute) {
         oldRoute.setDeparture(newRoute.getDeparture());
         oldRoute.setDestination(newRoute.getDestination());
@@ -98,26 +110,17 @@ public class RoutesService {
     public ResponseEntity<Route> editRoute(Route route) {
         checkInputFields(route);
         List<Route> routeList = routeRepository.findByDepartureAndDestinationOrRouteID(route.getDeparture(), route.getDestination(), route.getRouteID());
-        if (routeList.size()>1) {
-            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there", route.getDeparture(), route.getDestination());
-            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-        }
-        if (routeList.isEmpty() || routeList.get(0).getRouteID() != route.getRouteID()) {
-            logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found", route.getRouteID());
-            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
-        }
 
+        checkRouteIDAndDuplicates(route, routeList);
         Route updatedRoute = updateRouteContent(routeList.get(0), route);
-
-        // check whether the database value has been changed
-        if (route.getVersion() != routeRepository.findByRouteID(route.getRouteID()).getVersion()) {
-            logger.error("'/api/routes-screen/update-route' accessed with version->{} which is not synced with system. Please reload", route.getVersion());
+        long versionInDatabase = routeRepository.findByRouteID(route.getRouteID()).getVersion();
+        if (route.getVersion() != versionInDatabase) {
+            logger.error("'/api/routes-screen/update-route' accessed with version->{} " +
+                    "latest version->{}", route.getVersion(), versionInDatabase);
             throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
         }
-
         updatedRoute = routeRepository.save(updatedRoute);
         return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
-
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
