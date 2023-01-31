@@ -11,7 +11,7 @@ import {AirportsHandleService} from "../services/airports-handle.service";
   styleUrls: ['./fares-screen.component.scss']
 })
 export class FaresScreenComponent implements OnInit {
-  locations?: string[];
+  airports?: string[];
   searchCriteria = {departure: "", arrival: ""};
   searchedData?: Entry[];
   editedEntry?: Entry;
@@ -25,13 +25,13 @@ export class FaresScreenComponent implements OnInit {
 
   ngOnInit() {
     this.getAllEntries();
-    this.generateLocations();
-    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 1, createdTimestamp: "", modifiedTimestamp: "", version: 0};
+    this.generateAirports();
+    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0, createdTimestamp: "", modifiedTimestamp: "", version: 0};
   }
-  generateLocations(): void {
+  generateAirports(): void {
     this.airportsHandleService.getAirportsList().subscribe(response => {
       localStorage.setItem("airports",JSON.stringify(response));
-      this.locations = response;
+      this.airports = response;
     });
   }
   getAllEntries(): void {
@@ -56,7 +56,7 @@ export class FaresScreenComponent implements OnInit {
       this.editedEntry = entry;
     } else {
       this.createEvent = true;
-      this.editedEntry = { id: 0, departure: "", arrival: "", fare: 1, createdTimestamp: "", modifiedTimestamp: "", version: 0};
+      this.editedEntry = { id: 0, departure: "", arrival: "", fare: 0, createdTimestamp: "", modifiedTimestamp: "", version: 0};
     }
     const dialogRef = this.dialog.open(FareFormComponent, {
         data: {
@@ -70,7 +70,7 @@ export class FaresScreenComponent implements OnInit {
             modifiedTimestamp: this.editedEntry.modifiedTimestamp,
             version: this.editedEntry.version
           },
-          locations: this.locations
+          airports: this.airports
         },
         disableClose: true
       }

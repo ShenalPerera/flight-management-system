@@ -11,9 +11,6 @@ export class FareService {
 
   constructor(private http: HttpClient) { }
 
-  getLocations(): Observable<string[]> {
-    return this.http.get<string[]>(this.CONFIG_URL+"/locations");
-  }
   getAllEntries(): Observable<Entry[]> {
     return this.http.get<Entry[]>(this.CONFIG_URL+"/search");
   }

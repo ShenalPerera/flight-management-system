@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Entry } from "../shared/entry.model";
-import { locationValidator, numberValidator } from "../shared/validators";
+import { airportValidator, numberValidator } from "../shared/validators";
 import { FareService } from "../services/fare.service";
 import { HttpStatusCodesFMS } from "../../http-status-codes-fms/httpStatusCodes.enum"
 
@@ -12,30 +12,26 @@ import { HttpStatusCodesFMS } from "../../http-status-codes-fms/httpStatusCodes.
   styleUrls: ['./fare-form.component.scss']
 })
 export class FareFormComponent implements OnInit {
-  sampleForm!: FormGroup;
+  formGroup!: FormGroup;
   constructor(
     private fareService: FareService,
     public dialogRef: MatDialogRef<FareFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       createEvent: boolean,
       entry: Entry,
-      departingLocation: string[],
-      arrivingLocation: string[]
+      airports: string[]
     }
   ) {}
 
   ngOnInit() {
-    this.sampleForm = new FormGroup({
+    this.formGroup = new FormGroup({
       'departure': new FormControl(this.data.entry.departure, [Validators.required]),
       'arrival': new FormControl(this.data.entry.arrival, [Validators.required]),
       'fare': new FormControl(this.data.entry.fare, [Validators.required, numberValidator])
-    }, { validators: locationValidator });
+    }, { validators: airportValidator });
   }
   discardClicked() {
-    if (
-      (this.sampleForm.value['departure'].toLowerCase() == this.data.entry.departure) &&
-      (this.sampleForm.value['arrival'].toLowerCase() == this.data.entry.arrival) &&
-      (this.sampleForm.value['fare'] == this.data.entry.fare)) {
+    if (this.formGroup.pristine.valueOf()) {
       this.dialogRef.close(false);
     } else if (confirm("Entered data will be lost! Do you want to proceed?")) {
       this.dialogRef.close(false);
@@ -45,9 +41,9 @@ export class FareFormComponent implements OnInit {
     if (this.data.createEvent) {
       this.fareService.createEntry({
         id: this.data.entry.id,
-        departure: this.sampleForm.value['departure'].toLowerCase(),
-        arrival: this.sampleForm.value['arrival'].toLowerCase(),
-        fare: this.sampleForm.value['fare'],
+        departure: this.formGroup.value['departure'].toLowerCase(),
+        arrival: this.formGroup.value['arrival'].toLowerCase(),
+        fare: this.formGroup.value['fare'],
         createdTimestamp: "",
         modifiedTimestamp: "",
         version: 0
@@ -62,9 +58,9 @@ export class FareFormComponent implements OnInit {
     } else {
       this.fareService.editEntry({
         id: this.data.entry.id,
-        departure: this.sampleForm.value['departure'].toLowerCase(),
-        arrival: this.sampleForm.value['arrival'].toLowerCase(),
-        fare: this.sampleForm.value['fare'],
+        departure: this.formGroup.value['departure'].toLowerCase(),
+        arrival: this.formGroup.value['arrival'].toLowerCase(),
+        fare: this.formGroup.value['fare'],
         createdTimestamp: this.data.entry.createdTimestamp,
         modifiedTimestamp: this.data.entry.modifiedTimestamp,
         version: this.data.entry.version
@@ -81,11 +77,15 @@ export class FareFormComponent implements OnInit {
     }
   }
   resetClicked() {
-    this.sampleForm.patchValue({
-      'departure': this.data.entry.departure,
-      'arrival': this.data.entry.arrival,
-      'fare': this.data.entry.fare
-    });
-    this.sampleForm.markAsPristine();
+    if (this.data.createEvent)
+      this.formGroup.reset();
+    else {
+      this.formGroup.patchValue({
+        'departure': this.data.entry.departure,
+        'arrival': this.data.entry.arrival,
+        'fare': this.data.entry.fare
+      });
+      this.formGroup.markAsPristine();
+    }
   }
 }

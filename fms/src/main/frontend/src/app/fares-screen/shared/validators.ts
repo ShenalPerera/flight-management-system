@@ -1,13 +1,12 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
-export const locationValidator: ValidatorFn =
+export const airportValidator: ValidatorFn =
   (control: AbstractControl): ValidationErrors | null => {
-  const departure = control.get('departure');
-  const arrival = control.get('arrival');
-  if (
-    (departure?.value.toLowerCase() == arrival?.value.toLowerCase()) &&
-    (departure?.value != '') && (arrival?.value != '')
-  ) {
+  const departure = control.get('departure')?.value;
+  const arrival = control.get('arrival')?.value;
+  if (!departure || !arrival)
+    return null;
+  if (departure == arrival) {
     return { sameLocation : true };
   }
   return null;
@@ -15,9 +14,9 @@ export const locationValidator: ValidatorFn =
 
 export const numberValidator: ValidatorFn =
   (control: AbstractControl): ValidationErrors | null => {
-  if (control.value == null)
+  if ((control.value == null) && control.dirty)
     return { notANumber : true };
-  if (control.value <= 0)
+  if ((control.value <= 0) && control.dirty)
     return { notAPositiveNumber : true };
   return null;
 };

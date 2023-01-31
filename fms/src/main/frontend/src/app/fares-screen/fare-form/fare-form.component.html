@@ -1,12 +1,16 @@
 <h1 mat-dialog-title>{{ this.data.createEvent? "Create" : "Edit" }}</h1>
-<form #f="ngForm" [formGroup]="sampleForm">
+<form #f="ngForm" [formGroup]="formGroup">
 
   <div mat-dialog-content>
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Departure</mat-label>
-        <input matInput formControlName="departure" name="departure">
-        <span class="text-danger" *ngIf="sampleForm!.errors?.['sameLocation']">
+        <select matNativeControl formControlName="departure" name="departure">
+          <option *ngFor="let location of data.airports" [value]="location.toLowerCase()">
+            {{location | titlecase }}
+          </option>
+        </select>
+        <span class="text-danger" *ngIf="formGroup!.errors?.['sameLocation']">
           Locations need to be distinct!
         </span>
       </mat-form-field>
@@ -14,8 +18,12 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Arrival</mat-label>
-        <input matInput formControlName="arrival" name="arrival">
-        <span class="text-danger" *ngIf="sampleForm!.errors?.['sameLocation']">
+        <select matNativeControl formControlName="arrival" name="arrival">
+          <option *ngFor="let location of data.airports" [value]="location.toLowerCase()">
+            {{location | titlecase }}
+          </option>
+        </select>
+        <span class="text-danger" *ngIf="formGroup!.errors?.['sameLocation']">
           Locations need to be distinct!
         </span>
       </mat-form-field>
@@ -24,10 +32,10 @@
       <mat-form-field appearance="fill">
         <mat-label>Fare (USD)</mat-label>
         <input matInput name="fare" type="number" formControlName="fare">
-        <span class="text-danger" *ngIf="sampleForm.get('fare')!.errors?.['notANumber']">
+        <span class="text-danger" *ngIf="formGroup.get('fare')!.errors?.['notANumber']">
           Should be a number!
         </span>
-        <span class="text-danger" *ngIf="sampleForm.get('fare')!.errors?.['notAPositiveNumber']">
+        <span class="text-danger" *ngIf="formGroup.get('fare')!.errors?.['notAPositiveNumber']">
           Should be a positive number!
         </span>
       </mat-form-field>
@@ -35,8 +43,8 @@
   </div>
 
   <div mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="submitCLicked()" [disabled]="sampleForm.invalid || sampleForm.pristine.valueOf()">Apply</button>
-    <button mat-raised-button (click)="resetClicked()" [disabled]="sampleForm.pristine.valueOf()">Reset</button>
+    <button mat-raised-button color="primary" (click)="submitCLicked()" [disabled]="formGroup.invalid || formGroup.pristine.valueOf()">Apply</button>
+    <button mat-raised-button (click)="resetClicked()" [disabled]="!formGroup.dirty">Reset</button>
     <button mat-raised-button color="warn" (click)="discardClicked()">Discard</button>
   </div>
 
