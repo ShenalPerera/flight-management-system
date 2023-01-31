@@ -1,4 +1,4 @@
-package com.fms.routes.routes_controllers;
+package com.fms.routes.controllers;
 
 import com.fms.routes.models.Route;
 import com.fms.routes.services.RoutesService;
