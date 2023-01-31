@@ -70,7 +70,8 @@ public class Flight {
     @CreationTimestamp
     @Column(
             name = "created_date_time",
-            nullable = false
+            nullable = false,
+            updatable = false
     )
     private Timestamp createdDateNTime;
 
@@ -84,6 +85,9 @@ public class Flight {
     @Version
     private long version;
 
+    public Flight() {
+
+    }
 
     public Flight(String flightId, String flightNumber, String arrival, String departure, String arrivalDate, String departureDate, String arrivalTime, String departureTime) {
         this.flightId = flightId;
@@ -94,10 +98,6 @@ public class Flight {
         this.departureDate = departureDate;
         this.arrivalTime = arrivalTime;
         this.departureTime = departureTime;
-    }
-
-    public Flight() {
-
     }
 
     public String getFlightId() {

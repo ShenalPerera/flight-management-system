@@ -69,6 +69,9 @@ public class FlightController {
     public ResponseEntity<Flight> editFlight(@RequestBody Flight editedFlight){
         logger.info("Accessed '/flights/edit-flights' - Body : {}",editedFlight);
         return ResponseEntity.status(200).body(flightService.editFlight(editedFlight));
+
+
+
     }
 
     @DeleteMapping("/delete-flight")

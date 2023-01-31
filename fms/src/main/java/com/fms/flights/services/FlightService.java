@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -102,21 +103,11 @@ public class FlightService {
     }
 
     public Flight addNewFlight(Flight flight ){
-        if (isFlightValidForCreate(flight)){
-            logger.info("Validated flight : success [addNewFlight]");
-            return flightRepositoryFMS.save(flight);
-        }
-        logger.error("Flight data is not valid : Duplicate entry found!");
-        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        return validateAndCreateFlight(flight);
     }
 
     public Flight editFlight(Flight flight){
-        if (isFlightValidForEdit(flight)){
-            logger.info("Validated flight : success [editFlight]");
-            return flightRepositoryFMS.save(flight);
-        }
-        logger.error("Flight data is not valid : Duplicate entry found!");
-        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        return validateAndEdit(flight);
     }
 
     public void deleteFlight(String flightId){
@@ -150,17 +141,35 @@ public class FlightService {
         }
     }
 
-    private boolean isFlightValidForEdit(Flight flight){
+    private Flight validateAndEdit(Flight flight){
+        validateFlightEntryFields(flight);
 
         List<Flight> filteredFlights = this.flightRepositoryFMS.findAllByFlightNumberAndDepartureDateOrFlightId(
                 flight.getFlightNumber(),
                 flight.getDepartureDate(),
                 flight.getFlightId()
         );
-        return filteredFlights.size() == 1 && Objects.equals(filteredFlights.remove(0).getFlightId(), flight.getFlightId());
+        logger.info("Elements in the list : {}", filteredFlights);
+
+        if (filteredFlights.isEmpty()){
+            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+        }
+        else if (filteredFlights.size() == 1 && Objects.equals(filteredFlights.remove(0).getFlightId(), flight.getFlightId())){
+            logger.info("Validated flight : success [editFlight]");
+            try{
+                return flightRepositoryFMS.save(flight);
+            }
+            catch (OptimisticLockingFailureException e){
+                logger.error("Record was already edited");
+                throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+            }
+        }
+        else{
+            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        }
     }
 
-    private boolean isFlightValidForCreate(Flight flight){
+    private Flight validateAndCreateFlight(Flight flight){
         validateFlightEntryFields(flight);
 
         List<Flight> filteredFlights = this.flightRepositoryFMS.findAllByFlightNumberAndDepartureDate(
@@ -168,6 +177,11 @@ public class FlightService {
                 flight.getDepartureDate()
         );
 
-        return filteredFlights.isEmpty();
+        if (filteredFlights.isEmpty()){
+            logger.info("Validated flight : success [addNewFlight]");
+            return flightRepositoryFMS.save(flight);
+        }
+        logger.error("Flight data is not valid : Duplicate entry found!");
+        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 }
