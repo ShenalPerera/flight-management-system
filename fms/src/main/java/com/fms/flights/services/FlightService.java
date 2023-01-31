@@ -100,13 +100,14 @@ public class FlightService {
 
         if (filteredFlights.isEmpty()) {
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
-        } else if (filteredFlights.size() == 1 && Objects.equals(filteredFlights.remove(0).getFlightId(), flight.getFlightId())) {
+        }
+        else if (filteredFlights.size() == 1 && Objects.equals(filteredFlights.remove(0).getFlightId(), flight.getFlightId())) {
             logger.info("Validated flight : success [editFlight]");
             try {
                 return flightRepositoryFMS.save(flight);
             } catch (OptimisticLockingFailureException e) {
                 logger.error("Record was already edited");
-                throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+                throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
             }
         } else {
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);

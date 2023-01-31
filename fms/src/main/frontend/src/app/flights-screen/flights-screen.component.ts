@@ -163,6 +163,9 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
         if (response.status === HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND){
           alert("Flight number already has flight on given departure time!");
         }
+        else if (response.status === HttpStatusCodesFMS.VERSION_MISMATCHED){
+          alert("This flight already updated by someone! Check again")
+        }
         else {
           this.resetFormScreeMode();
           this.dataService.fetchFlights();
