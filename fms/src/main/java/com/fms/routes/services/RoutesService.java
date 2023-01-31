@@ -15,6 +15,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -86,14 +87,29 @@ public class RoutesService {
     public ResponseEntity<Route> createRoute(Route route) {
         checkInputFields(route);
 
-        if (routeRepository.countAllByDepartureAndDestination(route.getDeparture(), route.getDestination()) == 0) {
+        try{
             route.setCreatedDateTime(new Timestamp(new Date().getTime()));
             routeRepository.save(route);
             return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
+                    route.getDeparture(), route.getDestination());
+            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
-        logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
-                route.getDeparture(), route.getDestination());
-        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+
+//        if (routeRepository.countAllByDepartureAndDestination(route.getDeparture(), route.getDestination()) == 0) {
+//            route.setCreatedDateTime(new Timestamp(new Date().getTime()));
+//            routeRepository.save(route);
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+//        }
+
+
+//        logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
+//                route.getDeparture(), route.getDestination());
+//        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+
+
+
 //        System.out.println(routeRepository.countAllByDepartureAndDestination(route.getDeparture(), route.getDestination()));
 //
 //        Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());

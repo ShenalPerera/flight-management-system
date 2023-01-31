@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"departure", "destination"})})
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -10,4 +10,6 @@ public interface RouteRepository extends JpaRepository<Route, Integer> {
     List<Route> findByDepartureAndDestinationOrRouteID(String departure, String destination, int routeID);
     int countAllByDepartureAndDestination(String departure, String destination);
 
+
+
 }
