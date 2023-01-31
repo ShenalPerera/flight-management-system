@@ -1,5 +1,6 @@
-package com.fms.fares;
+package com.fms.fares.services;
 
+import com.fms.fares.repositories.FareRepository;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.fares.models.Fare;

@@ -1,5 +1,6 @@
-package com.fms.fares;
+package com.fms.fares.controllers;
 
+import com.fms.fares.services.FareService;
 import com.fms.fares.models.Fare;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
