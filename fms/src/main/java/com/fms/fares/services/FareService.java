@@ -7,6 +7,7 @@ import com.fms.fares.models.Fare;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -59,10 +60,14 @@ public class FareService {
     public Fare createFare(Fare fare) {
         validateInputs(fare);
         checkMissingData(fare);
-        checkDuplicateFares(fare);
-
         fare.setCreatedTimestampAndModifiedTimestampToCurrentTimestamp();
-        return fareRepository.save(fare);
+        try {
+            return fareRepository.save(fare);
+        } catch (DataIntegrityViolationException e) {
+            logger.error("a duplicate fare exists for the given inputs | departure [{}], arrival [{}]",
+                    fare.getDeparture(), fare.getArrival());
+            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        }
     }
 
     public Fare editFare(Fare editedFare) {
@@ -92,9 +97,6 @@ public class FareService {
 
     // ************** utility functions **************
 
-    private boolean isDuplicate(String departure, String arrival) {
-        return fareRepository.findFirstByDepartureAndArrival(departure, arrival) != null;
-    }
     private List<Fare> getFaresForValidation(String departure, String arrival, int id) {
         return fareRepository.findByDepartureAndArrivalOrId(departure, arrival, id);
     }
@@ -134,13 +136,6 @@ public class FareService {
         if (fare.getFare() < 0) {
             logger.error("fare is negative [{}]", fare.getFare());
             throw new FMSException(HttpStatusCodesFMS.NEGATIVE_NUMBER);
-        }
-    }
-    private void checkDuplicateFares(Fare fare) {
-        if (isDuplicate(fare.getDeparture(), fare.getArrival())) {
-            logger.error("a duplicate fare exists for the given inputs | departure [{}], arrival [{}]",
-                    fare.getDeparture(), fare.getArrival());
-            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
     private void checkDuplicateFaresAndExistence(Fare fare) {

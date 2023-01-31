@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "departure", "arrival" }) })
 public class Fare {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
