@@ -53,6 +53,27 @@ export class FormComponent implements OnInit{
       'mileage': new FormControl(mileageString, [Validators.required, numberCheckValidator()]),
       'durationH': new FormControl(durationString, [Validators.required, numberCheckValidator()]),
     }, {validators: locationsValidator});
+
+    //
+    // if (this.data.type === 'edit') {
+    //   this.sampleForm = new FormGroup({
+    //     'departure': new FormControl({value: this.data.route.departure.toUpperCase(), disabled: true}),
+    //     'destination': new FormControl({value: this.data.route.destination.toUpperCase(), disabled: true}),
+    //     'mileage': new FormControl(mileageString, [Validators.required, numberCheckValidator()]),
+    //     'durationH': new FormControl(durationString, [Validators.required, numberCheckValidator()]),
+    //   }, {validators: locationsValidator});
+    // }
+
+    // if (this.data.type === 'create') {
+    //   this.sampleForm = new FormGroup({
+    //     'departure': new FormControl(this.data.route.departure.toUpperCase(), [Validators.required]),
+    //     'destination': new FormControl(this.data.route.destination.toUpperCase(), [Validators.required]),
+    //     'mileage': new FormControl(mileageString, [Validators.required, numberCheckValidator()]),
+    //     'durationH': new FormControl(durationString, [Validators.required, numberCheckValidator()]),
+    //   }, {validators: locationsValidator});
+    // }
+
+
   }
 
   onSubmitUpdateInBackend() {

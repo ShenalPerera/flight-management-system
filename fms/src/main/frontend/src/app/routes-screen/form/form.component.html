@@ -4,11 +4,12 @@
   <div>
   <mat-form-field appearance="fill">
     <mat-label>Departure</mat-label>
-<!--      <input formControlName="departure" matInput name="departure" >-->
+
+      <input *ngIf="data.type==='edit'" [value]="data.route.departure.toUpperCase()" disabled matInput name="departure">
 <!--      <span class="text-danger" *ngIf="sampleForm!.errors?.['forbiddenLocations']">-->
 <!--         Invalid: Locations cannot be same.-->
 <!--      </span>-->
-    <select matNativeControl formControlName="departure" name="departure" #selectDropdown>
+    <select *ngIf="data.type==='create'" matNativeControl formControlName="departure" name="departure" #selectDropdown>
       <!--      <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterDataFromBackend()" #selectDropdown>-->
       <option value="" selected></option>
       <option *ngFor="let airport of data.airports" [value]="airport">
@@ -23,11 +24,11 @@
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Arrival</mat-label>
-<!--    <input formControlName="destination" matInput name="destination">-->
+    <input *ngIf="data.type==='edit'" [value]="data.route.destination.toUpperCase()" disabled matInput name="destination">
 <!--    <span class="text-danger" *ngIf="sampleForm!.errors?.['forbiddenLocations']">-->
 <!--         Invalid: Locations cannot be same.-->
 <!--    </span>-->
-    <select matNativeControl formControlName="destination" name="destination" #selectDropdown>
+    <select *ngIf="data.type==='create'" matNativeControl formControlName="destination" name="destination" #selectDropdown>
       <!--      <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterDataFromBackend()" #selectDropdown>-->
       <option value="" selected></option>
       <option *ngFor="let airport of data.airports" [value]="airport">
