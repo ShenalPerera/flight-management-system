@@ -5,6 +5,7 @@ import { Route } from '../models/route';
 import {RouteService} from "../services/route.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {locationsValidator, numberCheckValidator} from "../shared/validations";
+import {HttpStatusCodesFMS} from "../../http-status-codes-fms/httpStatusCodes.enum";
 
 
 
@@ -16,7 +17,6 @@ import {locationsValidator, numberCheckValidator} from "../shared/validations";
 })
 export class FormComponent implements OnInit{
 
-  private DUPLICATE_ENTRY_FOUND_STATUS_CODE = 251
   private OUT_OF_SYNCED_STATUS_CODE = 257;
 
   departure!: string;
@@ -71,7 +71,7 @@ export class FormComponent implements OnInit{
       this.routeService.updateRouteInBackend(this.updatedRoute)
         .subscribe({
           next: (resp)=>{
-            if (resp.status == this.DUPLICATE_ENTRY_FOUND_STATUS_CODE) {
+            if (resp.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
               alert('Sorry! That route is already there.');
             } else if (resp.status == this.OUT_OF_SYNCED_STATUS_CODE) {
               if (confirm('Sorry there are new updates. Do you want to fetch them ?')) {
@@ -107,7 +107,7 @@ export class FormComponent implements OnInit{
     this.routeService.createRouteInBackend(this.createdRoute)
       .subscribe({
         next: (resp)=>{
-          if (resp.status == this.DUPLICATE_ENTRY_FOUND_STATUS_CODE) {
+          if (resp.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
             alert('Sorry! That route is already there.');
           }else {
             this.afterApplyClosing();
