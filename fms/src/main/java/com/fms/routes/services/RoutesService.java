@@ -85,16 +85,27 @@ public class RoutesService {
 
     public ResponseEntity<Route> createRoute(Route route) {
         checkInputFields(route);
-        Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
-        if (conflictedRoute == null) {
+
+        if (routeRepository.countAllByDepartureAndDestination(route.getDeparture(), route.getDestination()) == 0) {
             route.setCreatedDateTime(new Timestamp(new Date().getTime()));
             routeRepository.save(route);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
-                    route.getDeparture(), route.getDestination());
-            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
+        logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
+                route.getDeparture(), route.getDestination());
+        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+//        System.out.println(routeRepository.countAllByDepartureAndDestination(route.getDeparture(), route.getDestination()));
+//
+//        Route conflictedRoute = routeRepository.findFirstByDepartureAndDestination(route.getDeparture(), route.getDestination());
+//        if (conflictedRoute == null) {
+//            route.setCreatedDateTime(new Timestamp(new Date().getTime()));
+//            routeRepository.save(route);
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+//        } else {
+//            logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
+//                    route.getDeparture(), route.getDestination());
+//            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+//        }
     }
 
 
