@@ -75,7 +75,7 @@ public class FareService {
         }
         catch (ObjectOptimisticLockingFailureException e) {
             logger.error("dirty write");
-            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
+            throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
         }
     }
 
