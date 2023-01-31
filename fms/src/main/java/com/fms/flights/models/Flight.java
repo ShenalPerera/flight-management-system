@@ -5,7 +5,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity(name = "Flight")
@@ -187,6 +186,7 @@ public class Flight {
     public void setVersion(long version) {
         this.version = version;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -209,8 +209,8 @@ public class Flight {
                 '}';
     }
 
-    public boolean isContainsEmptyFields(){
-        return flightId.isBlank() || flightNumber.isBlank() || arrival.isBlank() || departure.isBlank() || arrivalDate.isBlank()||
+    public boolean isContainsEmptyFields() {
+        return flightId.isBlank() || flightNumber.isBlank() || arrival.isBlank() || departure.isBlank() || arrivalDate.isBlank() ||
                 arrivalTime.isBlank() || departureDate.isBlank() || departureTime.isBlank();
     }
 

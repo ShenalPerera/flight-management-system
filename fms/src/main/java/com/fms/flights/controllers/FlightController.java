@@ -6,11 +6,9 @@ import com.fms.services.AirportsFileHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -42,7 +40,7 @@ public class FlightController {
                                            @RequestParam(name = "departureTime") String departureTime,
                                            @RequestParam(name = "arrivalDate") String arrivalDate,
                                            @RequestParam(name = "arrivalTime") String arrivalTime
-                                           ){
+    ) {
         logger.info("'/flights/get-filtered-flights?name={}&departure={}&arrival={}&departureDate={}&departureTime={}&arrivalDate={}&arrivalTime={}' accessed",
                 flightNumber,
                 departure,
@@ -51,33 +49,33 @@ public class FlightController {
                 departureTime,
                 arrivalDate,
                 arrivalTime);
-        return flightService.getFilteredFlightsBySearchOptions(flightNumber,departure,arrival,departureDate,departureTime,arrivalDate,arrivalTime);
+        return flightService.getFilteredFlightsBySearchOptions(flightNumber, departure, arrival, departureDate, departureTime, arrivalDate, arrivalTime);
     }
+
     @GetMapping("/get-airports")
-    public ResponseEntity<List<String>>  getAirports(){
+    public ResponseEntity<List<String>> getAirports() {
         logger.info("'/flights/get-airports' accessed");
         return ResponseEntity.status(200).body(airportsFileHandler.getAirportFromFile());
     }
 
     @PostMapping("/add-flight")
     public ResponseEntity<Flight> addNewFlight(@RequestBody Flight flight) {
-        logger.info("Accessed '/flights/get-flights' - Body : {}",flight);
+        logger.info("Accessed '/flights/get-flights' - Body : {}", flight);
         return ResponseEntity.status(200).body(flightService.addNewFlight(flight));
     }
 
     @PutMapping("/edit-flight")
-    public ResponseEntity<Flight> editFlight(@RequestBody Flight editedFlight){
-        logger.info("Accessed '/flights/edit-flights' - Body : {}",editedFlight);
+    public ResponseEntity<Flight> editFlight(@RequestBody Flight editedFlight) {
+        logger.info("Accessed '/flights/edit-flights' - Body : {}", editedFlight);
         return ResponseEntity.status(200).body(flightService.editFlight(editedFlight));
-
 
 
     }
 
     @DeleteMapping("/delete-flight")
     public ResponseEntity<String> deleteFlight(@RequestParam(name = "id") String flightId) {
-        logger.info("Accessed '/flights/delete-flights' - FLightId : {}",flightId);
+        logger.info("Accessed '/flights/delete-flights' - FLightId : {}", flightId);
         flightService.deleteFlight(flightId);
-        return  ResponseEntity.status(200).body(null);
+        return ResponseEntity.status(200).body(null);
     }
 }
