@@ -3,13 +3,13 @@ package com.fms.fares;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.fares.models.Fare;
-import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -71,9 +71,9 @@ public class FareService {
         try {
             return fareRepository.save(editedFare);
         }
-        catch (StaleObjectStateException e) {
+        catch (ObjectOptimisticLockingFailureException e) {
             logger.error("dirty write");
-            throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
+            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
         }
     }
 
