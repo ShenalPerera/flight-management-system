@@ -74,7 +74,7 @@ public class FareService {
             return fareRepository.save(editedFare);
         }
         catch (ObjectOptimisticLockingFailureException e) {
-            logger.error("dirty write");
+            logger.error("version mismatch | attempt to update with an older version [{}]", editedFare.getVersion());
             throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
         }
     }
@@ -84,7 +84,7 @@ public class FareService {
             fareRepository.deleteById(id);
             return id;
         } catch (EmptyResultDataAccessException e) {
-            logger.error("an entry doesn't exist for the given id [{}]", id);
+            logger.error("no entry exists for the given id [{}]", id);
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }
@@ -107,7 +107,7 @@ public class FareService {
     }
     private void checkMissingData(Fare fare) {
         if ((fare.getDeparture() == null) || (fare.getArrival() == null) || (fare.getFare() == 0)) {
-            logger.error("missing data from the query | departure [{}], arrival [{}], fare [{}]",
+            logger.error("some data is missing from the query | departure [{}], arrival [{}], fare [{}]",
                     fare.getDeparture(), fare.getArrival(), fare.getFare());
             throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
         }
@@ -117,7 +117,7 @@ public class FareService {
                 || (fare.getDeparture() == null)
                 || (fare.getArrival() == null)
                 || (fare.getFare() == 0)) {
-            logger.error("missing data from the query | id [{}], departure [{}], arrival [{}], fare [{}]",
+            logger.error("some data is missing from the query | id [{}], departure [{}], arrival [{}], fare [{}]",
                     fare.getId(), fare.getDeparture(), fare.getArrival(), fare.getFare());
             throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
         }
@@ -137,14 +137,16 @@ public class FareService {
     }
     private void checkDuplicateFares(Fare fare) {
         if (isDuplicate(fare.getDeparture(), fare.getArrival())) {
-            logger.error("a duplicate fare exists for the given inputs");
+            logger.error("a duplicate fare exists for the given inputs | departure [{}], arrival [{}]",
+                    fare.getDeparture(), fare.getArrival());
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
     private void checkDuplicateFaresAndExistence(Fare fare) {
         List<Fare> fareList = getFaresForValidation(fare.getDeparture(), fare.getArrival(), fare.getId());
         if (fareList.size() > 1) {
-            logger.error("a duplicate fare exists for the given inputs");
+            logger.error("a duplicate fare exists for the given inputs | departure [{}], arrival [{}]",
+                    fare.getDeparture(), fare.getArrival());
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
         if (fareList.isEmpty() || (fareList.get(0).getId() != fare.getId())) {
@@ -154,7 +156,7 @@ public class FareService {
     }
     private void checkEmptyStrings(Fare fare) {
         if (fare.getDeparture().isEmpty() || fare.getArrival().isEmpty()) {
-            logger.error("the query contains empty strings | departure [{}], arrival [{}]",
+            logger.error("the query contains empty strings | departure '{}', arrival '{}'",
                     fare.getDeparture(), fare.getArrival());
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
