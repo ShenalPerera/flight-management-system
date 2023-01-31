@@ -77,6 +77,7 @@ export class RoutesScreenComponent implements OnInit{
       height: 'auto',
       data: {
         route: {routeID: NaN, departure: '', destination: '', mileage: 0, durationH: 0, version: NaN},
+        airports: this.airports,
         type: 'create'
       },
       disableClose: true

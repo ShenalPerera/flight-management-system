@@ -31,6 +31,7 @@ export class FormComponent implements OnInit{
               public dialogRef: MatDialogRef<FormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {
                 route: Route,
+                airports: string[],
                 type: string
               }) {
 
