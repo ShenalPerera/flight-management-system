@@ -112,7 +112,7 @@ public class RoutesService {
             return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
         } catch (ObjectOptimisticLockingFailureException e) {
             logger.error("'/api/routes-screen/update-route' accessed with version->{}", route.getVersion());
-            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
+            throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
         }
 
     }

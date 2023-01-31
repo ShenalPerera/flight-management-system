@@ -8,7 +8,7 @@ public enum HttpStatusCodesFMS {
     ENTRY_NOT_FOUND(254),
     WRONG_INPUTS_FOUND(255),
     NEGATIVE_NUMBER(256),
-    OUT_OF_SYNCED(257);
+    VERSION_MISMATCHED(257);
 
     private final int statusCode;
     HttpStatusCodesFMS(int statusCode){
