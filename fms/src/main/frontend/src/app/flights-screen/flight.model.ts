@@ -10,8 +10,6 @@ export class Flight{
   public departureDate:string | undefined;
   public arrivalTime: string | undefined;
   public departureTime:string | undefined;
-  public createdDateNTime:string | undefined;
-  public modifiedDateNTime:string | undefined;
   public version:number | undefined;
 
   constructor(id:string,flight_number:string, arrival:string, departure:string,arrival_date:string,arrival_time:string, departure_date:string,

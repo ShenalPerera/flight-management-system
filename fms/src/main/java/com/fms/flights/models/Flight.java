@@ -70,14 +70,17 @@ public class Flight {
     @Column(
             name = "created_date_time",
             nullable = false,
-            updatable = false
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
     )
     private Timestamp createdDateNTime;
 
     @UpdateTimestamp
     @Column(
             name = "modified_date_time",
-            nullable = false
+            nullable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
     )
     private Timestamp modifiedDateNTime;
 
