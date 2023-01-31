@@ -17,8 +17,6 @@ import {HttpStatusCodesFMS} from "../../http-status-codes-fms/httpStatusCodes.en
 })
 export class FormComponent implements OnInit{
 
-  private OUT_OF_SYNCED_STATUS_CODE = 257;
-
   departure!: string;
   destination!: string;
   mileage!: number;
@@ -73,7 +71,7 @@ export class FormComponent implements OnInit{
           next: (resp)=>{
             if (resp.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
               alert('Sorry! That route is already there.');
-            } else if (resp.status == this.OUT_OF_SYNCED_STATUS_CODE) {
+            } else if (resp.status == HttpStatusCodesFMS.VERSION_MISMATCHED) {
               if (confirm('Sorry there are new updates. Do you want to fetch them ?')) {
                 this.afterApplyClosing();
               }
