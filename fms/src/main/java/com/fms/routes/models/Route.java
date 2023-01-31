@@ -7,15 +7,15 @@ import java.sql.Timestamp;
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    int routeID;
-    String departure;
-    String destination;
-    double mileage;
-    double durationH;
-    Timestamp createdDateTime;
-    Timestamp modifiedDateTime;
+    private int routeID;
+    private String departure;
+    private String destination;
+    private double mileage;
+    private double durationH;
+    private Timestamp createdDateTime;
+    private Timestamp modifiedDateTime;
     @Version
-    long version;
+    private long version;
 
     public Route() {
     }
