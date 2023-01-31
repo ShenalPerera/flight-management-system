@@ -4,6 +4,8 @@ import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.routes.models.Route;
 import com.fms.routes.repositories.RouteRepository;
+import jakarta.persistence.OptimisticLockException;
+import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -71,6 +74,7 @@ public class RoutesService {
         oldRoute.setDestination(newRoute.getDestination());
         oldRoute.setMileage(newRoute.getMileage());
         oldRoute.setDurationH(newRoute.getDurationH());
+//        oldRoute.setVersion(newRoute.getVersion());
         oldRoute.setModifiedDateTime(new Timestamp(new Date().getTime()));
 
         return oldRoute;
@@ -123,16 +127,31 @@ public class RoutesService {
         );
 
         checkRouteIDAndDuplicates(route, routeList);
-        Route updatedRoute = updateRouteContent(routeList.get(0), route);
-        checkVersionMismatch(route);
+        route.setModifiedDateTime(new Timestamp(new Date().getTime()));
+
+        try {
+            Route updatedRoute = routeRepository.save(route);
+            return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
+        } catch (ObjectOptimisticLockingFailureException e) {
+            logger.error("'/api/routes-screen/update-route' accessed with version->{}", route.getVersion());
+            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
+        }
+
+//        Route updatedRoute = routeRepository.save(route);
+//        return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
+//        Route updatedRoute = updateRouteContent(routeList.get(0), route);
+//        checkVersionMismatch(route);
 //        long versionInDatabase = routeRepository.findByRouteID(route.getRouteID()).getVersion();
 //        if (route.getVersion() != versionInDatabase) {
 //            logger.error("'/api/routes-screen/update-route' accessed with version->{} " +
 //                    "latest version->{}", route.getVersion(), versionInDatabase);
 //            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
 //        }
-        updatedRoute = routeRepository.save(updatedRoute);
-        return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
+//        System.out.println(route.getVersion());
+//        System.out.println(updatedRoute.getVersion());
+//        updatedRoute = routeRepository.save(updatedRoute);
+//        System.out.println(updatedRoute.getVersion());
+//        return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
