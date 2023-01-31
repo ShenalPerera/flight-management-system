@@ -76,6 +76,15 @@ public class RoutesService {
         return oldRoute;
     }
 
+    public void checkVersionMismatch(Route route) {
+        long versionInDatabase = routeRepository.findByRouteID(route.getRouteID()).getVersion();
+        if (route.getVersion() != versionInDatabase) {
+            logger.error("'/api/routes-screen/update-route' accessed with version->{} " +
+                    "latest version->{}", route.getVersion(), versionInDatabase);
+            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
+        }
+    }
+
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
@@ -109,16 +118,19 @@ public class RoutesService {
 
     public ResponseEntity<Route> editRoute(Route route) {
         checkInputFields(route);
-        List<Route> routeList = routeRepository.findByDepartureAndDestinationOrRouteID(route.getDeparture(), route.getDestination(), route.getRouteID());
+        List<Route> routeList = routeRepository.findByDepartureAndDestinationOrRouteID(
+                route.getDeparture(), route.getDestination(), route.getRouteID()
+        );
 
         checkRouteIDAndDuplicates(route, routeList);
         Route updatedRoute = updateRouteContent(routeList.get(0), route);
-        long versionInDatabase = routeRepository.findByRouteID(route.getRouteID()).getVersion();
-        if (route.getVersion() != versionInDatabase) {
-            logger.error("'/api/routes-screen/update-route' accessed with version->{} " +
-                    "latest version->{}", route.getVersion(), versionInDatabase);
-            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
-        }
+        checkVersionMismatch(route);
+//        long versionInDatabase = routeRepository.findByRouteID(route.getRouteID()).getVersion();
+//        if (route.getVersion() != versionInDatabase) {
+//            logger.error("'/api/routes-screen/update-route' accessed with version->{} " +
+//                    "latest version->{}", route.getVersion(), versionInDatabase);
+//            throw new FMSException(HttpStatusCodesFMS.OUT_OF_SYNCED);
+//        }
         updatedRoute = routeRepository.save(updatedRoute);
         return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
     }
