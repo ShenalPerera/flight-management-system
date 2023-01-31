@@ -25,8 +25,8 @@ export class FareFormComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      'departure': new FormControl(this.data.entry.departure, [Validators.required]),
-      'arrival': new FormControl(this.data.entry.arrival, [Validators.required]),
+      'departure': new FormControl({ value: this.data.entry.departure, disabled: !this.data.createEvent }, [Validators.required]),
+      'arrival': new FormControl({ value: this.data.entry.arrival, disabled: !this.data.createEvent }, [Validators.required]),
       'fare': new FormControl(this.data.entry.fare, [Validators.required, numberValidator])
     }, { validators: airportValidator });
   }
