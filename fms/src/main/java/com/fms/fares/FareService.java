@@ -27,6 +27,8 @@ public class FareService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // ************** database handlers **************
+
     public List<Fare> getSearchedFares(String departure, String arrival) {
 
         String FIND_ALL_QUERY = "SELECT * FROM fare;";
@@ -87,7 +89,7 @@ public class FareService {
         }
     }
 
-    // utility functions
+    // ************** utility functions **************
 
     private boolean isDuplicate(String departure, String arrival) {
         return fareRepository.findFirstByDepartureAndArrival(departure, arrival) != null;
@@ -96,7 +98,7 @@ public class FareService {
         return fareRepository.findByDepartureAndArrivalOrId(departure, arrival, id);
     }
 
-    // validations
+    // ***************** validations *****************
 
     private void validateInputs(Fare userFare) {
         checkSameLocation(userFare);

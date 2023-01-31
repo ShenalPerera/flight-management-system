@@ -20,14 +20,27 @@ public class Fare {
 
     public Fare() {}
 
-    public Fare(int id, String departure, String arrival, double fare) {
+    public Fare(
+            int id,
+            String departure,
+            String arrival,
+            double fare
+    ) {
         this.id = id;
         this.departure = departure;
         this.arrival = arrival;
         this.fare = fare;
     }
 
-    public Fare(int id, String departure, String arrival, double fare, Timestamp createdTimestamp, Timestamp modifiedTimestamp, long version) {
+    public Fare(
+            int id,
+            String departure,
+            String arrival,
+            double fare,
+            Timestamp createdTimestamp,
+            Timestamp modifiedTimestamp,
+            long version
+    ) {
         this.id = id;
         this.departure = departure;
         this.arrival = arrival;

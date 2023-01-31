@@ -72,7 +72,7 @@ export class FareFormComponent implements OnInit {
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
             alert("The entry is already in the system!")
-          else if (response.status == 257)
+          else if (response.status == HttpStatusCodesFMS.OUT_OF_SYNCED)
             alert("Someone else has changed the entry, reload the page and try again!");
           else
             this.dialogRef.close(true)
