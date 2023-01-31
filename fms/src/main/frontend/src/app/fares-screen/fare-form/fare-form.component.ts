@@ -47,11 +47,14 @@ export class FareFormComponent implements OnInit {
         id: this.data.entry.id,
         departure: this.sampleForm.value['departure'].toLowerCase(),
         arrival: this.sampleForm.value['arrival'].toLowerCase(),
-        fare: this.sampleForm.value['fare']
+        fare: this.sampleForm.value['fare'],
+        createdTimestamp: "",
+        modifiedTimestamp: "",
+        version: 0
       }).subscribe({
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
-            alert("The entry is already in the system!!")
+            alert("The entry is already in the system!")
           else
             this.dialogRef.close(true)
         }
@@ -61,11 +64,16 @@ export class FareFormComponent implements OnInit {
         id: this.data.entry.id,
         departure: this.sampleForm.value['departure'].toLowerCase(),
         arrival: this.sampleForm.value['arrival'].toLowerCase(),
-        fare: this.sampleForm.value['fare']
+        fare: this.sampleForm.value['fare'],
+        createdTimestamp: this.data.entry.createdTimestamp,
+        modifiedTimestamp: this.data.entry.modifiedTimestamp,
+        version: this.data.entry.version
       }).subscribe({
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
-            alert("The entry is already in the system!!")
+            alert("The entry is already in the system!")
+          else if (response.status == 0)
+            alert("Someone else has changed the entry, reload the page and try again!");
           else
             this.dialogRef.close(true)
         }

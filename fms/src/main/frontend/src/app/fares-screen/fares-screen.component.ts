@@ -26,7 +26,7 @@ export class FaresScreenComponent implements OnInit {
   ngOnInit() {
     this.getAllEntries();
     this.generateLocations();
-    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 1};
+    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 1, createdTimestamp: "", modifiedTimestamp: "", version: 0};
   }
   generateLocations(): void {
     this.airportsHandleService.getAirportsList().subscribe(response => {
@@ -56,7 +56,7 @@ export class FaresScreenComponent implements OnInit {
       this.editedEntry = entry;
     } else {
       this.createEvent = true;
-      this.editedEntry = { id: 0, departure: "", arrival: "", fare: 1 };
+      this.editedEntry = { id: 0, departure: "", arrival: "", fare: 1, createdTimestamp: "", modifiedTimestamp: "", version: 0};
     }
     const dialogRef = this.dialog.open(FareFormComponent, {
         data: {
@@ -65,7 +65,10 @@ export class FaresScreenComponent implements OnInit {
             id: this.editedEntry.id,
             departure: this.editedEntry.departure,
             arrival: this.editedEntry.arrival,
-            fare: this.editedEntry.fare
+            fare: this.editedEntry.fare,
+            createdTimestamp: this.editedEntry.createdTimestamp,
+            modifiedTimestamp: this.editedEntry.modifiedTimestamp,
+            version: this.editedEntry.version
           },
           locations: this.locations
         },

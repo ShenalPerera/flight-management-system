@@ -3,6 +3,7 @@ package com.fms.fares;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.fares.models.Fare;
+import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,10 @@ public class FareService {
                 resultSet.getInt("id"),
                 resultSet.getString("departure"),
                 resultSet.getString("arrival"),
-                resultSet.getDouble("fare")
+                resultSet.getDouble("fare"),
+                resultSet.getTimestamp("created_timestamp"),
+                resultSet.getTimestamp("modified_timestamp"),
+                resultSet.getLong("version")
         );
 
         if (departure.isEmpty() && arrival.isEmpty())
@@ -53,14 +57,24 @@ public class FareService {
         validateInputs(fare);
         checkMissingData(fare);
         checkDuplicateFares(fare);
+
+        fare.setCreatedTimestampAndModifiedTimestampToCurrentTimestamp();
         return fareRepository.save(fare);
     }
 
-    public Fare editFare(Fare userFare) {
-        validateInputs(userFare);
-        checkMissingDataWithId(userFare);
-        checkDuplicateFaresAndExistence(userFare);
-        return fareRepository.save(userFare);
+    public Fare editFare(Fare editedFare) {
+        validateInputs(editedFare);
+        checkMissingDataWithId(editedFare);
+        checkDuplicateFaresAndExistence(editedFare);
+
+        editedFare.setModifiedTimestampToCurrentTimestamp();
+        try {
+            return fareRepository.save(editedFare);
+        }
+        catch (StaleObjectStateException e) {
+            logger.error("dirty write");
+            throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
+        }
     }
 
     public int deleteFare(int id) {

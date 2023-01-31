@@ -33,7 +33,7 @@ public class FareController {
 
     @PostMapping("fare")
     public ResponseEntity<Fare> createEntry(@RequestBody Fare fare) {
-        logger.trace("create 'fare' endpoint accessed");
+        logger.info("create 'fare' endpoint accessed");
         return new ResponseEntity<>(service.createFare(fare), HttpStatus.CREATED);
     }
 
