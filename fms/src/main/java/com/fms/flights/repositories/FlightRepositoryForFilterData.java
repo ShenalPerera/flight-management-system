@@ -84,7 +84,7 @@ public class FlightRepositoryForFilterData {
             conditionsList.add("departure_time = " + "'" + departureTime + "'");
         }
         if (!arrivalDate.isBlank()) {
-            conditionsList.add("arrivalDate = " + "'" + arrivalDate + "'");
+            conditionsList.add("arrival_date = " + "'" + arrivalDate + "'");
         }
         if (!arrivalTime.isBlank()) {
             conditionsList.add("arrival_time = " + "'" + arrivalTime + "'");
