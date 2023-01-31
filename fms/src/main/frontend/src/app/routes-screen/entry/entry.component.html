@@ -4,11 +4,6 @@
 <td style="text-align: center">{{route.destination | titlecase}}</td>
 <td style="text-align: center">{{route.mileage}}</td>
 <td style="text-align: center">{{getHours(route.durationH)}} hours {{getMinutes(route.durationH)}} minutes</td>
-
-<td *ngIf="route.createdDateTime" style="text-align: center">{{route.createdDateTime.substring(0, 10)}} | {{route.createdDateTime.substring(11, 19)}}</td>
-<td *ngIf="!route.createdDateTime" style="text-align: center"></td>
-<td *ngIf="route.modifiedDateTime" style="text-align: center">{{route.modifiedDateTime.substring(0, 10)}} | {{route.modifiedDateTime.substring(11, 19)}}</td>
-<td *ngIf="!route.modifiedDateTime" style="text-align: center"></td>
 <td>
   <button mat-raised-button color="primary" style="margin-left: 10px" (click)="openDialog();">Edit</button>
   <button mat-raised-button color="warn" style="margin-left: 10px" (click)="deleteItem();">Delete</button>
