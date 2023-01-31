@@ -63,13 +63,13 @@
 </div>
 
 
-<div style="width: 100%">
-  <div class="panel panel-primary">
+<div style="width: 100%; " >
+  <div class="panel panel-primary " >
     <div class="panel-heading">
       <h2>Flight list</h2>
     </div>
     <div class="panel-body">
-      <table class="table table-striped" *ngIf="flights">
+      <table class="table table-striped" >
         <thead>
         <tr>
           <th>Flight Number</th>
@@ -81,7 +81,9 @@
           <th>Arrival Time</th>
         </tr>
         </thead>
-        <tbody >
+
+        <tbody *ngIf="flights">
+
         <tr app-flight-item
             *ngFor="let flightEl of flights |
             dataFilter:searchOptions.flight_number:'flight_number' |
@@ -95,8 +97,9 @@
             [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event,searchFilterForm)" (flightEdited) = "onEditFlight($event)" >
         </tbody>
       </table>
-      <p *ngIf="!flights"> Loading...</p>
+
     </div>
+    <mat-spinner *ngIf="!flights"  style="margin: 0 auto"></mat-spinner>
   </div>
 
   <button  class="add-flight-button" [hidden]="isOverlayShow" (click)="onClickAddFlight()"><strong>Add Flight</strong></button>

@@ -29,6 +29,7 @@ import { FareFormComponent } from './fares-screen/fare-form/fare-form.component'
 import { RouteService } from "./routes-screen/services/route.service";
 import { EntryComponent } from "./routes-screen/entry/entry.component";
 import {HttpClientModule} from "@angular/common/http";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -46,26 +47,27 @@ import {HttpClientModule} from "@angular/common/http";
     FareItemComponent,
     FareFormComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatTableModule,
-    MatAutocompleteModule,
-    FormsModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSelectModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatExpansionModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatTableModule,
+        MatAutocompleteModule,
+        FormsModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSelectModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatExpansionModule,
+        HttpClientModule,
+        MatProgressSpinnerModule
+    ],
   providers: [
     RouteService,
     {
