@@ -5,9 +5,9 @@ Content-Type: application/json
 {
   "flightNumber": "WQA1",
   "departure": "Colombo",
-  "arrival": "Colombo",
+  "arrival": "Dubai",
   "departureDate": "2023-04-29",
-  "arrivalDate": "2023-04-29",
+  "arrivalDate": "2023-04-30",
   "departureTime": "13:00",
   "arrivalTime": "13:00"
 }
