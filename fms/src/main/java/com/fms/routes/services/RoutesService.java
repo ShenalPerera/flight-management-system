@@ -2,6 +2,8 @@ package com.fms.routes.services;
 
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
+import com.fms.routes.DAOs.RouteDao;
+import com.fms.routes.DAOsImplementations.RouteDaoImpl;
 import com.fms.routes.models.Route;
 import com.fms.routes.repositories.RouteRepository;
 import org.slf4j.Logger;
@@ -25,17 +27,19 @@ public class RoutesService {
     private final Logger logger;
     private final RouteRepository routeRepository;
     private final JdbcTemplate jdbcTemplate;
+    private final RouteDao routeDao;
 
-    String GET_ALL_ROUTES_QUERY = "SELECT * FROM route;";
+//    String GET_ALL_ROUTES_QUERY = "SELECT * FROM route;";
     String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY = "SELECT * FROM route WHERE departure = ? AND destination = ?;";
     String GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY = "SELECT * FROM route WHERE departure = ?;";
     String GET_FILTERED_ROUTES_BY_DESTINATION_QUERY = "SELECT * FROM route WHERE destination = ?;";
 
     @Autowired
-    public RoutesService(RouteRepository routeRepository, JdbcTemplate jdbcTemplate) {
+    public RoutesService(RouteRepository routeRepository, JdbcTemplate jdbcTemplate, RouteDao routeDao) {
         this.routeRepository = routeRepository;
         this.jdbcTemplate = jdbcTemplate;
         this.logger = LoggerFactory.getLogger(RoutesService.class);
+        this.routeDao = routeDao;
     }
 
     // ******************************************** HELPER METHODS *****************************************************
@@ -70,17 +74,7 @@ public class RoutesService {
     // **************************************** ENDPOINTS SERVICES *****************************************************
 
     public List<Route> sendAllRoutes() {
-        return jdbcTemplate.query(this.GET_ALL_ROUTES_QUERY,
-                ((rs, rowNum) -> new Route(
-                        rs.getInt("routeID"),
-                        rs.getString("departure"),
-                        rs.getString("destination"),
-                        rs.getDouble("mileage"),
-                        rs.getDouble("durationH"),
-                        rs.getTimestamp("created_date_time"),
-                        rs.getTimestamp("modified_date_time"),
-                        rs.getInt("version")
-                )));
+        return routeDao.getAllRoutes();
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
