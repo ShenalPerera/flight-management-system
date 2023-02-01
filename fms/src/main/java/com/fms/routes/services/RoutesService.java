@@ -122,29 +122,30 @@ public class RoutesService {
     }
 
     public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
-        RowMapper<Route> rowMapper = (resultSet, rowNum)-> new Route(
-                resultSet.getInt("routeID"),
-                resultSet.getString("departure"),
-                resultSet.getString("destination"),
-                resultSet.getDouble("mileage"),
-                resultSet.getDouble("durationH"),
-                resultSet.getTimestamp("created_date_time"),
-                resultSet.getTimestamp("modified_date_time"),
-                resultSet.getInt("version")
-        );
-        List<Route> filteredRoutes;
-        if (!departure.isEmpty() && destination.isEmpty()) {
-            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY, rowMapper, departure);
-            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
-        } else if (departure.isEmpty() && !destination.isEmpty()) {
-            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DESTINATION_QUERY, rowMapper, destination);
-            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
-        } else if (!departure.isEmpty()) {
-            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY, rowMapper, departure, destination);
-            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
-        } else{
-            return new ResponseEntity<>(sendAllRoutes(), HttpStatus.OK);
-        }
+        return routeDao.searchRoutes(departure, destination);
+//        RowMapper<Route> rowMapper = (resultSet, rowNum)-> new Route(
+//                resultSet.getInt("routeID"),
+//                resultSet.getString("departure"),
+//                resultSet.getString("destination"),
+//                resultSet.getDouble("mileage"),
+//                resultSet.getDouble("durationH"),
+//                resultSet.getTimestamp("created_date_time"),
+//                resultSet.getTimestamp("modified_date_time"),
+//                resultSet.getInt("version")
+//        );
+//        List<Route> filteredRoutes;
+//        if (!departure.isEmpty() && destination.isEmpty()) {
+//            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY, rowMapper, departure);
+//            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+//        } else if (departure.isEmpty() && !destination.isEmpty()) {
+//            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DESTINATION_QUERY, rowMapper, destination);
+//            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+//        } else if (!departure.isEmpty()) {
+//            filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY, rowMapper, departure, destination);
+//            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+//        } else{
+//            return new ResponseEntity<>(sendAllRoutes(), HttpStatus.OK);
+//        }
 
     }
 
