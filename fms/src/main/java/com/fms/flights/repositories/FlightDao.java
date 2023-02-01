@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class FlightRepositoryForFilterData {
+public class FlightDao {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public FlightRepositoryForFilterData(JdbcTemplate jdbcTemplate) {
+    public FlightDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

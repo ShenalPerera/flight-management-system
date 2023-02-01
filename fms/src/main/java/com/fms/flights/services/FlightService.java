@@ -3,8 +3,8 @@ package com.fms.flights.services;
 import com.fms.exceptions.FMSException;
 import com.fms.flights.models.Flight;
 import com.fms.flights.models.SearchFlightDTO;
-import com.fms.flights.repositories.FlightRepositoryFMS;
-import com.fms.flights.repositories.FlightRepositoryForFilterData;
+import com.fms.flights.repositories.FlightRepository;
+import com.fms.flights.repositories.FlightDao;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,28 +19,28 @@ import java.util.Objects;
 
 @Service
 public class FlightService {
-    private final FlightRepositoryFMS flightRepositoryFMS;
+    private final FlightRepository flightRepository;
 
-    private final FlightRepositoryForFilterData flightRepositoryForFilterData;
+    private final FlightDao flightDao;
     private final Logger logger;
 
     @Autowired
     FlightService(
-            FlightRepositoryFMS flightRepositoryFMS, FlightRepositoryForFilterData flightRepositoryForFilterData) {
-        this.flightRepositoryFMS = flightRepositoryFMS;
-        this.flightRepositoryForFilterData = flightRepositoryForFilterData;
+            FlightRepository flightRepository, FlightDao flightDao) {
+        this.flightRepository = flightRepository;
+        this.flightDao = flightDao;
         this.logger = LoggerFactory.getLogger(FlightService.class);
     }
 
     public List<Flight> getAllFlights() {
         logger.info("Calling method : {}", "[flightRepository.findAll()");
-        return flightRepositoryFMS.findAll();
+        return flightRepository.findAll();
     }
 
     public List<Flight> getFilteredFlightsBySearchOptions(SearchFlightDTO searchFlightDTO) {
 
 
-        List<Flight> filteredFlights = flightRepositoryForFilterData.findAllByGivenOptions(searchFlightDTO);
+        List<Flight> filteredFlights = flightDao.findAllByGivenOptions(searchFlightDTO);
         logger.info("resultant size of the list : {}", filteredFlights.size());
         return filteredFlights;
     }
@@ -56,7 +56,7 @@ public class FlightService {
     public void deleteFlight(String flightId) {
         try {
             logger.info("Deleting flight : [flightId : {}]", flightId);
-            flightRepositoryFMS.deleteById(flightId);
+            flightRepository.deleteById(flightId);
             logger.info("Flight deleted : Success [flightId : {}]", flightId);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Delete operation : Not success - No entry found with flightId : [{}]", flightId);
@@ -86,7 +86,7 @@ public class FlightService {
     private Flight validateAndEdit(Flight flight) {
         validateFlightEntryFields(flight);
 
-        List<Flight> filteredFlights = this.flightRepositoryFMS.findAllByFlightNumberAndDepartureDateOrFlightId(
+        List<Flight> filteredFlights = this.flightRepository.findAllByFlightNumberAndDepartureDateOrFlightId(
                 flight.getFlightNumber(),
                 flight.getDepartureDate(),
                 flight.getFlightId()
@@ -99,7 +99,7 @@ public class FlightService {
         else if (filteredFlights.size() == 1 && Objects.equals(filteredFlights.remove(0).getFlightId(), flight.getFlightId())) {
             logger.info("Validated flight : success [editFlight]");
             try {
-                return flightRepositoryFMS.save(flight);
+                return flightRepository.save(flight);
             } catch (OptimisticLockingFailureException e) {
                 logger.error("Record was already edited");
                 throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
@@ -112,14 +112,14 @@ public class FlightService {
     private Flight validateAndCreateFlight(Flight flight) {
         validateFlightEntryFields(flight);
 
-        List<Flight> filteredFlights = this.flightRepositoryFMS.findAllByFlightNumberAndDepartureDate(
+        List<Flight> filteredFlights = this.flightRepository.findAllByFlightNumberAndDepartureDate(
                 flight.getFlightNumber(),
                 flight.getDepartureDate()
         );
 
         if (filteredFlights.isEmpty()) {
             logger.info("Validated flight : success [addNewFlight]");
-            return flightRepositoryFMS.save(flight);
+            return flightRepository.save(flight);
         }
         logger.error("Flight data is not valid : Duplicate entry found!");
         throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
