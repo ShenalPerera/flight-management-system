@@ -5,11 +5,13 @@ import com.fms.availabilitySearch.models.AvailableSearch;
 import com.fms.fares.models.Fare;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class AvailabilitySearchDaoImpl implements AvailabilitySearchDao {
 
     private final JdbcTemplate jdbcTemplate;
