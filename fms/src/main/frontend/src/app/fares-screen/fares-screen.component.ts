@@ -48,8 +48,8 @@ export class FaresScreenComponent implements OnInit {
   handleDelete(entry: Entry): void {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
       this.fareService.deleteEntry(entry.id).subscribe(() => {
-        alert("Fare deleted successfully!")
         this.filterEntries()
+        alert("Fare deleted successfully!")
       });
     }
   }
@@ -78,9 +78,14 @@ export class FaresScreenComponent implements OnInit {
         disableClose: true
       }
     );
-    dialogRef.afterClosed().subscribe( (entriesChanged: boolean) => {
-      if (entriesChanged)
-        this.filterEntries();
+    dialogRef.afterClosed().subscribe( (appliedChanges: boolean) => {
+      this.filterEntries();
+      if (appliedChanges) {
+        if (this.createEvent)
+          alert("Fare created successfully!");
+        else
+          alert("Fare edited successfully!");
+      }
     });
   }
 }

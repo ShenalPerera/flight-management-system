@@ -32,9 +32,9 @@ export class FareFormComponent implements OnInit {
   }
   discardClicked() {
     if (this.formGroup.pristine.valueOf()) {
-      this.dialogRef.close(true);
+      this.dialogRef.close(false);
     } else if (confirm("Entered data will be lost! Do you want to proceed?")) {
-      this.dialogRef.close(true);
+      this.dialogRef.close(false);
     }
   }
   submitCLicked() {
@@ -52,7 +52,6 @@ export class FareFormComponent implements OnInit {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
             alert("The entry is already in the system!")
           else {
-            alert("Fare created successfully!")
             this.dialogRef.close(true)
           }
         }
@@ -73,7 +72,6 @@ export class FareFormComponent implements OnInit {
           else if (response.status == HttpStatusCodesFMS.VERSION_MISMATCHED)
             alert("Someone else has changed the entry, reload the page and try again!");
           else {
-            alert("Fare edited successfully!")
             this.dialogRef.close(true)
           }
         }
