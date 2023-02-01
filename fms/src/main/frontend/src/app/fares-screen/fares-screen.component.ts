@@ -4,6 +4,7 @@ import { FareFormComponent } from "./fare-form/fare-form.component";
 import { Entry } from "./shared/entry.model";
 import { FareService } from "./services/fare.service";
 import {AirportsHandleService} from "../services/airports-handle.service";
+import {HttpStatusCodesFMS} from "../http-status-codes-fms/httpStatusCodes.enum";
 
 @Component({
   selector: 'app-fares-screen',
@@ -47,9 +48,14 @@ export class FaresScreenComponent implements OnInit {
   }
   handleDelete(entry: Entry): void {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
-      this.fareService.deleteEntry(entry.id).subscribe(() => {
-        this.filterEntries()
-        alert("Fare deleted successfully!")
+      this.fareService.deleteEntry(entry.id).subscribe({
+        next: (response) => {
+          if (response.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND)
+            alert("Someone else has already deleted the fare!")
+          else
+            alert("Fare deleted successfully!")
+          this.filterEntries()
+        }
       });
     }
   }

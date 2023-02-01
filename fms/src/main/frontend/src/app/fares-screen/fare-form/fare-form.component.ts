@@ -50,7 +50,7 @@ export class FareFormComponent implements OnInit {
       }).subscribe({
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
-            alert("The entry is already in the system!")
+            alert("The fare is already in the system!")
           else {
             this.dialogRef.close(true)
           }
@@ -68,9 +68,9 @@ export class FareFormComponent implements OnInit {
       }).subscribe({
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
-            alert("The entry is already in the system!")
+            alert("The fare is already in the system!")
           else if (response.status == HttpStatusCodesFMS.VERSION_MISMATCHED)
-            alert("Someone else has changed the entry, reload the page and try again!");
+            alert("Someone else has changed the fare, reload the page and try again!");
           else {
             this.dialogRef.close(true)
           }
