@@ -9,7 +9,7 @@ import java.util.Date;
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "departure", "arrival" }) })
 public class Fare {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String departure;
     private String arrival;
@@ -91,13 +91,16 @@ public class Fare {
         return version;
     }
 
-    public void setModifiedTimestampToCurrentTimestamp() {
-        this.createdTimestamp = new Timestamp(new Date().getTime());
-    }
-
-    public void setCreatedTimestampAndModifiedTimestampToCurrentTimestamp() {
-        Timestamp currentTimestamp = new Timestamp(new Date().getTime());
-        this.createdTimestamp = currentTimestamp;
-        this.modifiedTimestamp = currentTimestamp;
+    @Override
+    public String toString() {
+        return "Fare{" +
+                "id=" + id +
+                ", departure='" + departure + '\'' +
+                ", arrival='" + arrival + '\'' +
+                ", fare=" + fare +
+                ", createdTimestamp=" + createdTimestamp +
+                ", modifiedTimestamp=" + modifiedTimestamp +
+                ", version=" + version +
+                '}';
     }
 }

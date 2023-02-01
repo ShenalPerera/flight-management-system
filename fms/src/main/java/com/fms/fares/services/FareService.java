@@ -60,7 +60,7 @@ public class FareService {
     public Fare createFare(Fare fare) {
         validateInputs(fare);
         checkMissingData(fare);
-        fare.setCreatedTimestampAndModifiedTimestampToCurrentTimestamp();
+        logger.info("created DTO send to DB | " + fare);
         try {
             return fareRepository.save(fare);
         } catch (DataIntegrityViolationException e) {
@@ -74,8 +74,7 @@ public class FareService {
         validateInputs(editedFare);
         checkMissingDataWithId(editedFare);
         checkDuplicateFaresAndExistence(editedFare);
-
-        editedFare.setModifiedTimestampToCurrentTimestamp();
+        logger.info("updated DTO send to DB | " + editedFare);
         try {
             return fareRepository.save(editedFare);
         }
