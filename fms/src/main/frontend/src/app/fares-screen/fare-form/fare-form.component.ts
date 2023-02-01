@@ -67,11 +67,12 @@ export class FareFormComponent implements OnInit {
         version: this.data.entry.version
       }).subscribe({
         next: (response) => {
-          if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
+          if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
             alert("The fare is already in the system!")
-          else if (response.status == HttpStatusCodesFMS.VERSION_MISMATCHED)
-            alert("Someone else has changed the fare, reload the page and try again!");
-          else {
+          } else if (response.status == HttpStatusCodesFMS.VERSION_MISMATCHED) {
+            alert("Someone else has changed the fare!");
+            this.dialogRef.close(false)
+          } else {
             this.dialogRef.close(true)
           }
         }
