@@ -43,9 +43,10 @@ public class RoutesService {
         try{
             route.setCreatedDateTime(new Timestamp(new Date().getTime()));
             routeRepository.save(route);
+            logger.info("service[createRoute] {}", route);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            logger.error("service[createRoute] {}", route);
+            logger.error("service[createRoute](duplicate) {}", route);
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
@@ -53,20 +54,39 @@ public class RoutesService {
 
     public ResponseEntity<Route> editRoute(Route route) {
         checkInputFields(route);
-        List<Route> routeList = routeRepository.findByDepartureAndDestinationOrRouteID(
-                route.getDeparture(), route.getDestination(), route.getRouteID()
-        );
 
-        checkRouteIDAndDuplicates(route, routeList);
-        route.setModifiedDateTime(new Timestamp(new Date().getTime()));
+        Route routeToBeUpdated = routeRepository.findByRouteID(route.getRouteID());
+        if (routeToBeUpdated == null) {
+            logger.error("service[checkRouteIDAndDuplicates](idNotFound) {}", route);
+            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+        }
 
         try {
+            route.setModifiedDateTime(new Timestamp(new Date().getTime()));
             Route updatedRoute = routeRepository.save(route);
+            logger.info("service[edit] {}", route);
             return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
         } catch (ObjectOptimisticLockingFailureException e) {
-            logger.error("service[edit] {}", route);
+            logger.error("service[edit](dirtyUpdate) {}", route);
             throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
         }
+
+
+//        checkInputFields(route);
+//        List<Route> routeList = routeRepository.findByDepartureAndDestinationOrRouteID(
+//                route.getDeparture(), route.getDestination(), route.getRouteID()
+//        );
+//
+//        checkRouteIDAndDuplicates(route, routeList);
+//        route.setModifiedDateTime(new Timestamp(new Date().getTime()));
+//
+//        try {
+//            Route updatedRoute = routeRepository.save(route);
+//            return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
+//        } catch (ObjectOptimisticLockingFailureException e) {
+//            logger.error("service[edit] {}", route);
+//            throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
+//        }
 
     }
 

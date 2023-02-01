@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface RouteRepository extends JpaRepository<Route, Integer> {
     List<Route> findByDepartureAndDestinationOrRouteID(String departure, String destination, int routeID);
+    Route findByRouteID(int routeID);
 
 }
