@@ -4,12 +4,32 @@ package com.fms.availabilitySearch.models;
 public class AvailableSearch {
    private String flightNumber;
    private String departure;
-   private String destination;
+   private String arrival;
    private String departureDate;
    private String departureTime;
    private String arrivalDate;
    private String arrivalTime;
    private double fare;
+
+   public AvailableSearch(
+           String flightNumber,
+           String departure,
+           String arrival,
+           String departureDate,
+           String departureTime,
+           String arrivalDate,
+           String arrivalTime,
+           double fare
+   ) {
+      this.flightNumber = flightNumber;
+      this.departure = departure;
+      this.arrival = arrival;
+      this.departureDate = departureDate;
+      this.departureTime = departureTime;
+      this.arrivalDate = arrivalDate;
+      this.arrivalTime = arrivalTime;
+      this.fare = fare;
+   }
 
    public String getFlightNumber() {
       return flightNumber;
@@ -27,12 +47,12 @@ public class AvailableSearch {
       this.departure = departure;
    }
 
-   public String getDestination() {
-      return destination;
+   public String getArrival() {
+      return arrival;
    }
 
-   public void setDestination(String destination) {
-      this.destination = destination;
+   public void setArrival(String arrival) {
+      this.arrival = arrival;
    }
 
    public String getDepartureDate() {

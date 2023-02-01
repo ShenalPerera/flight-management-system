@@ -7,11 +7,6 @@ import java.util.List;
 
 public interface AvailabilitySearchDao {
 
-    public List<AvailableSearch> getAvailableSearchesByDeparture(String departure);
-    public List<AvailableSearch> getAvailableSearchesByDestination(String destination);
-    public List<AvailableSearch> getAvailableSearchesByLocations(String departure, String destination);
-    public List<AvailableSearch> getAvailableSearchesByStartDate(Date startDate);
-    public List<AvailableSearch> getAvailableSearchesByEndDate(Date endDate);
-    public List<AvailableSearch> getAvailableSearchesByDates(Date startDate, Date endDate);
+    public List<AvailableSearch> getAvailableFlights(AvailableSearch availableSearch);
 
 }
