@@ -31,6 +31,9 @@ Content-Type: application/json
   "version": 3
 }
 
+
+###
+GET http://localhost:8080/flights/get-filtered-flights?flightNumber=SLC1&departure=&arrival=&departureDate=&departureTime=&arrivalDate=&arrivalTime=
 ###
 DELETE http://localhost:8080/flights/delete-flight?id=12s
 Accept: application/json

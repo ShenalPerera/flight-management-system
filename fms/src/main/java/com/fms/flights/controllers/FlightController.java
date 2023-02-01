@@ -1,6 +1,7 @@
 package com.fms.flights.controllers;
 
 import com.fms.flights.models.Flight;
+import com.fms.flights.models.SearchFlightDTO;
 import com.fms.flights.services.FlightService;
 import com.fms.services.AirportsFileHandler;
 import org.slf4j.Logger;
@@ -33,23 +34,9 @@ public class FlightController {
     }
 
     @GetMapping("/get-filtered-flights")
-    public List<Flight> getFilteredFlights(@RequestParam(name = "flightNumber") String flightNumber,
-                                           @RequestParam(name = "departure") String departure,
-                                           @RequestParam(name = "arrival") String arrival,
-                                           @RequestParam(name = "departureDate") String departureDate,
-                                           @RequestParam(name = "departureTime") String departureTime,
-                                           @RequestParam(name = "arrivalDate") String arrivalDate,
-                                           @RequestParam(name = "arrivalTime") String arrivalTime
-    ) {
-        logger.info("'/flights/get-filtered-flights?name={}&departure={}&arrival={}&departureDate={}&departureTime={}&arrivalDate={}&arrivalTime={}' accessed",
-                flightNumber,
-                departure,
-                arrival,
-                departureDate,
-                departureTime,
-                arrivalDate,
-                arrivalTime);
-        return flightService.getFilteredFlightsBySearchOptions(flightNumber, departure, arrival, departureDate, departureTime, arrivalDate, arrivalTime);
+    public List<Flight> getFilteredFlights(SearchFlightDTO searchFlightDTO) {
+        logger.info("Accessed the endpoint : searchDTO = {}",searchFlightDTO);
+        return flightService.getFilteredFlightsBySearchOptions(searchFlightDTO);
     }
 
     @GetMapping("/get-airports")

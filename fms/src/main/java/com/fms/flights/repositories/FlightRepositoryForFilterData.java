@@ -1,6 +1,7 @@
 package com.fms.flights.repositories;
 
 import com.fms.flights.models.Flight;
+import com.fms.flights.models.SearchFlightDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,75 +20,50 @@ public class FlightRepositoryForFilterData {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Flight> findAllByGivenOptions(String flightNUmber,
-                                              String departure,
-                                              String arrival,
-                                              String departureDate,
-                                              String departureTime,
-                                              String arrivalDate,
-                                              String arrivalTime) {
-        String query = buildQueryForSearch(flightNUmber, departure, arrival, departureDate, departureTime, arrivalDate, arrivalTime);
+    public List<Flight> findAllByGivenOptions(SearchFlightDTO searchFlightDTO) {
+
+        String query = buildQueryForSearch(searchFlightDTO);
         BeanPropertyRowMapper<Flight> beanPropertyRowMapper = new BeanPropertyRowMapper<>(Flight.class);
         return jdbcTemplate.query(query, beanPropertyRowMapper);
     }
 
-    private String buildQueryForSearch(String flightNUmber,
-                                       String departure,
-                                       String arrival,
-                                       String departureDate,
-                                       String departureTime,
-                                       String arrivalDate,
-                                       String arrivalTime) {
+    private String buildQueryForSearch(SearchFlightDTO searchFlightDTO) {
         StringBuilder queryStr = new StringBuilder();
 
         queryStr.append("SELECT *        ");
         queryStr.append("FROM flight     ");
         queryStr.append("WHERE           ");
 
-        String conditions = buildConditionsListInSearchQuery(
-                flightNUmber,
-                departure,
-                arrival,
-                departureDate,
-                departureTime,
-                arrivalDate,
-                arrivalTime
-        );
+        String conditions = buildConditionsListInSearchQuery(searchFlightDTO);
 
         queryStr.append(conditions);
         return queryStr.toString();
     }
 
-    private String buildConditionsListInSearchQuery(String flightNUmber,
-                                                    String departure,
-                                                    String arrival,
-                                                    String departureDate,
-                                                    String departureTime,
-                                                    String arrivalDate,
-                                                    String arrivalTime) {
+    private String buildConditionsListInSearchQuery(SearchFlightDTO searchFlightDTO) {
 
         List<String> conditionsList = new ArrayList<>();
 
-        if (!flightNUmber.isBlank()) {
-            conditionsList.add("flight_number = " + "'" + flightNUmber + "'");
+        if (!searchFlightDTO.getFlightNumber().isBlank()) {
+            conditionsList.add("flight_number = " + "'" + searchFlightDTO.getFlightNumber() + "'");
         }
-        if (!departure.isBlank()) {
-            conditionsList.add("departure = " + "'" + departure + "'");
+        if (!searchFlightDTO.getDeparture().isBlank()) {
+            conditionsList.add("departure = " + "'" + searchFlightDTO.getDeparture() + "'");
         }
-        if (!arrival.isBlank()) {
-            conditionsList.add("arrival = " + "'" + arrival + "'");
+        if (!searchFlightDTO.getArrival().isBlank()) {
+            conditionsList.add("arrival = " + "'" + searchFlightDTO.getArrival() + "'");
         }
-        if (!departureDate.isBlank()) {
-            conditionsList.add("departure_date = " + "'" + departureDate + "'");
+        if (!searchFlightDTO.getDepartureDate().isBlank()) {
+            conditionsList.add("departure_date = " + "'" + searchFlightDTO.getDepartureDate() + "'");
         }
-        if (!departureTime.isBlank()) {
-            conditionsList.add("departure_time = " + "'" + departureTime + "'");
+        if (!searchFlightDTO.getDepartureTime().isBlank()) {
+            conditionsList.add("departure_time = " + "'" + searchFlightDTO.getDepartureTime() + "'");
         }
-        if (!arrivalDate.isBlank()) {
-            conditionsList.add("arrival_date = " + "'" + arrivalDate + "'");
+        if (!searchFlightDTO.getArrivalDate().isBlank()) {
+            conditionsList.add("arrival_date = " + "'" + searchFlightDTO.getArrivalDate() + "'");
         }
-        if (!arrivalTime.isBlank()) {
-            conditionsList.add("arrival_time = " + "'" + arrivalTime + "'");
+        if (!searchFlightDTO.getArrivalTime().isBlank()) {
+            conditionsList.add("arrival_time = " + "'" + searchFlightDTO.getArrivalTime() + "'");
         }
 
         return String.join(" AND ", conditionsList);

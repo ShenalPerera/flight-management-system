@@ -2,6 +2,7 @@ package com.fms.flights.services;
 
 import com.fms.exceptions.FMSException;
 import com.fms.flights.models.Flight;
+import com.fms.flights.models.SearchFlightDTO;
 import com.fms.flights.repositories.FlightRepositoryFMS;
 import com.fms.flights.repositories.FlightRepositoryForFilterData;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
@@ -36,16 +37,10 @@ public class FlightService {
         return flightRepositoryFMS.findAll();
     }
 
-    public List<Flight> getFilteredFlightsBySearchOptions(String flightNUmber,
-                                                          String departure,
-                                                          String arrival,
-                                                          String departureDate,
-                                                          String departureTime,
-                                                          String arrivalDate,
-                                                          String arrivalTime) {
+    public List<Flight> getFilteredFlightsBySearchOptions(SearchFlightDTO searchFlightDTO) {
 
 
-        List<Flight> filteredFlights = flightRepositoryForFilterData.findAllByGivenOptions(flightNUmber, departure, arrival, departureDate, departureTime, arrivalDate, arrivalTime);
+        List<Flight> filteredFlights = flightRepositoryForFilterData.findAllByGivenOptions(searchFlightDTO);
         logger.info("resultant size of the list : {}", filteredFlights.size());
         return filteredFlights;
     }
