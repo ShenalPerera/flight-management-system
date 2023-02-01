@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Flight} from "./flight.model";
 import {FlightDataService} from "./flight-services/flight-data-service";
-import {AbstractControl, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {arrivalDatesValidator, arrivalDepartureValidator} from "../../utills/validator-functions";
 import {Observable, Subscription} from "rxjs";
 import {HttpResponse} from "@angular/common/http";
@@ -15,7 +15,7 @@ import {AirportsHandleService} from "../services/airports-handle.service";
 })
 
 
-export class FlightsScreenComponent implements OnInit ,OnDestroy{
+export class FlightsScreenComponent implements OnInit, OnDestroy {
   isOverlayShow: boolean = false;
   isEditMode!: boolean;
   public flights !: Flight[];
@@ -39,29 +39,30 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   private flightArraySubscription ?: Subscription;
 
   private airportsListSubscription ?: Subscription;
-  constructor(private dataService: FlightDataService,private airportsListService:AirportsHandleService) {
+
+  constructor(private dataService: FlightDataService, private airportsListService: AirportsHandleService) {
 
   }
 
   ngOnInit() {
     this.dataService.fetchFlights();
-    this.airportsListService.getAirportsList().subscribe( response => {
-      localStorage.setItem("airports",JSON.stringify(response));
+    this.airportsListService.getAirportsList().subscribe(response => {
+      localStorage.setItem("airports", JSON.stringify(response));
       this.airports = response;
     });
 
-    this.flightArraySubscription = this.dataService.flightListChanged.subscribe((updatedFlightList:Flight[]) => {
+    this.flightArraySubscription = this.dataService.flightListChanged.subscribe((updatedFlightList: Flight[]) => {
       this.flights = updatedFlightList;
     });
 
-    this.airportsListSubscription = this.airportsListService.airportsListChange.subscribe( (airportsList:string[]) => {
+    this.airportsListSubscription = this.airportsListService.airportsListChange.subscribe((airportsList: string[]) => {
       this.airports = airportsList;
     });
 
 
     this.overlayForm = new FormGroup({
       'oId': new FormControl(null),
-      'oFlightNumber': new FormControl(null, [Validators.required,Validators.pattern("^[A-Za-z]{3}[0-9]{1}$")]),
+      'oFlightNumber': new FormControl(null, [Validators.required, Validators.pattern("^[A-Za-z]{3}[0-9]{1}$")]),
       'oArrival': new FormControl(null, Validators.required),
       'oDeparture': new FormControl(null, Validators.required),
       'oArrivalDateNTime': new FormControl(null, Validators.required),
@@ -69,7 +70,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
 
     }, {
       validators: [arrivalDatesValidator, arrivalDepartureValidator],
-      updateOn:"blur"
+      updateOn: "blur"
     });
 
 
@@ -81,15 +82,16 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   }
 
   onDeleteFlight(flight_id: number, searchForm: NgForm) {
-    this.dataService.removeFlight(flight_id).subscribe( {
-      next:(response)=>{
-        if (response.status === HttpStatusCodesFMS.ENTRY_NOT_FOUND){
+    this.dataService.removeFlight(flight_id).subscribe({
+      next: (response) => {
+        if (response.status === HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
           alert("You can not delete this entry!");
         }
         this.dataService.fetchFlights();
         searchForm.reset();
       },
-      error:(err)=>alert("Unexpected error occurred!")});
+      error: (err) => alert("Unexpected error occurred!")
+    });
   }
 
 
@@ -115,21 +117,29 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     this.overlayForm.reset();
   }
 
-  onClickSearch(f:NgForm){
+  onClickSearch(f: NgForm) {
     let value = f.value;
     this.dataService.searchFlights(value);
   }
+
   onClearSearch(f: NgForm) {
-    f.reset({fNumber:"",fDeparture:"",fArrival:"",fDepartureDate:"",fArrivalDate:"",fDepartureTime:"",fArrivalTime:""});
+    f.reset({
+      fNumber: "",
+      fDeparture: "",
+      fArrival: "",
+      fDepartureDate: "",
+      fArrivalDate: "",
+      fDepartureTime: "",
+      fArrivalTime: ""
+    });
     this.dataService.fetchFlights();
   }
 
   onCancelEdit() {
-    if (this.overlayForm.pristine){
+    if (this.overlayForm.pristine) {
       this.isOverlayShow = !this.isOverlayShow;
       this.overlayForm.reset();
-    }
-    else {
+    } else {
       if (confirm("Are you want to exit from editing?")) {
         this.isOverlayShow = !this.isOverlayShow;
         this.overlayForm.reset();
@@ -140,8 +150,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
   onClickReset() {
     if (this.isEditMode) {
       this.overlayForm.setValue(this.formTempData);
-    }
-    else {
+    } else {
       this.overlayForm.reset();
     }
     this.overlayForm.markAsPristine();
@@ -152,35 +161,39 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     let tempSubscription !: Observable<HttpResponse<Flight>>;
 
     if (this.isEditMode) {
-      tempSubscription =  this.dataService.updateFlight(value,this.tempFlight);
-    }
-    else {
-      tempSubscription =  this.dataService.addFlight(value);
+      tempSubscription = this.dataService.updateFlight(value, this.tempFlight);
+    } else {
+      tempSubscription = this.dataService.addFlight(value);
     }
 
     tempSubscription.subscribe({
-      next:(response)=>{
-        if (response.status === HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND){
-          alert("Flight number already has flight on given departure time!");
-        }
-        else if (response.status === HttpStatusCodesFMS.VERSION_MISMATCHED){
+      next: (response) => {
+        if (response.status === HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
+          alert("Flight number already has flight on given departure date!");
+        } else if (response.status === HttpStatusCodesFMS.VERSION_MISMATCHED) {
           alert("This flight already updated by someone! Check again")
-        }
-        else {
-          this.resetFormScreeMode();
-          this.dataService.fetchFlights();
+          this.resetFormAndFetchData();
+        } else {
+          let successMessage = this.isEditMode ? "edited" : "created";
+          alert("Flight " + successMessage + " Successfully!");
+          this.resetFormAndFetchData();
         }
       },
-      error:err => {
+      error: err => {
         alert("Unexpected Error occurred! Please try again!");
       }
     })
   }
 
-  resetFormScreeMode(){
+  resetFormScreeMode() {
     this.isOverlayShow = !this.isOverlayShow;
     this.isEditMode = false;
     this.overlayForm.reset();
+  }
+
+  private resetFormAndFetchData() {
+    this.resetFormScreeMode();
+    this.dataService.fetchFlights();
   }
 
 
