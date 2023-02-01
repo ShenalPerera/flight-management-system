@@ -1,35 +1,78 @@
 package com.fms.availabilitySearch.models;
 
-import com.fms.fares.models.Fare;
-import com.fms.flights.models.Flight;
-import com.fms.routes.models.Route;
 
 public class AvailableSearch {
-    private Route route;
-    private Flight flight;
-    private Fare fare;
+   private String flightNumber;
+   private String departure;
+   private String destination;
+   private String departureDate;
+   private String departureTime;
+   private String arrivalDate;
+   private String arrivalTime;
+   private double fare;
 
-    public Route getRoute() {
-        return route;
-    }
+   public String getFlightNumber() {
+      return flightNumber;
+   }
 
-    public void setRoute(Route route) {
-        this.route = route;
-    }
+   public void setFlightNumber(String flightNumber) {
+      this.flightNumber = flightNumber;
+   }
 
-    public Flight getFlight() {
-        return flight;
-    }
+   public String getDeparture() {
+      return departure;
+   }
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
-    }
+   public void setDeparture(String departure) {
+      this.departure = departure;
+   }
 
-    public Fare getFare() {
-        return fare;
-    }
+   public String getDestination() {
+      return destination;
+   }
 
-    public void setFare(Fare fare) {
-        this.fare = fare;
-    }
+   public void setDestination(String destination) {
+      this.destination = destination;
+   }
+
+   public String getDepartureDate() {
+      return departureDate;
+   }
+
+   public void setDepartureDate(String departureDate) {
+      this.departureDate = departureDate;
+   }
+
+   public String getDepartureTime() {
+      return departureTime;
+   }
+
+   public void setDepartureTime(String departureTime) {
+      this.departureTime = departureTime;
+   }
+
+   public String getArrivalDate() {
+      return arrivalDate;
+   }
+
+   public void setArrivalDate(String arrivalDate) {
+      this.arrivalDate = arrivalDate;
+   }
+
+   public String getArrivalTime() {
+      return arrivalTime;
+   }
+
+   public void setArrivalTime(String arrivalTime) {
+      this.arrivalTime = arrivalTime;
+   }
+
+   public double getFare() {
+      return fare;
+   }
+
+   public void setFare(double fare) {
+      this.fare = fare;
+   }
 }
+
