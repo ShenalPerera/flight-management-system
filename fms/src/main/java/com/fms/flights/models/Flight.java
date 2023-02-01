@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-@Entity(name = "Flight")
+@Entity(name = "flight")
 @Table
 public class Flight {
     @Id

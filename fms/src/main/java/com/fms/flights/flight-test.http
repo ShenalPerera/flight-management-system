@@ -3,12 +3,11 @@ POST http://localhost:8080/flights/add-flight
 Content-Type: application/json
 
 {
-  "flightId": "ldibdve-uxbom5S",
-  "flightNumber": "1234",
+  "flightNumber": "WQA1",
   "departure": "Colombo",
-  "arrival": "sdfd",
+  "arrival": "Colombo",
   "departureDate": "2023-04-29",
-  "arrivalDate": "2023-04-30",
+  "arrivalDate": "2023-04-29",
   "departureTime": "13:00",
   "arrivalTime": "13:00"
 }
@@ -18,17 +17,15 @@ PUT http://localhost:8080/flights/edit-flight
 Content-Type: application/json
 
 {
-  "flightId": "e0cce153-46d5-4f6a-86db-974b0610820c",
-  "flightNumber": "1234",
+
+  "flightNumber": "WQA1",
   "departure": "Colombo",
   "arrival": "Dubai",
-  "departureDate": "2024-02-24",
-  "arrivalDate": "2025-04-30",
-  "departureTime": "23:42",
+  "departureDate": "2023-04-29",
+  "arrivalDate": "2023-04-30",
+  "departureTime": "13:00",
   "arrivalTime": "13:00",
-  "createdDateNTime:": "2023-01-30T12:40:39.134000",
-  "modifiedDateNTime": "2023-01-30T12:40:39.134000",
-  "version": 3
+  "version": 2
 }
 
 

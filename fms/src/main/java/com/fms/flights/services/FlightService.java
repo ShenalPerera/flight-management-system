@@ -38,19 +38,24 @@ public class FlightService {
     }
 
     public List<Flight> getFilteredFlightsBySearchOptions(SearchFlightDTO searchFlightDTO) {
-
-
         List<Flight> filteredFlights = flightDao.findAllByGivenOptions(searchFlightDTO);
         logger.info("resultant size of the list : {}", filteredFlights.size());
         return filteredFlights;
     }
 
     public Flight addNewFlight(Flight flight) {
-        return validateAndCreateFlight(flight);
+        validateFlightForCreate(flight);
+        return this.flightRepository.save(flight);
     }
 
     public Flight editFlight(Flight flight) {
-        return validateAndEdit(flight);
+        validateFlightForEdit(flight);
+        try {
+            return flightRepository.save(flight);
+        } catch (OptimisticLockingFailureException e) {
+            logger.error("Record was already edited");
+            throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
+        }
     }
 
     public void deleteFlight(String flightId) {
@@ -64,12 +69,41 @@ public class FlightService {
         }
     }
 
+    private void validateFlightForCreate(Flight flight){
+        validateEmptyFlightsFieldForCreate(flight);
+        validateFlightEntryFields(flight);
+        validateDuplicatesBeforeCreate(flight);
+    }
 
-    private void validateFlightEntryFields(Flight flight) {
-        if (flight.isContainsEmptyFields()) {
-            logger.error("Invalid data : Flight contains empty values - [{}]", flight);
+    private void validateFlightForEdit(Flight flight){
+        validateEmptyFlightFiledForEdit(flight);
+        validateFlightEntryFields(flight);
+        validateDuplicatesBeforeEdit(flight);
+    }
+
+    private void validateEmptyFlightsFieldForCreate(Flight flight){
+        boolean isContainsEmptyAttributes = flight.getFlightNumber().isBlank() ||
+                                            flight.getDeparture().isBlank() ||
+                                            flight.getArrival().isBlank() ||
+                                            flight.getDepartureDate().isBlank() ||
+                                            flight.getDepartureTime().isBlank() ||
+                                            flight.getArrivalDate().isBlank() ||
+                                            flight.getArrivalTime().isBlank();
+
+        if (isContainsEmptyAttributes){
+            logger.error("Flight DTO has empty field(s) [operation -- create]: {}",flight);
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
+    }
+
+    private void validateEmptyFlightFiledForEdit(Flight flight){
+        if (flight.isContainsEmptyFields()){
+            logger.error("Flight DTO has empty field(s) [operation -- edit] : {}",flight);
+            throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
+        }
+    }
+
+    private void validateFlightEntryFields(Flight flight) {
         if (flight.getDeparture().equalsIgnoreCase(flight.getArrival())) {
             logger.error("Invalid data : departure date and arrival date cannot be same");
             throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
@@ -78,50 +112,24 @@ public class FlightService {
         LocalDateTime arrivalDateNTime = LocalDateTime.parse(flight.getArrivalDate() + "T" + flight.getArrivalTime());
 
         if (departureDateNTime.isAfter(arrivalDateNTime) || departureDateNTime.isEqual(arrivalDateNTime)) {
-            logger.error("Invalid data: Same flight can not have multiple entries on same date");
+            logger.error("Invalid data: Departure date and arrival dates are invalid");
             throw new FMSException(HttpStatusCodesFMS.INVALID_DEPARTURE_AND_ARRIVAL_DATE);
         }
     }
 
-    private Flight validateAndEdit(Flight flight) {
-        validateFlightEntryFields(flight);
 
-        List<Flight> filteredFlights = this.flightRepository.findAllByFlightNumberAndDepartureDateOrFlightId(
-                flight.getFlightNumber(),
-                flight.getDepartureDate(),
-                flight.getFlightId()
-        );
-        logger.info("Elements in the list : {}", filteredFlights);
-
-        if (filteredFlights.isEmpty()) {
-            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
-        }
-        else if (filteredFlights.size() == 1 && Objects.equals(filteredFlights.remove(0).getFlightId(), flight.getFlightId())) {
-            logger.info("Validated flight : success [editFlight]");
-            try {
-                return flightRepository.save(flight);
-            } catch (OptimisticLockingFailureException e) {
-                logger.error("Record was already edited");
-                throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
-            }
-        } else {
+    private void validateDuplicatesBeforeCreate(Flight flight){
+        int count = this.flightRepository.countAllByFlightNumberAndDepartureDate(flight.getFlightNumber(), flight.getDeparture());
+        if (count != 0){
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
 
-    private Flight validateAndCreateFlight(Flight flight) {
-        validateFlightEntryFields(flight);
+    private void validateDuplicatesBeforeEdit(Flight flight){
+        boolean isValidForEdit = this.flightRepository.isFlightExitsAndNoDuplicatesFound(flight.getFlightNumber(),flight.getDepartureDate(),flight.getFlightId());
 
-        List<Flight> filteredFlights = this.flightRepository.findAllByFlightNumberAndDepartureDate(
-                flight.getFlightNumber(),
-                flight.getDepartureDate()
-        );
-
-        if (filteredFlights.isEmpty()) {
-            logger.info("Validated flight : success [addNewFlight]");
-            return flightRepository.save(flight);
+        if (!isValidForEdit){
+            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
-        logger.error("Flight data is not valid : Duplicate entry found!");
-        throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
     }
 }
