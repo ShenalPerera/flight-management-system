@@ -1,6 +1,7 @@
 package com.fms.availabilitySearch.services;
 
 import com.fms.availabilitySearch.DAOs.AvailabilitySearchDao;
+import com.fms.availabilitySearch.models.AvailableFlight;
 import com.fms.availabilitySearch.models.AvailableSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class AvailabilitySearchService {
         this.availabilitySearchDao = availabilitySearchDao;
     }
 
-    public List<AvailableSearch> getAllAvailableSearches(AvailableSearch availableSearch) {
+    public List<AvailableFlight> getAllAvailableFlights(AvailableSearch availableSearch) {
         return availabilitySearchDao.getAvailableFlights(availableSearch);
     }
 }

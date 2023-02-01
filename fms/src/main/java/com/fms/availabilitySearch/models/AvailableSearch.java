@@ -5,29 +5,23 @@ public class AvailableSearch {
    private String flightNumber;
    private String departure;
    private String arrival;
-   private String departureDate;
-   private String departureTime;
-   private String arrivalDate;
-   private String arrivalTime;
-   private double fare;
+   private String departureStartDate;
+   private String departureEndDate;
+   private Double fare;
 
    public AvailableSearch(
            String flightNumber,
            String departure,
            String arrival,
-           String departureDate,
-           String departureTime,
-           String arrivalDate,
-           String arrivalTime,
-           double fare
+           String departureStartDate,
+           String departureEndDate,
+           Double fare
    ) {
       this.flightNumber = flightNumber;
       this.departure = departure;
       this.arrival = arrival;
-      this.departureDate = departureDate;
-      this.departureTime = departureTime;
-      this.arrivalDate = arrivalDate;
-      this.arrivalTime = arrivalTime;
+      this.departureStartDate = departureStartDate;
+      this.departureEndDate = departureEndDate;
       this.fare = fare;
    }
 
@@ -55,44 +49,40 @@ public class AvailableSearch {
       this.arrival = arrival;
    }
 
-   public String getDepartureDate() {
-      return departureDate;
+   public String getDepartureStartDate() {
+      return departureStartDate;
    }
 
-   public void setDepartureDate(String departureDate) {
-      this.departureDate = departureDate;
+   public void setDepartureStartDate(String departureStartDate) {
+      this.departureStartDate = departureStartDate;
    }
 
-   public String getDepartureTime() {
-      return departureTime;
+   public String getDepartureEndDate() {
+      return departureEndDate;
    }
 
-   public void setDepartureTime(String departureTime) {
-      this.departureTime = departureTime;
+   public void setDepartureEndDate(String departureEndDate) {
+      this.departureEndDate = departureEndDate;
    }
 
-   public String getArrivalDate() {
-      return arrivalDate;
-   }
-
-   public void setArrivalDate(String arrivalDate) {
-      this.arrivalDate = arrivalDate;
-   }
-
-   public String getArrivalTime() {
-      return arrivalTime;
-   }
-
-   public void setArrivalTime(String arrivalTime) {
-      this.arrivalTime = arrivalTime;
-   }
-
-   public double getFare() {
+   public Double getFare() {
       return fare;
    }
 
-   public void setFare(double fare) {
+   public void setFare(Double fare) {
       this.fare = fare;
+   }
+
+   @Override
+   public String toString() {
+      return "AvailableSearch{" +
+              "flightNumber='" + flightNumber + '\'' +
+              ", departure='" + departure + '\'' +
+              ", arrival='" + arrival + '\'' +
+              ", departureStartDate='" + departureStartDate + '\'' +
+              ", departureEndDate='" + departureEndDate + '\'' +
+              ", fare=" + fare +
+              '}';
    }
 }
 

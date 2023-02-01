@@ -1,14 +1,13 @@
 package com.fms.availabilitySearch.DAOsImplementations;
 
 import com.fms.availabilitySearch.DAOs.AvailabilitySearchDao;
+import com.fms.availabilitySearch.models.AvailableFlight;
 import com.fms.availabilitySearch.models.AvailableSearch;
-import com.fms.fares.models.Fare;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,16 +20,16 @@ public class AvailabilitySearchDaoImpl implements AvailabilitySearchDao {
     }
 
     @Override
-    public List<AvailableSearch> getAvailableFlights(AvailableSearch availableSearch) {
+    public List<AvailableFlight> getAvailableFlights(AvailableSearch availableSearch) {
         String query = buildQuery(availableSearch);
-        RowMapper<AvailableSearch> rowMapper = (resultSet, rowNum) -> new AvailableSearch(
-                resultSet.getString("flightNumber"),
+        RowMapper<AvailableFlight> rowMapper = (resultSet, rowNum) -> new AvailableFlight(
+                resultSet.getString("flight_number"),
                 resultSet.getString("departure"),
                 resultSet.getString("arrival"),
-                resultSet.getString("departureDate"),
-                resultSet.getString("departureTime"),
-                resultSet.getString("arrivalDate"),
-                resultSet.getString("arrivalTime"),
+                resultSet.getString("departure_date"),
+                resultSet.getString("departure_time"),
+                resultSet.getString("arrival_date"),
+                resultSet.getString("arrival_time"),
                 resultSet.getDouble("fare")
         );
         return jdbcTemplate.query(query, rowMapper);
