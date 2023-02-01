@@ -45,8 +45,7 @@ public class RoutesService {
             routeRepository.save(route);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{} which are already there",
-                    route.getDeparture(), route.getDestination());
+            logger.error("service[createRoute] {}", route);
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
@@ -65,7 +64,7 @@ public class RoutesService {
             Route updatedRoute = routeRepository.save(route);
             return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
         } catch (ObjectOptimisticLockingFailureException e) {
-            logger.error("'/api/routes-screen/update-route' accessed with version->{}", route.getVersion());
+            logger.error("service[edit] {}", route);
             throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
         }
 
@@ -76,8 +75,7 @@ public class RoutesService {
             routeRepository.deleteById(routeID);
             return new ResponseEntity<>(routeID, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("'/api/routes-screen/delete-route' accessed with routeID->{} which is not found",
-                    routeID);
+            logger.error("service[deleteRoute] id->{}", routeID);
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }
@@ -91,27 +89,24 @@ public class RoutesService {
 
     public void checkInputFields(Route route) {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
-            logger.error("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
-                    route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
+            logger.error("service[checkInputFields](emptyFields) {}", route);
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
 
         if (route.getDeparture().equals("") || route.getDestination().equals("") || route.getDeparture().equalsIgnoreCase(route.getDestination())
                 || route.getMileage()<0 || route.getDurationH()<0) {
-            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
-                    route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
+            logger.error("service[checkInputFields](wrongInputs) {}", route);
             throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
         }
     }
 
     public void checkRouteIDAndDuplicates(Route route, List<Route> routeList) {
         if (routeList.size()>1) {
-            logger.error("'/api/routes-screen/update-route' accessed with dep->{},des->{} which are already there",
-                    route.getDeparture(), route.getDestination());
+            logger.error("service[checkRouteIDAndDuplicates](dup) {}", route);
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
         if (routeList.isEmpty() || routeList.get(0).getRouteID() != route.getRouteID()) {
-            logger.error("'/api/routes-screen/update-route' accessed with routeID->{} which is not found", route.getRouteID());
+            logger.error("service[checkRouteIDAndDuplicates](idNotFound) {}", route);
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }

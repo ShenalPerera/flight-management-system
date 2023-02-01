@@ -25,33 +25,31 @@ public class RoutesController {
 
     @GetMapping(routesBaseUrl + "/get-routes")
     ResponseEntity<List<Route>> sendAllRoutes() {
-        logger.info("'/api/routes-screen/get-routes' accessed");
+        logger.info("controller[sendAllRoutes]");
         return new ResponseEntity<>(routesService.sendAllRoutes(), HttpStatus.OK);
     }
 
     @PostMapping(routesBaseUrl + "/create-route")
     ResponseEntity<Route> createRoute(@RequestBody Route route) {
-        logger.info("'/api/routes-screen/create-route' accessed with dep->{},des->{},mil->{},hrs->{}",
-                route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
+        logger.info("controller[createRoute] {}", route);
         return routesService.createRoute(route);
     }
 
     @PutMapping(routesBaseUrl + "/update-route")
     ResponseEntity<Route> editRoute(@RequestBody Route route) {
-        logger.info("'/api/routes-screen/update-route' accessed with dep->{},des->{},mil->{},hrs->{}",
-                route.getDeparture(), route.getDestination(), route.getMileage(), route.getDurationH());
+        logger.info("controller[editRoute] {}", route);
         return routesService.editRoute(route);
     }
 
     @DeleteMapping(routesBaseUrl + "/delete-route")
     ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
-        logger.info("'/api/routes-screen/delete-route' accessed with routeID->{}", routeID);
+        logger.info("controller[deleteRoute] id->{}", routeID);
         return routesService.deleteRoute(routeID);
     }
 
     @GetMapping(routesBaseUrl + "/search-routes")
     ResponseEntity<List<Route>> searchRoutes(@RequestParam String departure, @RequestParam String destination) {
-        logger.info("'/api/routes-screen/search-routes' accessed with dep->{}, des->{}", departure, destination);
+        logger.info("controller[searchRoutes] dep->{} des->{}", departure, destination);
         return routesService.searchRoutes(departure, destination);
     }
 

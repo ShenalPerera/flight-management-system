@@ -94,4 +94,17 @@ public class Route {
     public void setVersion(long version) {
         this.version = version;
     }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "departure='" + departure + '\'' +
+                ", destination='" + destination + '\'' +
+                ", mileage=" + mileage +
+                ", durationH=" + durationH +
+                ", createdDateTime=" + createdDateTime +
+                ", modifiedDateTime=" + modifiedDateTime +
+                ", version=" + version +
+                '}';
+    }
 }
