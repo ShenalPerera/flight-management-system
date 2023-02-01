@@ -94,9 +94,11 @@ export class FormComponent implements OnInit{
             if (resp.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
               alert('Sorry! That route is already there.');
             } else if (resp.status == HttpStatusCodesFMS.VERSION_MISMATCHED) {
-              if (confirm('Sorry there are new updates. Do you want to fetch them ?')) {
-                this.afterApplyClosing();
-              }
+              alert('Sorry, there are new updates. Fetching new updates');
+              this.afterApplyClosing();
+              // if (confirm('Sorry there are new updates. Do you want to fetch them ?')) {
+              //   this.afterApplyClosing();
+              // }
             }
             else{
               this.afterApplyClosing();
