@@ -85,8 +85,12 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
     this.dataService.removeFlight(flight_id).subscribe({
       next: (response) => {
         if (response.status === HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
-          alert("You can not delete this entry!");
+          alert("This flight already deleted by someone!");
         }
+        else{
+          alert("Flight deleted Successfully!");
+        }
+
         this.dataService.fetchFlights();
         searchForm.reset();
       },
