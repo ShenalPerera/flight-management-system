@@ -101,6 +101,7 @@ export class FormComponent implements OnInit{
               // }
             }
             else{
+              alert("The route has been successfully updated.");
               this.afterApplyClosing();
             }
 
@@ -132,6 +133,7 @@ export class FormComponent implements OnInit{
           if (resp.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
             alert('Sorry! That route is already there.');
           }else {
+            alert("The route has been successfully created.");
             this.afterApplyClosing();
           }
 

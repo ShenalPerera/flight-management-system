@@ -123,6 +123,8 @@ export class RoutesScreenComponent implements OnInit{
           this.searchFormDestination = '';
           if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
             alert("Sorry, that route has been already deleted.");
+          } else {
+            alert("The route has been successfully deleted.");
           }
           this.routeService.getRoutesFromBackend()
             .subscribe({next: (resp)=>{
