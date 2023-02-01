@@ -99,6 +99,9 @@ export class FormComponent implements OnInit{
               // if (confirm('Sorry there are new updates. Do you want to fetch them ?')) {
               //   this.afterApplyClosing();
               // }
+            } else if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
+              alert('Sorry, that route has been already deleted.')
+              this.afterApplyClosing();
             }
             else{
               alert("The route has been successfully updated.");
