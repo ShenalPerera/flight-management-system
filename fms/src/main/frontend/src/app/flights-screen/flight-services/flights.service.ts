@@ -18,7 +18,7 @@ export class FlightsService{
     return this.http.post<Flight>("http://localhost:8080/flights/add-flight",flight,{observe:'response'});
   }
 
-  removeFlight(id:string){
+  removeFlight(id:number){
     return this.http.delete("http://localhost:8080/flights/delete-flight",{params: new HttpParams().set("id",id),observe:'response'});
   }
 

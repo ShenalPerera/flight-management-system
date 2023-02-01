@@ -31,18 +31,18 @@ export class FlightDataService {
       this.flightListChanged.next(this.flights.slice());
     })
   }
-  addFlight(value: { oId: string, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string, oDepartureDateNTime: string }) {
-    value.oId = genUniqueId();
+  addFlight(value: { oId: number, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string, oDepartureDateNTime: string }) {
+
     return this.flightService.addNewFlight(this.createFlight(value));
   }
 
 
-  removeFlight(flight_id: string) {
+  removeFlight(flight_id: number) {
     return this.flightService.removeFlight(flight_id);
   }
 
   updateFlight(value: {
-    oId: string, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string, oDepartureDateNTime: string},flight:Flight){
+    oId: number, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string, oDepartureDateNTime: string},flight:Flight){
     let editedFlight = this.createFlight(value);
 
     editedFlight.version = flight.version;
@@ -55,7 +55,7 @@ export class FlightDataService {
     return {date: result[0], time: result[1]};
   }
 
-  checkEntryValid(oId: string, flight_number: string, departure_date: string): boolean {
+  checkEntryValid(oId: number, flight_number: string, departure_date: string): boolean {
 
     for (let flight of this.flights) {
       let departureDateNTime = new Date(flight.departureDate + "T" + flight.departureTime);
@@ -69,7 +69,7 @@ export class FlightDataService {
   }
 
   createFlight(value: {
-    oId: string, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string,
+    oId: number, oFlightNumber: string, oArrival: string, oDeparture: string, oArrivalDateNTime: string,
     oDepartureDateNTime: string
   }):Flight{
 

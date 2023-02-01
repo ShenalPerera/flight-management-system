@@ -11,9 +11,9 @@ import java.util.Objects;
 @Table
 public class Flight {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "flight_id", updatable = false, nullable = false)
-    private String flightId;
+    private Long flightId;
 
     @Column(
             name = "flight_number",
@@ -91,7 +91,7 @@ public class Flight {
 
     }
 
-    public Flight(String flightId, String flightNumber, String arrival, String departure, String arrivalDate, String departureDate, String arrivalTime, String departureTime) {
+    public Flight(Long flightId, String flightNumber, String arrival, String departure, String arrivalDate, String departureDate, String arrivalTime, String departureTime) {
         this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.arrival = arrival;
@@ -102,11 +102,11 @@ public class Flight {
         this.departureTime = departureTime;
     }
 
-    public String getFlightId() {
+    public Long getFlightId() {
         return flightId;
     }
 
-    public void setFlightId(String id) {
+    public void setFlightId(Long id) {
         this.flightId = id;
     }
 
@@ -213,7 +213,7 @@ public class Flight {
     }
 
     public boolean isContainsEmptyFields() {
-        return flightId.isBlank() || flightNumber.isBlank() || arrival.isBlank() || departure.isBlank() || arrivalDate.isBlank() ||
+        return flightId == null  || flightNumber.isBlank() || arrival.isBlank() || departure.isBlank() || arrivalDate.isBlank() ||
                 arrivalTime.isBlank() || departureDate.isBlank() || departureTime.isBlank();
     }
 

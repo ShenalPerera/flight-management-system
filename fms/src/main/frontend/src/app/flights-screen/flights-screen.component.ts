@@ -80,7 +80,7 @@ export class FlightsScreenComponent implements OnInit ,OnDestroy{
     this.airportsListSubscription?.unsubscribe();
   }
 
-  onDeleteFlight(flight_id: string, searchForm: NgForm) {
+  onDeleteFlight(flight_id: number, searchForm: NgForm) {
     this.dataService.removeFlight(flight_id).subscribe( {
       next:(response)=>{
         if (response.status === HttpStatusCodesFMS.ENTRY_NOT_FOUND){
