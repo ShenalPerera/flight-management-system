@@ -2,6 +2,8 @@ package com.fms.flights.repositories;
 
 import com.fms.flights.models.Flight;
 import com.fms.flights.models.SearchFlightDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,15 +16,19 @@ import java.util.List;
 public class FlightDao {
 
     private final JdbcTemplate jdbcTemplate;
-
+    private final Logger logger;
     @Autowired
     public FlightDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.logger = LoggerFactory.getLogger(FlightDao.class);
     }
 
     public List<Flight> findAllByGivenOptions(SearchFlightDTO searchFlightDTO) {
 
         String query = buildQueryForSearch(searchFlightDTO);
+
+        logger.info("Query created : {}",query);
+
         BeanPropertyRowMapper<Flight> beanPropertyRowMapper = new BeanPropertyRowMapper<>(Flight.class);
         return jdbcTemplate.query(query, beanPropertyRowMapper);
     }
@@ -32,11 +38,13 @@ public class FlightDao {
 
         queryStr.append("SELECT *        ");
         queryStr.append("FROM flight     ");
-        queryStr.append("WHERE           ");
 
-        String conditions = buildConditionsListInSearchQuery(searchFlightDTO);
+        if (searchFlightDTO.isContainsNonEmptyNotNullValues()){
+            queryStr.append("WHERE ");
+            String conditions = buildConditionsListInSearchQuery(searchFlightDTO);
+            queryStr.append(conditions);
+        }
 
-        queryStr.append(conditions);
         return queryStr.toString();
     }
 

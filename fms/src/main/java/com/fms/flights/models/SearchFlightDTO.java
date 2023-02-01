@@ -86,6 +86,11 @@ public class SearchFlightDTO {
         this.arrivalTime = arrivalTime;
     }
 
+    public boolean isContainsNonEmptyNotNullValues(){
+        return !(flightNumber.isBlank() && departure.isBlank() && arrival.isBlank() && departureDate.isBlank() && departureTime.isBlank() &&
+                arrivalDate.isBlank() && arrivalTime.isBlank());
+    }
+
     @Override
     public String toString() {
         return "searchFlightDTO{" +
