@@ -32,9 +32,9 @@ export class FareFormComponent implements OnInit {
   }
   discardClicked() {
     if (this.formGroup.pristine.valueOf()) {
-      this.dialogRef.close(false);
+      this.dialogRef.close(true);
     } else if (confirm("Entered data will be lost! Do you want to proceed?")) {
-      this.dialogRef.close(false);
+      this.dialogRef.close(true);
     }
   }
   submitCLicked() {
@@ -51,15 +51,17 @@ export class FareFormComponent implements OnInit {
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
             alert("The entry is already in the system!")
-          else
+          else {
+            alert("Fare created successfully!")
             this.dialogRef.close(true)
+          }
         }
       });
     } else {
       this.fareService.editEntry({
         id: this.data.entry.id,
-        departure: this.formGroup.value['departure'].toLowerCase(),
-        arrival: this.formGroup.value['arrival'].toLowerCase(),
+        departure: this.data.entry.departure,
+        arrival: this.data.entry.arrival,
         fare: this.formGroup.value['fare'],
         createdTimestamp: this.data.entry.createdTimestamp,
         modifiedTimestamp: this.data.entry.modifiedTimestamp,
@@ -70,8 +72,10 @@ export class FareFormComponent implements OnInit {
             alert("The entry is already in the system!")
           else if (response.status == HttpStatusCodesFMS.VERSION_MISMATCHED)
             alert("Someone else has changed the entry, reload the page and try again!");
-          else
+          else {
+            alert("Fare edited successfully!")
             this.dialogRef.close(true)
+          }
         }
       });
     }

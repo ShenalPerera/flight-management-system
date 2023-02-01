@@ -47,7 +47,10 @@ export class FaresScreenComponent implements OnInit {
   }
   handleDelete(entry: Entry): void {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
-      this.fareService.deleteEntry(entry.id).subscribe(() => this.filterEntries() );
+      this.fareService.deleteEntry(entry.id).subscribe(() => {
+        alert("Fare deleted successfully!")
+        this.filterEntries()
+      });
     }
   }
   openForm(entry?: Entry): void {
