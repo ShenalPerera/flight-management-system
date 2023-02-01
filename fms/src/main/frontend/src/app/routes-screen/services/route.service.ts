@@ -46,7 +46,7 @@ export class RouteService  {
 
   deleteRecordInBackend(routeID: number) {
     return this.http.delete('http://localhost:8080/api/routes-screen/delete-route',
-      {params: new HttpParams().set('routeID', routeID)});
+      {params: new HttpParams().set('routeID', routeID), observe: 'response'});
   }
 
   fetchSpecificRoutesFromBackend(departure: string, destination: string) {

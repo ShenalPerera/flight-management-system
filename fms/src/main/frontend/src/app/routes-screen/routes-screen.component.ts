@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "./form/form.component";
 import {MatExpansionPanel} from "@angular/material/expansion";
 import {AirportsHandleService} from "../services/airports-handle.service";
+import {HttpStatusCodesFMS} from "../http-status-codes-fms/httpStatusCodes.enum";
 
 
 @Component({
@@ -120,6 +121,9 @@ export class RoutesScreenComponent implements OnInit{
         next: (resp)=>{
           this.searchFormDeparture = '';
           this.searchFormDestination = '';
+          if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
+            alert("Sorry, that route has been already deleted.");
+          }
           this.routeService.getRoutesFromBackend()
             .subscribe({next: (resp)=>{
                 this.ALL_ROUTES = resp;
