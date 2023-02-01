@@ -3,7 +3,6 @@ package com.fms.fares.models;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "departure", "arrival" }) })

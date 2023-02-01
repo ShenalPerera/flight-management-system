@@ -1,5 +1,6 @@
 package com.fms.fares.services;
 
+import com.fms.fares.daos.FareDao;
 import com.fms.fares.repositories.FareRepository;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
@@ -9,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -20,41 +19,19 @@ import java.util.List;
 public class FareService {
     private final Logger logger;
     private final FareRepository fareRepository;
-    private final JdbcTemplate jdbcTemplate;
+    private final FareDao fareDao;
 
     @Autowired
-    public FareService(FareRepository fareRepository, JdbcTemplate jdbcTemplate) {
+    public FareService(FareRepository fareRepository, FareDao fareDao) {
         this.logger = LoggerFactory.getLogger(FareService.class);
         this.fareRepository = fareRepository;
-        this.jdbcTemplate = jdbcTemplate;
+        this.fareDao = fareDao;
     }
 
     // ************** database handlers **************
 
     public List<Fare> getSearchedFares(String departure, String arrival) {
-
-        String FIND_ALL_QUERY = "SELECT * FROM fare;";
-        String FIND_ALL_BY_DEPARTURE_QUERY = "SELECT * FROM fare WHERE departure = ?;";
-        String FIND_ALL_BY_ARRIVAL_QUERY = "SELECT * FROM fare WHERE arrival = ?;";
-        String FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY = "SELECT * FROM fare WHERE departure = ? AND arrival = ?;";
-
-        RowMapper<Fare> rowMapper = (resultSet, rowNum) -> new Fare(
-                resultSet.getInt("id"),
-                resultSet.getString("departure"),
-                resultSet.getString("arrival"),
-                resultSet.getDouble("fare"),
-                resultSet.getTimestamp("created_timestamp"),
-                resultSet.getTimestamp("modified_timestamp"),
-                resultSet.getLong("version")
-        );
-
-        if (departure.isEmpty() && arrival.isEmpty())
-            return jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        if (arrival.isEmpty())
-            return jdbcTemplate.query(FIND_ALL_BY_DEPARTURE_QUERY, rowMapper, departure);
-        if (departure.isEmpty())
-            return jdbcTemplate.query(FIND_ALL_BY_ARRIVAL_QUERY, rowMapper, arrival);
-        return jdbcTemplate.query(FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY, rowMapper, departure, arrival);
+        return fareDao.getSearchedFares(departure, arrival);
     }
 
     public Fare createFare(Fare fare) {
