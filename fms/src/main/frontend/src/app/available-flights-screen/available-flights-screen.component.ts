@@ -3,7 +3,7 @@ import {AvailableFlightModel} from "./models/available-flight.model";
 import {AvailableFlightsService} from "./services/available-flights.service";
 import {AirportsHandleService} from "../services/airports-handle.service";
 import {NgForm} from "@angular/forms";
-import {switchMap} from "rxjs";
+import {filter, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-available-flights-screen',
@@ -19,15 +19,23 @@ export class AvailableFlightsScreenComponent implements OnInit{
   constructor(private availableFlightService:AvailableFlightsService, private airportHandleService:AirportsHandleService) {
   }
   ngOnInit() {
+    console.log("This will called")
     this.retrieveFLightsAndAirports();
   }
 
   onClickSearch(filterForm: NgForm){
-    console.log(filterForm.value.departureStartDate.toLocaleDateString());
+    this.getAvailableFlights(filterForm.value).subscribe({
+      next:(filteredFlights => {
+          this.availableFlightList = filteredFlights;
+      }),
+      error:( err =>{
+        alert("")
+      })
+    });
   }
 
   private retrieveFLightsAndAirports(){
-    this.availableFlightService.getAvailableFlights(this.availableFlightSearchObject).pipe(
+    this.getAvailableFlights(this.availableFlightSearchObject).pipe(
       switchMap(flightList =>{
         this.availableFlightList = flightList;
         return this.getAirports$();
@@ -44,5 +52,9 @@ export class AvailableFlightsScreenComponent implements OnInit{
 
   private getAirports$(){
     return this.airportHandleService.getAirportsList();
+  }
+
+  private getAvailableFlights(searchCriteria:{flightNumber:string,departure:string,arrival:string,departureStartDate:string,departureEndDate:string}){
+    return this.availableFlightService.getAvailableFlights(searchCriteria);
   }
 }
