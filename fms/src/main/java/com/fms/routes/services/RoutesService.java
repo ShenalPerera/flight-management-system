@@ -103,13 +103,7 @@ public class RoutesService {
 
     }
 
-    public boolean checkErrorsBeforeDeleteRoute(Route routeToBeDeleted){
-        List<Integer> combinationsWithRoute = new ArrayList<>();
-        combinationsWithRoute.add(getNumOfCombinationsInFares(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()));
-        combinationsWithRoute.add(getNumOfCombinationsInFlights(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()));
-        return (combinationsWithRoute.get(0)>0 || combinationsWithRoute.get(1)>0);
 
-    }
 
     public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
         return routeDao.searchRoutes(departure, destination);
@@ -117,6 +111,14 @@ public class RoutesService {
     }
 
     // ******************************************** HELPER METHODS *****************************************************
+
+    public boolean checkErrorsBeforeDeleteRoute(Route routeToBeDeleted){
+        return (
+                getNumOfCombinationsInFares(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()) > 0 ||
+                getNumOfCombinationsInFlights(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()) > 0
+                );
+
+    }
 
     public int getNumOfCombinationsInFares(String departure, String destination) {
         return routeDao.searchNumOfLocationsCombinationInFares(departure, destination);
