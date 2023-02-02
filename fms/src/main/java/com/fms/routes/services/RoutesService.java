@@ -42,8 +42,22 @@ public class RoutesService {
     public ResponseEntity<Route> createRoute(Route route) {
         checkInputFields(route);
         try{
-            route.setCreatedDateTime(new Timestamp(new Date().getTime()));
-            routeRepository.save(route);
+            Route toBeActiveRoute = routeRepository.findByDepartureAndDestination(route.getDeparture(), route.getDestination());
+            if (toBeActiveRoute == null) {
+                route.setStatus(1);
+                route.setCreatedDateTime(new Timestamp(new Date().getTime()));
+                routeRepository.save(route);
+                logger.info("service[createRoute](new) {}", route);
+            } else {
+                toBeActiveRoute.setStatus(1);
+                toBeActiveRoute.setCreatedDateTime(new Timestamp(new Date().getTime()));
+                routeRepository.save(toBeActiveRoute);
+                logger.info("service[createRoute](activate) {}", route);
+
+            }
+//            route.setCreatedDateTime(new Timestamp(new Date().getTime()));
+//            route.set
+//            routeRepository.save(route);
             logger.info("service[createRoute] {}", route);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {

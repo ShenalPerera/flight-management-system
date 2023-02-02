@@ -22,7 +22,7 @@ public class RouteDaoImpl implements RouteDao {
     JdbcTemplate jdbcTemplate;
     private final Logger logger;
 
-    String GET_ALL_ROUTES_QUERY = "SELECT * FROM route;";
+    String GET_ALL_ROUTES_QUERY = "SELECT * FROM route WHERE route.status=1;";
     String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY = "SELECT * FROM route WHERE departure = ? AND destination = ?;";
     String GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY = "SELECT * FROM route WHERE departure = ?;";
     String GET_FILTERED_ROUTES_BY_DESTINATION_QUERY = "SELECT * FROM route WHERE destination = ?;";
