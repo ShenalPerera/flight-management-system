@@ -94,7 +94,7 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
         this.dataService.fetchFlights();
         searchForm.reset();
       },
-      error: (err) => alert("Unexpected error occurred!")
+      error: () => alert("Unexpected error occurred!")
     });
   }
 
@@ -176,11 +176,11 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
           alert("Flight number already has flight on given departure date!");
         }
         else if (response.status === HttpStatusCodesFMS.VERSION_MISMATCHED) {
-          alert("This flight already updated by someone! Check again");
+          alert("This flight already updated by someone!");
           this.resetFormAndFetchData();
         }
         else if(response.status === HttpStatusCodesFMS.ROUTE_DOESNT_EXIST){
-          alert("Route does not exists ! Can not create a flight");
+          alert("Route does not exists! Can not create the flight");
         }
         else {
           let successMessage = this.isEditMode ? "edited" : "created";
@@ -188,7 +188,7 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
           this.resetFormAndFetchData();
         }
       },
-      error: err => {
+      error: () => {
         alert("Unexpected Error occurred! Please try again!");
       }
     })
