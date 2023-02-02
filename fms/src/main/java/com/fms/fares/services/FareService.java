@@ -20,7 +20,7 @@ import java.util.List;
 public class FareService {
     private final Logger logger;
     private final FareRepository fareRepository;
-    private RouteRepository routeRepository;
+    private final RouteRepository routeRepository;
     private final FareDao fareDao;
 
     @Autowired
@@ -38,9 +38,7 @@ public class FareService {
     }
 
     public Fare createFare(Fare fare) {
-        validateInputs(fare);
-        checkMissingData(fare);
-        checkRouteExistence(fare);
+        validateCreateFare(fare);
         logger.info("created DTO send to DB | " + fare);
         try {
             return fareRepository.save(fare);
@@ -52,9 +50,7 @@ public class FareService {
     }
 
     public Fare editFare(Fare editedFare) {
-        validateInputs(editedFare);
-        checkMissingDataWithId(editedFare);
-        checkDuplicateFaresAndExistence(editedFare);
+        validateEditFare(editedFare);
         logger.info("updated DTO send to DB | " + editedFare);
         try {
             return fareRepository.save(editedFare);
@@ -77,17 +73,20 @@ public class FareService {
 
     // ************** utility functions **************
 
-    private List<Fare> getFaresForValidation(String departure, String arrival, int id) {
-        return fareRepository.findByDepartureAndArrivalOrFareId(departure, arrival, id);
+    private void validateCreateFare(Fare fare) {
+        checkSameLocation(fare);
+        checkNegativeValues(fare);
+        checkEmptyStrings(fare);
+        checkMissingData(fare);
+        checkRouteExistence(fare);
+    }
+    private void validateEditFare(Fare fare) {
+        checkNegativeValues(fare);
+        checkMissingDataWithId(fare);
     }
 
     // ***************** validations *****************
 
-    private void validateInputs(Fare userFare) {
-        checkSameLocation(userFare);
-        checkNegativeValues(userFare);
-        checkEmptyStrings(userFare);
-    }
     private void checkMissingData(Fare fare) {
         if ((fare.getDeparture() == null) || (fare.getArrival() == null) || (fare.getFare() == 0)) {
             logger.error("some data is missing from the query | departure [{}], arrival [{}], fare [{}]",
@@ -96,10 +95,7 @@ public class FareService {
         }
     }
     private void checkMissingDataWithId(Fare fare) {
-        if ((fare.getFareId() == 0)
-                || (fare.getDeparture() == null)
-                || (fare.getArrival() == null)
-                || (fare.getFare() == 0)) {
+        if ((fare.getFareId() == 0) || (fare.getFare() == 0)) {
             logger.error("some data is missing from the query | id [{}], departure [{}], arrival [{}], fare [{}]",
                     fare.getFareId(), fare.getDeparture(), fare.getArrival(), fare.getFare());
             throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
@@ -116,18 +112,6 @@ public class FareService {
         if (fare.getFare() < 0) {
             logger.error("fare is negative [{}]", fare.getFare());
             throw new FMSException(HttpStatusCodesFMS.NEGATIVE_NUMBER);
-        }
-    }
-    private void checkDuplicateFaresAndExistence(Fare fare) {
-        List<Fare> fareList = getFaresForValidation(fare.getDeparture(), fare.getArrival(), fare.getFareId());
-        if (fareList.size() > 1) {
-            logger.error("a duplicate fare exists for the given inputs | departure [{}], arrival [{}]",
-                    fare.getDeparture(), fare.getArrival());
-            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-        }
-        if (fareList.isEmpty() || (fareList.get(0).getFareId() != fare.getFareId())) {
-            logger.error("a fare doesn't exist for the given id [{}]", fare.getFareId());
-            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }
     private void checkEmptyStrings(Fare fare) {
