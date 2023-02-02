@@ -174,10 +174,15 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
       next: (response) => {
         if (response.status === HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
           alert("Flight number already has flight on given departure date!");
-        } else if (response.status === HttpStatusCodesFMS.VERSION_MISMATCHED) {
-          alert("This flight already updated by someone! Check again")
+        }
+        else if (response.status === HttpStatusCodesFMS.VERSION_MISMATCHED) {
+          alert("This flight already updated by someone! Check again");
           this.resetFormAndFetchData();
-        } else {
+        }
+        else if(response.status === HttpStatusCodesFMS.ROUTE_DOESNT_EXIST){
+          alert("Route does not exists ! Can not create a flight");
+        }
+        else {
           let successMessage = this.isEditMode ? "edited" : "created";
           alert("Flight " + successMessage + " Successfully!");
           this.resetFormAndFetchData();
@@ -199,6 +204,5 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
     this.resetFormScreeMode();
     this.dataService.fetchFlights();
   }
-
 
 }
