@@ -8,4 +8,6 @@ import java.util.List;
 public interface RouteDao {
     public List<Route> getAllRoutes();
     public ResponseEntity<List<Route>> searchRoutes(String departure, String destination);
+    public int searchNumOfLocationsCombinationInFares(String departure, String destination);
+    public int searchNumOfLocationsCombinationInFlights(String departure, String destination);
 }

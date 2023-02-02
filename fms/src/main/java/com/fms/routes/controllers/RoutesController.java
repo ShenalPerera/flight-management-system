@@ -41,6 +41,12 @@ public class RoutesController {
         return routesService.editRoute(route);
     }
 
+    @DeleteMapping(routesBaseUrl + "/check-delete-route")
+    ResponseEntity<List<Integer>> checkToDeleteRoute(@RequestParam int routeID){
+        logger.info("controller[checkToDeleteRoute] id->{}", routeID);
+        return new ResponseEntity<>(routesService.checkToDeleteRoute(routeID), HttpStatus.OK);
+    }
+
     @DeleteMapping(routesBaseUrl + "/delete-route")
     ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
         logger.info("controller[deleteRoute] id->{}", routeID);

@@ -26,6 +26,7 @@ public class RouteDaoImpl implements RouteDao {
     String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY = "SELECT * FROM route WHERE departure = ? AND destination = ?;";
     String GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY = "SELECT * FROM route WHERE departure = ?;";
     String GET_FILTERED_ROUTES_BY_DESTINATION_QUERY = "SELECT * FROM route WHERE destination = ?;";
+    String GET_NO_OF_LOCATIONS_COMBINATIONS_IN_FARES = "SELECT COUNT(*) FROM fare WHERE fare.departure = ? AND fare.arrival = ?;";
 
     @Autowired
     public RouteDaoImpl(JdbcTemplate jdbcTemplate) {
@@ -73,5 +74,19 @@ public class RouteDaoImpl implements RouteDao {
         } else{
             return new ResponseEntity<>(getAllRoutes(), HttpStatus.OK);
         }
+    }
+
+    @Override
+    public int searchNumOfLocationsCombinationInFares(String departure, String destination) {
+        if (departure != null || destination != null) {
+            return jdbcTemplate.queryForObject(this.GET_NO_OF_LOCATIONS_COMBINATIONS_IN_FARES, Integer.class, departure, destination);
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int searchNumOfLocationsCombinationInFlights(String departure, String destination) {
+        return 0;
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -92,6 +93,7 @@ public class RoutesService {
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
         try {
+            Route routeToBeDeleted = routeRepository.findByRouteID(routeID);
             routeRepository.deleteById(routeID);
             return new ResponseEntity<>(routeID, HttpStatus.OK);
         } catch (Exception e) {
@@ -100,12 +102,24 @@ public class RoutesService {
         }
     }
 
+    public List<Integer> checkToDeleteRoute(int routeID){
+        List<Integer> combinationsWithRoute = new ArrayList<>();
+        Route routeToBeDeleted = routeRepository.findByRouteID(routeID);
+        combinationsWithRoute.add(getNumOfCombinationsInFares(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()));
+
+        return combinationsWithRoute;
+    }
+
     public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
         return routeDao.searchRoutes(departure, destination);
 
     }
 
     // ******************************************** HELPER METHODS *****************************************************
+
+    public int getNumOfCombinationsInFares(String departure, String destination) {
+        return routeDao.searchNumOfLocationsCombinationInFares(departure, destination);
+    }
 
     public void checkInputFields(Route route) {
         if (route.getDeparture()==null || route.getDestination()==null || route.getMileage()==0 || route.getDurationH()==0) {
