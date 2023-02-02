@@ -46,6 +46,7 @@ public class FlightDaoImpl implements FlightDao {
             queryStr.append(conditions);
         }
 
+        queryStr.append(" ORDER BY departure_date DESC , departure_time DESC ");
         return queryStr.toString();
     }
 
