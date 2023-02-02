@@ -47,7 +47,12 @@ export class FaresScreenComponent implements OnInit {
     this.getAllEntries();
   }
   handleDelete(entry: Fare): void {
-    if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
+    if (confirm(`
+    Do you want to delete this fare ?\n
+    Departure : ${entry.departure.toUpperCase()}\n
+    Arrival       : ${entry.arrival.toUpperCase()}\n
+    Fare          : ${entry.fare}
+    `)) {
       this.fareService.deleteEntry(entry.fareId).subscribe({
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND)
