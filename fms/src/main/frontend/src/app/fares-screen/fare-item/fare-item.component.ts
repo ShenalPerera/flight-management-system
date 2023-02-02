@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Entry } from '../shared/entry.model'
+import { Fare } from '../shared/entry.model'
 
 @Component({
   selector: 'tr [app-fare-item]',
@@ -7,10 +7,10 @@ import { Entry } from '../shared/entry.model'
   styleUrls: ['./fare-item.component.scss']
 })
 export class FareItemComponent {
-  @Input() entry!: Entry;
+  @Input() entry!: Fare;
   @Input() rowNumber!: number;
-  @Output() editButtonClicked: EventEmitter<Entry> = new EventEmitter<Entry>();
-  @Output() deleteButtonClicked: EventEmitter<Entry> = new EventEmitter<Entry>();
+  @Output() editButtonClicked: EventEmitter<Fare> = new EventEmitter<Fare>();
+  @Output() deleteButtonClicked: EventEmitter<Fare> = new EventEmitter<Fare>();
   editEntry() {
     this.editButtonClicked.emit(this.entry);
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { FareFormComponent } from "./fare-form/fare-form.component";
-import { Entry } from "./shared/entry.model";
+import { Fare } from "./shared/entry.model";
 import { FareService } from "./services/fare.service";
 import {AirportsHandleService} from "../services/airports-handle.service";
 import {HttpStatusCodesFMS} from "../http-status-codes-fms/httpStatusCodes.enum";
@@ -14,8 +14,8 @@ import {HttpStatusCodesFMS} from "../http-status-codes-fms/httpStatusCodes.enum"
 export class FaresScreenComponent implements OnInit {
   airports?: string[];
   searchCriteria = {departure: "", arrival: ""};
-  searchedData?: Entry[];
-  editedEntry?: Entry;
+  searchedData?: Fare[];
+  editedEntry?: Fare;
   createEvent: boolean = true;
 
   constructor(
@@ -27,7 +27,7 @@ export class FaresScreenComponent implements OnInit {
   ngOnInit() {
     this.getAllEntries();
     this.generateAirports();
-    this.editedEntry = {fareId: 0, departure: "", arrival: "", fare: 0, createdTimestamp: "", modifiedTimestamp: "", version: 0};
+    this.editedEntry = {fareId: 0, departure: "", arrival: "", fare: 0, version: 0};
   }
   generateAirports(): void {
     this.airportsHandleService.getAirportsList().subscribe(response => {
@@ -36,17 +36,17 @@ export class FaresScreenComponent implements OnInit {
     });
   }
   getAllEntries(): void {
-    this.fareService.getAllEntries().subscribe((data: Entry[]) => this.searchedData = data);
+    this.fareService.getAllEntries().subscribe((data: Fare[]) => this.searchedData = data);
   }
   filterEntries(): void {
     this.fareService.getFilteredEntries(this.searchCriteria.departure, this.searchCriteria.arrival)
-      .subscribe((data: Entry[]) => this.searchedData = data);
+      .subscribe((data: Fare[]) => this.searchedData = data);
   }
   handleSearchClear(): void {
     this.searchCriteria = {departure: "", arrival: ""};
     this.getAllEntries();
   }
-  handleDelete(entry: Entry): void {
+  handleDelete(entry: Fare): void {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
       this.fareService.deleteEntry(entry.fareId).subscribe({
         next: (response) => {
@@ -59,13 +59,13 @@ export class FaresScreenComponent implements OnInit {
       });
     }
   }
-  openForm(entry?: Entry): void {
+  openForm(entry?: Fare): void {
     if (entry) {
       this.createEvent = false;
       this.editedEntry = entry;
     } else {
       this.createEvent = true;
-      this.editedEntry = { fareId: 0, departure: "", arrival: "", fare: 0, createdTimestamp: "", modifiedTimestamp: "", version: 0};
+      this.editedEntry = { fareId: 0, departure: "", arrival: "", fare: 0, version: 0};
     }
     console.log(this.editedEntry.fareId)
     const dialogRef = this.dialog.open(FareFormComponent, {
@@ -76,8 +76,6 @@ export class FaresScreenComponent implements OnInit {
             departure: this.editedEntry.departure,
             arrival: this.editedEntry.arrival,
             fare: this.editedEntry.fare,
-            createdTimestamp: this.editedEntry.createdTimestamp,
-            modifiedTimestamp: this.editedEntry.modifiedTimestamp,
             version: this.editedEntry.version
           },
           airports: this.airports

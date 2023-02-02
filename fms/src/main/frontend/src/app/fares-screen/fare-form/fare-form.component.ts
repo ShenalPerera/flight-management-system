@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Entry } from "../shared/entry.model";
+import { Fare } from "../shared/entry.model";
 import { airportValidator, numberValidator } from "../shared/validators";
 import { FareService } from "../services/fare.service";
 import { HttpStatusCodesFMS } from "../../http-status-codes-fms/httpStatusCodes.enum"
@@ -18,7 +18,7 @@ export class FareFormComponent implements OnInit {
     public dialogRef: MatDialogRef<FareFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
       createEvent: boolean,
-      entry: Entry,
+      entry: Fare,
       airports: string[]
     }
   ) {}
@@ -44,8 +44,6 @@ export class FareFormComponent implements OnInit {
         departure: this.formGroup.value['departure'].toLowerCase(),
         arrival: this.formGroup.value['arrival'].toLowerCase(),
         fare: this.formGroup.value['fare'],
-        createdTimestamp: "",
-        modifiedTimestamp: "",
         version: 0
       }).subscribe({
         next: (response) => {
@@ -64,8 +62,6 @@ export class FareFormComponent implements OnInit {
         departure: this.data.entry.departure,
         arrival: this.data.entry.arrival,
         fare: this.formGroup.value['fare'],
-        createdTimestamp: this.data.entry.createdTimestamp,
-        modifiedTimestamp: this.data.entry.modifiedTimestamp,
         version: this.data.entry.version
       }).subscribe({
         next: (response) => {
