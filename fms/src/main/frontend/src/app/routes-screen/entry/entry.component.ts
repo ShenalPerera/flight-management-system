@@ -43,17 +43,17 @@ export class EntryComponent implements OnInit{
     Mileage        : ${this.route.mileage}\n
     Duration(hours): ${this.route.durationH}`)) {
 
-    this.routeService.confirmBeforeDelete(this.route.routeID).subscribe({
-      next: (resp)=>{
-        if (resp[0]>0 || resp[1]>0) {
-          alert("Sorry! This route cannot be deleted.");
-        } else {
-          this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
-        }
-      }
-    })
+    // this.routeService.confirmBeforeDelete(this.route.routeID).subscribe({
+    //   next: (resp)=>{
+    //     if (resp[0]>0 || resp[1]>0) {
+    //       alert("Sorry! This route cannot be deleted.");
+    //     } else {
+    //       this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
+    //     }
+    //   }
+    // })
 
-      // this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
+      this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
     }
   }
 

@@ -92,23 +92,37 @@ public class RoutesService {
     }
 
     public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
-        try {
-            Route routeToBeDeleted = routeRepository.findByRouteID(routeID);
+        Route routeToBeDeleted;
+//        try {
+//            System.out.println(routeID);
+            routeToBeDeleted = routeRepository.findByRouteID(routeID);
+            if (routeToBeDeleted == null) {
+                logger.error("service[deleteRoute] id->{}", routeID);
+                throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+            }
+
+            if (checkToDeleteRoute(routeToBeDeleted)) {
+                throw new FMSException(HttpStatusCodesFMS.CANNOT_BE_EXECUTED);
+            }
+
             routeRepository.deleteById(routeID);
             return new ResponseEntity<>(routeID, HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("service[deleteRoute] id->{}", routeID);
-            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
-        }
+//        } catch (Exception e) {
+//            logger.error("service[deleteRoute] id->{}", routeID);
+//            throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
+//        }
+
+
+
+
     }
 
-    public List<Integer> checkToDeleteRoute(int routeID){
+    public boolean checkToDeleteRoute(Route routeToBeDeleted){
         List<Integer> combinationsWithRoute = new ArrayList<>();
-        Route routeToBeDeleted = routeRepository.findByRouteID(routeID);
         combinationsWithRoute.add(getNumOfCombinationsInFares(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()));
         combinationsWithRoute.add(getNumOfCombinationsInFlights(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()));
 
-        return combinationsWithRoute;
+        return (combinationsWithRoute.get(0)>0 || combinationsWithRoute.get(1)>0);
     }
 
     public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {

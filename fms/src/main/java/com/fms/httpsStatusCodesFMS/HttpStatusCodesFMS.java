@@ -9,7 +9,8 @@ public enum HttpStatusCodesFMS {
     WRONG_INPUTS_FOUND(255),
     NEGATIVE_NUMBER(256),
     VERSION_MISMATCHED(257),
-    ROUTE_DOESNT_EXIST(258);
+    ROUTE_DOESNT_EXIST(258),
+    CANNOT_BE_EXECUTED(259);
 
     private final int statusCode;
     HttpStatusCodesFMS(int statusCode){
