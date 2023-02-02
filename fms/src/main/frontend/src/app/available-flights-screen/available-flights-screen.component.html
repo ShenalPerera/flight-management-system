@@ -33,19 +33,18 @@
       </select>
     </mat-form-field>
 
-
-
-    <mat-form-field appearance="fill">
-      <mat-label>Arrival date</mat-label>
-      <input matInput type="date" [ngModel]="availableFlightSearchObject.departureStartDate" name="departureStartDate">
+    <mat-form-field>
+      <mat-label>Departure date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" [ngModel]="availableFlightSearchObject.departureStartDate" name="departureStartDate">
+        <input matEndDate placeholder="End date" [ngModel]="availableFlightSearchObject.departureEndDate" name="departureEndDate">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Departure date</mat-label>
-      <input matInput type="date" [ngModel]="availableFlightSearchObject.departureEndDate" name="departureEndDate" >
-    </mat-form-field>
-
-<!--    <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>-->
+    <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>
 <!--    <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty">Clear</button>-->
 
 

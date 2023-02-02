@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AvailableFlightModel} from "./models/available-flight.model";
 import {AvailableFlightsService} from "./services/available-flights.service";
 import {AirportsHandleService} from "../services/airports-handle.service";
+import {NgForm} from "@angular/forms";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-available-flights-screen',
@@ -17,16 +19,20 @@ export class AvailableFlightsScreenComponent implements OnInit{
   constructor(private availableFlightService:AvailableFlightsService, private airportHandleService:AirportsHandleService) {
   }
   ngOnInit() {
-    this.availableFlightService.getAvailableFlights(this.availableFlightSearchObject).subscribe({
-      next:(filteredFlights => {
-        this.availableFlightList = filteredFlights;
-      }),
-      error:( err => {
-        alert("Unexpected error occurred!");
-      })
-    });
+    this.retrieveFLightsAndAirports();
+  }
 
-    this.airportHandleService.getAirportsList().subscribe( {
+  onClickSearch(filterForm: NgForm){
+    console.log(filterForm.value.departureStartDate.toLocaleDateString());
+  }
+
+  private retrieveFLightsAndAirports(){
+    this.availableFlightService.getAvailableFlights(this.availableFlightSearchObject).pipe(
+      switchMap(flightList =>{
+        this.availableFlightList = flightList;
+        return this.getAirports$();
+    }))
+      .subscribe( {
       next:(airportsList =>{
         this.airports = airportsList;
       }),
@@ -34,5 +40,9 @@ export class AvailableFlightsScreenComponent implements OnInit{
         alert("Unexpected error occurred!");
       })
     })
+  }
+
+  private getAirports$(){
+    return this.airportHandleService.getAirportsList();
   }
 }
