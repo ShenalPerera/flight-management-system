@@ -84,16 +84,7 @@
 
         <tbody *ngIf="flights">
 
-        <tr app-flight-item
-            *ngFor="let flightEl of flights |
-            dataFilter:searchOptions.flight_number:'flight_number' |
-            dataFilter:searchOptions.departure:'departure' |
-            dataFilter:searchOptions.arrival:'arrival' |
-            dataFilter:searchOptions.departureDate:'departure_date'|
-            dataFilter:searchOptions.departureTime:'departure_time' |
-            dataFilter:searchOptions.arrivalDate:'arrival_date' |
-            dataFilter:searchOptions.arrivalTime:'arrival_time'
-            "
+        <tr app-flight-item   *ngFor="let flightEl of flights"
             [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event,searchFilterForm)" (flightEdited) = "onEditFlight($event)" >
         </tbody>
       </table>
@@ -197,7 +188,7 @@
         <br>
 
         <button *ngIf="!isEditMode" type="submit" [disabled]="!overlayForm.valid" mat-raised-button color="primary">Add Flight</button>
-        <button *ngIf="isEditMode"  type="submit" [disabled]="!overlayForm.valid || overlayForm.pristine"  mat-raised-button color="primary">Save</button>
+        <button *ngIf="isEditMode"  type="submit" [disabled]="!overlayForm.valid || overlayForm.pristine"  mat-raised-button color="primary">Apply</button>
         <button  type="button" [disabled]="!overlayForm.dirty" (click)="onClickReset()" mat-raised-button color="warn">Reset</button>
         <button type="button" (click)="onCancelEdit()" mat-raised-button color="warn">Discard</button>
 

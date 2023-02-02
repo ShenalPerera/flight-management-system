@@ -19,7 +19,11 @@ export class FlightItemComponent implements OnInit{
   ngOnInit() {}
 
   onClickDelete(){
-    if (confirm("Are you sure you want to delete this entry?" )){
+    if (confirm(`Do you want to delete this flight?\n
+    Flight number: ${this.flight.flightNumber}\n
+    Departure      : ${this.flight.departure}\n
+    On ${this.flight.departureDate}   at  ${this.flight.departureTime}
+      ` )){
       this.flightDeleted.emit(this.flight.flightId);
     }
 
