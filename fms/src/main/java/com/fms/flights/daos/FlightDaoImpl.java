@@ -1,4 +1,4 @@
-package com.fms.flights.repositories;
+package com.fms.flights.daos;
 
 import com.fms.flights.models.Flight;
 import com.fms.flights.models.SearchFlightDTO;
@@ -13,21 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class FlightDao {
+public class FlightDaoImpl implements FlightDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final Logger logger;
+
     @Autowired
-    public FlightDao(JdbcTemplate jdbcTemplate) {
+    public FlightDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.logger = LoggerFactory.getLogger(FlightDao.class);
+        this.logger = LoggerFactory.getLogger(FlightDaoImpl.class);
     }
 
     public List<Flight> findAllByGivenOptions(SearchFlightDTO searchFlightDTO) {
 
         String query = buildQueryForSearch(searchFlightDTO);
 
-        logger.info("Query created : {}",query);
+        logger.info("Query created : {}", query);
 
         BeanPropertyRowMapper<Flight> beanPropertyRowMapper = new BeanPropertyRowMapper<>(Flight.class);
         return jdbcTemplate.query(query, beanPropertyRowMapper);
@@ -39,7 +40,7 @@ public class FlightDao {
         queryStr.append("SELECT *        ");
         queryStr.append("FROM flight     ");
 
-        if (searchFlightDTO.isContainsNonEmptyNotNullValues()){
+        if (searchFlightDTO.isContainsNonEmptyNotNullValues()) {
             queryStr.append("WHERE ");
             String conditions = buildConditionsListInSearchQuery(searchFlightDTO);
             queryStr.append(conditions);

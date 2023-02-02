@@ -1,12 +1,11 @@
 package com.fms.flights.services;
 
 import com.fms.exceptions.FMSException;
+import com.fms.flights.daos.FlightDao;
 import com.fms.flights.models.Flight;
 import com.fms.flights.models.SearchFlightDTO;
 import com.fms.flights.repositories.FlightRepository;
-import com.fms.flights.repositories.FlightDao;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
-import com.fms.routes.DAOs.RouteDao;
 import com.fms.routes.repositories.RouteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,45 +74,45 @@ public class FlightService {
         }
     }
 
-    private void validateFlightForCreate(Flight flight){
+    private void validateFlightForCreate(Flight flight) {
         validateEmptyFlightsFieldForCreate(flight);
         validateFlightEntryFields(flight);
         validateExistenceOfRoute(flight);
         validateDuplicatesBeforeCreate(flight);
     }
 
-    private void validateFlightForEdit(Flight flight){
+    private void validateFlightForEdit(Flight flight) {
         validateEmptyFlightFiledForEdit(flight);
         validateFlightEntryFields(flight);
         validateExistenceOfRoute(flight);
         validateDuplicatesBeforeEdit(flight);
     }
 
-    private void validateEmptyFlightsFieldForCreate(Flight flight){
+    private void validateEmptyFlightsFieldForCreate(Flight flight) {
         boolean isContainsEmptyAttributes = flight.getFlightNumber().isBlank() ||
-                                            flight.getDeparture().isBlank() ||
-                                            flight.getArrival().isBlank() ||
-                                            flight.getDepartureDate().isBlank() ||
-                                            flight.getDepartureTime().isBlank() ||
-                                            flight.getArrivalDate().isBlank() ||
-                                            flight.getArrivalTime().isBlank();
+                flight.getDeparture().isBlank() ||
+                flight.getArrival().isBlank() ||
+                flight.getDepartureDate().isBlank() ||
+                flight.getDepartureTime().isBlank() ||
+                flight.getArrivalDate().isBlank() ||
+                flight.getArrivalTime().isBlank();
 
-        if (isContainsEmptyAttributes){
-            logger.error("Flight DTO has empty field(s) [operation -- create]: {}",flight);
+        if (isContainsEmptyAttributes) {
+            logger.error("Flight DTO has empty field(s) [operation -- create]: {}", flight);
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
     }
 
-    private void validateEmptyFlightFiledForEdit(Flight flight){
-        if (flight.isContainsEmptyFields()){
-            logger.error("Flight DTO has empty field(s) [operation -- edit] : {}",flight);
+    private void validateEmptyFlightFiledForEdit(Flight flight) {
+        if (flight.isContainsEmptyFields()) {
+            logger.error("Flight DTO has empty field(s) [operation -- edit] : {}", flight);
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
         }
     }
 
     private void validateFlightEntryFields(Flight flight) {
         if (flight.getDeparture().equalsIgnoreCase(flight.getArrival())) {
-            logger.error("Invalid data : departure date and arrival date are same | departure : {} arrival :{}",flight.getDeparture(),flight.getArrival());
+            logger.error("Invalid data : departure date and arrival date are same | departure : {} arrival :{}", flight.getDeparture(), flight.getArrival());
             throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
         LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDepartureDate() + "T" + flight.getDepartureTime());
@@ -126,26 +125,26 @@ public class FlightService {
     }
 
 
-    private void validateDuplicatesBeforeCreate(Flight flight){
+    private void validateDuplicatesBeforeCreate(Flight flight) {
         int count = this.flightRepository.countAllByFlightNumberAndDepartureDate(flight.getFlightNumber(), flight.getDeparture());
-        if (count != 0){
+        if (count != 0) {
             logger.error("Duplicate entries found!");
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
 
-    private void validateDuplicatesBeforeEdit(Flight flight){
-        boolean isValidForEdit = this.flightRepository.isFlightExitsAndNoDuplicatesFound(flight.getFlightNumber(),flight.getDepartureDate(),flight.getFlightId());
+    private void validateDuplicatesBeforeEdit(Flight flight) {
+        boolean isValidForEdit = this.flightRepository.isFlightExitsAndNoDuplicatesFound(flight.getFlightNumber(), flight.getDepartureDate(), flight.getFlightId());
 
-        if (!isValidForEdit){
+        if (!isValidForEdit) {
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
     }
 
-    private void validateExistenceOfRoute(Flight flight){
-        boolean isRouteExists = this.routeRepository.existsRouteByDepartureAndDestination(flight.getDeparture(),flight.getArrival());
+    private void validateExistenceOfRoute(Flight flight) {
+        boolean isRouteExists = this.routeRepository.existsRouteByDepartureAndDestination(flight.getDeparture(), flight.getArrival());
 
-        if (!isRouteExists){
+        if (!isRouteExists) {
             logger.error("Route not found for given departure and arrival");
             throw new FMSException(HttpStatusCodesFMS.ROUTE_DOESNT_EXIST);
         }
