@@ -7,22 +7,19 @@ public class AvailableSearch {
    private String arrival;
    private String departureStartDate;
    private String departureEndDate;
-   private Double fare;
 
    public AvailableSearch(
            String flightNumber,
            String departure,
            String arrival,
            String departureStartDate,
-           String departureEndDate,
-           Double fare
+           String departureEndDate
    ) {
       this.flightNumber = flightNumber;
       this.departure = departure;
       this.arrival = arrival;
       this.departureStartDate = departureStartDate;
       this.departureEndDate = departureEndDate;
-      this.fare = fare;
    }
 
    public String getFlightNumber() {
@@ -63,14 +60,6 @@ public class AvailableSearch {
 
    public void setDepartureEndDate(String departureEndDate) {
       this.departureEndDate = departureEndDate;
-   }
-
-   public Double getFare() {
-      return fare;
-   }
-
-   public void setFare(Double fare) {
-      this.fare = fare;
    }
 
    @Override
