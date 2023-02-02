@@ -45,9 +45,11 @@ export class EntryComponent implements OnInit{
 
     this.routeService.confirmBeforeDelete(this.route.routeID).subscribe({
       next: (resp)=>{
-        if (resp[0]>0) {
-          if (confirm(`NOTE: Number of combinations with Fares -> ${resp[0]}\n
-        Do you want to proceed ?`)) {
+        if (resp[0]>0 || resp[1]>0) {
+          if (confirm(`NOTE:\n
+          Number of combinations with Fares   -> ${resp[0]}\n
+          Number of combinations with Flights -> ${resp[1]}\n
+          Do you want to proceed ?`)) {
             this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
           }
         } else {

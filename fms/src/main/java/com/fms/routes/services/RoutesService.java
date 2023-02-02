@@ -106,6 +106,7 @@ public class RoutesService {
         List<Integer> combinationsWithRoute = new ArrayList<>();
         Route routeToBeDeleted = routeRepository.findByRouteID(routeID);
         combinationsWithRoute.add(getNumOfCombinationsInFares(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()));
+        combinationsWithRoute.add(getNumOfCombinationsInFlights(routeToBeDeleted.getDeparture(), routeToBeDeleted.getDestination()));
 
         return combinationsWithRoute;
     }
@@ -119,6 +120,10 @@ public class RoutesService {
 
     public int getNumOfCombinationsInFares(String departure, String destination) {
         return routeDao.searchNumOfLocationsCombinationInFares(departure, destination);
+    }
+
+    public int getNumOfCombinationsInFlights(String departure, String destination) {
+        return routeDao.searchNumOfLocationsCombinationInFlights(departure, destination);
     }
 
     public void checkInputFields(Route route) {
