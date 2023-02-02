@@ -49,6 +49,11 @@ export class RouteService  {
       {params: new HttpParams().set('routeID', routeID), observe: 'response'});
   }
 
+  confirmBeforeDelete(routeID: number) {
+    return this.http.get<number[]>('http://localhost:8080/api/routes-screen/check-delete-route',
+      {params: new HttpParams().set('routeID', routeID)});
+  }
+
   fetchSpecificRoutesFromBackend(departure: string, destination: string) {
 
     return this.http.get<Route[]>('http://localhost:8080/api/routes-screen/search-routes',

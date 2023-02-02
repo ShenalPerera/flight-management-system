@@ -42,8 +42,37 @@ export class EntryComponent implements OnInit{
     Destination    : ${this.route.destination.toUpperCase()}\n
     Mileage        : ${this.route.mileage}\n
     Duration(hours): ${this.route.durationH}`)) {
-      this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
+
+    this.routeService.confirmBeforeDelete(this.route.routeID).subscribe({
+      next: (resp)=>{
+        if (resp[0]>0) {
+          if (confirm(`NOTE: Number of combinations with Fares -> ${resp[0]}\n
+        Do you want to proceed ?`)) {
+            this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
+          }
+        } else {
+          this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
+        }
+      }
+    })
+
+      // this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
     }
+  }
+
+  confirmBeforeDelete() {
+    // this.routeService.confirmBeforeDelete(this.route.routeID).subscribe({
+    //   next: (resp): Boolean=>{
+    //     if (resp[0]>0) {
+    //       if (confirm(`NOTE: There are ${resp[0]} number of matched locations in fares.\n
+    //       Do you want to proceed ?`)) {
+    //         return true;
+    //       } else {
+    //         return false;
+    //       }
+    //     }
+    //   }
+    // })
   }
 
   openDialog(): void {
