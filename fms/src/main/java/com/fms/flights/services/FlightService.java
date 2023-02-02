@@ -37,7 +37,7 @@ public class FlightService {
 
     public List<Flight> getAllFlights() {
         logger.info("Calling method : {}", "[flightRepository.findAll()");
-        return flightRepository.findAll();
+        return flightRepository.findAllByOrderByDepartureDateDescDepartureTimeDesc();
     }
 
     public List<Flight> getFilteredFlightsBySearchOptions(SearchFlightDTO searchFlightDTO) {
