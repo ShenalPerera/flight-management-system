@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ViewController {
-    @RequestMapping({"/fares", "/routes", "/flights"})
+    @RequestMapping({"/fares", "/routes", "/flights", "/available-flights"})
     public String index() { return "forward:/index.html"; }
 }
