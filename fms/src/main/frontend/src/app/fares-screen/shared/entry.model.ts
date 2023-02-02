@@ -1,5 +1,5 @@
 export interface Entry {
-  id: number;
+  fareId: number;
   departure: string;
   arrival: string;
   fare: number;

@@ -40,7 +40,7 @@ export class FareFormComponent implements OnInit {
   submitCLicked() {
     if (this.data.createEvent) {
       this.fareService.createEntry({
-        id: this.data.entry.id,
+        fareId: this.data.entry.fareId,
         departure: this.formGroup.value['departure'].toLowerCase(),
         arrival: this.formGroup.value['arrival'].toLowerCase(),
         fare: this.formGroup.value['fare'],
@@ -58,7 +58,7 @@ export class FareFormComponent implements OnInit {
       });
     } else {
       this.fareService.editEntry({
-        id: this.data.entry.id,
+        fareId: this.data.entry.fareId,
         departure: this.data.entry.departure,
         arrival: this.data.entry.arrival,
         fare: this.formGroup.value['fare'],

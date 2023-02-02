@@ -27,7 +27,7 @@ export class FaresScreenComponent implements OnInit {
   ngOnInit() {
     this.getAllEntries();
     this.generateAirports();
-    this.editedEntry = {id: 0, departure: "", arrival: "", fare: 0, createdTimestamp: "", modifiedTimestamp: "", version: 0};
+    this.editedEntry = {fareId: 0, departure: "", arrival: "", fare: 0, createdTimestamp: "", modifiedTimestamp: "", version: 0};
   }
   generateAirports(): void {
     this.airportsHandleService.getAirportsList().subscribe(response => {
@@ -48,7 +48,7 @@ export class FaresScreenComponent implements OnInit {
   }
   handleDelete(entry: Entry): void {
     if (confirm("Do you want to delete the entry from "+entry.departure+" to "+entry.arrival+"?")) {
-      this.fareService.deleteEntry(entry.id).subscribe({
+      this.fareService.deleteEntry(entry.fareId).subscribe({
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND)
             alert("Someone else has already deleted the fare!")
@@ -65,13 +65,14 @@ export class FaresScreenComponent implements OnInit {
       this.editedEntry = entry;
     } else {
       this.createEvent = true;
-      this.editedEntry = { id: 0, departure: "", arrival: "", fare: 0, createdTimestamp: "", modifiedTimestamp: "", version: 0};
+      this.editedEntry = { fareId: 0, departure: "", arrival: "", fare: 0, createdTimestamp: "", modifiedTimestamp: "", version: 0};
     }
+    console.log(this.editedEntry.fareId)
     const dialogRef = this.dialog.open(FareFormComponent, {
         data: {
           createEvent: this.createEvent,
           entry: {
-            id: this.editedEntry.id,
+            fareId: this.editedEntry.fareId,
             departure: this.editedEntry.departure,
             arrival: this.editedEntry.arrival,
             fare: this.editedEntry.fare,

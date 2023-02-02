@@ -22,12 +22,12 @@ public class FareDaoImpl implements FareDao {
         String FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY = "SELECT * FROM fare WHERE departure = ? AND arrival = ?;";
 
         RowMapper<Fare> rowMapper = (resultSet, rowNum) -> new Fare(
-                resultSet.getInt("id"),
+                resultSet.getInt("fare_id"),
                 resultSet.getString("departure"),
                 resultSet.getString("arrival"),
                 resultSet.getDouble("fare"),
-                resultSet.getTimestamp("created_timestamp"),
-                resultSet.getTimestamp("modified_timestamp"),
+                resultSet.getTimestamp("created_date_time"),
+                resultSet.getTimestamp("modified_date_time"),
                 resultSet.getLong("version")
         );
 

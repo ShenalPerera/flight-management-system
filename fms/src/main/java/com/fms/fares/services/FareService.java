@@ -74,7 +74,7 @@ public class FareService {
     // ************** utility functions **************
 
     private List<Fare> getFaresForValidation(String departure, String arrival, int id) {
-        return fareRepository.findByDepartureAndArrivalOrId(departure, arrival, id);
+        return fareRepository.findByDepartureAndArrivalOrFareId(departure, arrival, id);
     }
 
     // ***************** validations *****************
@@ -92,12 +92,12 @@ public class FareService {
         }
     }
     private void checkMissingDataWithId(Fare fare) {
-        if ((fare.getId() == 0)
+        if ((fare.getFareId() == 0)
                 || (fare.getDeparture() == null)
                 || (fare.getArrival() == null)
                 || (fare.getFare() == 0)) {
             logger.error("some data is missing from the query | id [{}], departure [{}], arrival [{}], fare [{}]",
-                    fare.getId(), fare.getDeparture(), fare.getArrival(), fare.getFare());
+                    fare.getFareId(), fare.getDeparture(), fare.getArrival(), fare.getFare());
             throw new FMSException(HttpStatusCodesFMS.WRONG_INPUTS_FOUND);
         }
     }
@@ -115,14 +115,14 @@ public class FareService {
         }
     }
     private void checkDuplicateFaresAndExistence(Fare fare) {
-        List<Fare> fareList = getFaresForValidation(fare.getDeparture(), fare.getArrival(), fare.getId());
+        List<Fare> fareList = getFaresForValidation(fare.getDeparture(), fare.getArrival(), fare.getFareId());
         if (fareList.size() > 1) {
             logger.error("a duplicate fare exists for the given inputs | departure [{}], arrival [{}]",
                     fare.getDeparture(), fare.getArrival());
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
-        if (fareList.isEmpty() || (fareList.get(0).getId() != fare.getId())) {
-            logger.error("a fare doesn't exist for the given id [{}]", fare.getId());
+        if (fareList.isEmpty() || (fareList.get(0).getFareId() != fare.getFareId())) {
+            logger.error("a fare doesn't exist for the given id [{}]", fare.getFareId());
             throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
         }
     }

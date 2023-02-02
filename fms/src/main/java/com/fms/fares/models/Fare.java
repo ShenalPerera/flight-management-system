@@ -9,49 +9,49 @@ import java.sql.Timestamp;
 public class Fare {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private int fareId;
     private String departure;
     private String arrival;
     private double fare;
-    private Timestamp createdTimestamp;
-    private Timestamp modifiedTimestamp;
+    private Timestamp createdDateTime;
+    private Timestamp modifiedDateTime;
     @Version
     private long version;
 
     public Fare() {}
 
     public Fare(
-            int id,
+            int fareId,
             String departure,
             String arrival,
             double fare
     ) {
-        this.id = id;
+        this.fareId = fareId;
         this.departure = departure;
         this.arrival = arrival;
         this.fare = fare;
     }
 
     public Fare(
-            int id,
+            int fareId,
             String departure,
             String arrival,
             double fare,
-            Timestamp createdTimestamp,
-            Timestamp modifiedTimestamp,
+            Timestamp createdDateTime,
+            Timestamp modifiedDateTime,
             long version
     ) {
-        this.id = id;
+        this.fareId = fareId;
         this.departure = departure;
         this.arrival = arrival;
         this.fare = fare;
-        this.createdTimestamp = createdTimestamp;
-        this.modifiedTimestamp = modifiedTimestamp;
+        this.createdDateTime = createdDateTime;
+        this.modifiedDateTime = modifiedDateTime;
         this.version = version;
     }
 
-    public int getId() {
-        return id;
+    public int getFareId() {
+        return fareId;
     }
 
     public String getDeparture() {
@@ -78,12 +78,12 @@ public class Fare {
         this.fare = fare;
     }
 
-    public Timestamp getCreatedTimestamp() {
-        return createdTimestamp;
+    public Timestamp getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public Timestamp getModifiedTimestamp() {
-        return modifiedTimestamp;
+    public Timestamp getModifiedDateTime() {
+        return modifiedDateTime;
     }
 
     public long getVersion() {
@@ -93,12 +93,12 @@ public class Fare {
     @Override
     public String toString() {
         return "Fare{" +
-                "id=" + id +
+                "id=" + fareId +
                 ", departure='" + departure + '\'' +
                 ", arrival='" + arrival + '\'' +
                 ", fare=" + fare +
-                ", createdTimestamp=" + createdTimestamp +
-                ", modifiedTimestamp=" + modifiedTimestamp +
+                ", createdDateTime=" + createdDateTime +
+                ", modifiedDateTime=" + modifiedDateTime +
                 ", version=" + version +
                 '}';
     }
