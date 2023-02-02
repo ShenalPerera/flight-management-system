@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {AvailableFlightModel} from "../models/available-flight.model";
 
 @Component({
@@ -7,7 +7,7 @@ import {AvailableFlightModel} from "../models/available-flight.model";
   styleUrls: ['./available-flight-item.component.scss']
 })
 export class AvailableFlightItemComponent {
-  availableFlight !: AvailableFlightModel;
+  @Input() availableFlight !: AvailableFlightModel;
 
   constructor() {
   }
