@@ -8,6 +8,7 @@ import { Entry } from '../shared/entry.model'
 })
 export class FareItemComponent {
   @Input() entry!: Entry;
+  @Input() rowNumber!: number;
   @Output() editButtonClicked: EventEmitter<Entry> = new EventEmitter<Entry>();
   @Output() deleteButtonClicked: EventEmitter<Entry> = new EventEmitter<Entry>();
   editEntry() {

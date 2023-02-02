@@ -42,6 +42,7 @@
 
     <thead>
     <tr>
+      <th>No.</th>
       <th>Departure</th>
       <th>Arrival</th>
       <th>Fare (USD)</th>
@@ -49,11 +50,12 @@
     </thead>
 
     <tbody>
-      <tr app-fare-item
-        *ngFor="let datum of searchedData"
-        [entry]="datum"
-        (deleteButtonClicked)="handleDelete($event)"
-        (editButtonClicked)="openForm($event)">
+      <tr app-fare-item *ngFor="let datum of searchedData; let i = index;"
+          [entry]="datum"
+          (deleteButtonClicked)="handleDelete($event)"
+          (editButtonClicked)="openForm($event)"
+          [rowNumber]="i"
+      >
     </tbody>
 
   </table>
