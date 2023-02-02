@@ -40,25 +40,24 @@ public class RoutesService {
     }
 
     public ResponseEntity<Route> createRoute(Route route) {
+        logger.info("service[createRoute] {}", route);
         checkInputFields(route);
         try{
-            Route toBeActiveRoute = routeRepository.findByDepartureAndDestination(route.getDeparture(), route.getDestination());
-            if (toBeActiveRoute == null) {
+            Route routeToBeActive = routeRepository.findByDepartureAndDestination(route.getDeparture(), route.getDestination());
+            if (routeToBeActive == null) {
                 route.setStatus(1);
                 route.setCreatedDateTime(new Timestamp(new Date().getTime()));
                 routeRepository.save(route);
                 logger.info("service[createRoute](new) {}", route);
             } else {
-                toBeActiveRoute.setStatus(1);
-                toBeActiveRoute.setMileage(route.getMileage());
-                toBeActiveRoute.setDurationH(route.getDurationH());
-                toBeActiveRoute.setCreatedDateTime(new Timestamp(new Date().getTime()));
+                routeToBeActive.setStatus(1);
+                routeToBeActive.setMileage(route.getMileage());
+                routeToBeActive.setDurationH(route.getDurationH());
+                routeToBeActive.setCreatedDateTime(new Timestamp(new Date().getTime()));
 
-                routeRepository.save(toBeActiveRoute);
+                routeRepository.save(routeToBeActive);
                 logger.info("service[createRoute](activate) {}", route);
-
             }
-            logger.info("service[createRoute] {}", route);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             logger.error("service[createRoute](duplicate) {}", route);
