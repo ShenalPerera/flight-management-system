@@ -1,5 +1,5 @@
 export class AvailableFlightModel{
-  public flightNumber: number;
+  public flightNumber: string;
 
   public departure: string;
 
@@ -16,7 +16,7 @@ export class AvailableFlightModel{
   public fare: number;
 
 
-  constructor(flightNumber: number, departure: string, arrival: string, departureDate: string, departureTime: string, arrivalDate: string, arrivalTime: string, fare: number) {
+  constructor(flightNumber: string, departure: string, arrival: string, departureDate: string, departureTime: string, arrivalDate: string, arrivalTime: string, fare: number) {
     this.flightNumber = flightNumber;
     this.departure = departure;
     this.arrival = arrival;

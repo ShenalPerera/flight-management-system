@@ -11,7 +11,7 @@ export class AvailableFlightsService{
     constructor(private http:HttpClient) {
     }
 
-    getAvailableFlights(searchCriteria:{flightNumber:number,departure:string,arrival:string,departureStartDate:string,departureEndDate:string}){
+    getAvailableFlights(searchCriteria:{flightNumber:string,departure:string,arrival:string,departureStartDate:string,departureEndDate:string}){
       let searchParams = new HttpParams();
       searchParams = searchParams.append("flightNumber",searchCriteria.flightNumber);
       searchParams = searchParams.append("departure",searchCriteria.departure);
