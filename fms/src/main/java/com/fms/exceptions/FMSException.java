@@ -10,10 +10,6 @@ public class FMSException extends  RuntimeException{
         this.statusCode = statusCode;
     }
 
-    public HttpStatusCodesFMS getStatusCode() {
-        return statusCode;
-    }
-
     public int getStatusCodeValue(){
         return HttpStatusCodesFMS.valueOf(statusCode);
     }
