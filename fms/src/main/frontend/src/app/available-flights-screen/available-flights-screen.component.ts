@@ -35,7 +35,7 @@ export class AvailableFlightsScreenComponent implements OnInit{
   }
 
   onClearSearch(form:NgForm){
-    form.reset();
+    form.reset(this.availableFlightSearchObject);
     this.getAvailableFlights(this.availableFlightSearchObject);
   }
 
