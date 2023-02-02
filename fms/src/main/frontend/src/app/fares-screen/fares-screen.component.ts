@@ -67,7 +67,6 @@ export class FaresScreenComponent implements OnInit {
       this.createEvent = true;
       this.editedEntry = { fareId: 0, departure: "", arrival: "", fare: 0, version: 0};
     }
-    console.log(this.editedEntry.fareId)
     const dialogRef = this.dialog.open(FareFormComponent, {
         data: {
           createEvent: this.createEvent,
