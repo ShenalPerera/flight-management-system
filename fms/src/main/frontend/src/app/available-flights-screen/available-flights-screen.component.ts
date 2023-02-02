@@ -74,8 +74,16 @@ export class AvailableFlightsScreenComponent implements OnInit{
   }
   private parseDateObject(givenDateObj:Date){
     if (givenDateObj){
-      return givenDateObj.toLocaleDateString();
+      return this.changeDateFormat(givenDateObj);
     }
     return ""
+  }
+
+  private changeDateFormat(dateObj:Date){
+    let year = dateObj.getFullYear();
+    let month = dateObj.getMonth() + 1;
+    let date = dateObj.getDate();
+
+    return year +"-" + month + "-" + date;
   }
 }
