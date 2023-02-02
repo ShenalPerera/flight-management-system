@@ -62,7 +62,7 @@ public class AvailabilitySearchDaoImpl implements AvailabilitySearchDao {
             conditionList.add("flight.departure_date >= '" + availableSearch.getDepartureStartDate() + "'");
         }
         if (!availableSearch.getDepartureEndDate().isEmpty()) {
-            conditionList.add("flight.arrival_date <= '" + availableSearch.getDepartureEndDate() + "'");
+            conditionList.add("flight.departure_date <= '" + availableSearch.getDepartureEndDate() + "'");
         }
 
         return String.join(" AND ", conditionList);
