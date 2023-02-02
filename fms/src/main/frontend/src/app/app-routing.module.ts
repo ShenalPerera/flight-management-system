@@ -8,8 +8,8 @@ import {AvailableFlightsScreenComponent} from "./available-flights-screen/availa
 const routes: Routes = [
   { path: "fares", component: FaresScreenComponent },
   { path: "routes", component: RoutesScreenComponent },
-  { path: "available-flights", component: AvailableFlightsScreenComponent},
-  { path: "", component: FlightsScreenComponent}
+  { path: "", component: AvailableFlightsScreenComponent},
+  { path: "flights", component: FlightsScreenComponent}
 ];
 
 @NgModule({

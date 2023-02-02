@@ -6,10 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  flightsActive: boolean = false;
-  routesActive: boolean = false;
-  faresActive: boolean = false;
-  searchActive: boolean = true;
+  flightsActive: boolean = this.getPath() === 'flights';
+  routesActive: boolean = this.getPath() === 'routes';
+  faresActive: boolean = this.getPath() === 'fares';
+  searchActive: boolean = this.getPath() === '';
   activateFlights() {
     this.flightsActive = true;
     this.routesActive = false;
@@ -33,5 +33,8 @@ export class HeaderComponent {
     this.routesActive = false;
     this.faresActive = false;
     this.searchActive = true;
+  }
+  getPath() {
+    return window.location.href.split('/').pop();
   }
 }
