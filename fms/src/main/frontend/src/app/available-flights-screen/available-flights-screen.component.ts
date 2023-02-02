@@ -19,23 +19,28 @@ export class AvailableFlightsScreenComponent implements OnInit{
   constructor(private availableFlightService:AvailableFlightsService, private airportHandleService:AirportsHandleService) {
   }
   ngOnInit() {
-    console.log("This will called")
     this.retrieveFLightsAndAirports();
   }
 
-  onClickSearch(filterForm: NgForm){
-    this.getAvailableFlights(filterForm.value).subscribe({
-      next:(filteredFlights => {
-          this.availableFlightList = filteredFlights;
-      }),
-      error:( err =>{
-        alert("")
-      })
-    });
+  onClickSearch(searchCriteria:{flightNumber:string,departure:string,arrival:string,departureStartDate:Date,departureEndDate:Date}){
+    let data = {
+        flightNumber: searchCriteria.flightNumber,
+        departure: searchCriteria.departure,
+        arrival: searchCriteria.arrival,
+        departureStartDate: this.parseDateObject(searchCriteria.departureStartDate),
+        departureEndDate: this.parseDateObject(searchCriteria.departureEndDate)
+    };
+
+    this.getAvailableFlights(data);
+  }
+
+  onClearSearch(form:NgForm){
+    form.reset();
+    this.getAvailableFlights(this.availableFlightSearchObject);
   }
 
   private retrieveFLightsAndAirports(){
-    this.getAvailableFlights(this.availableFlightSearchObject).pipe(
+    this.getAvailableFlights$(this.availableFlightSearchObject).pipe(
       switchMap(flightList =>{
         this.availableFlightList = flightList;
         return this.getAirports$();
@@ -54,7 +59,23 @@ export class AvailableFlightsScreenComponent implements OnInit{
     return this.airportHandleService.getAirportsList();
   }
 
-  private getAvailableFlights(searchCriteria:{flightNumber:string,departure:string,arrival:string,departureStartDate:string,departureEndDate:string}){
+
+  private getAvailableFlights$(searchCriteria:{flightNumber:string,departure:string,arrival:string,departureStartDate:string,departureEndDate:string}){
     return this.availableFlightService.getAvailableFlights(searchCriteria);
+  }
+
+  private getAvailableFlights(searchCriteria:{flightNumber:string,departure:string,arrival:string,departureStartDate:string,departureEndDate:string}){
+    this.availableFlightService.getAvailableFlights(searchCriteria).subscribe({
+      next:(filteredData=>{
+        this.availableFlightList = filteredData;
+      }),
+      error: (()=>{alert("Unexpected error occurred")})
+    })
+  }
+  private parseDateObject(givenDateObj:Date){
+    if (givenDateObj){
+      return givenDateObj.toLocaleDateString();
+    }
+    return ""
   }
 }
