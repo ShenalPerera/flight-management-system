@@ -24,7 +24,7 @@ public class FlightDaoImpl implements FlightDao {
         this.logger = LoggerFactory.getLogger(FlightDaoImpl.class);
     }
 
-    public List<Flight> findAllByGivenOptions(SearchFlightDTO searchFlightDTO) {
+    public List<Flight> findAllFlightsByGivenOptions(SearchFlightDTO searchFlightDTO) {
 
         String query = buildQueryForSearch(searchFlightDTO);
 

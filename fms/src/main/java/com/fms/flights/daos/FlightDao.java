@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface FlightDao {
-    List<Flight> findAllByGivenOptions(SearchFlightDTO searchFlightDTO);
+    List<Flight> findAllFlightsByGivenOptions(SearchFlightDTO searchFlightDTO);
 }

@@ -41,7 +41,7 @@ public class FlightService {
     }
 
     public List<Flight> getFilteredFlightsBySearchOptions(SearchFlightDTO searchFlightDTO) {
-        List<Flight> filteredFlights = flightDao.findAllByGivenOptions(searchFlightDTO);
+        List<Flight> filteredFlights = flightDao.findAllFlightsByGivenOptions(searchFlightDTO);
         logger.info("resultant size of the list : {}", filteredFlights.size());
         return filteredFlights;
     }
