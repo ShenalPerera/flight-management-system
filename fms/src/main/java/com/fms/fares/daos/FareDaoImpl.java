@@ -16,10 +16,10 @@ public class FareDaoImpl implements FareDao {
     @Override
     public List<Fare> getSearchedFares(String departure, String arrival) {
 
-        String FIND_ALL_QUERY = "SELECT * FROM fare;";
-        String FIND_ALL_BY_DEPARTURE_QUERY = "SELECT * FROM fare WHERE departure = ?;";
-        String FIND_ALL_BY_ARRIVAL_QUERY = "SELECT * FROM fare WHERE arrival = ?;";
-        String FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY = "SELECT * FROM fare WHERE departure = ? AND arrival = ?;";
+        String FIND_ALL_QUERY = "SELECT * FROM fare ORDER BY fare_id DESC;";
+        String FIND_ALL_BY_DEPARTURE_QUERY = "SELECT * FROM fare WHERE departure = ? ORDER BY fare_id DESC;";
+        String FIND_ALL_BY_ARRIVAL_QUERY = "SELECT * FROM fare WHERE arrival = ? ORDER BY fare_id DESC;";
+        String FIND_ALL_BY_DEPARTURE_QUERY_AND_ARRIVAL_QUERY = "SELECT * FROM fare WHERE departure = ? AND arrival = ? ORDER BY fare_id DESC;";
 
         RowMapper<Fare> rowMapper = (resultSet, rowNum) -> new Fare(
                 resultSet.getInt("fare_id"),
