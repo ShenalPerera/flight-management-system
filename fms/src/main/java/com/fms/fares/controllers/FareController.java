@@ -28,25 +28,25 @@ public class FareController {
     public ResponseEntity<List<Fare>> getSearchedEntries(
             @RequestParam(value = "departure", defaultValue = "") String departure,
             @RequestParam(value = "arrival", defaultValue = "") String arrival) {
-        logger.info("'search' endpoint accessed");
+        logger.info("'api/fares/search' endpoint accessed | params : departure [{}] arrival [{}]", departure, arrival);
         return new ResponseEntity<>(service.getSearchedFares(departure, arrival), HttpStatus.OK);
     }
 
     @PostMapping("fare")
     public ResponseEntity<Fare> createEntry(@RequestBody Fare fare) {
-        logger.info("create 'fare' endpoint accessed");
+        logger.info("POST 'api/fares/fare' endpoint accessed | {}", fare);
         return new ResponseEntity<>(service.createFare(fare), HttpStatus.CREATED);
     }
 
     @PutMapping("fare")
     public ResponseEntity<Fare> editEntry(@RequestBody Fare fare) {
-        logger.info("update 'fare' endpoint accessed");
+        logger.info("PUT 'api/fares/fare' endpoint accessed | {}", fare);
         return new ResponseEntity<>(service.editFare(fare), HttpStatus.OK);
     }
 
     @DeleteMapping("fare")
     public ResponseEntity<Integer> deleteEntry(@RequestParam(value = "id") int id) {
-        logger.info("delete 'fare' endpoint accessed");
+        logger.info("DELETE 'api/fares/fare' endpoint accessed | id [{}]", id);
         return new ResponseEntity<>(service.deleteFare(id), HttpStatus.NO_CONTENT);
     }
 }
