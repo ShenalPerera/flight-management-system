@@ -77,6 +77,7 @@ public class RoutesService {
         }
 
         try {
+            route.setCreatedDateTime(routeToBeUpdated.getCreatedDateTime());
             route.setModifiedDateTime(new Timestamp(new Date().getTime()));
             Route updatedRoute = routeRepository.save(route);
             logger.info("service[edit] {}", route);
@@ -105,17 +106,19 @@ public class RoutesService {
 
     }
 
-    public ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
-        Route routeToBeDeleted;
+    public ResponseEntity<Integer> deleteRoute(int routeID){
+
 //        try {
 //            System.out.println(routeID);
-            routeToBeDeleted = routeRepository.findByRouteID(routeID);
+            Route routeToBeDeleted = routeRepository.findByRouteID(routeID);
             if (routeToBeDeleted == null) {
                 logger.error("service[deleteRoute] id->{}", routeID);
                 throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
             }
 
-            if (checkToDeleteRoute(routeToBeDeleted)) {
+            boolean t = checkToDeleteRoute(routeToBeDeleted);
+
+            if (t) {
                 throw new FMSException(HttpStatusCodesFMS.CANNOT_BE_EXECUTED);
             }
 
