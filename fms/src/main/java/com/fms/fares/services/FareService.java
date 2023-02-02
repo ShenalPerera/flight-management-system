@@ -5,6 +5,7 @@ import com.fms.fares.repositories.FareRepository;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.fares.models.Fare;
+import com.fms.routes.repositories.RouteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,14 @@ import java.util.List;
 public class FareService {
     private final Logger logger;
     private final FareRepository fareRepository;
+    private RouteRepository routeRepository;
     private final FareDao fareDao;
 
     @Autowired
-    public FareService(FareRepository fareRepository, FareDao fareDao) {
+    public FareService(FareRepository fareRepository, RouteRepository routeRepository, FareDao fareDao) {
         this.logger = LoggerFactory.getLogger(FareService.class);
         this.fareRepository = fareRepository;
+        this.routeRepository = routeRepository;
         this.fareDao = fareDao;
     }
 
@@ -37,6 +40,7 @@ public class FareService {
     public Fare createFare(Fare fare) {
         validateInputs(fare);
         checkMissingData(fare);
+        checkRouteExistence(fare);
         logger.info("created DTO send to DB | " + fare);
         try {
             return fareRepository.save(fare);
@@ -131,6 +135,13 @@ public class FareService {
             logger.error("the query contains empty strings | departure '{}', arrival '{}'",
                     fare.getDeparture(), fare.getArrival());
             throw new FMSException(HttpStatusCodesFMS.EMPTY_FIELD_FOUND);
+        }
+    }
+    private void checkRouteExistence(Fare fare) {
+        if (!routeRepository.existsRouteByDepartureAndDestination(fare.getDeparture(), fare.getArrival())) {
+            logger.error("a route doesn't exist for the given departure [{}] and arrival [{}]",
+                    fare.getDeparture(), fare.getArrival());
+            throw new FMSException(HttpStatusCodesFMS.ROUTE_DOESNT_EXIST);
         }
     }
 }

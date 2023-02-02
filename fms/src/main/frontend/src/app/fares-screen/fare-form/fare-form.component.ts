@@ -51,6 +51,8 @@ export class FareFormComponent implements OnInit {
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
             alert("The fare is already in the system!")
+          else if (response.status == HttpStatusCodesFMS.ROUTE_DOESNT_EXIST)
+            alert("A Route doesn't exist for the given departure and arrival!")
           else {
             this.dialogRef.close(true)
           }
