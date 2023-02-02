@@ -1,3 +1,58 @@
+<div class="search-filter" >
+  <form #searchFilterForm="ngForm" class="search-form" [hidden]="!airports">
+    <mat-form-field appearance="fill">
+      <mat-label>Flight number</mat-label>
+      <input
+        type="text"
+        name="flightNumber"
+        matInput
+        [ngModel] = "availableFlightSearchObject.flightNumber"
+        maxLength="4"
+        minlength="4"
+        pattern="^[A-Za-z]{3}[0-9]{1}$"
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure</mat-label>
+      <select matNativeControl [ngModel]="availableFlightSearchObject.departure" name="departure"  >
+        <option value="" selected></option>
+        <option *ngFor="let airport of airports" [value]="airport">
+          {{airport | titlecase }}
+        </option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival</mat-label>
+      <select matNativeControl [ngModel]="availableFlightSearchObject.arrival" name="arrival" >
+        <option value="" selected></option>
+        <option *ngFor="let airport of airports" [value]="airport">
+          {{airport | titlecase }}
+        </option>
+      </select>
+    </mat-form-field>
+
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Arrival date</mat-label>
+      <input matInput type="date" [ngModel]="availableFlightSearchObject.departureStartDate" name="departureStartDate">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Departure date</mat-label>
+      <input matInput type="date" [ngModel]="availableFlightSearchObject.departureEndDate" name="departureEndDate" >
+    </mat-form-field>
+
+<!--    <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>-->
+<!--    <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty">Clear</button>-->
+
+
+  </form>
+</div>
+
+
 <div style="width: 100%; " >
   <div class="panel panel-primary " >
     <div class="panel-heading">
@@ -25,7 +80,7 @@
       </table>
 
     </div>
-<!--    <mat-spinner *ngIf="!flights"  style="margin: 0 auto"></mat-spinner>-->
+    <mat-spinner *ngIf="!availableFlightList"  style="margin: 0 auto"></mat-spinner>
   </div>
 
 </div>
