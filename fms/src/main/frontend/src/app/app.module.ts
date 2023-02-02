@@ -31,6 +31,7 @@ import { EntryComponent } from "./routes-screen/entry/entry.component";
 import {HttpClientModule} from "@angular/common/http";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { AvailableFlightsScreenComponent } from './available-flights-screen/available-flights-screen.component';
+import { AvailableFlightItemComponent } from './available-flights-screen/available-flight-item/available-flight-item.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { AvailableFlightsScreenComponent } from './available-flights-screen/avai
     EntryComponent,
     FareItemComponent,
     FareFormComponent,
-    AvailableFlightsScreenComponent
+    AvailableFlightsScreenComponent,
+    AvailableFlightItemComponent
   ],
     imports: [
         BrowserModule,
