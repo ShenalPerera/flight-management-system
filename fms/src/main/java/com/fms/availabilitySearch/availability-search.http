@@ -1,0 +1,1 @@
+GET http://localhost:8080/api/availability?flightNumber=&departure=&arrival=&departureStartDate=2023-03-02&departureEndDate=

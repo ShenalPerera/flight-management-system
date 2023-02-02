@@ -48,6 +48,23 @@ public class AvailabilitySearchDaoImpl implements AvailabilitySearchDao {
         conditionList.add("route.destination = flight.arrival");
         conditionList.add("route.departure = fare.departure");
         conditionList.add("route.destination = fare.arrival");
+
+        if (!availableSearch.getFlightNumber().isEmpty()) {
+            conditionList.add("flight.flight_number = '" + availableSearch.getFlightNumber() + "'");
+        }
+        if (!availableSearch.getDeparture().isEmpty()) {
+            conditionList.add("route.departure = '" + availableSearch.getDeparture() + "'");
+        }
+        if (!availableSearch.getArrival().isEmpty()) {
+            conditionList.add("route.destination = '" + availableSearch.getArrival() + "'");
+        }
+        if (!availableSearch.getDepartureStartDate().isEmpty()) {
+            conditionList.add("flight.departure_date >= '" + availableSearch.getDepartureStartDate() + "'");
+        }
+        if (!availableSearch.getDepartureEndDate().isEmpty()) {
+            conditionList.add("flight.arrival_date <= '" + availableSearch.getDepartureEndDate() + "'");
+        }
+
         return String.join(" AND ", conditionList);
     }
 }
