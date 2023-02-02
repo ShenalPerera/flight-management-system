@@ -75,27 +75,6 @@ public class RoutesService {
             }
         }
 
-
-//        try{
-//            if (routeToBeActive == null) {
-//                route.setStatus(1);
-//                route.setCreatedDateTime(new Timestamp(new Date().getTime()));
-//                routeRepository.save(route);
-//                logger.info("service[createRoute](new) {}", route);
-//            } else {
-//                routeToBeActive.setStatus(1);
-//                routeToBeActive.setMileage(route.getMileage());
-//                routeToBeActive.setDurationH(route.getDurationH());
-//                routeToBeActive.setCreatedDateTime(new Timestamp(new Date().getTime()));
-//
-//                routeRepository.save(routeToBeActive);
-//                logger.info("service[createRoute](activate) {}", route);
-//            }
-//            return new ResponseEntity<>(HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            logger.error("service[createRoute](duplicate) {}", route);
-//            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-//        }
     }
 
 

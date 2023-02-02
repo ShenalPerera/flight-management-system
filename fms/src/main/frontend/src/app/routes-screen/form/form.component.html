@@ -62,7 +62,7 @@
 
   <br>
   <div *ngIf="data.type === 'edit'">
-    <button mat-raised-button color="primary" style="margin-left: 10px" type="button" (click)="onSubmitUpdateInBackend()" [disabled]="sampleForm.invalid">Apply</button>
+    <button mat-raised-button color="primary" style="margin-left: 10px" type="button" [disabled]="areSameValues() || sampleForm.invalid" (click)="onSubmitUpdateInBackend()">Apply</button>
     <button mat-raised-button type="button" style="margin-left: 10px" [disabled]="areSameValues()" (click)="resetValues()">Reset</button>
     <button mat-raised-button color="warn" style="margin-left: 10px" type="button" (click)="afterDiscardClosing()">Discard</button>
   </div>
