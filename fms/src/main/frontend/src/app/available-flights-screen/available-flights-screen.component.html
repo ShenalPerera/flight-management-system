@@ -1,0 +1,41 @@
+<div style="width: 100%; " >
+  <div class="panel panel-primary " >
+    <div class="panel-heading">
+      <h2>Flight list</h2>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped" >
+        <thead>
+        <tr>
+          <th>Flight Number</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Departure Date</th>
+          <th>Departure Time</th>
+          <th>Arrival Date</th>
+          <th>Arrival Time</th>
+          <th>Fare ($)</th>
+        </tr>
+        </thead>
+
+<!--        <tbody *ngIf="flights">-->
+
+<!--        <tr app-flight-item-->
+<!--            *ngFor="let flightEl of flights |-->
+<!--            dataFilter:searchOptions.flight_number:'flight_number' |-->
+<!--            dataFilter:searchOptions.departure:'departure' |-->
+<!--            dataFilter:searchOptions.arrival:'arrival' |-->
+<!--            dataFilter:searchOptions.departureDate:'departure_date'|-->
+<!--            dataFilter:searchOptions.departureTime:'departure_time' |-->
+<!--            dataFilter:searchOptions.arrivalDate:'arrival_date' |-->
+<!--            dataFilter:searchOptions.arrivalTime:'arrival_time'-->
+<!--            "-->
+<!--            [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event,searchFilterForm)" (flightEdited) = "onEditFlight($event)" >-->
+<!--        </tbody>-->
+      </table>
+
+    </div>
+<!--    <mat-spinner *ngIf="!flights"  style="margin: 0 auto"></mat-spinner>-->
+  </div>
+
+</div>

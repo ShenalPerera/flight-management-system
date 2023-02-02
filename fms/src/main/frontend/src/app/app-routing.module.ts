@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { FaresScreenComponent } from "./fares-screen/fares-screen.component";
 import { RoutesScreenComponent } from "./routes-screen/routes-screen.component";
 import { FlightsScreenComponent } from "./flights-screen/flights-screen.component";
+import {AvailableFlightsScreenComponent} from "./available-flights-screen/available-flights-screen.component";
 
 const routes: Routes = [
   { path: "fares", component: FaresScreenComponent },
   { path: "routes", component: RoutesScreenComponent },
+  { path: "available-flights", component: AvailableFlightsScreenComponent},
   { path: "", component: FlightsScreenComponent}
 ];
 
