@@ -21,3 +21,8 @@ Content-Type: application/json
 { "id": 1, "departure": "colombo", "arrival": "dubai", "fare": 70 }
 ###
 DELETE http://localhost:8080/api/fares/fare?id=3
+###
+GET http://localhost:8080/api/availability
+Content-Type: application/json
+
+{ "departure": "dubai", "arrival": "kandy" }

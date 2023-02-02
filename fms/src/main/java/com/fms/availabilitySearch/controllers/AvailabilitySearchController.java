@@ -27,7 +27,7 @@ public class AvailabilitySearchController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AvailableFlight>> getAvailableFlights(@RequestParam AvailableSearch availableSearch) {
+    public ResponseEntity<List<AvailableFlight>> getAvailableFlights(AvailableSearch availableSearch) {
         logger.info("'availability' endpoint accessed | {}", availableSearch);
         return new ResponseEntity<>(availabilitySearchService.getAllAvailableFlights(availableSearch), HttpStatus.OK);
     }

@@ -70,7 +70,6 @@ public class AvailableSearch {
               ", arrival='" + arrival + '\'' +
               ", departureStartDate='" + departureStartDate + '\'' +
               ", departureEndDate='" + departureEndDate + '\'' +
-              ", fare=" + fare +
               '}';
    }
 }
