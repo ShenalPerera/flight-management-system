@@ -31,6 +31,7 @@ export class AvailableFlightsScreenComponent implements OnInit{
         departureEndDate: this.parseDateObject(searchCriteria.departureEndDate)
     };
 
+    console.log(data);
     this.getAvailableFlights(data);
   }
 
