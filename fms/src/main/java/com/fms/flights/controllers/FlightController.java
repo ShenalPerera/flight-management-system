@@ -41,13 +41,13 @@ public class FlightController {
 
     @GetMapping("/get-airports")
     public ResponseEntity<List<String>> getAirports() {
-        logger.info("'/flights/get-airports' accessed");
+        logger.info("Accessed get-airports");
         return ResponseEntity.status(200).body(airportsFileHandler.getAirportFromFile());
     }
 
     @PostMapping("/add-flight")
     public ResponseEntity<Flight> addNewFlight(@RequestBody Flight flight) {
-        logger.info("Accessed '/flights/get-flights' - Body : {}", flight);
+        logger.info("'add-flight' endpoint accessed | {}", flight);
         return ResponseEntity.status(200).body(flightService.addNewFlight(flight));
     }
 

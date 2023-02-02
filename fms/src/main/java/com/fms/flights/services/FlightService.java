@@ -6,6 +6,8 @@ import com.fms.flights.models.SearchFlightDTO;
 import com.fms.flights.repositories.FlightRepository;
 import com.fms.flights.repositories.FlightDao;
 import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
+import com.fms.routes.DAOs.RouteDao;
+import com.fms.routes.repositories.RouteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,16 @@ public class FlightService {
     private final FlightRepository flightRepository;
 
     private final FlightDao flightDao;
+
+    private final RouteRepository routeRepository;
     private final Logger logger;
 
     @Autowired
     FlightService(
-            FlightRepository flightRepository, FlightDao flightDao) {
+            FlightRepository flightRepository, FlightDao flightDao, RouteRepository routeRepository) {
         this.flightRepository = flightRepository;
         this.flightDao = flightDao;
+        this.routeRepository = routeRepository;
         this.logger = LoggerFactory.getLogger(FlightService.class);
     }
 
@@ -43,7 +48,9 @@ public class FlightService {
     }
 
     public Flight addNewFlight(Flight flight) {
+        logger.info("Flight create : started");
         validateFlightForCreate(flight);
+        logger.info("Flight create : Finished -- [Success]");
         return this.flightRepository.save(flight);
     }
 
@@ -71,12 +78,14 @@ public class FlightService {
     private void validateFlightForCreate(Flight flight){
         validateEmptyFlightsFieldForCreate(flight);
         validateFlightEntryFields(flight);
+        validateExistenceOfRoute(flight);
         validateDuplicatesBeforeCreate(flight);
     }
 
     private void validateFlightForEdit(Flight flight){
         validateEmptyFlightFiledForEdit(flight);
         validateFlightEntryFields(flight);
+        validateExistenceOfRoute(flight);
         validateDuplicatesBeforeEdit(flight);
     }
 
@@ -104,7 +113,7 @@ public class FlightService {
 
     private void validateFlightEntryFields(Flight flight) {
         if (flight.getDeparture().equalsIgnoreCase(flight.getArrival())) {
-            logger.error("Invalid data : departure date and arrival date cannot be same");
+            logger.error("Invalid data : departure date and arrival date are same | departure : {} arrival :{}",flight.getDeparture(),flight.getArrival());
             throw new FMSException(HttpStatusCodesFMS.SAME_ARRIVAL_DEPARTURE_FOUND);
         }
         LocalDateTime departureDateNTime = LocalDateTime.parse(flight.getDepartureDate() + "T" + flight.getDepartureTime());
@@ -130,6 +139,15 @@ public class FlightService {
 
         if (!isValidForEdit){
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        }
+    }
+
+    private void validateExistenceOfRoute(Flight flight){
+        boolean isRouteExists = this.routeRepository.existsRouteByDepartureAndDestination(flight.getDeparture(),flight.getArrival());
+
+        if (!isRouteExists){
+            logger.error("Route not found for given departure and arrival");
+            throw new FMSException(HttpStatusCodesFMS.ROUTE_DOESNT_EXIST);
         }
     }
 }
