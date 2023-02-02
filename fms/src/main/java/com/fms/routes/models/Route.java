@@ -7,12 +7,20 @@ import java.sql.Timestamp;
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"departure", "destination"})})
 public class Route {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false)
     private int routeID;
+
+    @Column(nullable = false)
     private String departure;
+
+    @Column(nullable = false)
     private String destination;
+
     private double mileage;
     private double durationH;
+
+    @Column(updatable = false, nullable = false)
     private Timestamp createdDateTime;
     private Timestamp modifiedDateTime;
     private int status;
