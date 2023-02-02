@@ -10,16 +10,12 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     private int routeID;
-
     @Column(nullable = false)
     private String departure;
-
     @Column(nullable = false)
     private String destination;
-
     private double mileage;
     private double durationH;
-
     @Column(updatable = false, nullable = false)
     private Timestamp createdDateTime;
     private Timestamp modifiedDateTime;

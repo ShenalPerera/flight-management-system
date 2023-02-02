@@ -1,4 +1,3 @@
-import {Timestamp} from "rxjs";
 
 export class Route {
   routeID!: number;
@@ -10,6 +9,5 @@ export class Route {
   modifiedDateTime !: string;
   status !: number;
   version !: number;
-
 
 }

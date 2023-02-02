@@ -37,7 +37,6 @@ export class FormComponent implements OnInit{
 
   }
   ngOnInit() {
-
     let mileageString = this.data.route.mileage.toString();
     let durationString = this.data.route.durationH.toString();
     if (mileageString == '0') {
@@ -53,26 +52,6 @@ export class FormComponent implements OnInit{
       'mileage': new FormControl(mileageString, [Validators.required, numberCheckValidator()]),
       'durationH': new FormControl(durationString, [Validators.required, numberCheckValidator()]),
     }, {validators: locationsValidator});
-
-    //
-    // if (this.data.type === 'edit') {
-    //   this.sampleForm = new FormGroup({
-    //     'departure': new FormControl({value: this.data.route.departure.toUpperCase(), disabled: true}),
-    //     'destination': new FormControl({value: this.data.route.destination.toUpperCase(), disabled: true}),
-    //     'mileage': new FormControl(mileageString, [Validators.required, numberCheckValidator()]),
-    //     'durationH': new FormControl(durationString, [Validators.required, numberCheckValidator()]),
-    //   }, {validators: locationsValidator});
-    // }
-
-    // if (this.data.type === 'create') {
-    //   this.sampleForm = new FormGroup({
-    //     'departure': new FormControl(this.data.route.departure.toUpperCase(), [Validators.required]),
-    //     'destination': new FormControl(this.data.route.destination.toUpperCase(), [Validators.required]),
-    //     'mileage': new FormControl(mileageString, [Validators.required, numberCheckValidator()]),
-    //     'durationH': new FormControl(durationString, [Validators.required, numberCheckValidator()]),
-    //   }, {validators: locationsValidator});
-    // }
-
 
   }
 
@@ -97,9 +76,6 @@ export class FormComponent implements OnInit{
             } else if (resp.status == HttpStatusCodesFMS.VERSION_MISMATCHED) {
               alert('Sorry, there are new updates. Fetching new updates');
               this.afterApplyClosing();
-              // if (confirm('Sorry there are new updates. Do you want to fetch them ?')) {
-              //   this.afterApplyClosing();
-              // }
             } else if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
               alert('Sorry, that route has been already deleted.')
               this.afterApplyClosing();
@@ -108,13 +84,8 @@ export class FormComponent implements OnInit{
               alert("The route has been successfully updated.");
               this.afterApplyClosing();
             }
-
           },
-          // error: (e)=>{
-          //   alert('Sorry! That route is already there.')
-          // }
         })
-
 
   }
 
@@ -141,13 +112,8 @@ export class FormComponent implements OnInit{
             alert("The route has been successfully created.");
             this.afterApplyClosing();
           }
-
         },
-        // error: (e)=>{
-        //   alert('Sorry! That route is already there.');
-        // }
       })
-
 
   }
 
@@ -180,7 +146,6 @@ export class FormComponent implements OnInit{
     }
 
   }
-
 
   resetValues(): void {
     this.sampleForm.patchValue({

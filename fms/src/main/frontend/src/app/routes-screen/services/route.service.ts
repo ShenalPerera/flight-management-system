@@ -13,27 +13,6 @@ export class RouteService  {
     return this.http.get<Route[]>('http://localhost:8080/api/routes-screen/get-routes');
   }
 
-  // initializeDeparturesAndDestinations(departuresList: string[], destinationsList: string[], routes: Route[]) {
-  //   departuresList = [];
-  //   destinationsList = [];
-  //
-  //   routes.forEach((route)=>{
-  //     if (!(departuresList.includes(route.departure))) {
-  //       departuresList.push(route.departure);
-  //     }
-  //     if (!(destinationsList.includes(route.destination))) {
-  //       destinationsList.push(route.destination);
-  //     }
-  //   });
-  //
-  //   departuresList.sort();
-  //   destinationsList.sort();
-  //   return {
-  //     dpList: departuresList,
-  //     dsList: destinationsList
-  //   }
-  // }
-
   createRouteInBackend(route: Route) {
     // route.created = new Date();
     return this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', route, {observe: 'response'});
@@ -49,13 +28,7 @@ export class RouteService  {
       {params: new HttpParams().set('routeID', routeID), observe: 'response'});
   }
 
-  confirmBeforeDelete(routeID: number) {
-    return this.http.get<number[]>('http://localhost:8080/api/routes-screen/check-delete-route',
-      {params: new HttpParams().set('routeID', routeID)});
-  }
-
   fetchSpecificRoutesFromBackend(departure: string, destination: string) {
-
     return this.http.get<Route[]>('http://localhost:8080/api/routes-screen/search-routes',
       {
         params: new HttpParams().set('departure', departure).set('destination', destination)

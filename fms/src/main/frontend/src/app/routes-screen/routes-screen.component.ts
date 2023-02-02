@@ -21,8 +21,6 @@ export class RoutesScreenComponent implements OnInit{
   searchFormDeparture: string = '';
   searchFormDestination: string = '';
   airports: string[] = [];
-  departuresList: string[] = [];
-  destinationsList: string[] = [];
 
   constructor(private routeService: RouteService, public dialog: MatDialog, private airportsHandleService: AirportsHandleService) {
   }
@@ -32,15 +30,8 @@ export class RoutesScreenComponent implements OnInit{
       .subscribe({next: (resp)=>{
         this.ALL_ROUTES = resp;
         this.generateLocations();
-
-
-        // let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, resp);
-        // this.departuresList = listValues.dpList;
-        // this.destinationsList = listValues.dsList;
-        //
-        // console.log(typeof this.ALL_ROUTES[0].modifiedDateTime);
       },
-      error: (e)=>{
+      error: ()=>{
         alert("Something Went Wrong In Retrieving Data. Try Again.");
       }});
 
@@ -60,16 +51,10 @@ export class RoutesScreenComponent implements OnInit{
       .subscribe({ next: (resp)=>{
         this.ALL_ROUTES = resp;
       },
-      error: (e)=>{
+      error: ()=>{
         alert("Something Went Wrong In Retrieving Data. Try Again.");
       }});
   }
-
-  // updateDropdown() {
-  //   let listValues = this.routeService.initializeDeparturesAndDestinations(this.departuresList, this.destinationsList, this.ALL_ROUTES);
-  //   this.departuresList = listValues.dpList;
-  //   this.destinationsList = listValues.dsList;
-  // }
 
   openDialogToCreate(): void {
     this.clearInputs();
@@ -90,15 +75,12 @@ export class RoutesScreenComponent implements OnInit{
           this.routeService.getRoutesFromBackend()
             .subscribe({next: (resp)=>{
                 this.ALL_ROUTES = resp;
-                // this.updateDropdown()
               },
-            error: (e)=>{
+            error: ()=>{
               alert("Something Went Wrong In Retrieving Data. Try Again.");
             }})
         }
       })
-
-
 
   }
 
@@ -107,9 +89,8 @@ export class RoutesScreenComponent implements OnInit{
       this.routeService.getRoutesFromBackend()
         .subscribe({next: (resp)=>{
             this.ALL_ROUTES = resp;
-            // this.updateDropdown();
           },
-        error: (e)=>{
+        error: ()=>{
           alert("Something Went Wrong In Retrieving Data. Try Again.");
         }})
     }
@@ -124,7 +105,7 @@ export class RoutesScreenComponent implements OnInit{
           if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
             alert("Sorry, that route has been already deleted.");
           } else if (resp.status == HttpStatusCodesFMS.CANNOT_BE_EXECUTED) {
-            alert("Sorry! This route cannot be deactivated.");
+            alert("Sorry! This route cannot be deleted.");
           }
           else {
             alert("The route has been successfully deleted.");
@@ -133,11 +114,11 @@ export class RoutesScreenComponent implements OnInit{
             .subscribe({next: (resp)=>{
                 this.ALL_ROUTES = resp;
               },
-              error: (e)=>{
+              error: ()=>{
                 alert("Something Went Wrong In Retrieving Data. Try Again.");
               }})
         },
-        error: (e)=>{
+        error: ()=>{
           alert("Something Went Wrong In Deletion. Try Again.");
         }
       })
@@ -148,7 +129,7 @@ export class RoutesScreenComponent implements OnInit{
       .subscribe({next: (resp)=>{
           this.ALL_ROUTES = resp;
         },
-        error: (e)=>{
+        error: ()=>{
           alert("Something Went Wrong In Retrieving Data. Try Again.");
         }})
   }

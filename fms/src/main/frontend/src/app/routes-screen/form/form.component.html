@@ -4,32 +4,23 @@
   <div>
   <mat-form-field appearance="fill">
     <mat-label>Departure</mat-label>
-
       <input *ngIf="data.type==='edit'" [value]="data.route.departure.toUpperCase()" disabled matInput name="departure">
-<!--      <span class="text-danger" *ngIf="sampleForm!.errors?.['forbiddenLocations']">-->
-<!--         Invalid: Locations cannot be same.-->
-<!--      </span>-->
-    <select *ngIf="data.type==='create'" matNativeControl formControlName="departure" name="departure" #selectDropdown>
-      <!--      <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterDataFromBackend()" #selectDropdown>-->
-      <option value="" selected></option>
-      <option *ngFor="let airport of data.airports" [value]="airport">
-        {{airport | titlecase}}
-      </option>
-    </select>
-    <span class="text-danger" *ngIf="sampleForm!.errors?.['forbiddenLocations']">
-       Invalid: Locations cannot be same.
-    </span>
+      <select *ngIf="data.type==='create'" matNativeControl formControlName="departure" name="departure" #selectDropdown>
+        <option value="" selected></option>
+        <option *ngFor="let airport of data.airports" [value]="airport">
+          {{airport | titlecase}}
+        </option>
+      </select>
+      <span class="text-danger" *ngIf="sampleForm!.errors?.['forbiddenLocations']">
+         Invalid: Locations cannot be same.
+      </span>
   </mat-form-field>
   </div>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Arrival</mat-label>
     <input *ngIf="data.type==='edit'" [value]="data.route.destination.toUpperCase()" disabled matInput name="destination">
-<!--    <span class="text-danger" *ngIf="sampleForm!.errors?.['forbiddenLocations']">-->
-<!--         Invalid: Locations cannot be same.-->
-<!--    </span>-->
     <select *ngIf="data.type==='create'" matNativeControl formControlName="destination" name="destination" #selectDropdown>
-      <!--      <select matNativeControl [(ngModel)]="searchFormDeparture" name="departure" (change)="filterDataFromBackend()" #selectDropdown>-->
       <option value="" selected></option>
       <option *ngFor="let airport of data.airports" [value]="airport">
         {{airport | titlecase}}
