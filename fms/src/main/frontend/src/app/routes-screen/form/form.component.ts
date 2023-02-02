@@ -85,6 +85,7 @@ export class FormComponent implements OnInit{
         durationH: +this.sampleForm.value['durationH'],
         createdDateTime : '',
         modifiedDateTime : '',
+        status: 1,
         version : this.data.route.version
       };
 
@@ -128,6 +129,7 @@ export class FormComponent implements OnInit{
       durationH: +this.sampleForm.value['durationH'],
       createdDateTime : '',
       modifiedDateTime : '',
+      status: 1,
       version : NaN
     }
     this.routeService.createRouteInBackend(this.createdRoute)

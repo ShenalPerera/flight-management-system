@@ -8,6 +8,7 @@ export class Route {
   durationH!: number;
   createdDateTime !: string;
   modifiedDateTime !: string;
+  status !: number;
   version !: number;
 
 

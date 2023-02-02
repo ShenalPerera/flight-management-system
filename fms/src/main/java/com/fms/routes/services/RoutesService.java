@@ -105,7 +105,9 @@ public class RoutesService {
                 throw new FMSException(HttpStatusCodesFMS.CANNOT_BE_EXECUTED);
             }
 
-            routeRepository.deleteById(routeID);
+//            routeRepository.deleteById(routeID);
+            routeToBeDeleted.setStatus(0);
+            routeRepository.save(routeToBeDeleted);
             return new ResponseEntity<>(routeID, HttpStatus.OK);
 //        } catch (Exception e) {
 //            logger.error("service[deleteRoute] id->{}", routeID);

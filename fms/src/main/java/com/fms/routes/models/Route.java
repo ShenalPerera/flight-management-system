@@ -15,13 +15,14 @@ public class Route {
     private double durationH;
     private Timestamp createdDateTime;
     private Timestamp modifiedDateTime;
+    private int status;
     @Version
     private long version;
 
     public Route() {
     }
 
-    public Route(int routeID, String departure, String destination, double mileage, double durationH, Timestamp createdDateTime, Timestamp modifiedDateTime, long version) {
+    public Route(int routeID, String departure, String destination, double mileage, double durationH, Timestamp createdDateTime, Timestamp modifiedDateTime, int status, long version) {
         this.routeID = routeID;
         this.departure = departure;
         this.destination = destination;
@@ -29,6 +30,7 @@ public class Route {
         this.durationH = durationH;
         this.createdDateTime = createdDateTime;
         this.modifiedDateTime = modifiedDateTime;
+        this.status = status;
         this.version = version;
     }
 
@@ -95,15 +97,25 @@ public class Route {
         this.version = version;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Route{" +
-                "departure='" + departure + '\'' +
+                "routeID=" + routeID +
+                ", departure='" + departure + '\'' +
                 ", destination='" + destination + '\'' +
                 ", mileage=" + mileage +
                 ", durationH=" + durationH +
                 ", createdDateTime=" + createdDateTime +
                 ", modifiedDateTime=" + modifiedDateTime +
+                ", status=" + status +
                 ", version=" + version +
                 '}';
     }

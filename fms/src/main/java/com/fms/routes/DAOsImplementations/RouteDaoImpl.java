@@ -46,6 +46,7 @@ public class RouteDaoImpl implements RouteDao {
                         rs.getDouble("durationH"),
                         rs.getTimestamp("created_date_time"),
                         rs.getTimestamp("modified_date_time"),
+                        rs.getInt("status"),
                         rs.getInt("version")
                 )));
     }
@@ -60,6 +61,7 @@ public class RouteDaoImpl implements RouteDao {
                 resultSet.getDouble("durationH"),
                 resultSet.getTimestamp("created_date_time"),
                 resultSet.getTimestamp("modified_date_time"),
+                resultSet.getInt("status"),
                 resultSet.getInt("version")
         );
         List<Route> filteredRoutes;
