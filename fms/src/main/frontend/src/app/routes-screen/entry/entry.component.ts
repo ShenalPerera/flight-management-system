@@ -1,9 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "../form/form.component";
 import {MatExpansionPanel} from "@angular/material/expansion";
 import {Route} from "../models/route";
-import {RouteService} from "../services/route.service";
 
 @Component({
   selector: 'tr [app-entry]',
@@ -30,7 +29,6 @@ export class EntryComponent {
 
   deleteItem() {
     if (confirm(`Do you want to delete this route ?\n
-    RouteID        : ${this.route.routeID}\n
     Departure      : ${this.route.departure.toUpperCase()}\n
     Destination    : ${this.route.destination.toUpperCase()}\n
     Mileage        : ${this.route.mileage}\n

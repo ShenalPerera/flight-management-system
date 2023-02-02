@@ -42,27 +42,60 @@ public class RoutesService {
     public ResponseEntity<Route> createRoute(Route route) {
         logger.info("service[createRoute] {}", route);
         checkInputFields(route);
-        try{
-            Route routeToBeActive = routeRepository.findByDepartureAndDestination(route.getDeparture(), route.getDestination());
-            if (routeToBeActive == null) {
+        Route routeToBeActive = routeRepository.findByDepartureAndDestination(route.getDeparture(), route.getDestination());
+
+        if (routeToBeActive != null) {
+            if (routeToBeActive.getStatus() == 1) {
+                logger.info("service[createRoute](exists) {}", route);
+                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+            }else {
+                routeToBeActive.setStatus(1);
+                routeToBeActive.setCreatedDateTime(new Timestamp(new Date().getTime()));
+                routeToBeActive.setMileage(route.getMileage());
+                routeToBeActive.setDurationH(route.getDurationH());
+                try {
+                    routeRepository.save(routeToBeActive);
+                    logger.info("service[createRoute](new) {}", route);
+                    return new ResponseEntity<>(HttpStatus.CREATED);
+                }catch (Exception e) {
+                    logger.error("service[createRoute](duplicate) {}", route);
+                    throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+                }
+            }
+        }else {
+            try {
                 route.setStatus(1);
                 route.setCreatedDateTime(new Timestamp(new Date().getTime()));
                 routeRepository.save(route);
                 logger.info("service[createRoute](new) {}", route);
-            } else {
-                routeToBeActive.setStatus(1);
-                routeToBeActive.setMileage(route.getMileage());
-                routeToBeActive.setDurationH(route.getDurationH());
-                routeToBeActive.setCreatedDateTime(new Timestamp(new Date().getTime()));
-
-                routeRepository.save(routeToBeActive);
-                logger.info("service[createRoute](activate) {}", route);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }catch (Exception e) {
+                logger.error("service[createRoute](duplicate) {}", route);
+                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
             }
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-            logger.error("service[createRoute](duplicate) {}", route);
-            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
         }
+
+
+//        try{
+//            if (routeToBeActive == null) {
+//                route.setStatus(1);
+//                route.setCreatedDateTime(new Timestamp(new Date().getTime()));
+//                routeRepository.save(route);
+//                logger.info("service[createRoute](new) {}", route);
+//            } else {
+//                routeToBeActive.setStatus(1);
+//                routeToBeActive.setMileage(route.getMileage());
+//                routeToBeActive.setDurationH(route.getDurationH());
+//                routeToBeActive.setCreatedDateTime(new Timestamp(new Date().getTime()));
+//
+//                routeRepository.save(routeToBeActive);
+//                logger.info("service[createRoute](activate) {}", route);
+//            }
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            logger.error("service[createRoute](duplicate) {}", route);
+//            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+//        }
     }
 
 
