@@ -13,7 +13,9 @@ public class Fare {
     private String departure;
     private String arrival;
     private double fare;
+    @Column(updatable = false)
     private Timestamp createdDateTime;
+    @Column(updatable = false)
     private Timestamp modifiedDateTime;
     @Version
     private long version;

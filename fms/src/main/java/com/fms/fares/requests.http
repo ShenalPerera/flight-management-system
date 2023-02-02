@@ -22,7 +22,4 @@ Content-Type: application/json
 ###
 DELETE http://localhost:8080/api/fares/fare?id=3
 ###
-GET http://localhost:8080/api/availability
-Content-Type: application/json
-
-{ "departure": "dubai", "arrival": "kandy" }
+GET http://localhost:8080/api/availability?flightNumber=QWE1
