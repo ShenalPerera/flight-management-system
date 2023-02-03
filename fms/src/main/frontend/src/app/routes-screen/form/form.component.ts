@@ -72,12 +72,13 @@ export class FormComponent implements OnInit{
         .subscribe({
           next: (resp)=>{
             if (resp.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
-              alert('Sorry! That route is already there.');
+              alert('Sorry, This route is already there.');
             } else if (resp.status == HttpStatusCodesFMS.VERSION_MISMATCHED) {
-              alert('Sorry, there are new updates. Fetching new updates');
+              alert('Sorry, this route has been already updated by someone.\n' +
+                'You are retrieving latest updates.');
               this.afterApplyClosing();
             } else if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
-              alert('Sorry, that route has been already deleted.')
+              alert('Sorry, this route has been already deleted.')
               this.afterApplyClosing();
             }
             else{

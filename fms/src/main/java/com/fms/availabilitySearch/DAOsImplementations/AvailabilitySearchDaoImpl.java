@@ -39,6 +39,8 @@ public class AvailabilitySearchDaoImpl implements AvailabilitySearchDao {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM route, flight, fare WHERE ");
         query.append(getQueryConditions(availableSearch));
+
+        query.append(" ORDER BY departure_date");
         return query.toString();
     }
 

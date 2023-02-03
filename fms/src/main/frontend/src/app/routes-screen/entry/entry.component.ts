@@ -29,10 +29,10 @@ export class EntryComponent {
 
   deleteItem() {
     if (confirm(`Do you want to delete this route ?\n
-    Departure      : ${this.route.departure.toUpperCase()}\n
-    Destination    : ${this.route.destination.toUpperCase()}\n
-    Mileage        : ${this.route.mileage}\n
-    Duration(hours): ${this.route.durationH}`)) {
+    Departure          : ${this.route.departure.toUpperCase()}\n
+    Destination        : ${this.route.destination.toUpperCase()}\n
+    Mileage              : ${this.route.mileage}\n
+    Duration(hours) : ${this.route.durationH}`)) {
 
       this.sendToBeDeletedRecordEvent.emit(this.route.routeID);
     }
