@@ -54,7 +54,8 @@ export class FareFormComponent implements OnInit {
           else {
             this.dialogRef.close(true)
           }
-        }
+        },
+        error: () => alert("Unexpected error occurred!")
       });
     } else {
       this.fareService.editEntry({
@@ -73,7 +74,8 @@ export class FareFormComponent implements OnInit {
           } else {
             this.dialogRef.close(true)
           }
-        }
+        },
+        error: () => alert("Unexpected error occurred!")
       });
     }
   }
