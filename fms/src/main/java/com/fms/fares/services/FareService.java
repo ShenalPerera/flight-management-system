@@ -39,7 +39,6 @@ public class FareService {
         return fareDao.getSearchedFares(departure, arrival);
     }
 
-    @Transactional
     public Fare createFare(Fare fare) {
         validateCreateFare(fare);
         logger.info("created DTO send to DB | " + fare);
@@ -52,7 +51,6 @@ public class FareService {
         }
     }
 
-    @Transactional
     public Fare editFare(Fare editedFare) {
         validateEditFare(editedFare);
         logger.info("updated DTO send to DB | " + editedFare);
@@ -65,7 +63,6 @@ public class FareService {
         }
     }
 
-    @Transactional
     public int deleteFare(int id) {
         try {
             fareRepository.deleteById(id);
@@ -132,7 +129,6 @@ public class FareService {
         }
     }
 
-    @Transactional
     private void checkRouteExistence(Fare fare) {
         if (!routeRepository.existsRouteByDepartureAndDestinationAndStatus(fare.getDeparture(), fare.getArrival(), 1)) {
             logger.error("a route doesn't exist for the given departure [{}] and arrival [{}]",
