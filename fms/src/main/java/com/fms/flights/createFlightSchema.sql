@@ -1,5 +1,5 @@
 # Create the table schema
-CREATE TABLE flight(
+CREATE TABLE IF NOT EXISTS flight(
     flight_id bigint primary key auto_increment,
     flight_number char(4) not null ,
     departure varchar(20) not null,
