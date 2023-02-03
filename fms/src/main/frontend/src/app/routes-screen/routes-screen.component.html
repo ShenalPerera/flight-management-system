@@ -12,7 +12,7 @@
     </mat-form-field>
 
     <mat-form-field style="padding-left: 10px" appearance="fill">
-      <mat-label>Destination</mat-label>
+      <mat-label>Arrival</mat-label>
       <select matNativeControl [(ngModel)]="searchFormDestination" name="destination" #selectDropdown>
         <option value="" selected></option>
         <option *ngFor="let destination of airports" [value]="destination">

@@ -103,9 +103,9 @@ export class RoutesScreenComponent implements OnInit{
           this.searchFormDeparture = '';
           this.searchFormDestination = '';
           if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
-            alert("Sorry, that route has been already deleted.");
+            alert("Sorry, This route is not found.");
           } else if (resp.status == HttpStatusCodesFMS.CANNOT_BE_EXECUTED) {
-            alert("Sorry! This route cannot be deleted.");
+            alert("Sorry, This route cannot be deleted.");
           }
           else {
             alert("The route has been successfully deleted.");
