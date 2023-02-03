@@ -62,13 +62,13 @@
 
   <br>
   <div *ngIf="data.type === 'edit'">
-    <button mat-raised-button color="primary" style="margin-left: 10px" type="button" [disabled]="areSameValues() || sampleForm.invalid" (click)="onSubmitUpdateInBackend()">Apply</button>
+    <button mat-raised-button color="primary" style="margin-left: 10px" type="button" [disabled]="areSameValues() || sampleForm.invalid" (click)="onSubmitUpdate()">Apply</button>
     <button mat-raised-button type="button" style="margin-left: 10px" [disabled]="areSameValues()" (click)="resetValues()">Reset</button>
     <button mat-raised-button color="warn" style="margin-left: 10px" type="button" (click)="afterDiscardClosing()">Discard</button>
   </div>
 
   <div *ngIf="data.type === 'create'">
-    <button mat-raised-button color="primary" style="margin-left: 10px" type="button" (click)="onSubmitCreateInBackend()" [disabled]="sampleForm.invalid">Create</button>
+    <button mat-raised-button color="primary" style="margin-left: 10px" type="button" (click)="onSubmitCreate()" [disabled]="sampleForm.invalid">Create</button>
     <button mat-raised-button type="button" style="margin-left: 10px" [disabled]="areSameValues()" (click)="clearValues()">Clear</button>
     <button mat-raised-button color="warn" style="margin-left: 10px" type="button" (click)="afterDiscardClosing()">Discard</button>
   </div>

@@ -26,7 +26,7 @@ export class RoutesScreenComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.routeService.getRoutesFromBackend()
+    this.routeService.getRoutes()
       .subscribe({next: (resp)=>{
         this.ALL_ROUTES = resp;
         this.generateLocations();
@@ -47,7 +47,7 @@ export class RoutesScreenComponent implements OnInit{
   clearInputs() {
     this.searchFormDeparture = '';
     this.searchFormDestination = '';
-    this.routeService.getRoutesFromBackend()
+    this.routeService.getRoutes()
       .subscribe({ next: (resp)=>{
         this.ALL_ROUTES = resp;
       },
@@ -72,7 +72,7 @@ export class RoutesScreenComponent implements OnInit{
     dialogRef.afterClosed()
       .subscribe((resp)=>{
         if (resp.reloadData) {
-          this.routeService.getRoutesFromBackend()
+          this.routeService.getRoutes()
             .subscribe({next: (resp)=>{
                 this.ALL_ROUTES = resp;
               },
@@ -86,7 +86,7 @@ export class RoutesScreenComponent implements OnInit{
 
   dataPopulate(data: boolean) {
     if (data) {
-      this.routeService.getRoutesFromBackend()
+      this.routeService.getRoutes()
         .subscribe({next: (resp)=>{
             this.ALL_ROUTES = resp;
           },
@@ -96,21 +96,21 @@ export class RoutesScreenComponent implements OnInit{
     }
   }
 
-  deleteRouteInBackend(data: number) {
-    this.routeService.deleteRecordInBackend(data)
+  deleteRoute(data: number) {
+    this.routeService.deleteRecord(data)
       .subscribe({
         next: (resp)=>{
           this.searchFormDeparture = '';
           this.searchFormDestination = '';
           if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
-            alert("Sorry, This route is not found.");
+            alert("This route is not found.");
           } else if (resp.status == HttpStatusCodesFMS.CANNOT_BE_EXECUTED) {
-            alert("Sorry, This route cannot be deleted.");
+            alert("This route cannot be deleted.");
           }
           else {
             alert("The route has been successfully deleted.");
           }
-          this.routeService.getRoutesFromBackend()
+          this.routeService.getRoutes()
             .subscribe({next: (resp)=>{
                 this.ALL_ROUTES = resp;
               },
@@ -124,8 +124,8 @@ export class RoutesScreenComponent implements OnInit{
       })
   }
 
-  filterDataFromBackend(){
-    this.routeService.fetchSpecificRoutesFromBackend(this.searchFormDeparture, this.searchFormDestination)
+  filterRoutes(){
+    this.routeService.filterRoutes(this.searchFormDeparture, this.searchFormDestination)
       .subscribe({next: (resp)=>{
           this.ALL_ROUTES = resp;
         },

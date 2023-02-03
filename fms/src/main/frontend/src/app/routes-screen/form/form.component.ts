@@ -55,7 +55,7 @@ export class FormComponent implements OnInit{
 
   }
 
-  onSubmitUpdateInBackend() {
+  onSubmitUpdate() {
       this.updatedRoute = {
         routeID: this.data.route.routeID,
         departure: this.sampleForm.value['departure'].toLowerCase(),
@@ -68,7 +68,7 @@ export class FormComponent implements OnInit{
         version : this.data.route.version
       };
 
-      this.routeService.updateRouteInBackend(this.updatedRoute)
+      this.routeService.updateRoute(this.updatedRoute)
         .subscribe({
           next: (resp)=>{
             if (resp.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
@@ -92,7 +92,7 @@ export class FormComponent implements OnInit{
 
 
 
-  onSubmitCreateInBackend() {
+  onSubmitCreate() {
     this.createdRoute = {
       routeID: NaN,
       departure: this.sampleForm.value['departure'].toLowerCase(),
@@ -104,11 +104,11 @@ export class FormComponent implements OnInit{
       status: 1,
       version : NaN
     }
-    this.routeService.createRouteInBackend(this.createdRoute)
+    this.routeService.createRoute(this.createdRoute)
       .subscribe({
         next: (resp)=>{
           if (resp.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
-            alert('Sorry! That route is already there.');
+            alert('This route is already there.');
           }else {
             alert("The route has been successfully created.");
             this.afterApplyClosing();
@@ -141,7 +141,7 @@ export class FormComponent implements OnInit{
     if (this.areSameValues()) {
       this.dialogRef.close({reloadData: false});
     }else {
-      if(confirm('Note: Unsaved changes will be discarded.')) {
+      if(confirm('Note: Changes will be discarded.')) {
         this.dialogRef.close({reloadData: false});
       }
     }
