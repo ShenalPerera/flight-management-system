@@ -85,7 +85,7 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
     this.dataService.removeFlight(flight_id).subscribe({
       next: (response) => {
         if (response.status === HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
-          alert("This flight already deleted by someone!");
+          alert("This flight already deleted by someone!\nYou are retrieving latest update!");
         }
         else{
           alert("Flight deleted Successfully!");
@@ -176,7 +176,7 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
           alert("Flight number already has flight on given departure date!");
         }
         else if (response.status === HttpStatusCodesFMS.VERSION_MISMATCHED) {
-          alert("This flight already updated by someone!");
+          alert("This flight already updated by someone!\nYou are retrieving latest update!");
           this.resetFormAndFetchData();
         }
         else if(response.status === HttpStatusCodesFMS.ROUTE_DOESNT_EXIST){
