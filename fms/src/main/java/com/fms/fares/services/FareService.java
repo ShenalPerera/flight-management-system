@@ -134,7 +134,7 @@ public class FareService {
 
     @Transactional
     private void checkRouteExistence(Fare fare) {
-        if (!routeRepository.existsRouteByDepartureAndDestination(fare.getDeparture(), fare.getArrival())) {
+        if (!routeRepository.existsRouteByDepartureAndDestinationAndStatus(fare.getDeparture(), fare.getArrival(), 1)) {
             logger.error("a route doesn't exist for the given departure [{}] and arrival [{}]",
                     fare.getDeparture(), fare.getArrival());
             throw new FMSException(HttpStatusCodesFMS.ROUTE_DOESNT_EXIST);
