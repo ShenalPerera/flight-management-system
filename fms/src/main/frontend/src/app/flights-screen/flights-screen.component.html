@@ -56,8 +56,8 @@
 
 
 
-    <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" [disabled]="(!searchFilterForm.dirty && searchFilterForm.pristine)">Search</button>
-    <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty">Clear</button>
+    <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" >Search</button>
+    <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty || isFormEmpty(searchFilterForm.value)">Clear</button>
 
 
   </form>

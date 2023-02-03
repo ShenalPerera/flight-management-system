@@ -194,6 +194,9 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
     })
   }
 
+  isFormEmpty(formValues:{}){
+    return Object.values(formValues).every(attr => attr === "" || attr === null);
+  }
   resetFormScreeMode() {
     this.isOverlayShow = !this.isOverlayShow;
     this.isEditMode = false;
