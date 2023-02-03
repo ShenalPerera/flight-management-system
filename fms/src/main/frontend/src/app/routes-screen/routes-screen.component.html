@@ -57,6 +57,7 @@
           </tbody>
         </table>
       </div>
+      <mat-spinner *ngIf="!ALL_ROUTES"  style="margin: 0 auto"></mat-spinner>
     </div>
   </div>
   <button class="add-flight-button" (click)="openDialogToCreate()"><strong>Add Route</strong></button>
