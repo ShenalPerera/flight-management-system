@@ -142,7 +142,7 @@ public class FlightService {
     }
 
     private void validateExistenceOfRoute(Flight flight) {
-        boolean isRouteExists = this.routeRepository.existsRouteByDepartureAndDestination(flight.getDeparture(), flight.getArrival());
+        boolean isRouteExists = this.routeRepository.existsRouteByDepartureAndDestinationAndStatus(flight.getDeparture(), flight.getArrival(),1);
 
         if (!isRouteExists) {
             logger.error("Route not found for given departure and arrival");
