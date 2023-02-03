@@ -23,8 +23,7 @@
       </select>
     </mat-form-field>
 
-    <button class="search-field" mat-raised-button color="primary" (click)="filterEntries()"
-            [disabled]="searchCriteria.departure === '' && searchCriteria.arrival === ''">Search</button>
+    <button class="search-field" mat-raised-button color="primary" (click)="filterEntries()">Search</button>
     <button class="search-field" mat-raised-button color="primary" (click)="handleSearchClear()"
             [disabled]="searchCriteria.departure === '' && searchCriteria.arrival === ''">Clear</button>
   </form>
