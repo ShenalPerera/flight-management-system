@@ -50,7 +50,6 @@ public class RoutesService {
                 throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
             }else {
                 routeToBeActive.setStatus(1);
-//                routeToBeActive.setCreatedDateTime(new Timestamp(new Date().getTime()));
                 routeToBeActive.setMileage(route.getMileage());
                 routeToBeActive.setDurationH(route.getDurationH());
                 try {
@@ -65,7 +64,6 @@ public class RoutesService {
         }else {
             try {
                 route.setStatus(1);
-//                route.setCreatedDateTime(new Timestamp(new Date().getTime()));
                 routeRepository.save(route);
                 logger.info("service[createRoute](new) {}", route);
                 return new ResponseEntity<>(HttpStatus.CREATED);
