@@ -16,7 +16,7 @@ public class Route {
     private String destination;
     private double mileage;
     private double durationH;
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false)
     private Timestamp createdDateTime;
     private Timestamp modifiedDateTime;
     private int status;
