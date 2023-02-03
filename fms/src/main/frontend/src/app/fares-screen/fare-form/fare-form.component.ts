@@ -49,13 +49,14 @@ export class FareFormComponent implements OnInit {
         next: (response) => {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND)
             alert("The fare is already in the system!")
-          else if (response.status == HttpStatusCodesFMS.ROUTE_DOESNT_EXIST)
-            alert("A Route doesn't exist for the given departure and arrival!")
-          else {
+          else if (response.status == HttpStatusCodesFMS.ROUTE_DOESNT_EXIST) {
+            alert("Route does not exist! Cannot create the Fare.")
+            this.dialogRef.close(false)
+          } else {
             this.dialogRef.close(true)
           }
         },
-        error: () => alert("Unexpected error occurred!")
+        error: () => alert("An unexpected error occurred!")
       });
     } else {
       this.fareService.editEntry({
@@ -69,13 +70,13 @@ export class FareFormComponent implements OnInit {
           if (response.status == HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND) {
             alert("The fare is already in the system!")
           } else if (response.status == HttpStatusCodesFMS.VERSION_MISMATCHED) {
-            alert("Someone else has changed the fare!");
+            alert("This Fare is already updated by someone!");
             this.dialogRef.close(false)
           } else {
             this.dialogRef.close(true)
           }
         },
-        error: () => alert("Unexpected error occurred!")
+        error: () => alert("An unexpected error occurred!")
       });
     }
   }
