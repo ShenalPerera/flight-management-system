@@ -8,6 +8,7 @@ import com.fms.routes.repositories.RouteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -46,7 +47,7 @@ public class RoutesService {
 
         if (routeToBeActive != null) {
             if (routeToBeActive.getStatus() == 1) {
-                logger.info("service[createRoute](exists) {}", route);
+                logger.error("service[createRoute](exists) {}", route);
                 throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
             }else {
                 routeToBeActive.setStatus(1);
@@ -56,21 +57,13 @@ public class RoutesService {
                     routeRepository.save(routeToBeActive);
                     logger.info("service[createRoute](new) {}", route);
                     return new ResponseEntity<>(HttpStatus.CREATED);
-                }catch (Exception e) {
-                    logger.error("service[createRoute](duplicate) {}", route);
+                }catch (DataIntegrityViolationException e) {
+                    logger.error("service[createRoute](exists) {}", route);
                     throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
                 }
             }
         }else {
-            try {
-                route.setStatus(1);
-                routeRepository.save(route);
-                logger.info("service[createRoute](new) {}", route);
-                return new ResponseEntity<>(HttpStatus.CREATED);
-            }catch (Exception e) {
-                logger.error("service[createRoute](duplicate) {}", route);
-                throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
-            }
+            return createIfRouteIsNew(route);
         }
 
     }
@@ -87,7 +80,6 @@ public class RoutesService {
 
         try {
             route.setCreatedDateTime(routeToBeUpdated.getCreatedDateTime());
-            route.setModifiedDateTime(new Timestamp(new Date().getTime()));
             Route updatedRoute = routeRepository.save(route);
             logger.info("service[edit] {}", route);
             return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
@@ -121,6 +113,19 @@ public class RoutesService {
     }
 
     // ******************************************** HELPER METHODS *****************************************************
+
+    public ResponseEntity<Route> createIfRouteIsNew(Route route) {
+        logger.info("service[createIfRouteIsNew](new) {}", route);
+        try {
+            route.setStatus(1);
+            routeRepository.save(route);
+            logger.info("service[createRoute](new) {}", route);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (DataIntegrityViolationException e) {
+            logger.error("service[createRoute](duplicate) {}", route);
+            throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
+        }
+    }
 
     public boolean checkErrorsBeforeDeleteRoute(Route routeToBeDeleted){
         return (
