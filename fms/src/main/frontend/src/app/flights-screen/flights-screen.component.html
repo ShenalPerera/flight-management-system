@@ -33,16 +33,20 @@
       </select>
     </mat-form-field>
 
-
+    <mat-form-field appearance="fill">
+      <mat-label>Departure date</mat-label>
+      <input matInput type="date" [ngModel]="searchOptions.departureDate" name="fDepartureDate" >
+    </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Arrival date</mat-label>
       <input matInput type="date" [ngModel]="searchOptions.arrivalDate" name="fArrivalDate">
     </mat-form-field>
 
+
     <mat-form-field appearance="fill">
-      <mat-label>Departure date</mat-label>
-      <input matInput type="date" [ngModel]="searchOptions.departureDate" name="fDepartureDate" >
+      <mat-label>Departure time</mat-label>
+      <input matInput  type="time" [ngModel]="searchOptions.departureTime" name="fDepartureTime">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -50,10 +54,7 @@
       <input matInput  type="time" [ngModel]="searchOptions.arrivalTime" name="fArrivalTime">
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Departure time</mat-label>
-      <input matInput  type="time" [ngModel]="searchOptions.departureTime" name="fDepartureTime">
-    </mat-form-field>
+
 
     <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>
     <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty">Clear</button>
