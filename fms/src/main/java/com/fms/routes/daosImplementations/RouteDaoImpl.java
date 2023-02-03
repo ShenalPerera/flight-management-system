@@ -16,10 +16,10 @@ public class RouteDaoImpl implements RouteDao {
 
     JdbcTemplate jdbcTemplate;
 
-    String GET_ALL_ROUTES_QUERY = "SELECT * FROM route WHERE route.status=1;";
-    String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY = "SELECT * FROM route WHERE departure = ? AND destination = ? AND route.status=1;";
-    String GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY = "SELECT * FROM route WHERE departure = ? AND route.status=1;";
-    String GET_FILTERED_ROUTES_BY_DESTINATION_QUERY = "SELECT * FROM route WHERE destination = ? AND route.status=1;";
+    String GET_ALL_ROUTES_QUERY = "SELECT * FROM route WHERE route.status=1 ORDER BY modified_date_time DESC;";
+    String GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY = "SELECT * FROM route WHERE departure = ? AND destination = ? AND route.status=1 ORDER BY modified_date_time DESC;";
+    String GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY = "SELECT * FROM route WHERE departure = ? AND route.status=1 ORDER BY modified_date_time DESC;";
+    String GET_FILTERED_ROUTES_BY_DESTINATION_QUERY = "SELECT * FROM route WHERE destination = ? AND route.status=1 ORDER BY modified_date_time DESC;";
     String GET_NO_OF_LOCATIONS_COMBINATIONS_IN_FARES = "SELECT COUNT(*) FROM fare WHERE fare.departure = ? AND fare.arrival = ?;";
     String GET_NO_OF_LOCATIONS_COMBINATIONS_IN_FLIGHTS = "SELECT COUNT(*) FROM flight WHERE flight.departure = ? AND flight.arrival = ?;";
 
