@@ -88,7 +88,7 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
           alert("This flight already deleted by someone!\nYou are retrieving latest update!");
         }
         else{
-          alert("Flight deleted Successfully!");
+          alert("The Flight has been successfully deleted!");
         }
 
         this.dataService.fetchFlights();
@@ -183,8 +183,8 @@ export class FlightsScreenComponent implements OnInit, OnDestroy {
           alert("Route does not exists! Can not create the flight");
         }
         else {
-          let successMessage = this.isEditMode ? "edited" : "created";
-          alert("Flight " + successMessage + " Successfully!");
+          let successMessage = this.isEditMode ? "updated!" : "created!";
+          alert("The Flight has been Successfully " + successMessage);
           this.resetFormAndFetchData();
         }
       },
