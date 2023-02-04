@@ -22,6 +22,8 @@ export class FormComponent implements OnInit{
   mileage!: number;
   durationH!: number;
 
+  version!: any;
+
   sampleForm !: FormGroup;
 
   updatedRoute !: Route;
@@ -39,6 +41,7 @@ export class FormComponent implements OnInit{
   ngOnInit() {
     let mileageString = this.data.route.mileage.toString();
     let durationString = this.data.route.durationH.toString();
+    this.version = this.data.route.version;
     if (mileageString == '0') {
       mileageString = '';
     }
@@ -65,7 +68,7 @@ export class FormComponent implements OnInit{
         createdDateTime : '',
         modifiedDateTime : '',
         status: 1,
-        version : this.data.route.version
+        version : this.version
       };
 
       this.routeService.updateRoute(this.updatedRoute)
@@ -159,6 +162,7 @@ export class FormComponent implements OnInit{
             'mileage': resp.body?.mileage.toString(),
             'durationH': resp.body?.durationH.toString(),
           });
+          this.version = resp.body?.version;
         }
       })
     // this.sampleForm.patchValue({
