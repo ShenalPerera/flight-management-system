@@ -76,7 +76,8 @@ export class FormComponent implements OnInit{
             } else if (resp.status == HttpStatusCodesFMS.VERSION_MISMATCHED) {
               alert('This route has been already updated by someone.\n' +
                 'You are retrieving latest updates.');
-              this.afterApplyClosing();
+              this.resetValues();
+              // this.afterApplyClosing();
             } else if (resp.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND) {
               alert('This route has been already deleted.')
               this.afterApplyClosing();
