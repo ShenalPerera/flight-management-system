@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +28,12 @@ public class RoutesService {
         this.routeDao = routeDao;
     }
 
-    // **************************************** ENDPOINTS SERVICES *****************************************************
-
     public List<Route> sendAllRoutes() {
         logger.info("service[sendAllRoutes]");
         return routeDao.getAllRoutes();
     }
 
-    public ResponseEntity<Route> createRoute(Route route) {
+    public Route createRoute(Route route) {
         logger.info("service[createRoute] {}", route);
         checkInputFields(route);
         Route routeToBeActive = routeRepository.findByDepartureAndDestination(route.getDeparture(), route.getDestination());
@@ -51,9 +47,9 @@ public class RoutesService {
                 routeToBeActive.setMileage(route.getMileage());
                 routeToBeActive.setDurationH(route.getDurationH());
                 try {
-                    routeRepository.save(routeToBeActive);
+                    Route createdRoute = routeRepository.save(routeToBeActive);
                     logger.info("service[createRoute](new) {}", route);
-                    return new ResponseEntity<>(HttpStatus.CREATED);
+                    return createdRoute;
                 }catch (DataIntegrityViolationException e) {
                     logger.error("service[createRoute](exists) {}", route);
                     throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
@@ -66,7 +62,7 @@ public class RoutesService {
     }
 
 
-    public ResponseEntity<Route> editRoute(Route route) {
+    public Route editRoute(Route route) {
         checkInputFields(route);
 
         Route routeToBeUpdated = routeRepository.findByRouteID(route.getRouteID());
@@ -79,7 +75,7 @@ public class RoutesService {
             route.setCreatedDateTime(routeToBeUpdated.getCreatedDateTime());
             Route updatedRoute = routeRepository.save(route);
             logger.info("service[edit] {}", route);
-            return new ResponseEntity<>(updatedRoute, HttpStatus.OK);
+            return updatedRoute;
         } catch (ObjectOptimisticLockingFailureException e) {
             logger.error("service[edit](dirtyUpdate) {}", route);
             throw new FMSException(HttpStatusCodesFMS.VERSION_MISMATCHED);
@@ -87,7 +83,7 @@ public class RoutesService {
 
     }
 
-    public ResponseEntity<Integer> deleteRoute(int routeID){
+    public int deleteRoute(int routeID){
             Route routeToBeDeleted = routeRepository.findByRouteID(routeID);
             if (routeToBeDeleted == null) {
                 logger.error("service[deleteRoute] id->{}", routeID);
@@ -98,26 +94,24 @@ public class RoutesService {
             }
             routeToBeDeleted.setStatus(0);
             routeRepository.save(routeToBeDeleted);
-            return new ResponseEntity<>(routeID, HttpStatus.OK);
+            return routeID;
 
     }
 
 
 
-    public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
+    public List<Route> searchRoutes(String departure, String destination) {
         return routeDao.searchRoutes(departure, destination);
 
     }
 
-    // ******************************************** HELPER METHODS *****************************************************
-
-    public ResponseEntity<Route> createIfRouteIsNew(Route route) {
+    public Route createIfRouteIsNew(Route route) {
         logger.info("service[createIfRouteIsNew](new) {}", route);
         try {
             route.setStatus(1);
-            routeRepository.save(route);
+            Route createdRoute = routeRepository.save(route);
             logger.info("service[createRoute](new) {}", route);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return createdRoute;
         }catch (DataIntegrityViolationException e) {
             logger.error("service[createRoute](duplicate) {}", route);
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);

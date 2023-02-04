@@ -32,25 +32,25 @@ public class RoutesController {
     @PostMapping(routesBaseUrl + "/create-route")
     ResponseEntity<Route> createRoute(@RequestBody Route route) {
         logger.info("controller[createRoute] {}", route);
-        return routesService.createRoute(route);
+        return new ResponseEntity<>(routesService.createRoute(route), HttpStatus.OK);
     }
 
     @PutMapping(routesBaseUrl + "/update-route")
     ResponseEntity<Route> editRoute(@RequestBody Route route) {
         logger.info("controller[editRoute] {}", route);
-        return routesService.editRoute(route);
+        return new ResponseEntity<>(routesService.editRoute(route), HttpStatus.OK);
     }
 
     @DeleteMapping(routesBaseUrl + "/delete-route")
     ResponseEntity<Integer> deleteRoute(@RequestParam int routeID){
         logger.info("controller[deleteRoute] id->{}", routeID);
-        return routesService.deleteRoute(routeID);
+        return new ResponseEntity<>(routesService.deleteRoute(routeID), HttpStatus.OK);
     }
 
     @GetMapping(routesBaseUrl + "/search-routes")
     ResponseEntity<List<Route>> searchRoutes(@RequestParam String departure, @RequestParam String destination) {
         logger.info("controller[searchRoutes] dep->{} des->{}", departure, destination);
-        return routesService.searchRoutes(departure, destination);
+        return new ResponseEntity<>(routesService.searchRoutes(departure, destination), HttpStatus.OK);
     }
 
 }

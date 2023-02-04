@@ -45,7 +45,7 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     @Override
-    public ResponseEntity<List<Route>> searchRoutes(String departure, String destination) {
+    public List<Route> searchRoutes(String departure, String destination) {
         RowMapper<Route> rowMapper = (resultSet, rowNum)-> new Route(
                 resultSet.getInt("routeID"),
                 resultSet.getString("departure"),
@@ -60,15 +60,15 @@ public class RouteDaoImpl implements RouteDao {
         List<Route> filteredRoutes;
         if (!departure.isEmpty() && destination.isEmpty()) {
             filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_QUERY, rowMapper, departure);
-            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+            return filteredRoutes;
         } else if (departure.isEmpty() && !destination.isEmpty()) {
             filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DESTINATION_QUERY, rowMapper, destination);
-            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+            return filteredRoutes;
         } else if (!departure.isEmpty()) {
             filteredRoutes = jdbcTemplate.query(this.GET_FILTERED_ROUTES_BY_DEPARTURE_AND_DESTINATION_QUERY, rowMapper, departure, destination);
-            return new ResponseEntity<>(filteredRoutes, HttpStatus.OK);
+            return filteredRoutes;
         } else{
-            return new ResponseEntity<>(getAllRoutes(), HttpStatus.OK);
+            return getAllRoutes();
         }
     }
 
