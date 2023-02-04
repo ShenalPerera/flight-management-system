@@ -33,6 +33,11 @@ public class RoutesService {
         return routeDao.getAllRoutes();
     }
 
+    public Route getOneRoute(int routeID) {
+        logger.info("service[getOneRoute]");
+        return routeRepository.findByRouteID(routeID);
+    }
+
     public Route createRoute(Route route) {
         logger.info("service[createRoute] {}", route);
         checkInputFields(route);
@@ -90,6 +95,7 @@ public class RoutesService {
                 throw new FMSException(HttpStatusCodesFMS.ENTRY_NOT_FOUND);
             }
             if (checkErrorsBeforeDeleteRoute(routeToBeDeleted)) {
+                logger.error("service[deleteRoute] id->{}", routeID);
                 throw new FMSException(HttpStatusCodesFMS.CANNOT_BE_EXECUTED);
             }
             routeToBeDeleted.setStatus(0);

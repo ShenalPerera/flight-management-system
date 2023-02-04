@@ -29,6 +29,12 @@ public class RoutesController {
         return new ResponseEntity<>(routesService.sendAllRoutes(), HttpStatus.OK);
     }
 
+    @GetMapping(routesBaseUrl + "/get-one-route")
+    ResponseEntity<Route> getOneRoute(@RequestParam int routeID) {
+        logger.info("controller[getOneRoute] id->{}", routeID);
+        return new ResponseEntity<>(routesService.getOneRoute(routeID), HttpStatus.OK);
+    }
+
     @PostMapping(routesBaseUrl + "/create-route")
     ResponseEntity<Route> createRoute(@RequestBody Route route) {
         logger.info("controller[createRoute] {}", route);

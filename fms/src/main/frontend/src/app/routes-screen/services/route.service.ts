@@ -13,6 +13,11 @@ export class RouteService  {
     return this.http.get<Route[]>('http://localhost:8080/api/routes-screen/get-routes');
   }
 
+  getOneRoute(routeID: number) {
+    return this.http.get<Route>('http://localhost:8080/api/routes-screen/get-one-route',
+      {params: new HttpParams().set('routeID', routeID), observe: 'response'});
+  }
+
   createRoute(route: Route) {
     // route.created = new Date();
     return this.http.post<any>('http://localhost:8080/api/routes-screen/create-route', route, {observe: 'response'});

@@ -149,12 +149,23 @@ export class FormComponent implements OnInit{
   }
 
   resetValues(): void {
-    this.sampleForm.patchValue({
-      'departure': this.data.route.departure.toUpperCase(),
-      'destination': this.data.route.destination.toUpperCase(),
-      'mileage': this.data.route.mileage.toString(),
-      'durationH': this.data.route.durationH.toString(),
-    });
+    this.routeService.getOneRoute(this.data.route.routeID)
+      .subscribe({
+        next: (resp)=>{
+          this.sampleForm.patchValue({
+            'departure': resp.body?.departure.toUpperCase(),
+            'destination': resp.body?.destination.toUpperCase(),
+            'mileage': resp.body?.mileage.toString(),
+            'durationH': resp.body?.durationH.toString(),
+          });
+        }
+      })
+    // this.sampleForm.patchValue({
+    //   'departure': this.data.route.departure.toUpperCase(),
+    //   'destination': this.data.route.destination.toUpperCase(),
+    //   'mileage': this.data.route.mileage.toString(),
+    //   'durationH': this.data.route.durationH.toString(),
+    // });
   }
 
   clearValues(): void {
