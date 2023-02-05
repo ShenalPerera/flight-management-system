@@ -70,7 +70,7 @@ export class FaresScreenComponent implements OnInit {
       this.editedEntry = entry;
     } else {
       this.createEvent = true;
-      this.editedEntry = { fareId: 0, departure: "", arrival: "", fare: 0, version: 0};
+      this.editedEntry = { fareId: 0, departure: "", arrival: "", fare: null, version: 0};
     }
     const dialogRef = this.dialog.open(FareFormComponent, {
         data: {
