@@ -34,29 +34,69 @@
   <button class="add-entry-button" (click)="openForm()"><strong>Add Fare</strong></button>
 </div>
 
-<!--Entry List-->
-<div>
-  <h2>Available Fares</h2>
-  <table>
 
-    <thead>
-    <tr>
-      <th>No.</th>
-      <th>Departure</th>
-      <th>Arrival</th>
-      <th>Fare (USD)</th>
-    </tr>
-    </thead>
+<div class="page-content page-container" id="page-content">
+  <div class="padding">
+    <div class="row container d-flex justify-content-center">
 
-    <tbody>
-      <tr app-fare-item *ngFor="let datum of searchedData; let i = index;"
-          [entry]="datum"
-          (deleteButtonClicked)="handleDelete($event)"
-          (editButtonClicked)="openForm($event)"
-          [rowNumber]="i"
-      >
-    </tbody>
+      <div class="col-lg-8 grid-margin stretch-card" >
+        <div class="card">
+          <div class="card-body">
 
-  </table>
-  <mat-spinner *ngIf="!searchedData"  style="margin: 0 auto"></mat-spinner>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                  <th>No.</th>
+                  <th>Departure</th>
+                  <th>Arrival</th>
+                  <th>Fare (USD)</th>
+                  <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr app-fare-item *ngFor="let datum of searchedData; let i = index;"
+                    [entry]="datum"
+                    (deleteButtonClicked)="handleDelete($event)"
+                    (editButtonClicked)="openForm($event)"
+                    [rowNumber]="i"
+                >
+                </tbody>
+              </table>
+            </div>
+            <mat-spinner *ngIf="!searchedData"  style="margin: 0 auto"></mat-spinner>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
+<!--Entry List-->
+<!--<div>-->
+<!--  <h2>Available Fares</h2>-->
+<!--  <table>-->
+
+<!--    <thead>-->
+<!--    <tr>-->
+<!--      <th>No.</th>-->
+<!--      <th>Departure</th>-->
+<!--      <th>Arrival</th>-->
+<!--      <th>Fare (USD)</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+<!--      <tr app-fare-item *ngFor="let datum of searchedData; let i = index;"-->
+<!--          [entry]="datum"-->
+<!--          (deleteButtonClicked)="handleDelete($event)"-->
+<!--          (editButtonClicked)="openForm($event)"-->
+<!--          [rowNumber]="i"-->
+<!--      >-->
+<!--    </tbody>-->
+
+<!--  </table>-->
+<!--  <mat-spinner *ngIf="!searchedData"  style="margin: 0 auto"></mat-spinner>-->
+<!--</div>-->

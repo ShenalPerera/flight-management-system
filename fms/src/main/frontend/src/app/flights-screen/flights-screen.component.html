@@ -63,41 +63,46 @@
   </form>
 </div>
 
+<div class="page-content page-container" id="page-content">
+  <div class="padding">
+    <div class="row container d-flex justify-content-center">
 
-<div style="width: 100%; " >
-  <div class="panel panel-primary " >
-    <div class="panel-heading">
-      <h2>Flight list</h2>
+      <div class="col-lg-8 grid-margin stretch-card" >
+        <div class="card">
+          <div class="card-body">
+
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                  <th >Flight Number</th>
+                  <th>Departure</th>
+                  <th>Arrival</th>
+                  <th>Departure Date</th>
+                  <th>Departure Time</th>
+                  <th>Arrival Date</th>
+                  <th>Arrival Time</th>
+                  <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr app-flight-item   *ngFor="let flightEl of flights"
+                    [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event,searchFilterForm)" (flightEdited) = "onEditFlight($event)" >
+
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="panel-body">
-      <table class="table table-striped" >
-        <thead>
-        <tr>
-          <th>Flight Number</th>
-          <th>Departure</th>
-          <th>Arrival</th>
-          <th>Departure Date</th>
-          <th>Departure Time</th>
-          <th>Arrival Date</th>
-          <th>Arrival Time</th>
-        </tr>
-        </thead>
-
-        <tbody *ngIf="flights">
-
-        <tr app-flight-item   *ngFor="let flightEl of flights"
-            [flight]="flightEl" (flightDeleted) = "onDeleteFlight($event,searchFilterForm)" (flightEdited) = "onEditFlight($event)" >
-        </tbody>
-      </table>
-
-    </div>
-    <mat-spinner *ngIf="!flights"  style="margin: 0 auto"></mat-spinner>
   </div>
-
   <button  class="add-flight-button" [hidden]="isOverlayShow" (click)="onClickAddFlight()"><strong>Add Flight</strong></button>
-
-
 </div>
+
 
 <div *ngIf="isOverlayShow">
   <div class="backdrop" (click)="onCancelEdit()"></div>

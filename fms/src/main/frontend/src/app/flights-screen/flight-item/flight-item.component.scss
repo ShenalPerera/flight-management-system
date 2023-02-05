@@ -1,3 +1,18 @@
 td{
-  text-align: center
+  text-align: center;
+}
+
+td,
+.jsgrid .jsgrid-table td {
+  font-size: 0.875rem;
+  padding: .875rem 0.9375rem;
+  color: #000000;
+}
+
+.badge {
+  border-radius: 0;
+  font-size: 12px;
+  line-height: 1;
+  padding: .375rem .5625rem;
+  font-weight: normal
 }
