@@ -44,7 +44,7 @@
 
   <div mat-dialog-actions>
     <button mat-raised-button color="primary" (click)="submitCLicked()" [disabled]="formGroup.invalid || formGroup.pristine.valueOf()">Apply</button>
-    <button mat-raised-button (click)="resetClicked()" [disabled]="!formGroup.dirty">Reset</button>
+    <button mat-raised-button (click)="resetClicked()" [disabled]="!formGroup.dirty">{{ this.data.createEvent? "Clear" : "Reset" }}</button>
     <button mat-raised-button color="warn" (click)="discardClicked()">Discard</button>
   </div>
 
