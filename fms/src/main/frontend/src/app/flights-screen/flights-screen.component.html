@@ -56,8 +56,8 @@
 
 
 
-    <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" >Search</button>
-    <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty || isFormEmpty(searchFilterForm.value)">Clear</button>
+    <button class="search-field" mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm)" >Search</button>
+    <button class="search-field" mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty || isFormEmpty(searchFilterForm.value)">Clear</button>
 
 
   </form>
@@ -93,7 +93,7 @@
                 </tbody>
               </table>
             </div>
-
+            <mat-spinner *ngIf="!flights"  style="margin: 0 auto"></mat-spinner>
           </div>
         </div>
       </div>

@@ -22,8 +22,8 @@
     </mat-form-field>
     <button  mat-raised-button color="primary" (click)="filterRoutes()">Search</button>
 
-    <button *ngIf="searchFormDeparture.length>0 || searchFormDestination.length>0"  mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
-    <button *ngIf="searchFormDeparture.length==0 && searchFormDestination.length==0" disabled  mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
+    <button class="search-field" *ngIf="searchFormDeparture.length>0 || searchFormDestination.length>0"  mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
+    <button class="search-field"  *ngIf="searchFormDeparture.length==0 && searchFormDestination.length==0" disabled  mat-raised-button color="primary" (click)="clearInputs()">Clear</button>
 
   </form>
 </div>

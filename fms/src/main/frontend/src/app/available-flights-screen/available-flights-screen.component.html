@@ -50,8 +50,8 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm.value)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>
-      <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty">Clear</button>
+      <button class="search-field" mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm.value)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>
+      <button class="search-field" mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty">Clear</button>
 
 
     </form>
