@@ -6,7 +6,6 @@ import com.fms.httpsStatusCodesFMS.HttpStatusCodesFMS;
 import com.fms.exceptions.FMSException;
 import com.fms.fares.models.Fare;
 import com.fms.routes.repositories.RouteRepository;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +31,6 @@ public class FareService {
         this.routeRepository = routeRepository;
         this.fareDao = fareDao;
     }
-
-    // ************** database handlers **************
 
     public List<Fare> getSearchedFares(String departure, String arrival) {
         return fareDao.getSearchedFares(departure, arrival);
@@ -73,8 +70,6 @@ public class FareService {
         }
     }
 
-    // ************** utility functions **************
-
     private void validateCreateFare(Fare fare) {
         checkSameLocation(fare);
         checkNegativeValues(fare);
@@ -87,8 +82,6 @@ public class FareService {
         checkNegativeValues(fare);
         checkMissingDataWithId(fare);
     }
-
-    // ***************** validations *****************
 
     private void checkMissingData(Fare fare) {
         if ((fare.getDeparture() == null) || (fare.getArrival() == null) || (fare.getFare() == 0)) {
