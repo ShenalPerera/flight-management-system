@@ -1,59 +1,61 @@
-<div class="search-filter" >
-  <form #searchFilterForm="ngForm" class="search-form" [hidden]="!airports">
-    <mat-form-field appearance="fill">
-      <mat-label>Flight number</mat-label>
-      <input
-        type="text"
-        name="flightNumber"
-        matInput
-        [ngModel] = "availableFlightSearchObject.flightNumber"
-        maxLength="4"
-        minlength="4"
-        pattern="^[A-Za-z]{3}[0-9]{1}$"
-      >
-    </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Departure</mat-label>
-      <select matNativeControl [ngModel]="availableFlightSearchObject.departure" name="departure"  >
-        <option value="" selected></option>
-        <option *ngFor="let airport of airports" [value]="airport">
-          {{airport | titlecase }}
-        </option>
-      </select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Arrival</mat-label>
-      <select matNativeControl [ngModel]="availableFlightSearchObject.arrival" name="arrival" >
-        <option value="" selected></option>
-        <option *ngFor="let airport of airports" [value]="airport">
-          {{airport | titlecase }}
-        </option>
-      </select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Departure date range</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" [ngModel]="availableFlightSearchObject.departureStartDate" name="departureStartDate">
-        <input matEndDate placeholder="End date" [ngModel]="availableFlightSearchObject.departureEndDate" name="departureEndDate">
-      </mat-date-range-input>
-      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm.value)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>
-    <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty">Clear</button>
-
-
-  </form>
-</div>
 
 <div class="bg-image"
-     style="background-image: url('https://images.unsplash.com/photo-1556388158-158ea5ccacbd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
+     style="background-image: url('https://wallpaperaccess.com/full/2248335.jpg');
             height: 100vh; object-position: inherit; background-repeat: no-repeat; background-size: cover; width: 100vw">
+  <div class="search-filter" style="background: rgba(145,145,145,0.48)" >
+    <form #searchFilterForm="ngForm" class="search-form" [hidden]="!airports">
+      <mat-form-field appearance="fill">
+        <mat-label>Flight number</mat-label>
+        <input
+          type="text"
+          name="flightNumber"
+          matInput
+          [ngModel] = "availableFlightSearchObject.flightNumber"
+          maxLength="4"
+          minlength="4"
+          pattern="^[A-Za-z]{3}[0-9]{1}$"
+
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Departure</mat-label>
+        <select matNativeControl [ngModel]="availableFlightSearchObject.departure" name="departure"  >
+          <option value="" selected></option>
+          <option *ngFor="let airport of airports" [value]="airport">
+            {{airport | titlecase }}
+          </option>
+        </select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Arrival</mat-label>
+        <select matNativeControl [ngModel]="availableFlightSearchObject.arrival" name="arrival" >
+          <option value="" selected></option>
+          <option *ngFor="let airport of airports" [value]="airport">
+            {{airport | titlecase }}
+          </option>
+        </select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Departure date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date" [ngModel]="availableFlightSearchObject.departureStartDate" name="departureStartDate">
+          <input matEndDate placeholder="End date" [ngModel]="availableFlightSearchObject.departureEndDate" name="departureEndDate">
+        </mat-date-range-input>
+        <mat-hint style="color: white">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit"  (click)="onClickSearch(searchFilterForm.value)" [disabled]="!searchFilterForm.dirty && searchFilterForm.pristine">Search</button>
+      <button mat-raised-button color="primary"   (click)="onClearSearch(searchFilterForm)" [disabled]="!searchFilterForm.dirty">Clear</button>
+
+
+    </form>
+  </div>
   <div class="page-content page-container" id="page-content">
     <div class="padding">
       <div class="row container d-flex justify-content-center">
@@ -61,7 +63,6 @@
         <div class="col-lg-8 grid-margin stretch-card" >
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Flight list</h4>
 
               <div class="table-responsive">
                 <table class="table table-hover">
@@ -80,7 +81,7 @@
 
                   <tbody>
                   <tr app-available-flight-item   *ngFor="let flightEl of availableFlightList"
-                      [availableFlight]="flightEl"  >
+                      [availableFlight]="flightEl">
                   </tbody>
                 </table>
               </div>

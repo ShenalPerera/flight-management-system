@@ -4,9 +4,11 @@
 }
 
 .search-form{
-  padding-left: 2%;
+  padding-left: 4.5%;
 }
-
+:host(app-available-flights-screen) .mat-form-field-appearance-fill .mat-form-field-flex {
+  background: rgba(209, 224, 224, 0.5);
+}
 body {
   background-color: #f9f9fa
 }
@@ -102,7 +104,6 @@ p {
   color: white;
   text-transform: uppercase
 }
-
 
 .badge {
   border-radius: 0;
