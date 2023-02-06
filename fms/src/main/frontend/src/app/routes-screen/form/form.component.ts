@@ -143,10 +143,10 @@ export class FormComponent implements OnInit{
 
   afterDiscardClosing(): void {
     if (this.areSameValues()) {
-      this.dialogRef.close({reloadData: false});
+      this.dialogRef.close({reloadData: true});
     }else {
       if(confirm('Note: Changes will be discarded.')) {
-        this.dialogRef.close({reloadData: false});
+        this.dialogRef.close({reloadData: true});
       }
     }
 
