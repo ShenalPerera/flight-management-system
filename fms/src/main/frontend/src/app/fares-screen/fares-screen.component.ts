@@ -58,7 +58,7 @@ export class FaresScreenComponent implements OnInit {
           if (response.status == HttpStatusCodesFMS.ENTRY_NOT_FOUND)
             alert("Someone else has already deleted the fare!")
           else
-            alert("Fare deleted successfully!")
+            alert("The Fare has been successfully deleted!")
           this.filterEntries()
         }
       });
@@ -91,9 +91,9 @@ export class FaresScreenComponent implements OnInit {
       this.filterEntries();
       if (appliedChanges) {
         if (this.createEvent)
-          alert("Fare created successfully!");
+          alert("The Fare has been successfully created!");
         else
-          alert("Fare edited successfully!");
+          alert("The Fare has been successfully updated!");
       }
     });
   }
