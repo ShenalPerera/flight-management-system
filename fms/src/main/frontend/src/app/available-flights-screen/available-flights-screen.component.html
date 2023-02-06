@@ -6,6 +6,19 @@
   <div class="search-filter" style="background: rgba(145,145,145,0.48)" >
     <form #searchFilterForm="ngForm" class="search-form" [hidden]="!airports">
 
+
+        <input hidden="hidden"
+          type="text"
+          name="flightNumber"
+          matInput
+          [ngModel] = "availableFlightSearchObject.flightNumber"
+          maxLength="4"
+          minlength="4"
+          pattern="^[A-Za-z]{3}[0-9]{1}$"
+
+        >
+
+
       <mat-form-field appearance="fill">
         <mat-label>Departure</mat-label>
         <select matNativeControl [ngModel]="availableFlightSearchObject.departure" name="departure"  >
