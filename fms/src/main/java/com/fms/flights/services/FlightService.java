@@ -126,7 +126,7 @@ public class FlightService {
 
 
     private void validateDuplicatesBeforeCreate(Flight flight) {
-        int count = this.flightRepository.countAllByFlightNumberAndDepartureDate(flight.getFlightNumber(), flight.getDeparture());
+        int count = this.flightRepository.countAllByFlightNumberAndDepartureDate(flight.getFlightNumber(), flight.getDepartureDate());
         if (count != 0) {
             logger.error("Duplicate entries found!");
             throw new FMSException(HttpStatusCodesFMS.DUPLICATE_ENTRY_FOUND);
